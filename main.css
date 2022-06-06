@@ -143,6 +143,8 @@ dfn {
 h1 {
   font-size: 2em;
   margin: 0.67em 0;
+  font-family: Courier;
+  color:rgb(3, 170, 189);
 }
 mark {
   background: #ff0;
