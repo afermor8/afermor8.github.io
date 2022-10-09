@@ -4,37 +4,37 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Linux daughter</title>
+  <title>Linux daughter Blog - Linux daughter Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  
   <link rel="icon" href="/favicon.png">
 
-
-
+  
+  
   <link rel="stylesheet" href="/css/style.min.6719d72e323121369d5caeb4264b95d8a63cf1deaab029da67602fe5a046e0a4.css">
+  
 
-
-
+  
 
 </head>
 
 <body class='page page-default-list'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
-
-
+    
+    
     <li class="menu-item-home">
       <a href="/">
         <span>Home</span>
       </a>
     </li>
-
-    <li class="menu-item-docs">
-      <a href="/docs/">
-        <span>Docs</span>
+    
+    <li class="menu-item-todas las entradas">
+      <a href="/docs">
+        <span>Todas las entradas</span>
       </a>
     </li>
-
+    
   </ul>
 </div>
   <div class="wrapper">
@@ -48,20 +48,20 @@
     </div>
     <div id="main-menu" class="main-menu">
   <ul>
-
-
+    
+    
     <li class="menu-item-home">
       <a href="/">
         <span>Home</span>
       </a>
     </li>
-
-    <li class="menu-item-docs">
-      <a href="/docs/">
-        <span>Docs</span>
+    
+    <li class="menu-item-todas las entradas">
+      <a href="/docs">
+        <span>Todas las entradas</span>
       </a>
     </li>
-
+    
   </ul>
 </div>
     <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
@@ -73,232 +73,70 @@
 </div>
 
 
+    
+    
+    
+    
+    
+    
 
-
-
-
-
-
-
-
+    
     <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
       <div class="row">
         <div class="col-12 col-md-3 mb-3">
           <div class="sidebar">
-
+            
 <div class="docs-menu">
   <h4>Docs</h4>
   <ul>
-
+    
     <li class="">
-      <a href="/docs/install-hugo/">Install Hugo</a>
+      <a href="/docs/installqemu/">Instalación QEMU/libvirt. Conexión local y remota</a>
     </li>
-
+    
     <li class="">
-      <a href="/docs/install-theme/">Install Theme</a>
+      <a href="/docs/introgit/">Introducción a Git y Github</a>
     </li>
-
-    <li class="active ">
-      <a href="/docs/configure/">Configuration</a>
-    </li>
-
+    
     <li class="">
-      <a href="/docs/specimen/">Specimen</a>
+      <a href="/docs/installdeb/">Instalación Debian 11</a>
     </li>
-
-    <li class="">
-      <a href="/docs/example/">Hugo Whisper</a>
-    </li>
-
+    
   </ul>
 </div>
 
           </div>
         </div>
         <div class="col-12 col-md-9">
-
-<h1 class="title">Configuration</h1>
-<div class="content ">
-  <h2 id="syntax-highlighting">Syntax Highlighting</h2>
-<p>Whisper uses the in-built code highlighting that ships with hugo. <a href="https://gohugo.io/content-management/syntax-highlighting/">https://gohugo.io/content-management/syntax-highlighting/</a></p>
-<p>You can insert code snippets in any markdown file by using standard code fences syntax ie:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">```
-</span></span><span class="line"><span class="cl">insert code here
-</span></span><span class="line"><span class="cl">```
-</span></span></code></pre></div><p>You can specify the langauge by adding a declaration after the backticks</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">```javascript
-</span></span><span class="line"><span class="cl">insert code here
-</span></span><span class="line"><span class="cl">```
-</span></span></code></pre></div><h3 id="pygments-options">Pygments Options</h3>
-<p>The following code highlighting options are configured in the <code>config.toml</code></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">pygmentsCodeFences</span> <span class="p">=</span> <span class="kc">true</span>
-</span></span><span class="line"><span class="cl"><span class="nx">pygmentsCodefencesGuessSyntax</span> <span class="p">=</span> <span class="kc">true</span>
-</span></span><span class="line"><span class="cl"><span class="nx">pygmentsUseClasses</span> <span class="p">=</span> <span class="kc">true</span>
-</span></span></code></pre></div><h2 id="main-menu">Main menu</h2>
-<p>Configure the main menu by editing the <code>config.toml</code></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">menu</span><span class="p">.</span><span class="nx">main</span><span class="p">]]</span>
-</span></span><span class="line"><span class="cl"><span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;Home&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nx">url</span> <span class="p">=</span> <span class="s2">&#34;/&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nx">weight</span> <span class="p">=</span> <span class="mi">1</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">menu</span><span class="p">.</span><span class="nx">main</span><span class="p">]]</span>
-</span></span><span class="line"><span class="cl"><span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;Docs&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nx">url</span> <span class="p">=</span> <span class="s2">&#34;/docs/&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nx">weight</span> <span class="p">=</span> <span class="mi">2</span>
-</span></span></code></pre></div>
-</div>
-</div>
-
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="sub-footer">
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <div class="sub-footer-inner">
-          <ul>
-            <li class="zerostatic"><a href="https://github.com/afermor8">https://github.com/afermor8</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
-
-  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
-
-
-
-
-
-
-
-
-
-</body>
-
-</html>
-
-
-    <li class="menu-item-docs">
-      <a href="/docs/">
-        <span>Docs</span>
-      </a>
-    </li>
-
-  </ul>
-</div>
-    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
-  <span class="hamburger-box">
-    <span class="hamburger-inner"></span>
-  </span>
-</button>
-  </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
-      <div class="row">
-        <div class="col-12 col-md-3 mb-3">
-          <div class="sidebar">
-
-<div class="docs-menu">
-  <h4>Docs</h4>
-  <ul>
-
-    <li class="">
-      <a href="/docs/install-hugo/">Install Hugo</a>
-    </li>
-
-    <li class="">
-      <a href="/docs/install-theme/">Install Theme</a>
-    </li>
-
-    <li class="">
-      <a href="/docs/configure/">Configuration</a>
-    </li>
-
-    <li class="">
-      <a href="/docs/specimen/">Specimen</a>
-    </li>
-
-    <li class="">
-      <a href="/docs/example/">Hugo Whisper</a>
-    </li>
-
-  </ul>
-</div>
-
-          </div>
-        </div>
-        <div class="col-12 col-md-9">
-
+          
 
 <span class="overview">Arantxa Blog</span>
-<h1 class="title">Arantxa Blog</h1>
+<h1 class="title">Linux daughter Blog</h1>
 <div class="content">
-  <h2 id="whisper-theme">Whisper Theme</h2>
-<p>Whisper is a minimal documentation theme for Hugo. The design and functionality is intentionally minimal. We’re aiming for a similar feel to a Github readme.</p>
+  <h2 id="entradas">Entradas</h2>
+<p>Estos son todos los contenidos del blog.</p>
 
 </div>
 
 
 <div class="summary mb-2">
-
-  <h2 class="title-summary"><a href="/docs/install-hugo/">Install Hugo</a></h2>
-  <p>To use this theme you will need to have Hugo installed. If you don&rsquo;t already have Hugo installed please follow the official installation guide
-Check Hugo Version This theme uses Hugo Pipes to compile SCSS and minify assets. Please make sure you have the Hugo Extended version installed. If you are not using the extended version this theme will not not compile.
-hugo version </p>
+  
+  <h2 class="title-summary"><a href="/docs/installqemu/">Instalación QEMU/libvirt. Conexión local y remota</a></h2>
+  <p>En esta entrada se instala qemu/libvirt y se hace una introdución a virsh.</p>
 </div>
 
 
 <div class="summary mb-2">
-
-  <h2 class="title-summary"><a href="/docs/install-theme/">Install Theme</a></h2>
-  <p>Create a new Hugo site hugo new site mynewsite This will create a fresh Hugo site in the folder mynewsite.
-Install theme Copy or git clone this theme into the sites themes folder mynewsite/themes
-Install with Git cd mynewsite cd themes git clone https://github.com/jugglerx/hugo-whisper-theme.git Install from .zip file You can download the .zip file located here https://github.com/JugglerX/hugo-whisper-theme/archive/master.zip.
-Extract the downloaded .zip inside the themes folder. Rename the extracted folder from hugo-whisper-theme-master -&gt; hugo-whisper-theme.</p>
+  
+  <h2 class="title-summary"><a href="/docs/introgit/">Introducción a Git y Github</a></h2>
+  <p>Ejercicio de introducción a git y github.</p>
 </div>
 
 
 <div class="summary mb-2">
-
-  <h2 class="title-summary"><a href="/docs/configure/">Configuration</a></h2>
-  <p>Syntax highlighting and menus can be configured via <code>config.toml</code>.</p>
-</div>
-
-
-<div class="summary mb-2">
-
-  <h2 class="title-summary"><a href="/docs/specimen/">Specimen</a></h2>
-  <p>Markdown Test Page Headings Paragraphs Blockquotes Lists Horizontal rule Table Code Inline elements Headings Heading one Sint sit cillum pariatur eiusmod nulla pariatur ipsum. Sit laborum anim qui mollit tempor pariatur nisi minim dolor. Aliquip et adipisicing sit sit fugiat commodo id sunt. Nostrud enim ad commodo incididunt cupidatat in ullamco ullamco Lorem cupidatat velit enim et Lorem.
-Heading two Aute officia nulla deserunt do deserunt cillum velit magna. Officia veniam culpa anim minim dolore labore pariatur voluptate id ad est duis quis velit dolor pariatur enim.</p>
-</div>
-
-
-<div class="summary mb-2">
-
-  <h2 class="title-summary"><a href="/docs/example/">Hugo Whisper</a></h2>
-  <p><p>Whisper is a minimal documentation theme built for Hugo. The design &amp; functionality is intentionally minimal.</p></p>
+  
+  <h2 class="title-summary"><a href="/docs/installdeb/">Instalación Debian 11</a></h2>
+  <p>Pasos a seguir para la instalación de Debian con particiones LVM.</p>
 </div>
 
 
@@ -307,16 +145,18 @@ Heading two Aute officia nulla deserunt do deserunt cillum velit magna. Officia 
         </div>
       </div>
     </div>
-
+    
   </div>
 
-  <div class="sub-footer">
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+<div class="sub-footer">
   <div class="container">
     <div class="row">
       <div class="col-12">
         <div class="sub-footer-inner">
           <ul>
-            <li class="zerostatic"><a href="https://github.com/afermor8">https://github.com/afermor8</a></li>
+            <li class="zerostatic"><a href="https://github.com/afermor8">Mi GitHub</a></li>
+            <i class="fa fa-github"></i>
           </ul>
         </div>
       </div>
@@ -325,19 +165,20 @@ Heading two Aute officia nulla deserunt do deserunt cillum velit magna. Officia 
 </div>
 
 
+  
 
+  
+  
 
-
-
-
+  
   <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  
 
-
-
-
-
-
-
+  
+  
+  
+    
+  
 
 
 </body>
