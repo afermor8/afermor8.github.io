@@ -1,6 +1,6 @@
 ---
-title: 'Hugo Whisper Docs'
-date: 2018-11-28T15:14:39+10:00
+title: 'Linux daughter Blog'
+date: 2022-09-30T15:14:39+10:00
 ---
 
-Whisper is a documentation theme built with Hugo. The design and functionality is intentionally minimal. 
+En este blog se recopilan todas las tecnologías aprendidas en el Grado Superior de ASIR. Las tareas, prácticas y documentación creadas.
