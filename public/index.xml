@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux daughter Blog</title>
+    <link>/</link>
+    <description>Recent content on Linux daughter Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 30 Sep 2022 15:14:39 +1000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Instalación QEMU/libvirt. Conexión local y remota</title>
+      <link>/docs/installqemu/</link>
+      <pubDate>Sun, 09 Oct 2022 19:27:37 +1000</pubDate>
+      
+      <guid>/docs/installqemu/</guid>
+      <description>En esta entrada se instala qemu/libvirt y se hace una introdución a virsh.</description>
+    </item>
+    
+    <item>
+      <title>Introducción a Git y Github</title>
+      <link>/docs/introgit/</link>
+      <pubDate>Fri, 30 Sep 2022 19:30:08 +1000</pubDate>
+      
+      <guid>/docs/introgit/</guid>
+      <description>Ejercicio de introducción a git y github.</description>
+    </item>
+    
+    <item>
+      <title>Instalación Debian 11</title>
+      <link>/docs/installdeb/</link>
+      <pubDate>Sun, 09 Oct 2022 19:27:37 +1000</pubDate>
+      
+      <guid>/docs/installdeb/</guid>
+      <description>Pasos a seguir para la instalación de Debian con particiones LVM.</description>
+    </item>
+    
+    <item>
+      <title>Prueba: Introducción a la implantación de aplicaciones web</title>
+      <link>/docs/prueba/</link>
+      <pubDate>Mon, 10 Oct 2022 13:09:51 +0200</pubDate>
+      
+      <guid>/docs/prueba/</guid>
+      <description>Arantxa Fernández Morató </description>
+    </item>
+    
+  </channel>
+</rss>

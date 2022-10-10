@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Instalación Debian 11 - Linux daughter Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="/favicon.png">
+
+  
+  
+  <link rel="stylesheet" href="/css/style.min.aad43d4ecb69a264f2539b89d7f779d5f3cdff22e7585fe5fc3c77272f1c2696.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-todas las entradas">
+      <a href="/docs">
+        <span>Todas las entradas</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="/"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="/"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-todas las entradas">
+      <a href="/docs">
+        <span>Todas las entradas</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <h4>Docs</h4>
+  <ul>
+    
+    <li class="">
+      <a href="/docs/installqemu/">Instalación QEMU/libvirt. Conexión local y remota</a>
+    </li>
+    
+    <li class="">
+      <a href="/docs/introgit/">Introducción a Git y Github</a>
+    </li>
+    
+    <li class="active ">
+      <a href="/docs/installdeb/">Instalación Debian 11</a>
+    </li>
+    
+    <li class="">
+      <a href="/docs/prueba/">Prueba: Introducción a la implantación de aplicaciones web</a>
+    </li>
+    
+  </ul>
+</div>
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Instalación Debian 11</h1>
+<div class="content ">
+  <hr>
+<h2 id="preparación">Preparación</h2>
+<p>Para empezar he booteado un usb con la imagen de Debian 11 con la herramienta Rufus.
+Mi portátil es un Lenovo Thinkpa L15 con 1TB de almacenamiento y 40GB de RAM. Antes de realizar la instalación he dejado libre la mitad de mi disco de 1TB. Es decir, 500GB del disco están destinados a Windows 10, por lo que para la instalación de Debian 11 tengo disponibles l500GB de espacio libre.</p>
+<h2 id="instalación">Instalación</h2>
+<p>Para realizar la instalación de Debian 11 con LVM en mi portátil he realizado los siguientes pasos:</p>
+<ol>
+<li>
+<p>Con el instalador gráfico, tras seleccionar idioma, configurar la red, usuario y contraseñas, realizo el particionado de discos de forma manual. Tengo en cuenta el espacio en el que está la partición de Windows 10 y en la que tenía el anterior Debian que borraré para utilizar ese espacio libre. Una vez borrado, selecciono el espacio libre para crear la partición de /boot. Esta es una partición primaria creada al principio con tipo de datos xfs. A esta partición le he dado 2GB.</p>
+</li>
+<li>
+<p>La partición EFI, al igual que la anterior, la he creado al principio y es una partición primaria. A esta partición le he dado 100MB que es el mínimo y suficiente para que el sistema arranque.</p>
+</li>
+<li>
+<p>A continuación creamos el grupo de volúmenes. En ‘Configurar el gestor de volúmenes lógicos (LVM)’ creo un grupo de volúmenes con el espacio libre disponible. En este grupo de volúmenes he ido creando cada volumen lógico. Le he asignado un nombre y un tamaño a cada uno además del grupo de volúmenes en el que se incluirá.
+Una vez creados los volúmenes lógicos se le asigna el punto de montaje correspondiente y el sistema de ficheros.
+Como sistema de ficheros he elegido xfs ya que trabaja más rápido con archivos grandes. A continuación muestro una tabla con cada volumen creado:</p>
+</li>
+</ol>
+<p><img src="tabla_lvm.png" alt="tabla"></p>
+<ul>
+<li>A <em>volraiz</em> le he dado 100GB ya que es donde irá el sistema, su configuración y donde se guardarán las librerías.</li>
+<li>En <em>volhome</em> estarán las cuentas de usuario y los documentos de éstos. En principio con los 60 GB debería ser suficiente para lo que voy a utilizar el sistema, pero en el caso de que me quede corta siempre puedo ampliar este volumen.</li>
+<li>A <em>volvar</em> le he dado 100GB, ya que será donde se almacene el sistema de ficheros. Los ficheros log pueden llegar a ocupar mucho.</li>
+<li>A la <em>swap</em> le he dado 6GB porque pienso que más es innecesario, y con una ram de 40GB los 6GB son suficientes. [La swap tenía pensado dejarla como una partición normal fuera del grupo de volúmenes, pero se me pasó hacerla y no dejé espacio libre suficiente, por lo que la metí como volumen lógico.]</li>
+</ul>
+<ol start="4">
+<li>Cuando se termina el particionado se escriben los cambios en el disco y se continua con las instalación como normalmente.
+Se instala el sistema base, se configura el gestor de paquetes desde la iso y en la selección de programas he elegido el entorno de escritorio GNOME y Xfce. Este último lo he instalado ya que me es más cómodo de usar que GNOME.</li>
+</ol>
+<h2 id="problemas-y-soluciones">Problemas y soluciones</h2>
+<p>Tras la instalación, no me reconoce la wifi. Cuando intento instalar el driver me da el problema de que mi usuario no se encuentra en el fichero sudoers. Para arreglar este problema he hecho lo siguiente:</p>
+<ul>
+<li>En /etc/group buscar la línea de sudo y añadir mi usuario, en este caso ‘arantxa’.</li>
+</ul>
+<p>Solucionado el problema anterior paso a instalar el driver necesario para que funcione la tarjeta wifi. Con lspci -v compruebo el nombre del driver necesario que en mi caso es el siguiente:</p>
+<p><code>Kernel driver in use: iwlwifi</code></p>
+<p>Lo busco con apt search iwlwifi y me da como resultado firmware-iwlwifi. Lo instalo con apt install firmware-iwlwifi y tras reiniciar ya debería funcionar la tarjeta de red wifi.</p>
+<p>** En mi caso al intentar instalar el firmware no me aparece, por lo que he tenido que añadir en /etc/apt/sources.list las listas contrib y non-free.</p>
+
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+<div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://github.com/afermor8">Mi GitHub</a></li>
+            <i class="fa fa-github"></i>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
