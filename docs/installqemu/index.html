@@ -11,7 +11,7 @@
 
   
   
-  <link rel="stylesheet" href="/css/style.min.6719d72e323121369d5caeb4264b95d8a63cf1deaab029da67602fe5a046e0a4.css">
+  <link rel="stylesheet" href="/css/style.min.aad43d4ecb69a264f2539b89d7f779d5f3cdff22e7585fe5fc3c77272f1c2696.css">
   
 
   
@@ -102,6 +102,10 @@
       <a href="/docs/installdeb/">Instalación Debian 11</a>
     </li>
     
+    <li class="">
+      <a href="/docs/prueba/">Prueba: Introducción a la implantación de aplicaciones web</a>
+    </li>
+    
   </ul>
 </div>
 
@@ -113,40 +117,40 @@
 <div class="content ">
   <hr>
 <p><strong>1. Una vez instalado el sistema de virtualización en tu equipo, entrega la salida del comando virsh version.</strong></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">arantxa@debian:~$ virsh version
-</span></span><span class="line"><span class="cl">Compilada con biblioteca: libvirt 7.0.0
-</span></span><span class="line"><span class="cl">Uso de biblioteca: libvirt  7.0.0
-</span></span><span class="line"><span class="cl">Utilizando API: QEMU 7.0.0
-</span></span><span class="line"><span class="cl">Ejecutando hypervisor: QEMU 5.2.0
-</span></span></code></pre></div><p><strong>2. Ejecuta el comando list de virsh realizando una conexión privilegiada con tu usuario sin privilegios (no uses el root).</strong></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">arantxa@debian:~$ virsh -c qemu:///system list
-</span></span><span class="line"><span class="cl"> Id   Nombre         Estado
-</span></span><span class="line"><span class="cl">---------------------------------
-</span></span><span class="line"><span class="cl"> 4    debianprueba   ejecutando
-</span></span></code></pre></div><p><strong>3. Una vez creada la máquina en gnome-boxes responde y razona la siguiente pregunta: ¿Por qué al ejecutar virsh -c qemu:///system list &ndash;all no aparece la máquina creada por gnome-boxes?</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">arantxa@debian:~$ virsh version
+Compilada con biblioteca: libvirt 7.0.0
+Uso de biblioteca: libvirt  7.0.0
+Utilizando API: QEMU 7.0.0
+Ejecutando hypervisor: QEMU 5.2.0
+</code></pre></div><p><strong>2. Ejecuta el comando list de virsh realizando una conexión privilegiada con tu usuario sin privilegios (no uses el root).</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">arantxa@debian:~$ virsh -c qemu:///system list
+ Id   Nombre         Estado
+---------------------------------
+ 4    debianprueba   ejecutando
+</code></pre></div><p><strong>3. Una vez creada la máquina en gnome-boxes responde y razona la siguiente pregunta: ¿Por qué al ejecutar virsh -c qemu:///system list &ndash;all no aparece la máquina creada por gnome-boxes?</strong></p>
 <p>Al hacer &lsquo;virsh -c qemu:///system list &ndash;all&rsquo; no aparece la máquina creada en gnome-boxes porque estamos haciendo una conexión privilegiada con el usuario sin privilegios. Es decir, se nos mostrarán las máquinas del sistema pero no las del usuario.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">arantxa@debian:~$ virsh -c qemu:///system list --all
-</span></span><span class="line"><span class="cl"> Id   Nombre         Estado
-</span></span><span class="line"><span class="cl">---------------------------------
-</span></span><span class="line"><span class="cl"> 4    debianprueba   ejecutando
-</span></span></code></pre></div><p><strong>4. Entrega la instrucción y la salida del comando virsh que muestra en el terminal la máquina creada en gnome-boxes.</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">arantxa@debian:~$ virsh -c qemu:///system list --all
+ Id   Nombre         Estado
+---------------------------------
+ 4    debianprueba   ejecutando
+</code></pre></div><p><strong>4. Entrega la instrucción y la salida del comando virsh que muestra en el terminal la máquina creada en gnome-boxes.</strong></p>
 <p>Al hacer una conexión local con el usuario no privilegiado nos aparece la máquina creada en gnome-boxes.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">arantxa@debian:~$ virsh -c qemu:///session list --all
-</span></span><span class="line"><span class="cl"> Id   Nombre        Estado
-</span></span><span class="line"><span class="cl">-----------------------------
-</span></span><span class="line"><span class="cl"> -    ubuntu20.10   apagado
-</span></span></code></pre></div><p><strong>5. Entrega la instrucción y la salida del comando virsh haciendo una conexión remota a un equipo de un compañero. Explica los principales pasos para configurar tu equipo para que se puedan realizar conexiones remotas.</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">arantxa@debian:~$ virsh -c qemu:///session list --all
+ Id   Nombre        Estado
+-----------------------------
+ -    ubuntu20.10   apagado
+</code></pre></div><p><strong>5. Entrega la instrucción y la salida del comando virsh haciendo una conexión remota a un equipo de un compañero. Explica los principales pasos para configurar tu equipo para que se puedan realizar conexiones remotas.</strong></p>
 <p>He hecho una conexión remota desde otro portátil en casa a mi portátil de trabajo.
 Antes de conectarme en la maquina remota he copiado la clave pública SSH del usuario cliente al fichero ~/.ssh/authorized_keys de la máquina remota.
 El usuario remoto será arantxa y la ip la 192.168.1.136. He listado las maquinas virtuales del equipo remoto para comprobar que ha funcionado. El comando usado y la salida generada es la siguiente:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">virsh -c qemu+ssh://arantxa@192.168.1.136/system list --all
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  Id   Name              State
-</span></span><span class="line"><span class="cl">----------------------------------
-</span></span><span class="line"><span class="cl">  -    debianprueba      shut off
-</span></span><span class="line"><span class="cl">  -    linux_arantxa     shut off
-</span></span><span class="line"><span class="cl">  -    vagrant_default   shut off
-</span></span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">virsh -c qemu+ssh://arantxa@192.168.1.136/system list --all
+
+  Id   Name              State
+----------------------------------
+  -    debianprueba      shut off
+  -    linux_arantxa     shut off
+  -    vagrant_default   shut off
+</code></pre></div>
 </div>
 </div>
 
@@ -179,7 +183,7 @@ El usuario remoto será arantxa y la ip la 192.168.1.136. He listado las maquina
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

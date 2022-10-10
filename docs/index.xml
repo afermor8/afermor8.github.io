@@ -34,5 +34,14 @@
       <description>Pasos a seguir para la instalación de Debian con particiones LVM.</description>
     </item>
     
+    <item>
+      <title>Prueba: Introducción a la implantación de aplicaciones web</title>
+      <link>/docs/prueba/</link>
+      <pubDate>Mon, 10 Oct 2022 13:09:51 +0200</pubDate>
+      
+      <guid>/docs/prueba/</guid>
+      <description>Arantxa Fernández Morató </description>
+    </item>
+    
   </channel>
 </rss>
