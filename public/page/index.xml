@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pages on Mi paso por ASIR Blog</title>
+    <link>https://afermor8.github.io/page/</link>
+    <description>Recent content in Pages on Mi paso por ASIR Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <managingEditor>ara.fer.mor@gmail.com (afermor8)</managingEditor>
+    <webMaster>ara.fer.mor@gmail.com (afermor8)</webMaster><atom:link href="https://afermor8.github.io/page/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About me</title>
+      <link>https://afermor8.github.io/page/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <author>ara.fer.mor@gmail.com (afermor8)</author>
+      <guid>https://afermor8.github.io/page/about/</guid>
+      <description>Me llamo Arantxa. Este blog fue creado para la asignatura de Implantación de Aplicaciones Web en el 2º curso del Ciclo Superior de Administración de Sistemas Informáticos en Red.
+Estoy terminando ASIR, pero además soy Educadora Social, Experta en Cooperación Internacional para el Desarrollo. Me gusta jugar al baloncesto, hacer senderismo, cocinar, visitar lugares nuevos y perderme en medio de un bosque.
+Asturias
+Bulnes
+Esta web tiene licencia Creative Commons.</description>
+    </item>
+    
+  </channel>
+</rss>

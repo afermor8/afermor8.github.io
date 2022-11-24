@@ -1,53 +1,114 @@
-baseURL = "/"
-languageCode = "en-us"
-title = "Arantxa's Blog"
-themesDir = "themes"
-theme = "hugo-whisper-theme"
-
+baseurl = "https://afermor8.github.io"
+DefaultContentLanguage = "es"
+title = "Mi paso por ASIR Blog"
+theme = "beautifulhugo"
+pygmentsStyle = "trac"
+pygmentsUseClasses = true
 pygmentsCodeFences = true
 pygmentsCodefencesGuessSyntax = true
-pygmentsUseClasses = true
+#pygmentsUseClassic = true
+#pygmentOptions = "linenos=inline"
+#disqusShortname = "XXX"
+#googleAnalytics = "XXX"
 
-[module]
-  [module.hugoVersion]
-    extended = true
-    min = "0.55.0"
+[Params]
+#  homeTitle = "Beautiful Hugo Theme" # Set a different text for the header on the home page
+  subtitle = "Arantxa Fernández Morató"
+  mainSections = ["post","posts"]
+  logo = "img/avatar-icon.png" # Expecting square dimensions
+  favicon = "img/favicon.ico"
+  dateFormat = "January 2, 2006"
+  commit = false
+  rss = true
+  comments = true
+  readingTime = true
+  wordCount = true
+  useHLJS = true
+  socialShare = true
+  delayDisqus = true
+  showRelatedPosts = true
+#  hideAuthor = true
+#  gcse = "012345678901234567890:abcdefghijk" # Get your code from google.com/cse. Make sure to go to "Look and Feel" and change Layout to "Full Width" and Theme to "Classic"
 
-# Controls how many words are printed in the content summary on the docs homepage.
-# See https://gohugo.io/content-management/summaries/
-summaryLength = 30
+#[[Params.bigimg]]
+#  src = "img/triangle.jpg"
+#  desc = "Triangle"
+#[[Params.bigimg]]
+#  src = "img/sphere.jpg"
+#  desc = "Sphere"
+#  # position: see values of CSS background-position.
+#  position = "center top"
+#[[Params.bigimg]]
+#  src = "img/hexagon.jpg"
+#  desc = "Hexagon"
+
+[Author]
+  # Set only your "username" for default hosts and full URLs otherwise (e.g., "https://MyGitLab.org/username")
+  name = "afermor8"
+  website = "afermor8.github.io"
+  email = "ara.fer.mor@gmail.com"
+  #facebook = "username"
+  github = "afermor8"
+  #gitlab = "username"
+  #bitbucket = "username"
+  #twitter = "username"
+  #reddit = "username"
+  linkedin = "arantxa-f-6136617b"
+  #xing = "username"
+  #stackoverflow = "users/XXXXXXX/username"
+  #snapchat = "username"
+  #instagram = "username"
+  #youtube = "user/username" # or channel/channelname
+  #soundcloud = "username"
+  #spotify = "username"
+  #bandcamp = "username"
+  #itchio = "username"
+  #vk = "username"
+  #paypal = "username"
+  telegram = "arantxipu"
+  #500px = "username"
+  #codepen = "username"
+  #mastodon = "url"
+  #kaggle = "username"
+  #weibo = "username"
+  slack = "Afermor"
+  #discord = "invite code (https://discord.gg/XXXXXXX)"
+  #strava = "userid"
 
 [[menu.main]]
-    name = "Home"
-    url = "/"
+    name = "Blog"
+    url = ""
     weight = 1
 
 [[menu.main]]
-    name = "Todas las entradas"
-    url = "/docs"
-    weight = 2
+    name = "About"
+    url = "page/about/"
+    weight = 3
 
-[params]
-  google_analytics_id=""
-  homepage_button_link = '/docs'
-  homepage_button_text = 'Más info...'
-  homepage_intro = 'Mi paso por ASIR.'
-  homepage_image = '/images/matrix.gif'
+#[[menu.main]]
+#    identifier = "samples"
+#    name = "Samples"
+#    weight = 2
 
-  ## You can enable to add anchor links to header elements
-  # enable_anchor_link = true
+#[[menu.main]]
+#    parent = "samples"
+#    name = "Big Image Sample"
+#    url = "post/2017-03-07-bigimg-sample"
+#    weight = 1
 
-#  [params.homepage_meta_tags]
-#    meta_description = "Hugo Whisper is a documentation theme built with Hugo."
-#    meta_og_title = "Hugo Whisper Theme"
-#    meta_og_type = "website"
-#    meta_og_url = "https://hugo-whisper.netlify.app"
-#    meta_og_image = "https://raw.githubusercontent.com/JugglerX/hugo-whisper-theme/master/images/tn.png"
-#    meta_og_description = "Hugo Whisper is a documentation theme built with Hugo."
-#    meta_twitter_card = "summary"
-#    meta_twitter_site = "@zerostaticio"
-#    meta_twitter_creator = "@zerostaticio"
+#[[menu.main]]
+#    parent = "samples"
+#    name = "Math Sample"
+#    url = "post/2017-03-05-math-sample"
+#    weight = 2
 
-  [params.logo]
-      mobile = "/images/logo-mobile.svg"
-      standard  = "/images/logo.svg"
+#[[menu.main]]
+#    parent = "samples"
+#    name = "Code Sample"
+#    url = "post/2016-03-08-code-sample"
+#    weight = 3
+
+[[menu.main]]
+    name = "Tags"
+    url = "tags"
+    weight = 3

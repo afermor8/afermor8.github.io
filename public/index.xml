@@ -1,55 +1,53 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Arantxa`s Blog on Arantxa&#39;s Blog</title>
-    <link>/</link>
-    <description>Recent content in Arantxa`s Blog on Arantxa&#39;s Blog</description>
+    <title>Mi paso por ASIR Blog</title>
+    <link>https://afermor8.github.io/</link>
+    <description>Recent content on Mi paso por ASIR Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Fri, 30 Sep 2022 15:14:39 +1000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <managingEditor>ara.fer.mor@gmail.com (afermor8)</managingEditor>
+    <webMaster>ara.fer.mor@gmail.com (afermor8)</webMaster>
+    <lastBuildDate>Thu, 24 Nov 2022 13:58:18 +0100</lastBuildDate><atom:link href="https://afermor8.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Interconexión entre BBDD</title>
-      <link>/docs/interconexion-bbdd/</link>
-      <pubDate>Mon, 21 Nov 2022 16:45:02 +0100</pubDate>
-      
-      <guid>/docs/interconexion-bbdd/</guid>
-      <description>Interconexión entre dos bases de datos Postgres, dos Oracle, y una Oracle y otra Postgres (usando Heterogeneus Services).</description>
+      <title>Interconexion entre BBDD</title>
+      <link>https://afermor8.github.io/post/interconexion-bbdd/</link>
+      <pubDate>Thu, 24 Nov 2022 13:58:18 +0100</pubDate>
+      <author>ara.fer.mor@gmail.com (afermor8)</author>
+      <guid>https://afermor8.github.io/post/interconexion-bbdd/</guid>
+      <description>1. Interconexión entre dos bases de datos PostgreSQL. 1.1 Creación de la base de datos y usuario Voy a usar el servidor de base de datos PostgreSQL creado en la primera práctica, que tiene la base de datos &amp;ldquo;maravilla&amp;rdquo; con el usuario &amp;ldquo;admin&amp;rdquo;. Esta base de datos se encuentra en una máquina llamada debian-oracle con IP 192.168.122.98.
+Voy a crear otra base de datos PostgreSQL en otra máquina llamada debian con IP 192.</description>
     </item>
     
     <item>
-      <title>Prueba: Introducción a la implantación de aplicaciones web</title>
-      <link>/docs/prueba/</link>
-      <pubDate>Mon, 10 Oct 2022 13:09:51 +0200</pubDate>
-      
-      <guid>/docs/prueba/</guid>
-      <description>Arantxa Fernández Morató </description>
-    </item>
-    
-    <item>
-      <title>Instalación QEMU/libvirt. Conexión local y remota</title>
-      <link>/docs/installqemu/</link>
-      <pubDate>Sun, 09 Oct 2022 19:27:37 +1000</pubDate>
-      
-      <guid>/docs/installqemu/</guid>
-      <description>En esta entrada se instala qemu/libvirt y se hace una introdución a virsh.</description>
-    </item>
-    
-    <item>
-      <title>Introducción a Git y Github</title>
-      <link>/docs/introgit/</link>
-      <pubDate>Fri, 30 Sep 2022 19:30:08 +1000</pubDate>
-      
-      <guid>/docs/introgit/</guid>
-      <description>Ejercicio de introducción a git y github.</description>
+      <title>Sistemas Gestores de Bases de Datos MySQL, PostgreSQL, Oracle 19c (en Debian11) y MongoDB</title>
+      <link>https://afermor8.github.io/post/install-bbdd/</link>
+      <pubDate>Sat, 15 Oct 2022 00:00:00 +0000</pubDate>
+      <author>ara.fer.mor@gmail.com (afermor8)</author>
+      <guid>https://afermor8.github.io/post/install-bbdd/</guid>
+      <description>Alumno 3. Arantxa Fernández Morató Antes de empezar comentar que la máquina servidor de todas las bases de datos será siempre la misma, una máquina con Debian 11 llamada &amp;ldquo;debian-oracle&amp;rdquo;. Y la maquina cliente se llama &amp;ldquo;debianprueba&amp;rdquo;. Durante las conexiones remotas se puede apreciar en las capturas el nombre de las máquinas.
+1. MySQL 1.1 Instalación En el servidor actualizamos los repositorios e instalamos gnupg y wget, si no estuvieran ya instalados.</description>
     </item>
     
     <item>
       <title>Instalación Debian 11</title>
-      <link>/docs/installdeb/</link>
-      <pubDate>Sun, 09 Oct 2022 19:27:37 +1000</pubDate>
-      
-      <guid>/docs/installdeb/</guid>
-      <description>Pasos a seguir para la instalación de Debian con particiones LVM.</description>
+      <link>https://afermor8.github.io/post/install-deb/</link>
+      <pubDate>Sun, 09 Oct 2022 00:00:00 +0000</pubDate>
+      <author>ara.fer.mor@gmail.com (afermor8)</author>
+      <guid>https://afermor8.github.io/post/install-deb/</guid>
+      <description>Preparación Para empezar he booteado un usb con la imagen de Debian 11 con la herramienta Rufus. Mi portátil es un Lenovo Thinkpa L15 con 1TB de almacenamiento y 40GB de RAM. Antes de realizar la instalación he dejado libre la mitad de mi disco de 1TB. Es decir, 500GB del disco están destinados a Windows 10, por lo que para la instalación de Debian 11 tengo disponibles l500GB de espacio libre.</description>
+    </item>
+    
+    <item>
+      <title>About me</title>
+      <link>https://afermor8.github.io/page/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <author>ara.fer.mor@gmail.com (afermor8)</author>
+      <guid>https://afermor8.github.io/page/about/</guid>
+      <description>Me llamo Arantxa. Este blog fue creado para la asignatura de Implantación de Aplicaciones Web en el 2º curso del Ciclo Superior de Administración de Sistemas Informáticos en Red.
+Estoy terminando ASIR, pero además soy Educadora Social, Experta en Cooperación Internacional para el Desarrollo. Me gusta jugar al baloncesto, hacer senderismo, cocinar, visitar lugares nuevos y perderme en medio de un bosque.
+Asturias
+Bulnes
+Esta web tiene licencia Creative Commons.</description>
     </item>
     
   </channel>

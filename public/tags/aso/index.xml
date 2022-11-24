@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ASO on Mi paso por ASIR Blog</title>
+    <link>https://afermor8.github.io/tags/aso/</link>
+    <description>Recent content in ASO on Mi paso por ASIR Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <managingEditor>ara.fer.mor@gmail.com (afermor8)</managingEditor>
+    <webMaster>ara.fer.mor@gmail.com (afermor8)</webMaster>
+    <lastBuildDate>Sun, 09 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://afermor8.github.io/tags/aso/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Instalación Debian 11</title>
+      <link>https://afermor8.github.io/post/install-deb/</link>
+      <pubDate>Sun, 09 Oct 2022 00:00:00 +0000</pubDate>
+      <author>ara.fer.mor@gmail.com (afermor8)</author>
+      <guid>https://afermor8.github.io/post/install-deb/</guid>
+      <description>Preparación Para empezar he booteado un usb con la imagen de Debian 11 con la herramienta Rufus. Mi portátil es un Lenovo Thinkpa L15 con 1TB de almacenamiento y 40GB de RAM. Antes de realizar la instalación he dejado libre la mitad de mi disco de 1TB. Es decir, 500GB del disco están destinados a Windows 10, por lo que para la instalación de Debian 11 tengo disponibles l500GB de espacio libre.</description>
+    </item>
+    
+  </channel>
+</rss>
