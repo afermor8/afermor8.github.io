@@ -204,8 +204,10 @@
 <h3 id="21-configuración-inicial">2.1 Configuración inicial</h3>
 <p>El primer servidor Oracle 19c será el de la máquina <strong>debian-oracle</strong> de la práctica anterior con la IP <strong>192.168.122.98</strong>. Este Oracle ya lo tenemos instalado con las tablas <em>pelicula</em>, <em>actor</em> y <em>pelicula_actor</em>, y solo tendremos que hacer algunos pequeños cambios en tnsnames.ora para que se conecte con nuestro otro servidor.</p>
 <p>El segundo servidor Oracle también lo he instalado en Debian 11, siguiendo los mismos pasos que en la primera <a href="https://www.servidoresclientes.ga/ri/alumno3/#3-oracle">práctica</a>. El nombre de la máquina es <strong>debora</strong> y tiene la IP <strong>192.168.122.137</strong>.</p>
-<p>Una vez instalado y ya dentro de sqlplus, he creado un usuario llamado &ldquo;usuario&rdquo; con contraseña &ldquo;usuario&rdquo; y me he conectado con éste.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">create user usuario identified by usuario;
+<p>Una vez instalado y ya habiendo a <em>sqlplus</em>, he creado un usuario llamado &ldquo;usuario&rdquo; con contraseña &ldquo;usuario&rdquo;, y me he conectado con éste.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">rlwrap sqlplus / as sysdba
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">create user usuario identified by usuario;
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">grant all privileges to usuario;
 </span></span><span class="line"><span class="cl">
@@ -224,7 +226,7 @@
 </span></span><span class="line"><span class="cl">insert into director values (&#39;0003&#39;,&#39;Anthony&#39;, &#39;Russo&#39;);
 </span></span><span class="line"><span class="cl">insert into director values (&#39;0004&#39;,&#39;Jon&#39;, &#39;Watts&#39;);
 </span></span></code></pre></div><h3 id="22-interconexión">2.2 Interconexión</h3>
-<p>Modificamos el fichero listener.ora para que escuche en todas las interfaces de la máquina en el puerto por defecto 1521. Quedaría de la siguiente manera:</p>
+<p>Modificamos el fichero <strong>listener.ora</strong> para que escuche en todas las interfaces de la máquina y en el puerto por defecto 1521. Quedaría de la siguiente manera:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo nano /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora 
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">SID_LIST_LISTENER =
@@ -243,7 +245,7 @@
 </span></span><span class="line"><span class="cl">      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
 </span></span><span class="line"><span class="cl">    )
 </span></span><span class="line"><span class="cl">  )
-</span></span></code></pre></div><p>A continuación modificamos el fichero tnsnames.ora. Se creará un alias para el servidor al que nos queremos conectar (debian-oracle). Se especifica el protocolo, la dirección IP y el puerto del servidor. En mi caso quedaría así:</p>
+</span></span></code></pre></div><p>A continuación modificamos el fichero <strong>tnsnames.ora</strong>. Se creará un alias para el servidor al que nos queremos conectar (el alias que yo le he dado es DEBIAN-ORACLE). Se especifica el protocolo, la dirección IP y el puerto del servidor. En mi caso quedaría así:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo nano /opt/oracle/product/19c/dbhome_1/network/admin/tnsnames.ora
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">
@@ -276,7 +278,7 @@
 </span></span><span class="line"><span class="cl">      (SERVICE_NAME = ORCLCDB)
 </span></span><span class="line"><span class="cl">    )
 </span></span><span class="line"><span class="cl">  )
-</span></span></code></pre></div><p>Después de estos cambios tenemos que asegurarnos de que el listener está activo en ambos servidores para ello, con el usuario <em>oracle</em> comprobamos el estado, y si no está en funcionamiento lo ativamos.</p>
+</span></span></code></pre></div><p>Después de estos cambios tenemos que asegurarnos de que el listener está activo en ambos servidores para ello, con el usuario <em>oracle</em> comprobamos el estado, y si no está en funcionamiento lo activamos.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">su oracle
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">lsnrctl status
@@ -285,19 +287,21 @@
 </span></span></code></pre></div><p><img src="12.png" alt="lsnrctl"></p>
 <p>Ya podemos crear la conexión.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">create database link debianoracle_link connect to admin identified by admin using &#39;debian-oracle&#39;;
-</span></span></code></pre></div><p><strong>debianoracle_link:</strong> es el nombre que le he dado a la conexión.
-conect to <strong>admin</strong>: es el usuario del servidor debian-oracle.
-identified by <strong>admin</strong>: es la contraseña del usuario.
-using <strong>debian-oracle</strong>: es el nombre del alias que he creado en tnsnames.ora</p>
+</span></span></code></pre></div><ul>
+<li><strong>debianoracle_link:</strong> es el nombre que le he dado a la conexión.</li>
+<li>conect to <strong>admin</strong>: es el usuario del servidor debian-oracle.</li>
+<li>identified by <strong>admin</strong>: es la contraseña del usuario.</li>
+<li>using <strong>debian-oracle</strong>: es el nombre del alias que he creado en tnsnames.ora</li>
+</ul>
 <h3 id="23-prueba-de-conexión">2.3 Prueba de conexión</h3>
-<h5 id="desde-la-máquina-debora">Desde la máquina debora:</h5>
-<p>Hacemos alguna consulta para comprobar que funciona.</p>
+<h6 id="desde-la-máquina-debora">Desde la máquina debora:</h6>
+<p>Hacemos algunas consultas para comprobar que funciona.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">select * from pelicula@debianoracle_link;
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">select director.nombre as nombre, director.apellido as apellido from actor@debianoracle_link actor, director where director.nombre=actor.nombre and director.apellido=actor.apellido;
 </span></span></code></pre></div><p><img src="13.png" alt="consulta-ora"></p>
 <p><img src="14.png" alt="consulta-ora2"></p>
-<h5 id="desde-la-máquina-debian-oracle">Desde la máquina debian-oracle:</h5>
+<h6 id="desde-la-máquina-debian-oracle">Desde la máquina debian-oracle:</h6>
 <p>Creamos el enlace:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">create database link debora_link connect to usuario identified by usuario using &#39;debora&#39;;
 </span></span></code></pre></div><p>Hacemos una consulta sencilla para comprobar que funciona.</p>
@@ -307,15 +311,15 @@ using <strong>debian-oracle</strong>: es el nombre del alias que he creado en tn
 <hr>
 <hr>
 <h2 id="3-interconexión-entre-base-de-dato-oracle-y-postgres-usando-heterogeneus-services">3. Interconexión entre base de dato Oracle y Postgres (usando Heterogeneus Services).</h2>
-<p>Para este último ejercicio, voy a conectar el servidor de base de datos Postgres de la máquina <em>debian</em> del primer apartado (IP 192.168.122.156) con la base de datos Oracle 19c de la máquina <em>debian-oracle</em> (IP 192.168.122.98).</p>
-<p>En el servidor Postgres tengo creada la base de datos <em>interconexion</em> con la tabla director y el usuario <em>admin2</em>.</p>
+<p>Para este último apartado, voy a conectar el servidor de base de datos PostgreSQL de la máquina <strong>debian</strong> del primer apartado (IP <strong>192.168.122.156</strong>) con la base de datos Oracle 19c de la máquina <strong>debian-oracle</strong> (IP <strong>192.168.122.98</strong>).</p>
+<p>En el servidor PostgreSQL tengo creada la base de datos <em>interconexion</em> con la tabla <em>director</em> y el usuario <em>admin2</em>.</p>
 <p>En el servidor Oracle tengo creadas las tablas <em>pelicula</em>, <em>actor</em> y <em>pelicula_actor</em>. Y el usuario es <em>admin</em>.</p>
-<p>Dependiendo del servidor que realicemos la conexión se hará de una forma u otra.</p>
+<p>Dependiendo del servidor desde el que realicemos la conexión se hará de una forma u otra.</p>
 <h3 id="31-conexión-desde-oracle-19c-a-postgresql">3.1 Conexión desde Oracle 19c a PostgreSQL:</h3>
 <h4 id="311-instalar-y-configurar-el-driver-odbc">3.1.1 Instalar y configurar el driver ODBC:</h4>
-<p>Instalamos el driver <strong>ODBC</strong> en el servidor <em>debian-oracle</em>. Este nos permitirá acceder a cualquier sistema destor de base de datos.</p>
+<p>Instalamos el driver <strong>ODBC</strong> en el servidor <strong>debian-oracle</strong>. Este nos permitirá acceder a cualquier sistema gestor de base de datos.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo apt install odbc-postgresql unixodbc
-</span></span></code></pre></div><p>Se nos crea el fichero <strong>/etc/odbcinst.ini</strong>. Nos aparecerá la siguiente información. La dejamos tal cual.</p>
+</span></span></code></pre></div><p>Se nos crea el fichero <strong>/etc/odbcinst.ini</strong> automáticamente. En este nos aparecerá la siguiente información (la dejamos tal cual).</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[PostgreSQL ANSI]
 </span></span><span class="line"><span class="cl">Description=PostgreSQL ODBC driver (ANSI version)
 </span></span><span class="line"><span class="cl">Driver=psqlodbca.so
@@ -331,7 +335,7 @@ using <strong>debian-oracle</strong>: es el nombre del alias que he creado en tn
 </span></span><span class="line"><span class="cl">Debug=0
 </span></span><span class="line"><span class="cl">CommLog=1
 </span></span><span class="line"><span class="cl">UsageCount=1
-</span></span></code></pre></div><p>A continuación añadimos la información de la conexión al fichero <strong>/etc/odbc.ini</strong>, el cual por defecto se encuentra vacío.</p>
+</span></span></code></pre></div><p>A continuación añadimos la información de la conexión al fichero <strong>/etc/odbc.ini</strong>, el cual por defecto se encuentra vacío. Añadimos lo siguiente:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[PSQLA]
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">Debug = 0
@@ -366,15 +370,32 @@ using <strong>debian-oracle</strong>: es el nombre del alias que he creado en tn
 <p><img src="16.png" alt="isql"></p>
 <h4 id="312-configurar-heterogeneus-services-en-oracle">3.1.2 Configurar Heterogeneus Services en Oracle:</h4>
 <p>Aunque podamos ver datos con el driver, Oracle todavía no está configurado para usarlo, así que esto será lo siguiente que haremos.</p>
-<p>Creamos el fichero de inicio para Heterogeneus que se encuentra en <strong>/opt/oracle/product/19c/dbhome_1/hs/admin/initPSQLU.ora</strong>.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo nano /opt/oracle/product/19c/dbhome_1/hs/admin/initPSQLU.ora
+<p>Añadimos al fichero de inicio para Heterogeneus la siguiente información. El fichero se encuentra en <strong>/opt/oracle/product/19c/dbhome_1/hs/admin/initPSQLU.ora</strong>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo nano /opt/oracle/product/19c/dbhome_1/hs/admin/initPSQLU.ora. 
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">HS_FDS_CONNECT_INFO = PSQLU
 </span></span><span class="line"><span class="cl">HS_FDS_TRACE_LEVEL = DEBUG
 </span></span><span class="line"><span class="cl">HS_FDS_SHAREABLE_NAME = /usr/lib/x86_64-linux-gnu/odbc/psqlodbcw.so
 </span></span><span class="line"><span class="cl">HS_LANGUAGE = AMERICAN_AMERICA.WE8ISO8859P1
 </span></span><span class="line"><span class="cl">set ODBCINI=/etc/odbc.ini
-</span></span></code></pre></div><p>Ahora configuramos <em>listener.ora</em> para especificar el driver que queremos que use para escuchar las peticiones.</p>
+</span></span></code></pre></div><ul>
+<li>
+<p>HS_FDS_CONNECT_INFO: indicamos un nombre al servicio.</p>
+</li>
+<li>
+<p>HS_FDS_TRACE_LEVEL: para activar el servicio.</p>
+</li>
+<li>
+<p>HS_FDS_SHAREABLE_NAME: el directorio concreto del driver configurado anteriormente.</p>
+</li>
+<li>
+<p>HS_LANGUAGE: el idioma por defecto.</p>
+</li>
+<li>
+<p>set ODBCINI: el fichero de configuración del driver para PSQL.</p>
+</li>
+</ul>
+<p>Ahora configuramos <strong>listener.ora</strong> para especificar el driver que queremos que use al escuchar las peticiones.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo nano /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
 </span></span></code></pre></div><p>Añadimos otra entrada a SID_LIST.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">(SID_DESC=
@@ -382,7 +403,7 @@ using <strong>debian-oracle</strong>: es el nombre del alias que he creado en tn
 </span></span><span class="line"><span class="cl">         (ORACLE_HOME=/opt/oracle/product/19c/dbhome_1)
 </span></span><span class="line"><span class="cl">         (PROGRAM=dg4odbc)
 </span></span><span class="line"><span class="cl">)
-</span></span></code></pre></div><p>El fichero listener.ora quedaría de la siguiente forma:</p>
+</span></span></code></pre></div><p><strong>listener.ora</strong> quedaría de la siguiente forma:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">SID_LIST_LISTENER =
 </span></span><span class="line"><span class="cl">  (SID_LIST =
 </span></span><span class="line"><span class="cl">    (SID_DESC =
@@ -404,16 +425,16 @@ using <strong>debian-oracle</strong>: es el nombre del alias que he creado en tn
 </span></span><span class="line"><span class="cl">      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
 </span></span><span class="line"><span class="cl">    )
 </span></span><span class="line"><span class="cl">  )
-</span></span></code></pre></div><p>También incluimos una entrada en el fichero tnsnames.ora.</p>
+</span></span></code></pre></div><p>También incluimos una entrada en el fichero <strong>tnsnames.ora</strong>.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo nano /opt/oracle/product/19c/dbhome_1/network/admin/tnsnames.ora
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">PSQLU =
 </span></span><span class="line"><span class="cl">    (DESCRIPTION =
-</span></span><span class="line"><span class="cl">        (ADDRESS = (PROTOCOL=tcp) (HOST =1 92.168.122.156) (PORT = 1521))
+</span></span><span class="line"><span class="cl">        (ADDRESS = (PROTOCOL=tcp) (HOST = localhost) (PORT = 1521))
 </span></span><span class="line"><span class="cl">        (CONNECT_DATA = (SID = PSQLU))
 </span></span><span class="line"><span class="cl">        (HS = OK)
 </span></span><span class="line"><span class="cl">    )
-</span></span></code></pre></div><p>tnsnames.ora quedaría del siguiente modo:</p>
+</span></span></code></pre></div><p><strong>tnsnames.ora</strong> quedaría del siguiente modo:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">ORCLCDB =
 </span></span><span class="line"><span class="cl">  (DESCRIPTION =
 </span></span><span class="line"><span class="cl">    (ADDRESS = (PROTOCOL = TCP)(HOST = debian-oracle)(PORT = 1521))
@@ -442,14 +463,14 @@ using <strong>debian-oracle</strong>: es el nombre del alias que he creado en tn
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">create public database link linkpostgres connect to &#34;admin2&#34; identified by &#34;admin2&#34; using &#39;PSQLU&#39;;
 </span></span></code></pre></div><p><img src="17.png" alt="enlace"></p>
-<p>Hacemos una consulta para comprobar que funciona.</p>
+<p>Hacemos un par de consultas para comprobar que funciona.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">select &#34;nombre&#34; from &#34;director&#34;@linkpostgres;
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">select director.&#34;nombre&#34; as nombre, director.&#34;apellido&#34; as apellido from actor, &#34;director&#34;@linkpostgres director where director.&#34;nombre&#34; = actor.nombre and director.&#34;apellido&#34; = actor.apellido;
 </span></span></code></pre></div><p><img src="18.png" alt="consulta-orapostgres"></p>
 <p><img src="19.png" alt="consulta-orapotgres"></p>
 <h3 id="32-conexión-desde-pstgresql-a-oracle-19c">3.2 Conexión desde PstgreSQL a Oracle 19c:</h3>
-<p>En la máquina debian con el servidor PostgreSQL, lo primero que habrá que hacer es instalar los siguientes paquetes si no los tenemos.</p>
+<p>En la máquina <strong>debian</strong> con el servidor PostgreSQL, lo primero que habrá que hacer es instalar los siguientes paquetes si no los tenemos.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo apt install alien libaio1 postgresql-server-dev-all build-essential git
 </span></span></code></pre></div><p>Descargamos los .rpm de Oracle Instant Client, que usaremos para poder conectarnos a la base de datos Oracle.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">wget https://download.oracle.com/otn_software/linux/instantclient/195000/oracle-instantclient19.5-basic-19.5.0.0.0-1.x86_64.rpm
@@ -466,7 +487,7 @@ using <strong>debian-oracle</strong>: es el nombre del alias que he creado en tn
 </span></span><span class="line"><span class="cl">sudo dpkg -i oracle-instantclient19.5-sqlplus_19.5.0.0.0-1.x86_64.deb
 </span></span><span class="line"><span class="cl">sudo dpkg -i oracle-instantclient19.5-tools_19.5.0.0.0-1.x86_64.deb
 </span></span><span class="line"><span class="cl">sudo dpkg -i oracle-instantclient19.5-devel_19.5.0.0.0-1.x86_64.deb
-</span></span></code></pre></div><p>El paquete oracle_fdw para postgres la he clonado de un repositorio git.</p>
+</span></span></code></pre></div><p>El paquete <strong>oracle_fdw</strong> para PostgreSQL la he clonado de este repositorio git.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">git clone https://github.com/laurenz/oracle_fdw.git
 </span></span></code></pre></div><p>A continuación he añadido las siguientes variables de entorno a <strong>~/.bashrc</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo nano ~/.bashrc
@@ -478,23 +499,25 @@ using <strong>debian-oracle</strong>: es el nombre del alias que he creado en tn
 </span></span></code></pre></div><p>Compilamos el paquete con <strong>make</strong>.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cd oracle_fdw
 </span></span><span class="line"><span class="cl">make
-</span></span></code></pre></div><p>Para que no de error hay que modificar el fichero Makefile añadiendo las siguientes líneas:</p>
-<p><code>-I/usr/include/oracle/19.5/client64</code> : Se añade en la variable PG_CPPFLAGS
-<code>-L/usr/lib/oracle/19.5/client64/lib</code> : Se añade en la variable SHLIB_LINK</p>
+</span></span></code></pre></div><p>Para que la instalación no de error hay que modificar el fichero <strong>Makefile</strong> añadiendo las siguientes líneas:</p>
+<ul>
+<li><code>-I/usr/include/oracle/19.5/client64</code> : Se añade en la variable <strong>PG_CPPFLAGS</strong></li>
+<li><code>-L/usr/lib/oracle/19.5/client64/lib</code> : Se añade en la variable <strong>SHLIB_LINK</strong></li>
+</ul>
 <p>Realizamos la instalación.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo make install
-</span></span></code></pre></div><p>Entramos en la base de datos con el usuario postgres y creamos la extension como se ve a continuación.</p>
+</span></span></code></pre></div><p>Entramos en la base de datos con el usuario <em>postgres</em> y creamos la extensión, como se ve a continuación.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">su postgres
 </span></span><span class="line"><span class="cl">psql
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">create extension oracle_fdw;
-</span></span></code></pre></div><p>Ahora se creará un servidor con create server en el que se especificará un nombre para la conexion, el nombre de la extension oracle_fdw, la IP del servidor Oracle 19c y el nombre de la base de datos.</p>
+</span></span></code></pre></div><p>Ahora se creará un servidor con <em><strong>create server</strong></em> en el que se especificará un nombre para la conexion, el nombre de la extension <strong>oracle_fdw</strong>, la IP del servidor Oracle 19c y el nombre de la base de datos.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">create server linkoracle foreign data wrapper oracle_fdw options(dbserver &#39;//192.168.122.98:1521/ORCLCDB&#39;);
 </span></span></code></pre></div><p>Le asignamos a esta conexión el nombre de usuario y contraseña.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">create user mapping for postgres server linkoracle options(user &#39;admin&#39;,password &#39;admin&#39;);
-</span></span></code></pre></div><p>Por último se crea una tabla externa con las mismas columnas que la tabla original. En mi caso crearé una tabla externa de la tabla película. Las opciones <strong>schema</strong> y <strong>table</strong> deben ir en mayúsculas. Quedaría de la siguiente forma:</p>
+</span></span></code></pre></div><p>Por último se crea una tabla externa con las mismas columnas de la tabla original. En mi caso crearé una tabla externa de la tabla <em>película</em>. Las opciones <strong>schema</strong> y <strong>table</strong> deben ir en mayúsculas. Quedaría de la siguiente forma:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">create foreign table pelicula(codigo varchar(5),titulo varchar(30),fecha_estreno date, puntuacion numeric(3,1),lengua_original varchar(3)) server linkoracle options(schema &#39;ADMIN&#39;, table &#39;PELICULA&#39;);
-</span></span></code></pre></div><p>Y ya podremos realizar la consulta desde Postgres al servidor Oracle.</p>
+</span></span></code></pre></div><p>Ya podremos realizar la consulta desde PostgreSQL al servidor Oracle.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">select * from pelicula;
 </span></span></code></pre></div><p><img src="20.png" alt="consulta-postgresora"></p>
 
