@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Linux daughter Blog</title>
+    <title>Arantxa`s Blog on Arantxa&#39;s Blog</title>
     <link>/</link>
-    <description>Recent content on Linux daughter Blog</description>
+    <description>Recent content in Arantxa`s Blog on Arantxa&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 30 Sep 2022 15:14:39 +1000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Interconexión entre BBDD</title>
+      <link>/docs/interconexion-bbdd/</link>
+      <pubDate>Mon, 21 Nov 2022 16:45:02 +0100</pubDate>
+      
+      <guid>/docs/interconexion-bbdd/</guid>
+      <description>Interconexión entre dos bases de datos Postgres, dos Oracle, y una Oracle y otra Postgres (usando Heterogeneus Services).</description>
+    </item>
+    
+    <item>
+      <title>Prueba: Introducción a la implantación de aplicaciones web</title>
+      <link>/docs/prueba/</link>
+      <pubDate>Mon, 10 Oct 2022 13:09:51 +0200</pubDate>
+      
+      <guid>/docs/prueba/</guid>
+      <description>Arantxa Fernández Morató </description>
+    </item>
+    
     <item>
       <title>Instalación QEMU/libvirt. Conexión local y remota</title>
       <link>/docs/installqemu/</link>
@@ -32,15 +50,6 @@
       
       <guid>/docs/installdeb/</guid>
       <description>Pasos a seguir para la instalación de Debian con particiones LVM.</description>
-    </item>
-    
-    <item>
-      <title>Prueba: Introducción a la implantación de aplicaciones web</title>
-      <link>/docs/prueba/</link>
-      <pubDate>Mon, 10 Oct 2022 13:09:51 +0200</pubDate>
-      
-      <guid>/docs/prueba/</guid>
-      <description>Arantxa Fernández Morató </description>
     </item>
     
   </channel>

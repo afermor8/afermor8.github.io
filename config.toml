@@ -1,6 +1,6 @@
 baseURL = "/"
 languageCode = "en-us"
-title = "Linux daughter Blog"
+title = "Arantxa's Blog"
 themesDir = "themes"
 theme = "hugo-whisper-theme"
 
@@ -31,7 +31,7 @@ summaryLength = 30
   google_analytics_id=""
   homepage_button_link = '/docs'
   homepage_button_text = 'Más info...'
-  homepage_intro = 'Blog de ASIR.'
+  homepage_intro = 'Mi paso por ASIR.'
   homepage_image = '/images/matrix.gif'
 
   ## You can enable to add anchor links to header elements
