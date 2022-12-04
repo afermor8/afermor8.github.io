@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="es" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Criptografia I. Cifrado asimétrico con gpg y openssl - Mi paso por ASIR Blog</title>
+  <meta name="description" content="Tarea 1: Generación de claves 1. Genera un par de claves (pública y privada). ¿En que directorio se guarda las claves de un usuario? Para generar las claves utilizamos el siguiente comando:
+gpg --gen-key Nos pedirá nombre y apellidos, correo electrónico y confirmación. Lo próximo que nos pedirá será una frase de paso para proteger la clave privada. La escribimos dos veces y a continuación se generará el par de claves.">
+  <meta name="author" content="afermor8"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Mi paso por ASIR Blog",
+    
+    "url": "https:\/\/afermor8.github.io"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/afermor8.github.io"
+  
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io\/post\/criptografia1\/",
+          "name": "Criptografia i. cifrado asimétrico con gpg y openssl"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "afermor8"
+  },
+  "headline": "Criptografia I. Cifrado asimétrico con gpg y openssl",
+  "description" : "Tarea 1: Generación de claves 1. Genera un par de claves (pública y privada). ¿En que directorio se guarda las claves de un usuario? Para generar las claves utilizamos el siguiente comando:\ngpg --gen-key Nos pedirá nombre y apellidos, correo electrónico y confirmación. Lo próximo que nos pedirá será una frase de paso para proteger la clave privada. La escribimos dos veces y a continuación se generará el par de claves.",
+  "inLanguage" : "es",
+  "wordCount":  1263 ,
+  "datePublished" : "2022-12-04T22:05:16",
+  "dateModified" : "2022-12-04T22:05:16",
+  "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+  "keywords" : [ "SAD" ],
+  "mainEntityOfPage" : "https:\/\/afermor8.github.io\/post\/criptografia1\/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https:\/\/afermor8.github.io",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
+
+<meta property="og:title" content="Criptografia I. Cifrado asimétrico con gpg y openssl" />
+<meta property="og:description" content="Tarea 1: Generación de claves 1. Genera un par de claves (pública y privada). ¿En que directorio se guarda las claves de un usuario? Para generar las claves utilizamos el siguiente comando:
+gpg --gen-key Nos pedirá nombre y apellidos, correo electrónico y confirmación. Lo próximo que nos pedirá será una frase de paso para proteger la clave privada. La escribimos dos veces y a continuación se generará el par de claves.">
+<meta property="og:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+<meta property="og:url" content="https://afermor8.github.io/post/criptografia1/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Mi paso por ASIR Blog" />
+
+  <meta name="twitter:title" content="Criptografia I. Cifrado asimétrico con gpg y openssl" />
+  <meta name="twitter:description" content="Tarea 1: Generación de claves 1. Genera un par de claves (pública y privada). ¿En que directorio se guarda las claves de un usuario? Para generar las claves utilizamos el siguiente comando:
+gpg …">
+  <meta name="twitter:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link href='https://afermor8.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta name="generator" content="Hugo 0.104.3" />
+  <link rel="alternate" href="https://afermor8.github.io/index.xml" type="application/rss+xml" title="Mi paso por ASIR Blog"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://afermor8.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://afermor8.github.io/css/highlight.min.css" /><link rel="stylesheet" href="https://afermor8.github.io/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Conmuta navegación</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/page/about/">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Tags" href="/tags">Tags</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    
+      <div class="avatar-container">
+        <div class="avatar-img-border">
+          <a title="Mi paso por ASIR Blog" href="https://afermor8.github.io">
+            <img class="avatar-img" src="https://afermor8.github.io/img/avatar-icon.png" alt="Mi paso por ASIR Blog" />
+          </a>
+        </div>
+      </div>
+    
+
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+    <div id="header-big-imgs" data-num-img=3 
+      
+         
+          data-img-src-1="/img/triangle.jpg" 
+         
+         data-img-desc-1="Triangle"
+      
+         
+          data-img-src-2="/img/sphere.jpg" 
+         
+         data-img-desc-2="Sphere"
+      
+         
+          data-img-src-3="/img/hexagon.jpg" 
+         
+         data-img-desc-3="Hexagon"
+      ></div>
+  
+
+  <header class="header-section has-img">
+    
+      <div class="intro-header big-img">
+        
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+              <div class="post-heading">
+                <h1>Criptografia I. Cifrado asimétrico con gpg y openssl</h1>
+                  
+                  
+                    <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el December 4, 2022
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;6&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1263&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="img-desc" style="display: inline;"></span>
+      </div>
+    
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>Criptografia I. Cifrado asimétrico con gpg y openssl</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el December 4, 2022
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;6&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1263&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <h1 id="tarea-1-generación-de-claves">Tarea 1: Generación de claves</h1>
+<hr>
+<h2 id="1-genera-un-par-de-claves-pública-y-privada-en-que-directorio-se-guarda-las-claves-de-un-usuario">1. Genera un par de claves (pública y privada). ¿En que directorio se guarda las claves de un usuario?</h2>
+<p>Para generar las claves utilizamos el siguiente comando:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --gen-key
+</span></span></code></pre></div><p>Nos pedirá nombre y apellidos, correo electrónico y confirmación. Lo próximo que nos pedirá será una frase de paso para proteger la clave privada. La escribimos dos veces y a continuación se generará el par de claves.</p>
+<p><img src="/img/criptografia/1.png" alt=""></p>
+<p>Las claves creadas se guardarán en /home/usuario/.gnupg.</p>
+<p><img src="/img/criptografia/2.png" alt=""></p>
+<h2 id="2-lista-las-claves-públicas-que-tienes-en-tu-almacén-de-claves-explica-los-distintos-datos-que-nos-muestra-cómo-deberías-haber-generado-las-claves-para-indicar-por-ejemplo-que-tenga-un-1-mes-de-validez">2. Lista las claves públicas que tienes en tu almacén de claves. Explica los distintos datos que nos muestra. ¿Cómo deberías haber generado las claves para indicar, por ejemplo, que tenga un 1 mes de validez?</h2>
+<p>Para listar las claves públicas:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --list-keys
+</span></span></code></pre></div><p><img src="/img/criptografia/3.png" alt=""></p>
+<p>La información que nos aparece al listar las claves públicas es la siguiente:</p>
+<ul>
+<li>pub: public primary key (clave primaria pública)</li>
+<li>uid: unique identifier (identificador único)</li>
+<li>sub: public sub-key (subclave pública)</li>
+</ul>
+<p>Cuando listamos las claves privadas <strong>pub</strong> y <strong>sub</strong> cambiarán por <strong>sec</strong> (clave primaria secreta) y <strong>ssb</strong> (subclave secreta).</p>
+<p><strong>rsa3072</strong> es el algoritmo usado por el par de claves. Lo siguiente es la fech de creación del par de claves (2022-12-04), y, por último, los flags y la fecha de caducidad (2024-12-03). El par de claves maestro tiene los flags <strong>SC</strong> y el par de claves secundario tiene el flag <strong>E</strong>, que tienen el siguiente significado:</p>
+<ul>
+<li>S (Signing): firmar archivos</li>
+<li>C (Certify): certificar una clave, es decir, comprobar firmas de archivos y claves</li>
+<li>E (Encrypt): encriptar y desencriptar información</li>
+</ul>
+<p>Para terminar, para generar la clave indicando el tiempo de validez se haría de la siguiente forma:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --full-gen-key
+</span></span></code></pre></div><p>Durante la creación del par de claves se nos pediría especificar el periodo de validez de la clave. Para que la validez sea de un mes escribimos &ldquo;1m&rdquo;.</p>
+<p><img src="/img/criptografia/5.png" alt=""></p>
+<h2 id="3-lista-las-claves-privadas-de-tu-almacén-de-claves">3. Lista las claves privadas de tu almacén de claves.</h2>
+<p>Para listar las claves secretas:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --list-secret-keys
+</span></span></code></pre></div><p><img src="/img/criptografia/4.png" alt=""></p>
+<h1 id="tarea-2-importar--exportar-clave-pública">Tarea 2: Importar / exportar clave pública</h1>
+<hr>
+<h2 id="1-exporta-tu-clave-pública-en-formato-ascii-y-guardalo-en-un-archivo-nombre_apellidoasc-y-envíalo-al-compañero-con-el-que-vas-a-hacer-esta-práctica">1. Exporta tu clave pública en formato ASCII y guardalo en un archivo nombre_apellido.asc y envíalo al compañero con el que vas a hacer esta práctica.</h2>
+<p>Para exportar mi clave pública utilizo el siguiente comando:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --export -a &#34;Arantxa&#34; &gt; arantxa.asc
+</span></span></code></pre></div><p>Comprobamos que se ha creado el fichero:</p>
+<p><img src="/img/criptografia/6.png" alt=""></p>
+<p>Le he enviado este fichero a mi compañero por correo electrónico (gmail).</p>
+<h2 id="2-importa-las-claves-públicas-recibidas-de-vuestro-compañero">2. Importa las claves públicas recibidas de vuestro compañero.</h2>
+<p>El fichero que me ha mandado mi compañero por correo es el siguiente:</p>
+<p><img src="/img/criptografia/7.png" alt=""></p>
+<p>Ahora importo esta clave pública:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --import arturo.asc
+</span></span></code></pre></div><p><img src="/img/criptografia/8.png" alt=""></p>
+<h2 id="3-comprueba-que-las-claves-se-han-incluido-correctamente-en-vuestro-keyring">3. Comprueba que las claves se han incluido correctamente en vuestro keyring.</h2>
+<p>Vuelvo a listar las claves para comprobar que se ha incluido correctamente.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --list-keys
+</span></span></code></pre></div><p><img src="/img/criptografia/9.png" alt=""></p>
+<h1 id="tarea-3-cifrado-asimétrico-con-claves-públicas">Tarea 3: Cifrado asimétrico con claves públicas</h1>
+<hr>
+<h2 id="1-cifraremos-un-archivo-cualquiera-y-lo-remitiremos-por-email-a-uno-de-nuestros-compañeros-que-nos-proporcionó-su-clave-pública">1. Cifraremos un archivo cualquiera y lo remitiremos por email a uno de nuestros compañeros que nos proporcionó su clave pública.</h2>
+<p>Para enviar un fichero cifrado sigo los siguientes pasos.</p>
+<p>Primero he creado un fichero de texto de prueba que será el qe envíe a mi compañero.</p>
+<p><img src="/img/criptografia/10.png" alt=""></p>
+<p><img src="/img/criptografia/11.png" alt=""></p>
+<p>A continuación uso el comando:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg -e -u &#34;Árantxa&#34; -r &#34;Arturo Borrero Gonzalez&#34; prueba_gpg.txt
+</span></span></code></pre></div><p>donde -u será el remitente y -r el destinatario.</p>
+<p>Esto creará el fichero cifrado prueba_gpg.txt.gpg.</p>
+<p><img src="/img/criptografia/12.png" alt=""></p>
+<p>Este fichero será el que envíe a mi compañero por correo electrónico.</p>
+<h2 id="2-nuestro-compañero-a-su-vez-nos-remitirá-un-archivo-cifrado-para-que-nosotros-lo-descifremos">2. Nuestro compañero, a su vez, nos remitirá un archivo cifrado para que nosotros lo descifremos.</h2>
+<p>Me ha enviado el siguiente fichero cifrado.</p>
+<p><img src="/img/criptografia/13.png" alt=""></p>
+<h2 id="3-tanto-nosotros-como-nuestro-compañero-comprobaremos-que-hemos-podido-descifrar-los-mensajes-recibidos-respectivamente">3. Tanto nosotros como nuestro compañero comprobaremos que hemos podido descifrar los mensajes recibidos respectivamente.</h2>
+<p>Descargo y descifro el fichero enviado por mi compañero.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg -d Descargas/captura_pantalla.png.gpg &gt; captura.png
+</span></span></code></pre></div><p><img src="/img/criptografia/14.png" alt=""></p>
+<p>Abro captura.png para ver el contenido. Vemos que la imagen que nos ha enviado es una captura del fichero que yo le he enviado, por tanto él también ha podido descifrarlo.</p>
+<p><img src="/img/criptografia/15.png" alt=""></p>
+<h2 id="4-por-último-enviaremos-el-documento-cifrado-a-alguien-que-no-estaba-en-la-lista-de-destinatarios-y-comprobaremos-que-este-usuario-no-podrá-descifrar-este-archivo">4. Por último, enviaremos el documento cifrado a alguien que no estaba en la lista de destinatarios y comprobaremos que este usuario no podrá descifrar este archivo.</h2>
+<p>Envío mi fichero a otro compañero que no se encuentra en la lista de destinatarios, e intenta descifrarlo. Como no tiene mi clave aparece este error:</p>
+<p><img src="/img/criptografia/16.png" alt=""></p>
+<h2 id="5-para-terminar-indica-los-comandos-necesarios-para-borrar-las-claves-públicas-y-privadas-que-posees">5. Para terminar, indica los comandos necesarios para borrar las claves públicas y privadas que posees.</h2>
+<p>Primero tendremos que eliminar la clave privada, para ello usamos:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --delete-secret-key &#34;Arantxa&#34;
+</span></span></code></pre></div><p>Ahora borramos la clave pública.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --delete-key &#34;Arantxa&#34;
+</span></span></code></pre></div><p>Listamos las claves que tenemos para comprobar que se han borrado.</p>
+<p><img src="/img/criptografia/17.png" alt=""></p>
+<h1 id="tarea-4-exportar-clave-a-un-servidor-público-de-claves-pgp">Tarea 4: Exportar clave a un servidor público de claves PGP</h1>
+<hr>
+<h2 id="1-genera-la-clave-de-revocación-de-tu-clave-pública-para-utilizarla-en-caso-de-que-haya-problemas">1. Genera la clave de revocación de tu clave pública para utilizarla en caso de que haya problemas.</h2>
+<p>Gpg generó la clave de revocación automáticamente al crear el par de claves.</p>
+<p><img src="/img/criptografia/18.png" alt=""></p>
+<p>Pero si, por lo que fuera, queremos generar una clave de revocación usamos el comando:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --gen-revoke &#34;Arantxa&#34;
+</span></span></code></pre></div><p><img src="/img/criptografia/19.png" alt=""></p>
+<p>El certificado de revocación es el que he marcado en la captura.</p>
+<p>Al final se nos advierte de conservar de una manera segura el certificado para que nadie pueda inutilizar mi clave. En este caso no me importa mostrarla ya que la clave la borraré al terminar la práctica.</p>
+<h2 id="2-exporta-tu-clave-pública-al-servidor-pgpredirises">2. Exporta tu clave pública al servidor pgp.rediris.es</h2>
+<p>Para exportar la clave usamos el siguiente comando con la ID de la clave:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --keyserver pgp.rediris.es --send-keys 43140D1577041C18C5830A9B195360276022F67D
+</span></span></code></pre></div><p>Cuando he ido a hacer la exportación me ha aparecido el siguiente error:</p>
+<p><img src="/img/criptografia/20.png" alt=""></p>
+<p><img src="/img/criptografia/21.png" alt=""></p>
+<p>El servidor de Rediris está caído, por lo que he subido la clave al servidor keys.openpgp.org.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --keyserver keys.openpgp.org --send-keys 43140D1577041C18C5830A9B195360276022F67D
+</span></span></code></pre></div><p><img src="/img/criptografia/22.png" alt=""></p>
+<p>En el navegador he buscado en keys.openpgp.org la ID de mi clave y aparece la entrada.</p>
+<p><img src="/img/criptografia/23.png" alt=""></p>
+<h2 id="3-borra-la-clave-pública-de-alguno-de-tus-compañeros-de-clase-e-impórtala-ahora-del-servidor-público-de-rediris">3. Borra la clave pública de alguno de tus compañeros de clase e impórtala ahora del servidor público de rediris.</h2>
+<p>Borro la clave de mi compañero como hemos explicado anteriormente.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --delete-key &#34;Arturo Borrero Gonzalez&#34;
+</span></span></code></pre></div><p><img src="/img/criptografia/24.png" alt=""></p>
+<p>Ahora la voy a importar desde el servidor de la siguiente manera:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --keyserver keys.openpgp.org --recv-keys AA66280D4EF0BFCC6BFC2104DA5ECB231C8F04C4
+</span></span></code></pre></div><p><img src="/img/criptografia/25.png" alt=""></p>
+<h1 id="tarea-5-cifrado-asimétrico-con-openssl">Tarea 5: Cifrado asimétrico con openssl</h1>
+<hr>
+<h2 id="1-genera-un-par-de-claves-pública-y-privada">1. Genera un par de claves (pública y privada).</h2>
+<p>Para generar las claves utilizaré genrsa con la opción -aes128 para escribir una frase de paso. El nombre que le he dado al fichero donde se guardarán es clave_arantxa.pem. 2048 es el tamaño en bits que tendrá la clave.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo openssl genrsa -aes128 -out clave_arantxa.pem 2048
+</span></span></code></pre></div><p><img src="/img/criptografia/26.png" alt=""></p>
+<p><img src="/img/criptografia/27.png" alt=""></p>
+<h2 id="2--envía-tu-clave-pública-a-un-compañero">2.  Envía tu clave pública a un compañero.</h2>
+<p>Para enviar la clave pública primero tendremos que extraerla del fichero que se ha creado (ya que en este fichero están ambas claves, pública y privada). Usamos el siguiente comando:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo openssl rsa -in clave_arantxa.pem -pubout &gt; clave_arantxa.pub.pem
+</span></span></code></pre></div><p><img src="/img/criptografia/28.png" alt=""></p>
+<p>He creado el fichero clave_arantxa.pub.pem que contiene mi clave pública, que será el que le envíe a mi compañero a través de correo electrónico.</p>
+<p>Mi compañero a su vez me ha enviado su clave pública.</p>
+<p><img src="/img/criptografia/29.png" alt=""></p>
+<h2 id="3--utilizando-la-clave-pública-cifra-un-fichero-de-texto-y-envíalo-a-tu-compañero">3.  Utilizando la clave pública cifra un fichero de texto y envíalo a tu compañero.</h2>
+<p>Creo un fichero prueba_openssl.txt.</p>
+<p><img src="/img/criptografia/30.png" alt=""></p>
+<p>A continuación cifro el fichero creado del siguiente modo. Tengo que indicar el nombre del fichero que quiero cifrar, el nombre de salida del fichero encriptado y la clave pública que utilizaré:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">openssl rsautl -encrypt -in prueba_openssl.txt -out prueba_openssl.enc -inkey Descargas/arturobg_sslkey.pub.pem -pubin
+</span></span></code></pre></div><p><img src="/img/criptografia/31.png" alt=""></p>
+<p>Le mando el fichero prueba_openssl.enc por correo.</p>
+<h2 id="4--tu-compañero-te-ha-mandado-un-fichero-cifrado-muestra-el-proceso-para-el-descifrado">4.  Tu compañero te ha mandado un fichero cifrado, muestra el proceso para el descifrado.</h2>
+<p>He recibido el siguiente fichero de mi compañero.</p>
+<p><img src="/img/criptografia/33.png" alt=""></p>
+<p>Descifro el fichero con la opción -decrypt. Además tendré que indicar el fichero que quiero descifrar y el nombre que reibirá el fichero descifrado. Por último indicar la clave que se utilizará para descifrarlo, que en mi caso será mi propia clave, ya que suponemos que nuestro compañero a cifrado el fichero con nuestra clave pública. El comando quedaría así:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo openssl rsautl -decrypt -in Descargas/openssl.enc -out openssl.txt -inkey clave_arantxa.pem 
+</span></span></code></pre></div><p><img src="/img/criptografia/34.png" alt=""></p>
+<p>Ya puedo ver el contenido del fichero.</p>
+<p><img src="/img/criptografia/35.png" alt=""></p>
+
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://afermor8.github.io/tags/sad/">SAD</a>&nbsp;
+            
+          </div>
+        
+
+        
+            <hr/>
+            <section id="social-share">
+              <div class="list-inline footer-links">
+                
+
+<div class="share-box" aria-hidden="true">
+    <ul class="share">
+      
+      <li>
+        <a href="//twitter.com/share?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcriptografia1%2f&amp;text=Criptografia%20I.%20Cifrado%20asim%c3%a9trico%20con%20gpg%20y%20openssl&amp;via=" target="_blank" title="Share on Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fafermor8.github.io%2fpost%2fcriptografia1%2f" target="_blank" title="Share on Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//reddit.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcriptografia1%2f&amp;title=Criptografia%20I.%20Cifrado%20asim%c3%a9trico%20con%20gpg%20y%20openssl" target="_blank" title="Share on Reddit">
+          <i class="fab fa-reddit"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcriptografia1%2f&amp;title=Criptografia%20I.%20Cifrado%20asim%c3%a9trico%20con%20gpg%20y%20openssl" target="_blank" title="Share on LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcriptografia1%2f&amp;title=Criptografia%20I.%20Cifrado%20asim%c3%a9trico%20con%20gpg%20y%20openssl" target="_blank" title="Share on StumbleUpon">
+          <i class="fab fa-stumbleupon"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcriptografia1%2f&amp;description=Criptografia%20I.%20Cifrado%20asim%c3%a9trico%20con%20gpg%20y%20openssl" target="_blank" title="Share on Pinterest">
+          <i class="fab fa-pinterest"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+
+              </div>
+            </section>
+        
+
+        
+          
+
+          
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://afermor8.github.io/post/interconexion-bbdd/" data-toggle="tooltip" data-placement="top" title="Interconexion entre BBDD">&larr; Artículo anterior</a>
+            </li>
+          
+          
+        </ul>
+      
+
+
+      
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+      
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+		
+		  <a href="mailto:ara.fer.mor@gmail.com" title="Email me">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://github.com/afermor8" title="GitHub">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://Afermor.slack.com/" title="Slack">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-slack fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://linkedin.com/in/arantxa-f-6136617b" title="LinkedIn">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://telegram.me/arantxipu" title="Telegram">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-telegram fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            <a href="" title="RSS">
+              <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              <a href="afermor8.github.io">afermor8</a>
+            
+          
+
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2022
+          
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="https://gohugo.io">Hugo v0.104.3</a> alimentada &nbsp;&bull;&nbsp; Tema <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adaptado de <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer><script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://afermor8.github.io/js/main.js"></script>
+<script src="https://afermor8.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://afermor8.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>
+

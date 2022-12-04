@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SAD on Mi paso por ASIR Blog</title>
+    <link>https://afermor8.github.io/tags/sad/</link>
+    <description>Recent content in SAD on Mi paso por ASIR Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <managingEditor>ara.fer.mor@gmail.com (afermor8)</managingEditor>
+    <webMaster>ara.fer.mor@gmail.com (afermor8)</webMaster>
+    <lastBuildDate>Sun, 04 Dec 2022 22:05:16 +0100</lastBuildDate><atom:link href="https://afermor8.github.io/tags/sad/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Criptografia I. Cifrado asimétrico con gpg y openssl</title>
+      <link>https://afermor8.github.io/post/criptografia1/</link>
+      <pubDate>Sun, 04 Dec 2022 22:05:16 +0100</pubDate>
+      <author>ara.fer.mor@gmail.com (afermor8)</author>
+      <guid>https://afermor8.github.io/post/criptografia1/</guid>
+      <description>Tarea 1: Generación de claves 1. Genera un par de claves (pública y privada). ¿En que directorio se guarda las claves de un usuario? Para generar las claves utilizamos el siguiente comando:
+gpg --gen-key Nos pedirá nombre y apellidos, correo electrónico y confirmación. Lo próximo que nos pedirá será una frase de paso para proteger la clave privada. La escribimos dos veces y a continuación se generará el par de claves.</description>
+    </item>
+    
+  </channel>
+</rss>

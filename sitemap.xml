@@ -3,19 +3,25 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://afermor8.github.io/</loc>
-    <lastmod>2022-11-24T13:58:18+01:00</lastmod>
+    <lastmod>2022-12-04T22:05:16+01:00</lastmod>
     <priority>0</priority>
+  </url><url>
+    <loc>https://afermor8.github.io/post/criptografia1/</loc>
+    <lastmod>2022-12-04T22:05:16+01:00</lastmod>
+  </url><url>
+    <loc>https://afermor8.github.io/post/</loc>
+    <lastmod>2022-12-04T22:05:16+01:00</lastmod>
+  </url><url>
+    <loc>https://afermor8.github.io/tags/sad/</loc>
+    <lastmod>2022-12-04T22:05:16+01:00</lastmod>
+  </url><url>
+    <loc>https://afermor8.github.io/tags/</loc>
+    <lastmod>2022-12-04T22:05:16+01:00</lastmod>
   </url><url>
     <loc>https://afermor8.github.io/tags/bbdd/</loc>
     <lastmod>2022-11-24T13:58:18+01:00</lastmod>
   </url><url>
     <loc>https://afermor8.github.io/post/interconexion-bbdd/</loc>
-    <lastmod>2022-11-24T13:58:18+01:00</lastmod>
-  </url><url>
-    <loc>https://afermor8.github.io/post/</loc>
-    <lastmod>2022-11-24T13:58:18+01:00</lastmod>
-  </url><url>
-    <loc>https://afermor8.github.io/tags/</loc>
     <lastmod>2022-11-24T13:58:18+01:00</lastmod>
   </url><url>
     <loc>https://afermor8.github.io/post/install-bbdd/</loc>
