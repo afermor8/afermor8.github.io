@@ -7,7 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <managingEditor>ara.fer.mor@gmail.com (afermor8)</managingEditor>
     <webMaster>ara.fer.mor@gmail.com (afermor8)</webMaster>
-    <lastBuildDate>Sun, 04 Dec 2022 22:05:16 +0100</lastBuildDate><atom:link href="https://afermor8.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 19 Dec 2022 18:29:33 +0100</lastBuildDate><atom:link href="https://afermor8.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Criptografía II. Integridad, firmas y autenticación</title>
+      <link>https://afermor8.github.io/post/cripto2/</link>
+      <pubDate>Mon, 19 Dec 2022 18:29:33 +0100</pubDate>
+      <author>ara.fer.mor@gmail.com (afermor8)</author>
+      <guid>https://afermor8.github.io/post/cripto2/</guid>
+      <description>Tarea 1: Firmas electrónicas. En este primer apartado vamos a trabajar con las firmas electrónicas, para ello te pueden ayudar los siguientes enlaces:
+Intercambiar claves Validar otras claves en nuestro anillo de claves públicas Firmado de claves (Debian) GPG
+1. Manda un documento y la firma electrónica del mismo a un compañero. Verifica la firma que tú has recibido Antes de empezar he generado un par de claves con gpg --full-gen-key.</description>
+    </item>
+    
     <item>
       <title>Criptografia I. Cifrado asimétrico con gpg y openssl</title>
       <link>https://afermor8.github.io/post/criptografia1/</link>

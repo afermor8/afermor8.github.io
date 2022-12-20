@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="es" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Criptografía II. Integridad, firmas y autenticación - Mi paso por ASIR Blog</title>
+  <meta name="description" content="Tarea 1: Firmas electrónicas. En este primer apartado vamos a trabajar con las firmas electrónicas, para ello te pueden ayudar los siguientes enlaces:
+Intercambiar claves Validar otras claves en nuestro anillo de claves públicas Firmado de claves (Debian) GPG
+1. Manda un documento y la firma electrónica del mismo a un compañero. Verifica la firma que tú has recibido Antes de empezar he generado un par de claves con gpg --full-gen-key.">
+  <meta name="author" content="afermor8"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Mi paso por ASIR Blog",
+    
+    "url": "https:\/\/afermor8.github.io"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/afermor8.github.io"
+  
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io\/post\/cripto2\/",
+          "name": "Criptografía ii. integridad, firmas y autenticación"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "afermor8"
+  },
+  "headline": "Criptografía II. Integridad, firmas y autenticación",
+  "description" : "Tarea 1: Firmas electrónicas. En este primer apartado vamos a trabajar con las firmas electrónicas, para ello te pueden ayudar los siguientes enlaces:\nIntercambiar claves Validar otras claves en nuestro anillo de claves públicas Firmado de claves (Debian) GPG\n1. Manda un documento y la firma electrónica del mismo a un compañero. Verifica la firma que tú has recibido Antes de empezar he generado un par de claves con gpg --full-gen-key.",
+  "inLanguage" : "es",
+  "wordCount":  3127 ,
+  "datePublished" : "2022-12-19T18:29:33",
+  "dateModified" : "2022-12-19T18:29:33",
+  "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+  "keywords" : [ "SAD" ],
+  "mainEntityOfPage" : "https:\/\/afermor8.github.io\/post\/cripto2\/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https:\/\/afermor8.github.io",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
+
+<meta property="og:title" content="Criptografía II. Integridad, firmas y autenticación" />
+<meta property="og:description" content="Tarea 1: Firmas electrónicas. En este primer apartado vamos a trabajar con las firmas electrónicas, para ello te pueden ayudar los siguientes enlaces:
+Intercambiar claves Validar otras claves en nuestro anillo de claves públicas Firmado de claves (Debian) GPG
+1. Manda un documento y la firma electrónica del mismo a un compañero. Verifica la firma que tú has recibido Antes de empezar he generado un par de claves con gpg --full-gen-key.">
+<meta property="og:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+<meta property="og:url" content="https://afermor8.github.io/post/cripto2/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Mi paso por ASIR Blog" />
+
+  <meta name="twitter:title" content="Criptografía II. Integridad, firmas y autenticación" />
+  <meta name="twitter:description" content="Tarea 1: Firmas electrónicas. En este primer apartado vamos a trabajar con las firmas electrónicas, para ello te pueden ayudar los siguientes enlaces:
+Intercambiar claves Validar otras claves en …">
+  <meta name="twitter:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link href='https://afermor8.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta name="generator" content="Hugo 0.104.3" />
+  <link rel="alternate" href="https://afermor8.github.io/index.xml" type="application/rss+xml" title="Mi paso por ASIR Blog"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://afermor8.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://afermor8.github.io/css/highlight.min.css" /><link rel="stylesheet" href="https://afermor8.github.io/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Conmuta navegación</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/page/about/">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Tags" href="/tags">Tags</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    
+      <div class="avatar-container">
+        <div class="avatar-img-border">
+          <a title="Mi paso por ASIR Blog" href="https://afermor8.github.io">
+            <img class="avatar-img" src="https://afermor8.github.io/img/avatar-icon.png" alt="Mi paso por ASIR Blog" />
+          </a>
+        </div>
+      </div>
+    
+
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+    <div id="header-big-imgs" data-num-img=3 
+      
+         
+          data-img-src-1="/img/triangle.jpg" 
+         
+         data-img-desc-1="Triangle"
+      
+         
+          data-img-src-2="/img/sphere.jpg" 
+         
+         data-img-desc-2="Sphere"
+      
+         
+          data-img-src-3="/img/hexagon.jpg" 
+         
+         data-img-desc-3="Hexagon"
+      ></div>
+  
+
+  <header class="header-section has-img">
+    
+      <div class="intro-header big-img">
+        
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+              <div class="post-heading">
+                <h1>Criptografía II. Integridad, firmas y autenticación</h1>
+                  
+                  
+                    <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el December 19, 2022
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;15&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;3127&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="img-desc" style="display: inline;"></span>
+      </div>
+    
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>Criptografía II. Integridad, firmas y autenticación</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el December 19, 2022
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;15&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;3127&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <hr>
+<h2 id="tarea-1-firmas-electrónicas">Tarea 1: Firmas electrónicas.</h2>
+<hr>
+<p>En este primer apartado vamos a trabajar con las firmas electrónicas, para ello te pueden ayudar los siguientes enlaces:</p>
+<ul>
+<li><a href="https://www.gnupg.org/gph/es/manual/x75.html">Intercambiar claves</a></li>
+<li><a href="https://www.gnupg.org/gph/es/manual/x354.html">Validar otras claves en nuestro anillo de claves públicas</a></li>
+<li><a href="https://www.debian.org/events/keysigning.es.html">Firmado de claves (Debian)</a></li>
+</ul>
+<p><strong>GPG</strong></p>
+<h3 id="1-manda-un-documento-y-la-firma-electrónica-del-mismo-a-un-compañero-verifica-la-firma-que-tú-has-recibido">1. Manda un documento y la firma electrónica del mismo a un compañero. Verifica la firma que tú has recibido</h3>
+<blockquote>
+<p>Antes de empezar he generado un par de claves con <code>gpg --full-gen-key</code>.</p>
+</blockquote>
+<p>Creo un fichero llamado prueba_gpg.txt y lo firmo con mi clave.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">nano prueba_gpg.txt
+</span></span><span class="line"><span class="cl">gpg --detach-sign prueba_gpg.txt
+</span></span></code></pre></div><p>Le he enviado mi documento y la firma del mismo a mi compañero Antonio. Él me ha enviado su documnto y firma del documento. Importo su clave y verifico el documento:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --import antonio_marchan.asc
+</span></span><span class="line"><span class="cl">gpg --verify antonio.sig antonio_documento.txt
+</span></span></code></pre></div><p><img src="/img/cripto2/1.png" alt="verify"></p>
+<h3 id="2-qué-significa-el-mensaje-que-aparece-en-el-momento-de-verificar-la-firma">2. ¿Qué significa el mensaje que aparece en el momento de verificar la firma?</h3>
+<p>Significa que la firma es correcta, pero al no haber firmado la clave con nuestra clave privada o con otra de confianza nos aparece este mensaje de advertencia.</p>
+<h3 id="3-vamos-a-crear-un-anillo-de-confianza-entre-los-miembros-de-nuestra-clase-para-ello">3. Vamos a crear un anillo de confianza entre los miembros de nuestra clase, para ello:</h3>
+<p>Subo mi clave al servidor para que la puedan descargar mis compañeros:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --keyserver keyserver.ubuntu.com --send-keys 43140D1577041C18C5830A9B195360276022F67D
+</span></span></code></pre></div><p>Consigo las firmas de mis compañeros:</p>
+<p><strong>Juan Jesus</strong>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --keyserver keyserver.ubuntu.com --recv-keys 212357B9A18C9EFA3531CDF994615205285D18A5
+</span></span></code></pre></div><p><strong>María</strong>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --keyserver keyserver.ubuntu.com --recv-keys 2614614FABC5378E657019153C7A682537DE4164
+</span></span></code></pre></div><p><strong>Antonio</strong>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --keyserver keyserver.ubuntu.com --recv-keys DFBAF122C0DC0303EC76CE384C6D5995F2B13373
+</span></span></code></pre></div><p>Firmo sus claves:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --sign-key 212357B9A18C9EFA3531CDF994615205285D18A5
+</span></span><span class="line"><span class="cl">gpg --sign-key 2614614FABC5378E657019153C7A682537DE4164
+</span></span><span class="line"><span class="cl">gpg --sign-key DFBAF122C0DC0303EC76CE384C6D5995F2B13373
+</span></span></code></pre></div><p>Ahora debería volver a subir todas las claves firmadas al servidor pero en nuestro caso no funcionaba correctamente por lo que hemos exportado las claves de cada compañero para después enviarsela. Si se quisiera subir al servidor se haría de la siguiente manera:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --keyserver keyserver.ubuntu.com --send-keys 212357B9A18C9EFA3531CDF994615205285D18A5
+</span></span><span class="line"><span class="cl">gpg --keyserver keyserver.ubuntu.com --send-keys 2614614FABC5378E657019153C7A682537DE4164
+</span></span><span class="line"><span class="cl">gpg --keyserver keyserver.ubuntu.com --send-keys DFBAF122C0DC0303EC76CE384C6D5995F2B13373
+</span></span></code></pre></div><p>Exporto las claves en una carpeta que he creado llamada firmas:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">mkdir firmas
+</span></span><span class="line"><span class="cl">cd firmas
+</span></span><span class="line"><span class="cl">gpg --export -a 212357B9A18C9EFA3531CDF994615205285D18A5 &gt; clave-juanje-ara.asc
+</span></span><span class="line"><span class="cl">gpg --export -a 2614614FABC5378E657019153C7A682537DE4164 &gt; clave-maria-ara.asc
+</span></span><span class="line"><span class="cl">gpg --export -a DFBAF122C0DC0303EC76CE384C6D5995F2B13373 &gt; clave-antonio-ara.asc
+</span></span></code></pre></div><p>Le envío las claves de nuevo a cada compañero.
+Me envían ellos a mi la mía firmada por cada uno y las importo:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --import claveArantxa.asc 
+</span></span><span class="line"><span class="cl">gpg --import arantxa_nueva.asc 
+</span></span><span class="line"><span class="cl">gpg --import claveArantxa-maria.asc 
+</span></span></code></pre></div><h3 id="4-muestra-las-firmas-que-tiene-tu-clave-pública">4. Muestra las firmas que tiene tu clave pública.</h3>
+<p>Listamos las claves para comprobar que la mía está firmada por cada uno de mis compañeros:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --list-sig
+</span></span></code></pre></div><p><img src="/img/cripto2/17.png" alt="firmas"></p>
+<h3 id="5-comprueba-que-ya-puedes-verificar-sin-problemas-una-firma-recibida-por-una-persona-en-la-que-confías">5. Comprueba que ya puedes verificar sin “problemas” una firma recibida por una persona en la que confías.</h3>
+<p>Como he firmado la clave de Antonio ya no me aparecerá el mensaje de advertencia que me apareció anteriormente.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --verify antonio.sig antonio_documento.txt
+</span></span></code></pre></div><p><img src="/img/cripto2/5.png" alt="verify-correcto"></p>
+<h3 id="6-comprueba-que-puedes-verificar-con-confianza-una-firma-de-una-persona-en-las-que-no-confías-pero-sin-embargo-sí-confía-otra-persona-en-la-que-tu-tienes-confianza-total">6. Comprueba que puedes verificar con confianza una firma de una persona en las que no confías, pero sin embargo sí confía otra persona en la que tu tienes confianza total.</h3>
+<p>Para este ejercicio la persona con confianza absoluta será Juan Jesús y la persona en la que no confío será Felipe.</p>
+<p>Voy a firmar con confianza absoluta la clave de Juan Jesús.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --edit-key 212357B9A18C9EFA3531CDF994615205285D18A5
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">trust
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">5
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">quit
+</span></span></code></pre></div><p><img src="/img/cripto2/18.png" alt="confianza-absoluta"></p>
+<p>A continuación Juan Jesús me envía la clave de Felipe firmada por él con confianza absoluta. La importo:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --import felipefirmada-juanje.asc
+</span></span></code></pre></div><p>Por último, Felipe me envía un fichero firmado por él y debería poder verificarlo sin que me apareciera ningún mensaje de advertencia.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --verify sad.txt.sig sad.txt
+</span></span></code></pre></div><p><img src="/img/cripto2/4.png" alt="verify-felipe"></p>
+<hr>
+<h2 id="tarea-2-correo-seguro-con-evolutionthunderbird">Tarea 2: Correo seguro con evolution/thunderbird</h2>
+<hr>
+<p>Ahora vamos a configurar nuestro cliente de correo electrónico para poder mandar correos cifrados, para ello:</p>
+<h3 id="1-configura-el-cliente-de-correo-evolution-con-tu-cuenta-de-correo-habitual">1. Configura el cliente de correo evolution con tu cuenta de correo habitual</h3>
+<p>Para empezar instalo thunderbird:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo apt install thunderbird thunderbird-l10n-es-es
+</span></span></code></pre></div><p>Iniciamos thunderbird y nos aparecerá la pestaña de la captura. Añadimos nuestra cuenta de correo.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">thunderbird
+</span></span></code></pre></div><p><img src="/img/cripto2/6.png" alt="thunderbird"></p>
+<p>Comprobamos que se ha creado correctamente:</p>
+<p><img src="/img/cripto2/7.png" alt="thunderbird-conexion"></p>
+<p><img src="/img/cripto2/19.png" alt="thunderbird-conexion"></p>
+<h3 id="2-añade-a-la-cuenta-las-opciones-de-seguridad-para-poder-enviar-correos-firmados-con-tu-clave-privada-o-cifrar-los-mensajes-para-otros-destinatarios">2. Añade a la cuenta las opciones de seguridad para poder enviar correos firmados con tu clave privada o cifrar los mensajes para otros destinatarios</h3>
+<p>En el desplegable de arriba a la derecha hacemos click sobre &ldquo;Configuración de la cuenta&rdquo;.</p>
+<p><img src="/img/cripto2/20.png" alt="thunderbird-config"></p>
+<p>En la pestaña que se abre hacer seleccionamos &ldquo;Cifrado extremo a extremo&rdquo;. Importo mi clave personal OpenPGP.</p>
+<p><img src="/img/cripto2/8.png" alt="thunderbird-clave"></p>
+<p><img src="/img/cripto2/9.png" alt="thunderbird-clave2"></p>
+<p><img src="/img/cripto2/10.png" alt="thunderbird-clave3"></p>
+<p>Vamos a la opción &ldquo;Administrador de claves OpenPGP&rdquo;.</p>
+<p><img src="/img/cripto2/21.png" alt="thunderbird-clave4"></p>
+<p>Hacemos click en &ldquo;Importar clave pública desde archivo&rdquo; y añado la clave de Juan Jesús.</p>
+<p><img src="/img/cripto2/22.png" alt="thunderbird-clave5"></p>
+<p>Importamos y ya nos aparecerá la clave.</p>
+<p><img src="/img/cripto2/23.png" alt="thunderbird-clave6"></p>
+<p><img src="/img/cripto2/11.png" alt="thunderbird-clave7"></p>
+<p><img src="/img/cripto2/12.png" alt="thunderbird-clave8"></p>
+<h3 id="3-envía-y-recibe-varios-mensajes-con-tus-compañeros-y-comprueba-el-funcionamiento-adecuado-de-gpg">3. Envía y recibe varios mensajes con tus compañeros y comprueba el funcionamiento adecuado de GPG</h3>
+<p>Le envío un correo cifrado a Juan Jesús. Al escribir su correo electrónico (el mismo que el de la clave pública que añadimos anteriormente) nos aparece la opción &ldquo;Cifrar&rdquo;. Escribimos el correo y lo mandamos cifrado:</p>
+<p><img src="/img/cripto2/24.png" alt="thunderbird-correo-juanje"></p>
+<p>Vemos que al enviarse el correo cifrado nos aparece un archivo adjunto con la firma del correo.</p>
+<p><img src="/img/cripto2/25.png" alt="thunderbird-correo-juanje2"></p>
+<p>Juan Jesús me envía a mi un correo y compruebo que se puede leer a pesar de estar cifrado.</p>
+<p><img src="/img/cripto2/13.png" alt="thunderbird-correo"></p>
+<p>Si intento ver el correo desde Gmail no aparecerá el contenido, ya que está cifrado y no tengo la clave añadida a Gmail.</p>
+<p><img src="/img/cripto2/14.png" alt="thunderbird-correo2"></p>
+<h3 id="4-enviar-al-profesor-por-correo-electrónico-un-mensaje-firmado-por-vosotros-y-que-solo-pueda-descifrar-él">4. Enviar al profesor por correo electrónico un mensaje firmado por vosotros y que solo pueda descifrar él</h3>
+<p>Descargo la clave pública de Raúl y la exporto:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --keyserver keyserver.ubuntu.com --recv-keys 8DEB2BE5
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">gpg --export -a 8DEB2BE5 &gt; claveRAUL.asc
+</span></span></code></pre></div><p>Añado la clave de Raúl a Thunderbird.</p>
+<p><img src="/img/cripto2/15.png" alt="clave-raul"></p>
+<p>Le envío un correo.</p>
+<p><img src="/img/cripto2/16.png" alt="correo-raul"></p>
+<hr>
+<h2 id="tarea-3-integridad-de-ficheros">Tarea 3: Integridad de ficheros</h2>
+<hr>
+<p>Vamos a descargarnos la ISO de debian, y posteriormente vamos a comprobar su integridad.</p>
+<p>Puedes encontrar la ISO en la dirección: <a href="https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/">https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/</a>.</p>
+<h3 id="1-para-validar-el-contenido-de-la-imagen-cd-solo-asegúrese-de-usar-la-herramienta-apropiada-para-sumas-de-verificación-para-cada-versión-publicada-existen-archivos-de-suma-de-comprobación-con-algoritmos-fuertes-sha256-y-sha512-debería-usar-las-herramientas-sha256sum-o-sha512sum-para-trabajar-con-ellos">1. Para validar el contenido de la imagen CD, solo asegúrese de usar la herramienta apropiada para sumas de verificación. Para cada versión publicada existen archivos de suma de comprobación con algoritmos fuertes (SHA256 y SHA512); debería usar las herramientas sha256sum o sha512sum para trabajar con ellos</h3>
+<p>Descargamos con wget la ISO de Debian 11, los ficheros SHA256SUMS y SHA512SUMS, y sus firmas SHA256SUMS.sign y SHA512SUMS.sign.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-11.6.0-amd64-netinst.iso
+</span></span><span class="line"><span class="cl">wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA256SUMS
+</span></span><span class="line"><span class="cl">wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA256SUMS.sign
+</span></span><span class="line"><span class="cl">wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA512SUMS
+</span></span><span class="line"><span class="cl">wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA512SUMS.sign
+</span></span></code></pre></div><p>Los ficheros SHA256SUMS y SHA512SUMS contienen el hash de los tres ficheros de descarga de Debian disponibles en la web. Como yo he descargado debian-11.6.0-amd64-netinst.iso, los hashes que pertenecen a mi fichero son los primeros.</p>
+<p><img src="/img/cripto2/26.png" alt="contenido-ficheros"></p>
+<p>Si usamos las utilidades <strong><code>sha256sum</code></strong> y <strong><code>sha512sum</code></strong> en el fichero ISO de debian nos aparecerá el hash de este. Solo tendremos que comparar si es igual que el de los ficheros que hemos visto en la captura anterior para saber si el archivo ISO ha sido modificado o no.</p>
+<p><img src="/img/cripto2/28.png" alt="comparación-hashes"></p>
+<p>O lo podemos hacer con la opción -c.</p>
+<p><img src="/img/cripto2/29.png" alt="comparación-hashes"></p>
+<h3 id="2-verifica-que-el-contenido-del-hash-que-has-utilizado-no-ha-sido-manipulado-usando-la-firma-digital-que-encontrarás-en-el-repositorio-puedes-encontrar-una-guía-para-realizarlo-en-este-artículo-how-to-verify-an-authenticity-of-downloaded-debian-iso-imageshttpslinuxconfigorghow-to-verify-an-authenticity-of-downloaded-debian-iso-images-tenemos-que-asegurarnos-además-de-que-los-ficheros-donde-se-encuentran-las-claves-no-han-sido-modificados">2. Verifica que el contenido del hash que has utilizado no ha sido manipulado, usando la firma digital que encontrarás en el repositorio. Puedes encontrar una guía para realizarlo en este artículo: <a href="https://linuxconfig.org/how-to-verify-an-authenticity-of-downloaded-debian-iso-images">How to verify an authenticity of downloaded Debian ISO images</a>. Tenemos que asegurarnos además de que los ficheros donde se encuentran las claves no han sido modificados.</h3>
+<p>Descargamos del servidor <strong>keyring.debian.org</strong> la clave pública de Debian.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --keyserver keyring.debian.org --recv-keys 6294BE9B
+</span></span></code></pre></div><p><img src="/img/cripto2/27.png" alt="clave-debian"></p>
+<p>Y ya podremos comprobar con <strong><code>--verify</code></strong> que los ficheros descargados no han sido modificados y las claves son correctas.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gpg --verify SHA256SUMS.sign SHA256SUMS
+</span></span><span class="line"><span class="cl">gpg --verify SHA512SUMS.sign SHA512SUMS
+</span></span></code></pre></div><p><img src="/img/cripto2/30.png" alt="clave-debian"></p>
+<hr>
+<h2 id="tarea-4-integridad-y-autenticidad-apt-secure">Tarea 4: Integridad y autenticidad (apt secure)</h2>
+<hr>
+<p>Cuando nos instalamos un paquete en nuestra distribución linux tenemos que asegurarnos que ese paquete es legítimo. Para conseguir este objetivo se utiliza criptografía asimétrica, y en el caso de Debian a este sistema se llama apt secure. Esto lo debemos tener en cuenta al utilizar los repositorios oficiales. Cuando añadamos nuevos repositorios tendremos que añadir las firmas necesarias para confiar en que los paquetes son legítimos y no han sido modificados.</p>
+<p>Busca información sobre apt secure y responde las siguientes preguntas:</p>
+<h3 id="1-qué-software-utiliza-apt-secure-para-realizar-la-criptografía-asimétrica">1. ¿Qué software utiliza apt secure para realizar la criptografía asimétrica?</h3>
+<p>APT utiliza el sistema de criptografía GPG (GNU Privacy Guard) para validar los paquetes .deb descargados y, de esta forma, asegurarse de que no han sido alterados. A esto se le llama Secure APT.</p>
+<h3 id="2-para-que-sirve-el-comando-apt-key-qué-muestra-el-comando-apt-key-list">2. ¿Para que sirve el comando apt-key? ¿Qué muestra el comando apt-key list?</h3>
+<p>El comando <strong><code>apt-key</code></strong> sirve para gestionar la lista de claves de confianza para autenticar los paquetes .deb. Algunas opciones disponibles para este comando son:</p>
+<ul>
+<li><code>apt-key add &lt;file&gt;</code>: Añade la clave contenida en &ldquo;file&rdquo;</li>
+<li><code>apt-key del &lt;keyid&gt;</code>: Elimina la clave &ldquo;keyid&rdquo;</li>
+<li><code>apt-key export &lt;keyid&gt;</code>: Exporta la clave &ldquo;keyid&rdquo;</li>
+<li><code>apt-key exportall</code>: Exporta todas las claves de confianza</li>
+<li><code>apt-key update</code>: Actualiza las claves usando el paquete keyring</li>
+<li><code>apt-key net-update</code>: Actualiza las claves usando la misma red</li>
+<li><code>apt-key list</code>: Lista las claves</li>
+<li><code>apt-key finger</code>: Lista los fingerprint</li>
+</ul>
+<p>Con el comando <strong><code>apt-key list</code></strong>, como hemos dicho se muestran las claves de confianza para APT. En mi caso son las siguientes:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">usuario@debian-oracle:~/firmas$ apt-key list
+</span></span><span class="line"><span class="cl">Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
+</span></span><span class="line"><span class="cl">/etc/apt/trusted.gpg
+</span></span><span class="line"><span class="cl">--------------------
+</span></span><span class="line"><span class="cl">pub   rsa4096 2021-12-14 [SC] [caduca: 2023-12-14]
+</span></span><span class="line"><span class="cl">      859B E8D7 C586 F538 430B  19C2 467B 942D 3A79 BD29
+</span></span><span class="line"><span class="cl">uid        [desconocida] MySQL Release Engineering &lt;mysql-build@oss.oracle.com&gt;
+</span></span><span class="line"><span class="cl">sub   rsa4096 2021-12-14 [E] [caduca: 2023-12-14]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">pub   rsa4096 2019-05-28 [SC] [caduca: 2024-05-26]
+</span></span><span class="line"><span class="cl">      2069 1EEC 3521 6C63 CAF6  6CE1 6564 08E3 90CF B1F5
+</span></span><span class="line"><span class="cl">uid        [desconocida] MongoDB 4.4 Release Signing Key &lt;packaging@mongodb.com&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">pub   rsa4096 2021-02-16 [SC] [caduca: 2026-02-15]
+</span></span><span class="line"><span class="cl">      F567 9A22 2C64 7C87 527C  2F8C B00A 0BD1 E2C6 3C11
+</span></span><span class="line"><span class="cl">uid        [desconocida] MongoDB 5.0 Release Signing Key &lt;packaging@mongodb.com&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/etc/apt/trusted.gpg.d/debian-archive-bullseye-automatic.gpg
+</span></span><span class="line"><span class="cl">------------------------------------------------------------
+</span></span><span class="line"><span class="cl">pub   rsa4096 2021-01-17 [SC] [caduca: 2029-01-15]
+</span></span><span class="line"><span class="cl">      1F89 983E 0081 FDE0 18F3  CC96 73A4 F27B 8DD4 7936
+</span></span><span class="line"><span class="cl">uid        [desconocida] Debian Archive Automatic Signing Key (11/bullseye) &lt;ftpmaster@debian.org&gt;
+</span></span><span class="line"><span class="cl">sub   rsa4096 2021-01-17 [S] [caduca: 2029-01-15]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/etc/apt/trusted.gpg.d/debian-archive-bullseye-security-automatic.gpg
+</span></span><span class="line"><span class="cl">---------------------------------------------------------------------
+</span></span><span class="line"><span class="cl">pub   rsa4096 2021-01-17 [SC] [caduca: 2029-01-15]
+</span></span><span class="line"><span class="cl">      AC53 0D52 0F2F 3269 F5E9  8313 A484 4904 4AAD 5C5D
+</span></span><span class="line"><span class="cl">uid        [desconocida] Debian Security Archive Automatic Signing Key (11/bullseye) &lt;ftpmaster@debian.org&gt;
+</span></span><span class="line"><span class="cl">sub   rsa4096 2021-01-17 [S] [caduca: 2029-01-15]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/etc/apt/trusted.gpg.d/debian-archive-bullseye-stable.gpg
+</span></span><span class="line"><span class="cl">---------------------------------------------------------
+</span></span><span class="line"><span class="cl">pub   rsa4096 2021-02-13 [SC] [caduca: 2029-02-11]
+</span></span><span class="line"><span class="cl">      A428 5295 FC7B 1A81 6000  62A9 605C 66F0 0D6C 9793
+</span></span><span class="line"><span class="cl">uid        [desconocida] Debian Stable Release Key (11/bullseye) &lt;debian-release@lists.debian.org&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/etc/apt/trusted.gpg.d/debian-archive-buster-automatic.gpg
+</span></span><span class="line"><span class="cl">----------------------------------------------------------
+</span></span><span class="line"><span class="cl">pub   rsa4096 2019-04-14 [SC] [caduca: 2027-04-12]
+</span></span><span class="line"><span class="cl">      80D1 5823 B7FD 1561 F9F7  BCDD DC30 D7C2 3CBB ABEE
+</span></span><span class="line"><span class="cl">uid        [desconocida] Debian Archive Automatic Signing Key (10/buster) &lt;ftpmaster@debian.org&gt;
+</span></span><span class="line"><span class="cl">sub   rsa4096 2019-04-14 [S] [caduca: 2027-04-12]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/etc/apt/trusted.gpg.d/debian-archive-buster-security-automatic.gpg
+</span></span><span class="line"><span class="cl">-------------------------------------------------------------------
+</span></span><span class="line"><span class="cl">pub   rsa4096 2019-04-14 [SC] [caduca: 2027-04-12]
+</span></span><span class="line"><span class="cl">      5E61 B217 265D A980 7A23  C5FF 4DFA B270 CAA9 6DFA
+</span></span><span class="line"><span class="cl">uid        [desconocida] Debian Security Archive Automatic Signing Key (10/buster) &lt;ftpmaster@debian.org&gt;
+</span></span><span class="line"><span class="cl">sub   rsa4096 2019-04-14 [S] [caduca: 2027-04-12]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/etc/apt/trusted.gpg.d/debian-archive-buster-stable.gpg
+</span></span><span class="line"><span class="cl">-------------------------------------------------------
+</span></span><span class="line"><span class="cl">pub   rsa4096 2019-02-05 [SC] [caduca: 2027-02-03]
+</span></span><span class="line"><span class="cl">      6D33 866E DD8F FA41 C014  3AED DCC9 EFBF 77E1 1517
+</span></span><span class="line"><span class="cl">uid        [desconocida] Debian Stable Release Key (10/buster) &lt;debian-release@lists.debian.org&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/etc/apt/trusted.gpg.d/debian-archive-stretch-automatic.gpg
+</span></span><span class="line"><span class="cl">-----------------------------------------------------------
+</span></span><span class="line"><span class="cl">pub   rsa4096 2017-05-22 [SC] [caduca: 2025-05-20]
+</span></span><span class="line"><span class="cl">      E1CF 20DD FFE4 B89E 8026  58F1 E0B1 1894 F66A EC98
+</span></span><span class="line"><span class="cl">uid        [desconocida] Debian Archive Automatic Signing Key (9/stretch) &lt;ftpmaster@debian.org&gt;
+</span></span><span class="line"><span class="cl">sub   rsa4096 2017-05-22 [S] [caduca: 2025-05-20]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/etc/apt/trusted.gpg.d/debian-archive-stretch-security-automatic.gpg
+</span></span><span class="line"><span class="cl">--------------------------------------------------------------------
+</span></span><span class="line"><span class="cl">pub   rsa4096 2017-05-22 [SC] [caduca: 2025-05-20]
+</span></span><span class="line"><span class="cl">      6ED6 F5CB 5FA6 FB2F 460A  E88E EDA0 D238 8AE2 2BA9
+</span></span><span class="line"><span class="cl">uid        [desconocida] Debian Security Archive Automatic Signing Key (9/stretch) &lt;ftpmaster@debian.org&gt;
+</span></span><span class="line"><span class="cl">sub   rsa4096 2017-05-22 [S] [caduca: 2025-05-20]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/etc/apt/trusted.gpg.d/debian-archive-stretch-stable.gpg
+</span></span><span class="line"><span class="cl">--------------------------------------------------------
+</span></span><span class="line"><span class="cl">pub   rsa4096 2017-05-20 [SC] [caduca: 2025-05-18]
+</span></span><span class="line"><span class="cl">      067E 3C45 6BAE 240A CEE8  8F6F EF0F 382A 1A7B 6500
+</span></span><span class="line"><span class="cl">uid        [desconocida] Debian Stable Release Key (9/stretch) &lt;debian-release@lists.debian.org&gt;
+</span></span></code></pre></div><h3 id="3-en-que-fichero-se-guarda-el-anillo-de-claves-que-guarda-la-herramienta-apt-key">3. En que fichero se guarda el anillo de claves que guarda la herramienta apt-key?</h3>
+<p>El anillo de claves se irá guardando por defecto en <strong>/etc/apt/trusted.gpg</strong>, aunque también se guardarán algunas clavez en <strong>/etc/apt/trusted.gpg.d</strong>.</p>
+<h3 id="4-qué-contiene-el-archivo-release-de-un-repositorio-de-paquetes-y-el-archivo-releasegpg-puedes-ver-estos-archivos-en-el-repositorio-httpftpdebianorgdebiandistsdebian116-estos-archivos-se-descargan-cuando-hacemos-un-apt-update">4. ¿Qué contiene el archivo Release de un repositorio de paquetes?. ¿Y el archivo Release.gpg?. Puedes ver estos archivos en el repositorio <a href="http://ftp.debian.org/debian/dists/Debian11.6/">http://ftp.debian.org/debian/dists/Debian11.6/</a>. Estos archivos se descargan cuando hacemos un apt update</h3>
+<p><strong>Release</strong> contiene una lista de los archivos Packages, y sus hash md5sum, sha1sum y sha256sum.</p>
+<p><strong>Release.gpg</strong> contiene la firma del archivo Release.</p>
+<h3 id="5-explica-el-proceso-por-el-cual-el-sistema-nos-asegura-que-los-ficheros-que-estamos-descargando-son-legítimos">5. Explica el proceso por el cual el sistema nos asegura que los ficheros que estamos descargando son legítimos</h3>
+<p><strong>Apt secure</strong> funciona de la siguiente manera:</p>
+<ul>
+<li>Cuando nos conectamos a un repositorio de paquetes .deb, APT descarga los archivos <strong>Packages.gz</strong> (que contiene el archivo Packages comprimido), <strong>Release</strong> y <strong>Release.gpg</strong>. Cuando nos descargamos un paquete binario .deb APT comprueba que su md5sum coincide con la que figura en Packages.</li>
+<li>Para asegurarse de que el archivo <strong>Packages</strong> no ha sido alterado, APT comprueba que su <strong>md5sum</strong> coincide con la que figura en <strong>Release</strong>. Como hemos dicho, release contiene una lista de los archivos Packages, y sus hash md5sum, sha1sum y sha256sum. De esta forma se puede verificar que los ficheros Packages no han sido manipulados, llevando a cabo una comparación del hash que se nos ha facilitado con el hash calculado del fichero descargado.</li>
+<li>Para asegurarse de que el archivo <strong>Release</strong> no ha sido alterado, APT comprueba su firma en el archivo <strong>Release.pgp</strong>. Para ello, APT debe conocer la <strong>clave pública</strong> del que firma el archivo, es decir, esa clave pública debe estar en el archivo <em><strong>/etc/apt/trusted.gpg</strong></em> o <em><strong>/etc/apt/trusted.gpg.d</strong></em>.</li>
+</ul>
+<h3 id="6-añade-de-forma-correcta-el-repositorio-de-virtualbox-añadiendo-la-clave-pública-de-virtualbox-como-se-indica-en-la-documentación">6. Añade de forma correcta el repositorio de virtualbox añadiendo la clave pública de virtualbox como se indica en la documentación.</h3>
+<p>Intento instalar Virtualbox y vemos que no podemos ya que no está añadido el repositorio a <em><strong>/etc/apt/sources.list</strong></em>.</p>
+<p><img src="/img/cripto2/31.png" alt="virtualbox-fallo-instalacion"></p>
+<p>Añado el repositorio de Virtualbox:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">echo &#34;deb https://download.virtualbox.org/virtualbox/debian bullseye contrib&#34; | sudo tee /etc/apt/sources.list.d/virtualbox.list
+</span></span></code></pre></div><p>Añado las claves públicas de Virtualbox:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+</span></span><span class="line"><span class="cl">wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+</span></span></code></pre></div><p>Actualizamos los paquetes y comprobamos que ahora sí podemos instalar Virtualbox, elegimos la versión 7.0.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt install virtualbox-7.0
+</span></span></code></pre></div><p><img src="/img/cripto2/32.png" alt="virtualbox-elegir-version"></p>
+<p><img src="/img/cripto2/33.png" alt="virtualbox-instalacion"></p>
+<hr>
+<h2 id="tarea-5-autentificación-ejemplo-ssh">Tarea 5: Autentificación: ejemplo SSH</h2>
+<hr>
+<p>Vamos a estudiar como la criptografía nos ayuda a cifrar las comunicaciones que hacemos utilizando el protocolo ssh, y cómo nos puede servir también para conseguir que un cliente se autentifique contra el servidor. Responde las siguientes cuestiones:</p>
+<h3 id="1-explica-los-pasos-que-se-producen-entre-el-cliente-y-el-servidor-para-que-el-protocolo-cifre-la-información-que-se-transmite-para-qué-se-utiliza-la-criptografía-simétrica-y-la-asimétrica">1. Explica los pasos que se producen entre el cliente y el servidor para que el protocolo cifre la información que se transmite? ¿Para qué se utiliza la criptografía simétrica? ¿Y la asimétrica?</h3>
+<p>Para establecer una conexión cliente y servidor, el cliente debe iniciar la conexión SSH iniciando el protocolo TCP con el servidor, se creará una conexión simétrica segura, y se verificará si la identidad mostrada por el servidor coincide con los registros anteriores (grabados en un archivo de almacén de claves RSA). Por último se autenticará la conexión mediante credenciales de usuario o utilizando par de claves públicas y privadas.
+A continuación se explica más detalladamente el establecimiento de la conexión:</p>
+<ul>
+<li>Cuando un cliente intenta conectarse, el servidor presenta los protocolos de cifrado y las versiones respectivas que soporta. Si el cliente tiene un par similar de protocolo y versión, se alcanza un acuerdo y se inicia la conexión con el protocolo aceptado.</li>
+<li>Utilizando el protocolo de cifrado acordado, ambas partes usan un Algoritmo de Intercambio de Claves llamado Diffie-Hellman para crear una clave simétrica compartida. La clave se utilizará en adelante para cifrar toda la sesión de comunicación. La clave simétrica solo podrá ser conocida por los dos equipos que realizan la comunicación de forma que esta comunicación no podrá ser interceptada. La clave secreta será específica para cada sesión SSH y se genera antes de la autenticación del cliente. Todos los paquetes que se envíen entre cliente y servidor serán cifrados por la clave, de esta forma, si el cliente se autentifica mediante contraseña, las credenciales estarán protegidas.</li>
+<li>Una vez establecida la sesión cifrada simétricamente el usuario deberá ser autenticado. Aunque las contraseñas se cifran con el método anterior, para tener una conexión segura no se recomienda usar contraseña, sino un par de claves SSH. Es decir, una clave pública y otra privada utilizadas para autenticar al usuario sin necesidad de introducir ninguna contraseña. El cifrado asimétrico no se utiliza para cifrar toda la sesión SSH, sólo se utiliza durante el algoritmo de intercambio de claves de cifrado simétrico.</li>
+</ul>
+<h3 id="2-explica-los-dos-métodos-principales-de-autentificación-por-contraseña-y-utilizando-un-par-de-claves-públicas-y-privadas">2. Explica los dos métodos principales de autentificación: por contraseña y utilizando un par de claves públicas y privadas.</h3>
+<ul>
+<li>
+<p><strong>Por contraseña</strong>: como se explicó en el punto anterior, cuando el cliente se autentifica por contraseña, el servidor  pedirá las credenciales asociadas al usuario con el que se conecta. La contraseña será cifrada simétricamente.</p>
+</li>
+<li>
+<p><strong>Mediante par de claves</strong>: en el fichero ~/.ssh/authorized_keys del servidor estará guardada la clave pública del cliente. Cuando el cliente intente iniciar sesión el servidor desconfiará y mandará un mensaje encriptado con la clave pública al cliente. El cliente deberá descifrar el mensaje haciendo uso de la clave privada asociada a esa clave pública.</p>
+</li>
+</ul>
+<h3 id="3-en-el-cliente-para-que-sirve-el-contenido-que-se-guarda-en-el-fichero-sshknow_hosts">3. En el cliente para que sirve el contenido que se guarda en el fichero ~/.ssh/know_hosts?</h3>
+<p>En caso de que se establezca conexión entre cliente y servidor mediante ssh por primera vez, se añadirá la clave del host al fichero situado en <strong>~/.ssh/known_hosts</strong>. Por tanto en este fichero estarán las claves de todos los host a los que nos conectemos. Al permanecer guardados, la siguiente vez que nos conectemos lo primero que hará será buscar en este fichero para comprobar si es de confianza, por tanto no nos volverá a preguntar si queremos continuar con la conexión.</p>
+<h3 id="4-qué-significa-este-mensaje-que-aparece-la-primera-vez-que-nos-conectamos-a-un-servidor">4. ¿Qué significa este mensaje que aparece la primera vez que nos conectamos a un servidor?</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">     $ ssh debian@172.22.200.74
+</span></span><span class="line"><span class="cl">     The authenticity of host &#39;172.22.200.74 (172.22.200.74)&#39; can&#39;t be established.
+</span></span><span class="line"><span class="cl">     ECDSA key fingerprint is SHA256:7ZoNZPCbQTnDso1meVSNoKszn38ZwUI4i6saebbfL4M.
+</span></span><span class="line"><span class="cl">     Are you sure you want to continue connecting (yes/no)? 
+</span></span></code></pre></div><p>Como hemos dicho, la primera vez que nos conectamos por ssh a un servidor nos aparece este mensaje de confirmación. Al ser la primera vez que nos conectamos, el sistema no sabe si es un sitio seguro por lo que nos preguntará si estamos seguros de seguir con la conexión. Nosotros como clientes podemos continuar con la conexión o rechazarla dependiendo de si confiamos en el servidor.</p>
+<h3 id="5-en-ocasiones-cuando-estamos-trabajando-en-el-cloud-y-reutilizamos-una-ip-flotante-nos-aparece-este-mensaje">5. En ocasiones cuando estamos trabajando en el cloud, y reutilizamos una ip flotante nos aparece este mensaje:</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">     $ ssh debian@172.22.200.74
+</span></span><span class="line"><span class="cl">     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+</span></span><span class="line"><span class="cl">     @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+</span></span><span class="line"><span class="cl">     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+</span></span><span class="line"><span class="cl">     IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+</span></span><span class="line"><span class="cl">     Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+</span></span><span class="line"><span class="cl">     It is also possible that a host key has just been changed.
+</span></span><span class="line"><span class="cl">     The fingerprint for the ECDSA key sent by the remote host is
+</span></span><span class="line"><span class="cl">     SHA256:W05RrybmcnJxD3fbwJOgSNNWATkVftsQl7EzfeKJgNc.
+</span></span><span class="line"><span class="cl">     Please contact your system administrator.
+</span></span><span class="line"><span class="cl">     Add correct host key in /home/jose/.ssh/known_hosts to get rid of this message.
+</span></span><span class="line"><span class="cl">     Offending ECDSA key in /home/jose/.ssh/known_hosts:103
+</span></span><span class="line"><span class="cl">       remove with:
+</span></span><span class="line"><span class="cl">       ssh-keygen -f &#34;/home/jose/.ssh/known_hosts&#34; -R &#34;172.22.200.74&#34;
+</span></span><span class="line"><span class="cl">     ECDSA host key for 172.22.200.74 has changed and you have requested strict checking.
+</span></span></code></pre></div><p>Si la clave del host asociada a una dirección IP cambia, a la hora de realizar una conexión SSH nos aparecerá este mensaje, ya que la clave del host actual no coincide con la guardada en el fichero ~/.ssh/known_hosts.</p>
+<p>Si estamos seguros de que esa es la IP y de que la clave del host ha podido cambiar podremos solucionar este problema borrando la línea correspondiente a dicho host en el fichero ~/.ssh/known_hosts, como nos dice el mensaje de advertencia anterior que hagamos.</p>
+<h3 id="6-qué-guardamos-y-para-qué-sirve-el-fichero-en-el-servidor-sshauthorized_keys">6. ¿Qué guardamos y para qué sirve el fichero en el servidor ~/.ssh/authorized_keys?</h3>
+<p>Es un fichero que contiene una lista de las claves públicas de los sistemas que están autorizados a conectarse al servidor.</p>
+<p>En el lado del servidor el demonio SSH verifica si la clave SSH es correcta o no mediante el cálculo de la huella digital de la clave SSH. Si la clave SSH es correcta, permite que el usuario inicie sesión sin pedir usuario ni contraseña.</p>
+
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://afermor8.github.io/tags/sad/">SAD</a>&nbsp;
+            
+          </div>
+        
+
+        
+            <hr/>
+            <section id="social-share">
+              <div class="list-inline footer-links">
+                
+
+<div class="share-box" aria-hidden="true">
+    <ul class="share">
+      
+      <li>
+        <a href="//twitter.com/share?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcripto2%2f&amp;text=Criptograf%c3%ada%20II.%20Integridad%2c%20firmas%20y%20autenticaci%c3%b3n&amp;via=" target="_blank" title="Share on Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fafermor8.github.io%2fpost%2fcripto2%2f" target="_blank" title="Share on Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//reddit.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcripto2%2f&amp;title=Criptograf%c3%ada%20II.%20Integridad%2c%20firmas%20y%20autenticaci%c3%b3n" target="_blank" title="Share on Reddit">
+          <i class="fab fa-reddit"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcripto2%2f&amp;title=Criptograf%c3%ada%20II.%20Integridad%2c%20firmas%20y%20autenticaci%c3%b3n" target="_blank" title="Share on LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcripto2%2f&amp;title=Criptograf%c3%ada%20II.%20Integridad%2c%20firmas%20y%20autenticaci%c3%b3n" target="_blank" title="Share on StumbleUpon">
+          <i class="fab fa-stumbleupon"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcripto2%2f&amp;description=Criptograf%c3%ada%20II.%20Integridad%2c%20firmas%20y%20autenticaci%c3%b3n" target="_blank" title="Share on Pinterest">
+          <i class="fab fa-pinterest"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+
+              </div>
+            </section>
+        
+
+        
+          
+            
+          
+
+          
+                  <h4 class="see-also">Ver también</h4>
+                  <ul>
+                
+                
+                    <li><a href="/post/criptografia1/">Criptografia I. Cifrado asimétrico con gpg y openssl</a></li>
+                
+              </ul>
+
+          
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://afermor8.github.io/post/criptografia1/" data-toggle="tooltip" data-placement="top" title="Criptografia I. Cifrado asimétrico con gpg y openssl">&larr; Artículo anterior</a>
+            </li>
+          
+          
+        </ul>
+      
+
+
+      
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+      
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+		
+		  <a href="mailto:ara.fer.mor@gmail.com" title="Email me">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://github.com/afermor8" title="GitHub">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://Afermor.slack.com/" title="Slack">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-slack fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://linkedin.com/in/arantxa-f-6136617b" title="LinkedIn">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://telegram.me/arantxipu" title="Telegram">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-telegram fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            <a href="" title="RSS">
+              <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              <a href="afermor8.github.io">afermor8</a>
+            
+          
+
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2022
+          
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="https://gohugo.io">Hugo v0.104.3</a> alimentada &nbsp;&bull;&nbsp; Tema <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adaptado de <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer><script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://afermor8.github.io/js/main.js"></script>
+<script src="https://afermor8.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://afermor8.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>
+
