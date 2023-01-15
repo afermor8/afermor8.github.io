@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="es" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Criptografía III. Certificados digiales. HTTPS - Mi paso por ASIR Blog</title>
+  <meta name="description" content="Certificado digital de persona física Tarea 1: Instalación del certificado 1. Una vez que hayas obtenido tu certificado, explica brevemente como se instala en tu navegador favorito Este punto lo explico junto al siguiente punto para mostrar las capturas.
+2. Muestra una captura de pantalla donde se vea las preferencias del navegador donde se ve instalado tu certificado Una vez tenemos el certificado digital, para agregarlo a Google Chrome vamos a los tres puntos de la barra superior y hacemos click en Configuración.">
+  <meta name="author" content="afermor8"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Mi paso por ASIR Blog",
+    
+    "url": "https:\/\/afermor8.github.io"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/afermor8.github.io"
+  
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io\/post\/cripto3\/",
+          "name": "Criptografía iii. certificados digiales. HTTP s"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "afermor8"
+  },
+  "headline": "Criptografía III. Certificados digiales. HTTPS",
+  "description" : "Certificado digital de persona física Tarea 1: Instalación del certificado 1. Una vez que hayas obtenido tu certificado, explica brevemente como se instala en tu navegador favorito Este punto lo explico junto al siguiente punto para mostrar las capturas.\n2. Muestra una captura de pantalla donde se vea las preferencias del navegador donde se ve instalado tu certificado Una vez tenemos el certificado digital, para agregarlo a Google Chrome vamos a los tres puntos de la barra superior y hacemos click en Configuración.",
+  "inLanguage" : "es",
+  "wordCount":  2339 ,
+  "datePublished" : "2023-01-11T13:42:27",
+  "dateModified" : "2023-01-11T13:42:27",
+  "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+  "keywords" : [ "SAD" ],
+  "mainEntityOfPage" : "https:\/\/afermor8.github.io\/post\/cripto3\/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https:\/\/afermor8.github.io",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
+
+<meta property="og:title" content="Criptografía III. Certificados digiales. HTTPS" />
+<meta property="og:description" content="Certificado digital de persona física Tarea 1: Instalación del certificado 1. Una vez que hayas obtenido tu certificado, explica brevemente como se instala en tu navegador favorito Este punto lo explico junto al siguiente punto para mostrar las capturas.
+2. Muestra una captura de pantalla donde se vea las preferencias del navegador donde se ve instalado tu certificado Una vez tenemos el certificado digital, para agregarlo a Google Chrome vamos a los tres puntos de la barra superior y hacemos click en Configuración.">
+<meta property="og:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+<meta property="og:url" content="https://afermor8.github.io/post/cripto3/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Mi paso por ASIR Blog" />
+
+  <meta name="twitter:title" content="Criptografía III. Certificados digiales. HTTPS" />
+  <meta name="twitter:description" content="Certificado digital de persona física Tarea 1: Instalación del certificado 1. Una vez que hayas obtenido tu certificado, explica brevemente como se instala en tu navegador favorito Este punto lo …">
+  <meta name="twitter:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link href='https://afermor8.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta name="generator" content="Hugo 0.104.3" />
+  <link rel="alternate" href="https://afermor8.github.io/index.xml" type="application/rss+xml" title="Mi paso por ASIR Blog"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://afermor8.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://afermor8.github.io/css/highlight.min.css" /><link rel="stylesheet" href="https://afermor8.github.io/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Conmuta navegación</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/page/about/">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Tags" href="/tags">Tags</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    
+      <div class="avatar-container">
+        <div class="avatar-img-border">
+          <a title="Mi paso por ASIR Blog" href="https://afermor8.github.io">
+            <img class="avatar-img" src="https://afermor8.github.io/img/avatar-icon.png" alt="Mi paso por ASIR Blog" />
+          </a>
+        </div>
+      </div>
+    
+
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+    <div id="header-big-imgs" data-num-img=3 
+      
+         
+          data-img-src-1="/img/triangle.jpg" 
+         
+         data-img-desc-1="Triangle"
+      
+         
+          data-img-src-2="/img/sphere.jpg" 
+         
+         data-img-desc-2="Sphere"
+      
+         
+          data-img-src-3="/img/hexagon.jpg" 
+         
+         data-img-desc-3="Hexagon"
+      ></div>
+  
+
+  <header class="header-section has-img">
+    
+      <div class="intro-header big-img">
+        
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+              <div class="post-heading">
+                <h1>Criptografía III. Certificados digiales. HTTPS</h1>
+                  
+                  
+                    <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el January 11, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;11&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2339&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="img-desc" style="display: inline;"></span>
+      </div>
+    
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>Criptografía III. Certificados digiales. HTTPS</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el January 11, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;11&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2339&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <hr>
+<h2 id="certificado-digital-de-persona-física">Certificado digital de persona física</h2>
+<hr>
+<h3 id="tarea-1-instalación-del-certificado">Tarea 1: Instalación del certificado</h3>
+<h4 id="1-una-vez-que-hayas-obtenido-tu-certificado-explica-brevemente-como-se-instala-en-tu-navegador-favorito">1. Una vez que hayas obtenido tu certificado, explica brevemente como se instala en tu navegador favorito</h4>
+<p>Este punto lo explico junto al siguiente punto para mostrar las capturas.</p>
+<h4 id="2-muestra-una-captura-de-pantalla-donde-se-vea-las-preferencias-del-navegador-donde-se-ve-instalado-tu-certificado">2. Muestra una captura de pantalla donde se vea las preferencias del navegador donde se ve instalado tu certificado</h4>
+<p>Una vez tenemos el certificado digital, para agregarlo a Google Chrome vamos a los tres puntos de la barra superior y hacemos click en <strong>Configuración</strong>. Abrimos el desplegable de la izquierda y seleccionamos <strong>Privacidad y seguridad</strong>. Ahí abrimos la pestaña <strong>Seguridad</strong> y entre las opciones que nos da seleccionamos <strong>Gestionar certificados</strong>. Importamos el certificado que tenemos.</p>
+<p><img src="/img/cripto3/1.png" alt="certificado"></p>
+<p>Introducimos la contraseña del certificado y ya lo tendremos agregado.</p>
+<p><img src="/img/cripto3/2.png" alt="certificado"></p>
+<p>Si le damos a ver el certificado comprobamos que se ha agregado correctamente mi certificado de la FNMT-RCM.</p>
+<p><img src="/img/cripto3/3.png" alt="certificado"></p>
+<h4 id="3-cómo-puedes-hacer-una-copia-de-tu-certificado-como-vas-a-realizar-la-copia-de-seguridad-de-tu-certificado-razona-la-respuesta">3. ¿Cómo puedes hacer una copia de tu certificado?, ¿Como vas a realizar la copia de seguridad de tu certificado?. Razona la respuesta.</h4>
+<p>Para hacer una copia de este certificado, en la misma página anterior de configuración del navegador Chrome seleccionamos <strong>Exportar</strong>.</p>
+<p><img src="/img/cripto3/4.png" alt="certificado"></p>
+<p>Seleccionamos la carpeta donde lo queremos guardar, en mi caso he elegido la carpeta <strong>Documentos</strong>. Introduciomos la contraseña del certificado.</p>
+<p><img src="/img/cripto3/5.png" alt="certificado"></p>
+<p>Y ya tendremos la copia del certificado.</p>
+<p><img src="/img/cripto3/6.png" alt="certificado"></p>
+<h4 id="4-investiga-como-exportar-la-clave-pública-de-tu-certificado">4. Investiga como exportar la clave pública de tu certificado.</h4>
+<p>Para exportar la clave pública del certificado sin la clave privada lo he hecho desde Mozilla Firefox, donde también tengo instalado mi certificado. Voy a las opciones de <strong>Ajustes</strong> y aquí clickamos sobre <strong>Privacidad &amp; Seguridad</strong>. Vamos a la opción <strong>Ver certificados&hellip;</strong> y se nos abre la siguiente ventana.</p>
+<p><img src="/img/cripto3/7.png" alt="certificado"></p>
+<p>Selecciono la opción <strong>Ver</strong> y me aparecerá la siguiente información sobre el certificado:</p>
+<p><img src="/img/cripto3/8.png" alt="certificado"></p>
+<p>En Misceláneo selecciono la opción <strong>PEM (cert)</strong> y se descargará la clave pública.</p>
+<p><img src="/img/cripto3/9.png" alt="certificado"></p>
+<p><img src="/img/cripto3/10.png" alt="certificado"></p>
+<h3 id="tarea-2-validación-del-certificado">Tarea 2: Validación del certificado</h3>
+<h4 id="1-instala-en-tu-ordenador-el-software-autofirma-y-desde-la-página-de-valide-valida-tu-certificado-muestra-capturas-de-pantalla-donde-se-comprueba-la-validación">1. Instala en tu ordenador el software autofirma y desde la página de VALIDe valida tu certificado. Muestra capturas de pantalla donde se comprueba la validación.</h4>
+<h5 id="autofirma">AutoFirma</h5>
+<p>Primero instalar los siguientes paquetes si no los tenemos.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo apt install default-jdk libnss3-tools
+</span></span></code></pre></div><p>Descargo con wget la aplicación <strong>AutoFirma</strong> en la carpeta Documentos.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">wget https://estaticos.redsara.es/comunes/autofirma/1/7/1/AutoFirma_Linux.zip
+</span></span></code></pre></div><p>Extraemos los ficheros del .zip descargado para proceder a instalarlo.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">unzip AutoFirma_Linux.zip
+</span></span><span class="line"><span class="cl">rm Autofirma_Linux.zip
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo dpkg -i AutoFirma_1_7_1.deb
+</span></span></code></pre></div><p>Ya podemos usar AutoFirma.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">AutoFirma
+</span></span></code></pre></div><p><img src="/img/cripto3/23.png" alt="certificado"></p>
+<h5 id="valide">VALIDe</h5>
+<p>Vamos a validar mi certificado desde la página <a href="https://valide.redsara.es/valide/validarCertificado/ejecutar.html;jsessionid=EDCDF2E1A8EEA1A761F4DAC78667757C">VALIDe</a>.</p>
+<p>Hacemos click en <strong>Seleccionar Certificado</strong>.</p>
+<p><img src="/img/cripto3/16.png" alt="certificado"></p>
+<p>Nos pedirá permiso para abrir con AutoFirma.</p>
+<p><img src="/img/cripto3/17.png" alt="certificado"></p>
+<p>Seleccionamos el certificado.</p>
+<p><img src="/img/cripto3/18.png" alt="certificado"></p>
+<p>Introducimos el código de seguridad y validamos.</p>
+<p><img src="/img/cripto3/19.png" alt="certificado"></p>
+<h3 id="tarea-3-firma-electrónica">Tarea 3: Firma electrónica</h3>
+<h4 id="1-utilizando-la-página-valide-y-el-programa-autofirma-firma-un-documento-con-tu-certificado-y-envíalo-por-correo-a-un-compañero">1. Utilizando la página VALIDe y el programa autofirma, firma un documento con tu certificado y envíalo por correo a un compañero.</h4>
+<p>He creado dos archivos que firmaré, uno con Autofirma y otro con VALIDe.</p>
+<p><img src="/img/cripto3/24.png" alt="certificado"></p>
+<p><img src="/img/cripto3/25.png" alt="certificado"></p>
+<p>En AutoFirma seleccionamos el fichero y lo firmamos.</p>
+<p><img src="/img/cripto3/11.png" alt="certificado"></p>
+<p>Nos aparece el siguiente mensaje informativo:</p>
+<p><img src="/img/cripto3/12.png" alt="certificado"></p>
+<p>Aceptamos y nos dirá que seleccionemos el certificado.</p>
+<p><img src="/img/cripto3/13.png" alt="certificado"></p>
+<p>Guardamos el fichero firmado.</p>
+<p><img src="/img/cripto3/14.png" alt="certificado"></p>
+<p><img src="/img/cripto3/15.png" alt="certificado"></p>
+<p>Ahora vamos a <a href="https://valide.redsara.es/valide/firmar/ejecutar.html">VALIDe</a> y firmamos el otro fichero.</p>
+<p><img src="/img/cripto3/26.png" alt="certificado"></p>
+<p>Seleccionamos el fichero a firmar.</p>
+<p><img src="/img/cripto3/27.png" alt="certificado"></p>
+<p>Y seleccionamos el certificado.</p>
+<p><img src="/img/cripto3/28.png" alt="certificado"></p>
+<p>El fichero ya se ha firmado. Ahora tendremos que seleccionar <strong>Guardar firma</strong> para que se guarde el fichero.</p>
+<p><img src="/img/cripto3/29.png" alt="certificado"></p>
+<p>Envío estos ficheros firmados a un compañero.</p>
+<h4 id="2-tu-debes-recibir-otro-documento-firmado-por-un-compañero-y-utilizando-las-herramientas-anteriores-debes-visualizar-la-firma-visualizar-firma-y-verificar-firma-puedes-verificar-la-firma-aunque-no-tengas-la-clave-pública-de-tu-compañero-es-necesario-estar-conectado-a-internet-para-hacer-la-validación-de-la-firma-razona-tus-respuestas">2. Tu debes recibir otro documento firmado por un compañero y utilizando las herramientas anteriores debes visualizar la firma (Visualizar Firma) y (Verificar Firma). ¿Puedes verificar la firma aunque no tengas la clave pública de tu compañero?, ¿Es necesario estar conectado a internet para hacer la validación de la firma?. Razona tus respuestas.</h4>
+<p>He recibido dos ficheros de mi compañero.</p>
+<p><img src="/img/cripto3/30.png" alt="certificado"></p>
+<p>Visualizo el primero con AutoFirma.</p>
+<p><img src="/img/cripto3/31.png" alt="certificado"></p>
+<p>Comprobamos que el fichero está firmado correctamente.</p>
+<p><img src="/img/cripto3/32.png" alt="certificado"></p>
+<p>Ahora visualizamos la firma con <a href="https://valide.redsara.es/valide/validarFirma/ejecutar.html">VALIDe</a>.</p>
+<p><img src="/img/cripto3/36.png" alt="certificado"></p>
+<p><img src="/img/cripto3/35.png" alt="certificado"></p>
+<p>Y a continuación la validamos.</p>
+<p><img src="/img/cripto3/33.png" alt="certificado"></p>
+<p><img src="/img/cripto3/34.png" alt="certificado"></p>
+<p>Podemos comprobar que se pueden verificar las firmas de los ficheros aunque no tengamos su clave pública, ya que esta se adjunta al fichero firmado.</p>
+<p>En cuanto a si es necesario estar conectados a Internet para validar las firmas, con AutoFirma no es necesario ya que es una aplicación de escritorio. Para VALIDe si necesitaremos conección a Internet para acceder a su página web.</p>
+<h4 id="3-entre-dos-compañeros-firmar-los-dos-un-documento-verificar-la-firma-para-comprobar-que-está-firmado-por-los-dos">3. Entre dos compañeros, firmar los dos un documento, verificar la firma para comprobar que está firmado por los dos.</h4>
+<p>Voy a firmar uno de los documentos que me envió mi compañero en el ejercicio anterior. Usaré AutoFirma para firmarlo.</p>
+<p><img src="/img/cripto3/37.png" alt="certificado"></p>
+<p><img src="/img/cripto3/38.png" alt="certificado"></p>
+<p><img src="/img/cripto3/39.png" alt="certificado"></p>
+<p><img src="/img/cripto3/40.png" alt="certificado"></p>
+<h3 id="tarea-4-autentificación">Tarea 4: Autentificación</h3>
+<h4 id="1-utilizando-tu-certificado-accede-a-alguna-página-de-la-administración-pública-cita-médica-becas-puntos-del-carnet-entrega-capturas-de-pantalla-donde-se-demuestre-el-acceso-a-ellas">1. Utilizando tu certificado accede a alguna página de la administración pública )cita médica, becas, puntos del carnet,…). Entrega capturas de pantalla donde se demuestre el acceso a ellas.</h4>
+<p>Voy a acceder a ClicSalud+ con mi certificado digital, para ello me voy a su <a href="https://www.sspa.juntadeandalucia.es/servicioandaluzdesalud/clicsalud/">web</a> y hago click en la opción de Acceder con Certificado digital.</p>
+<p><img src="/img/cripto3/20.png" alt="certificado"></p>
+<p>Selecciono mi certificado y le doy a Aceptar.</p>
+<p><img src="/img/cripto3/21.png" alt="certificado"></p>
+<p>Compruebo que ya he accedido con mi usuario y que puedo ver mis datos.</p>
+<p><img src="/img/cripto3/22.png" alt="certificado"></p>
+<hr>
+<h2 id="https--ssl">HTTPS / SSL</h2>
+<blockquote>
+<p>Antes de hacer esta práctica vamos a crear una página web (puedes usar una página estática o instalar una aplicación web) en un servidor web apache2 que se acceda con el nombre <code>tunombre.iesgn.org</code>.</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo apt install apache2
+</span></span><span class="line"><span class="cl">sudo mkdir /var/www/arantxa.iesgn.org
+</span></span><span class="line"><span class="cl">sudo nano /var/www/arantxa.iesgn.org/index.html
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;!DOCTYPE html lang=&#34;es&#34;&gt;
+</span></span><span class="line"><span class="cl">      &lt;head&gt;
+</span></span><span class="line"><span class="cl">          &lt;meta charset=&#34;utf-8&#34;&gt;
+</span></span><span class="line"><span class="cl">          &lt;title&gt;arantxa.iesgn.org&lt;/title&gt;
+</span></span><span class="line"><span class="cl">      &lt;/head&gt;
+</span></span><span class="line"><span class="cl">      &lt;body&gt;
+</span></span><span class="line"><span class="cl">          &lt;h1&gt;Arantxa Fern\u00e1ndez Morat\u00f3&lt;/h1&gt;
+</span></span><span class="line"><span class="cl">          &lt;h2&gt;Criptograf\u00eda III. Certificados digitales y https.&lt;/h2&gt;
+</span></span><span class="line"><span class="cl">          &lt;p&gt;Esto es una web de prueba para la pr\u00e1ctica de criptograf\u00eda de SAD.&lt;/p&gt;
+</span></span><span class="line"><span class="cl">      &lt;/body&gt;
+</span></span><span class="line"><span class="cl">&lt;/html&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">cd /etc/apache2/sites-available
+</span></span><span class="line"><span class="cl">sudo cp 000-default.conf arantxa.iesgn.org.conf
+</span></span><span class="line"><span class="cl">nano arantxa.iesgn.org.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;VirtualHost *:80&gt;
+</span></span><span class="line"><span class="cl">        ServerName arantxa.iesgn.org
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        ServerAdmin webmaster@localhost
+</span></span><span class="line"><span class="cl">        DocumentRoot /var/www/arantxa.iesgn.org
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        ErrorLog ${APACHE_LOG_DIR}/error-arantxaiesgn.log
+</span></span><span class="line"><span class="cl">        CustomLog ${APACHE_LOG_DIR}/access-arantxaiesgn.log combined
+</span></span><span class="line"><span class="cl">&lt;/VirtualHost&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo a2ensite arantxa.iesgn.org.conf
+</span></span><span class="line"><span class="cl">sudo systemctl restart apache2
+</span></span><span class="line"><span class="cl">sudo nano /etc/hosts
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">192.168.122.192     arantxa.iesgn.org
+</span></span></code></pre></div><h3 id="tarea-1-certificado-autofirmado">Tarea 1: Certificado autofirmado</h3>
+<p>Esta práctica la vamos a realizar con un compañero. En un primer momento un alumno creará una Autoridad Certficadora y firmará un certificado para la página del otro alumno. Posteriormente se volverá a realizar la práctica con los roles cambiados.</p>
+<p>Para hacer esta práctica puedes buscar información en internet, algunos enlaces interesantes:</p>
+<ul>
+<li><a href="https://www.phildev.net/ssl/">Phil’s X509/SSL Guide</a></li>
+<li><a href="https://gist.github.com/Soarez/9688998">How to setup your own CA with OpenSSL</a></li>
+<li><a href="https://blog.guillen.io/2018/09/29/crear-autoridad-certificadora-ca-y-certificados-autofirmados-en-linux/">Crear autoridad certificadora (CA) y certificados autofirmados en Linux</a></li>
+</ul>
+<h3 id="autoridad-certificadora">Autoridad certificadora</h3>
+<p>El alumno que hace de Autoridad Certificadora deberá entregar una documentación donde explique los siguientes puntos:</p>
+<h4 id="1-crear-su-autoridad-certificadora-generar-el-certificado-digital-de-la-ca-mostrar-el-fichero-de-configuración-de-la-ac">1. Crear su autoridad certificadora (generar el certificado digital de la CA). Mostrar el fichero de configuración de la AC.</h4>
+<p>En la máquina virtual donde crearé la web estática voy a crear la autoridad certificadora.</p>
+<p>Creo los siguientes directorios:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">mkdir CA
+</span></span><span class="line"><span class="cl">cd CA
+</span></span><span class="line"><span class="cl">mkdir certs csr crl newcerts private
+</span></span></code></pre></div><p>Cambio los permisos al fichero private.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">chmod 700 private
+</span></span></code></pre></div><p>Creamos un fichero donde se guardarán los certificados existentes.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">touch index.txt
+</span></span><span class="line"><span class="cl">touch index.txt.attr
+</span></span><span class="line"><span class="cl">echo 1000 &gt; serial
+</span></span></code></pre></div><p>Copiamos el fichero openssl para adaptarlo a nuestras necesidades.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cp /usr/lib/ssl/openssl.cnf ./
+</span></span><span class="line"><span class="cl">nano openssl.cnf
+</span></span></code></pre></div><p>Lo modificamos y lo dejamos como se muestra a continuación:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">HOME			= .
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">oid_section		= new_oids
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">openssl_conf = default_conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[ new_oids ]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">tsa_policy1 = 1.2.3.4.1
+</span></span><span class="line"><span class="cl">tsa_policy2 = 1.2.3.4.5.6
+</span></span><span class="line"><span class="cl">tsa_policy3 = 1.2.3.4.5.7
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[ ca ]
+</span></span><span class="line"><span class="cl">default_ca	= CA_default		# The default ca section
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[ CA_default ]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dir		= /usuario1/CA		# Where everything is kept
+</span></span><span class="line"><span class="cl">certs		= $dir/certs		# Where the issued certs are kept
+</span></span><span class="line"><span class="cl">crl_dir		= $dir/crl		# Where the issued crl are kept
+</span></span><span class="line"><span class="cl">database	= $dir/index.txt	# database index file.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">new_certs_dir	= $dir/newcerts		# default place for new certs.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">certificate	= $dir/certs/cacert.crt 	# The CA certificate
+</span></span><span class="line"><span class="cl">serial		= $dir/serial 		# The current serial number
+</span></span><span class="line"><span class="cl">crlnumber	= $dir/crlnumber	# the current crl number
+</span></span><span class="line"><span class="cl">					# must be commented out to leave a V1 CRL
+</span></span><span class="line"><span class="cl">crl		= $dir/crl/ca.crl.pem 		# The current CRL
+</span></span><span class="line"><span class="cl">private_key	= $dir/private/private.key # The private key
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">x509_extensions	= usr_cert		# The extensions to add to the cert
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">name_opt 	= ca_default		# Subject Name options
+</span></span><span class="line"><span class="cl">cert_opt 	= ca_default		# Certificate field options
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">default_days	= 365			# how long to certify for
+</span></span><span class="line"><span class="cl">default_crl_days= 30			# how long before next CRL
+</span></span><span class="line"><span class="cl">default_md	= sha256		# use public key default MD
+</span></span><span class="line"><span class="cl">preserve	= no			# keep passed DN ordering
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">policy		= policy_strict
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[ policy_strict ]
+</span></span><span class="line"><span class="cl">countryName		= match
+</span></span><span class="line"><span class="cl">stateOrProvinceName	= match
+</span></span><span class="line"><span class="cl">organizationName	= match
+</span></span><span class="line"><span class="cl">organizationalUnitName	= optional
+</span></span><span class="line"><span class="cl">commonName		= supplied
+</span></span><span class="line"><span class="cl">emailAddress		= optional
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[ policy_loose ]
+</span></span><span class="line"><span class="cl">countryName		= optional
+</span></span><span class="line"><span class="cl">stateOrProvinceName	= optional
+</span></span><span class="line"><span class="cl">localityName		= optional
+</span></span><span class="line"><span class="cl">organizationName	= optional
+</span></span><span class="line"><span class="cl">organizationalUnitName	= optional
+</span></span><span class="line"><span class="cl">commonName		= supplied
+</span></span><span class="line"><span class="cl">emailAddress		= optional
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[ req ]
+</span></span><span class="line"><span class="cl">default_bits		= 2048
+</span></span><span class="line"><span class="cl">default_keyfile 	= privkey.pem
+</span></span><span class="line"><span class="cl">distinguished_name	= req_distinguished_name
+</span></span><span class="line"><span class="cl">attributes		= req_attributes
+</span></span><span class="line"><span class="cl">x509_extensions	= v3_ca	# The extensions to add to the self signed cert
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">string_mask = utf8only
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">req_extensions = v3_req # The extensions to add to a certificate request
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[ req_distinguished_name ]
+</span></span><span class="line"><span class="cl">countryName			= Country Name (2 letter code)
+</span></span><span class="line"><span class="cl">countryName_default		= ES
+</span></span><span class="line"><span class="cl">countryName_min			= 2
+</span></span><span class="line"><span class="cl">countryName_max			= 2
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">stateOrProvinceName		= State or Province Name (full name)
+</span></span><span class="line"><span class="cl">stateOrProvinceName_default	= Sevilla
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">localityName			= Locality Name (eg, city)
+</span></span><span class="line"><span class="cl">localityName_default		= Dos Hermanas
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">0.organizationName		= Organization Name (eg, company)
+</span></span><span class="line"><span class="cl">0.organizationName_default	= Afermor8
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">organizationalUnitName		= Organizational Unit Name (eg, section)
+</span></span><span class="line"><span class="cl">organizationalUnitName_default	= GN
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">commonName			= Common Name (e.g. server FQDN or YOUR name)
+</span></span><span class="line"><span class="cl">commonName_max			= 64
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">emailAddress			= Email Address
+</span></span><span class="line"><span class="cl">emailAddress_max		= 64
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[ usr_cert ]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">basicConstraints=CA:FALSE
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">nsCertType = client, email
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">keyUsage = critical, nonRepudiation, digitalSignature, keyEncipherment
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">nsComment			= &#34;OpenSSL Generated Certificate&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">subjectKeyIdentifier = hash
+</span></span><span class="line"><span class="cl">authorityKeyIdentifier = keyid,issuer
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">extendedKeyUsage = clientAuth, emailProtection
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[ v3_req ]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">basicConstraints = CA:FALSE
+</span></span><span class="line"><span class="cl">keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[ v3_ca ]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">subjectKeyIdentifier = hash
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">authorityKeyIdentifier = keyid:always,issuer
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">basicConstraints = critical,CA:true
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">keyUsage = critical, digitalSignature, cRLSign, keyCertSign
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[ v3_intermediate_ca ]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">subjectKeyIdentifier = hash
+</span></span><span class="line"><span class="cl">authorityKeyIdentifier = keyid:always,issuer
+</span></span><span class="line"><span class="cl">basicConstraints = critical, CA:true, pathlen:0
+</span></span><span class="line"><span class="cl">keyUsage = critical, digitalSignature, cRLSign, keyCertSign
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[ crl_ext ]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">authorityKeyIdentifier = keyid:always
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[ ocsp ]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">basicConstraints = CA:FALSE
+</span></span><span class="line"><span class="cl">subjectKeyIdentifier = hash
+</span></span><span class="line"><span class="cl">authorityKeyIdentifier = keyid,issuer
+</span></span><span class="line"><span class="cl">keyUsage = critical, digitalSignature
+</span></span><span class="line"><span class="cl">extendedKeyUsage = critical, OCSPSigning
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[ proxy_cert_ext ]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">basicConstraints=CA:FALSE
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">nsComment			= &#34;OpenSSL Generated Certificate&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">subjectKeyIdentifier=hash
+</span></span><span class="line"><span class="cl">authorityKeyIdentifier=keyid,issuer
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">proxyCertInfo=critical,language:id-ppl-anyLanguage,pathlen:3,policy:foo
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[ tsa ]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">default_tsa = tsa_config1	# the default TSA section
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[ tsa_config1 ]
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dir		= ./demoCA		# TSA root directory
+</span></span><span class="line"><span class="cl">serial		= $dir/tsaserial	# The current serial number (mandatory)
+</span></span><span class="line"><span class="cl">crypto_device	= builtin		# OpenSSL engine to use for signing
+</span></span><span class="line"><span class="cl">signer_cert	= $dir/tsacert.pem 	# The TSA signing certificate
+</span></span><span class="line"><span class="cl">					# (optional)
+</span></span><span class="line"><span class="cl">certs		= $dir/cacert.pem	# Certificate chain to include in reply
+</span></span><span class="line"><span class="cl">					# (optional)
+</span></span><span class="line"><span class="cl">signer_key	= $dir/private/tsakey.pem # The TSA private key (optional)
+</span></span><span class="line"><span class="cl">signer_digest  = sha256			# Signing digest to use. (Optional)
+</span></span><span class="line"><span class="cl">default_policy	= tsa_policy1		# Policy if request did not specify it
+</span></span><span class="line"><span class="cl">					# (optional)
+</span></span><span class="line"><span class="cl">other_policies	= tsa_policy2, tsa_policy3	# acceptable policies (optional)
+</span></span><span class="line"><span class="cl">digests     = sha1, sha256, sha384, sha512  # Acceptable message digests (mandatory)
+</span></span><span class="line"><span class="cl">accuracy	= secs:1, millisecs:500, microsecs:100	# (optional)
+</span></span><span class="line"><span class="cl">clock_precision_digits  = 0	# number of digits after dot. (optional)
+</span></span><span class="line"><span class="cl">ordering		= yes	# Is ordering defined for timestamps?
+</span></span><span class="line"><span class="cl">				# (optional, default: no)
+</span></span><span class="line"><span class="cl">tsa_name		= yes	# Must the TSA name be included in the reply?
+</span></span><span class="line"><span class="cl">				# (optional, default: no)
+</span></span><span class="line"><span class="cl">ess_cert_id_chain	= no	# Must the ESS cert id chain be included?
+</span></span><span class="line"><span class="cl">				# (optional, default: no)
+</span></span><span class="line"><span class="cl">ess_cert_id_alg		= sha1	# algorithm to compute certificate
+</span></span><span class="line"><span class="cl">				# identifier (optional, default: sha1)
+</span></span><span class="line"><span class="cl">[default_conf]
+</span></span><span class="line"><span class="cl">ssl_conf = ssl_sect
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[ssl_sect]
+</span></span><span class="line"><span class="cl">system_default = system_default_sect
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[system_default_sect]
+</span></span><span class="line"><span class="cl">MinProtocol = TLSv1.2
+</span></span><span class="line"><span class="cl">CipherString = DEFAULT@SECLEVEL=2
+</span></span></code></pre></div><p>Creamos a continuación la clave y el fichero de solicitud de firma del certificado.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">openssl genrsa -aes256 -out private/private.key 4096
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sed -i &#39;s|xxxsubjectAltNamexxx =|subjectAltName = ${ENV::SAN}|g&#39; openssl.conf URL=juanjesus.iesgn.org
+</span></span><span class="line"><span class="cl">  export SAN=DNS:$URL
+</span></span></code></pre></div><p>Ahora creamos el certificado:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">openssl req -config openssl.cnf -key private/private.key -new -x509 -days 365 -sha256 -extensions v3_ca -out certs/cacert.crt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">chmod 444 certs/cacert.crt    
+</span></span></code></pre></div><h4 id="2-debe-recibir-el-fichero-csr-solicitud-de-firmar-un-certificado-de-su-compañero-debe-firmarlo-y-enviar-el-certificado-generado-a-su-compañero">2. Debe recibir el fichero CSR (Solicitud de Firmar un Certificado) de su compañero, debe firmarlo y enviar el certificado generado a su compañero.</h4>
+<p>Mi compañero me envía su fichero CSR, el cual he añadido al directorio <strong>/usuario1/CA/csr/</strong>, y se lo firmo del siguiente modo:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">openssl ca -config openssl.conf -extensions v3_req -days 365 -notext -md sha256 -in csr/arturo.csr -out certs/arturo.crt
+</span></span></code></pre></div><p>Una vez firmado se lo vuelvo a enviar.</p>
+<h4 id="3-qué-otra-información-debes-aportar-a-tu-compañero-para-que-éste-configure-de-forma-adecuada-su-servidor-web-con-el-certificado-generado">3. ¿Qué otra información debes aportar a tu compañero para que éste configure de forma adecuada su servidor web con el certificado generado?</h4>
+<p>Habría que enviar a nuetro compañero el fichero CA/certs/cacert.crt de la autoridad certificadora para que pueda verificar la firma sobre su certificado.</p>
+<h3 id="administrador-servidor-web">Administrador servidor web</h3>
+<p>El alumno que hace de administrador del servidor web, debe entregar una documentación que describa los siguientes puntos:</p>
+<h4 id="1-crea-una-clave-privada-rsa-de-4096-bits-para-identificar-el-servidor">1. Crea una clave privada RSA de 4096 bits para identificar el servidor.</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo openssl genrsa -aes256 -out /etc/ssl/private/clavearantxa.key 4096
+</span></span><span class="line"><span class="cl">sudo chmod 400 /etc/ssl/private/clavearantxa.key
+</span></span></code></pre></div><h4 id="2-utiliza-la-clave-anterior-para-generar-un-csr-considerando-que-deseas-acceder-al-servidor-con-el-fqdn-tunombreiesgnorg">2. Utiliza la clave anterior para generar un CSR, considerando que deseas acceder al servidor con el FQDN (tunombre.iesgn.org).</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo openssl req -new -sha256 -key /etc/ssl/private/clavearantxa.key -out arantxa.csr
+</span></span></code></pre></div><p><img src="/img/cripto3/41.png" alt="certificado"></p>
+<h4 id="3-envía-la-solicitud-de-firma-a-la-entidad-certificadora-su-compañero">3. Envía la solicitud de firma a la entidad certificadora (su compañero).</h4>
+<p>Le envío mi csr (arantxa.csr) a mi compañero.</p>
+<p><img src="/img/cripto3/42.png" alt="certificado"></p>
+<h4 id="4-recibe-como-respuesta-un-certificado-x509-para-el-servidor-firmado-y-el-certificado-de-la-autoridad-certificadora">4. Recibe como respuesta un certificado X.509 para el servidor firmado y el certificado de la autoridad certificadora.</h4>
+<p>Recibo mi csr firmado por la autoridad certificadora de mi compañero.</p>
+<p><img src="/img/cripto3/43.png" alt="csr"></p>
+<h4 id="5-configura-tu-servidor-web-con-https-en-el-puerto-443-haciendo-que-las-peticiones-http-se-redireccionen-a-https-forzar-https">5. Configura tu servidor web con https en el puerto 443, haciendo que las peticiones http se redireccionen a https (forzar https).</h4>
+<p>Vamos a modificar el fichero de configuración del virtualhost (/etc/apache2/sites-available/arantxa.iesgn.org.conf), quedando de la siguiente manera:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">IfModule mod_ssl.c&gt;
+</span></span><span class="line"><span class="cl">        &lt;VirtualHost *:443&gt;
+</span></span><span class="line"><span class="cl">                ServerName arantxa.iesgn.org
+</span></span><span class="line"><span class="cl">                DocumentRoot /var/www/arantxa.iesgn.org
+</span></span><span class="line"><span class="cl">                Redirect 301 / https://arantxa.iesgn.org/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                ErrorLog ${APACHE_LOG_DIR}/error-arantxaiesgn.log
+</span></span><span class="line"><span class="cl">                CustomLog ${APACHE_LOG_DIR}/access-arantxaiesgn.log combined
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                SSLEngine on
+</span></span><span class="line"><span class="cl">                SSLCertificateFile /etc/ssl/certs/arantxa.crt
+</span></span><span class="line"><span class="cl">                SSLCertificateKeyFile /etc/ssl/private/clavearantxa.key
+</span></span><span class="line"><span class="cl">                SSLCertificateChainFile /etc/ssl/certs/cacert.crt
+</span></span><span class="line"><span class="cl">                
+</span></span><span class="line"><span class="cl">                &lt;Directory /var/www/arantxa.iesgn.org&gt;
+</span></span><span class="line"><span class="cl">                        Options Indexes FollowSymLinks
+</span></span><span class="line"><span class="cl">                        AllowOverride None
+</span></span><span class="line"><span class="cl">                        Require all granted
+</span></span><span class="line"><span class="cl">                &lt;/Directory&gt;
+</span></span><span class="line"><span class="cl">        &lt;/VirtualHost&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;/IfModule&gt;
+</span></span></code></pre></div><p>Movemos los ficheros a /etc/ssl/certs/, cambiamos el usuario al que pertenece y cambiamos los permisos.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo mv arantxa.crt /etc/ssl/certs/
+</span></span><span class="line"><span class="cl">sudo mv cacert.crt /etc/ssl/certs/
+</span></span><span class="line"><span class="cl">sudo chown root:root /etc/ssl/certs/arantxa.crt
+</span></span><span class="line"><span class="cl">sudo chown root:root /etc/ssl/certs/cacert.crt
+</span></span><span class="line"><span class="cl">sudo chmod 644 /etc/ssl/certs/arantxa.crt
+</span></span><span class="line"><span class="cl">sudo chmod 644 /etc/ssl/certs/cacert.crt
+</span></span></code></pre></div><p>Habilito el módulo ssl y volvemos a reiniciar apache2.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo a2enmod ssl
+</span></span><span class="line"><span class="cl">sudo a2ensite ssl-arantxa.iesgn.org.conf
+</span></span><span class="line"><span class="cl">sudo systemctl restart apache2
+</span></span></code></pre></div><p>Ya debería funcionar correctamente mi página web desde https.</p>
+<p><img src="/img/cripto3/44.png" alt="web"></p>
+<p><img src="/img/cripto3/45.png" alt="web2"></p>
+<h4 id="6-instala-ahora-un-servidor-nginx-y-realiza-la-misma-configuración-que-anteriormente-para-que-se-sirva-la-página-con-https">6. Instala ahora un servidor nginx, y realiza la misma configuración que anteriormente para que se sirva la página con HTTPS.</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  sudo systemctl disable --now apache2
+</span></span><span class="line"><span class="cl">  sudo apt install nginx
+</span></span><span class="line"><span class="cl">  sudo nano /var/www/arantxa.iesgn.org/index.html
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> server {
+</span></span><span class="line"><span class="cl">      listen 80;
+</span></span><span class="line"><span class="cl">      listen [::]:80;
+</span></span><span class="line"><span class="cl">      server_name maria.iesgn.org;
+</span></span><span class="line"><span class="cl">      return 301 https://$server_name$request_uri;
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  server {
+</span></span><span class="line"><span class="cl">      listen 443 ssl http2;
+</span></span><span class="line"><span class="cl">      listen [::]:443 ssl http2;
+</span></span><span class="line"><span class="cl">      server_name maria.iesgn.org;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      ssl_certificate /etc/ssl/certs/maria.crt;
+</span></span><span class="line"><span class="cl">      ssl_certificate_key /etc/ssl/private/maria-priv.key;
+</span></span><span class="line"><span class="cl">      ssl_trusted_certificate /etc/ssl/certs/cacert.crt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      root /var/www/html/maria.iesgn.org;
+</span></span><span class="line"><span class="cl">      index index.html;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      location / {
+</span></span><span class="line"><span class="cl">          try_files $uri $uri/ =404;
+</span></span><span class="line"><span class="cl">      }
+</span></span><span class="line"><span class="cl">  }
+</span></span></code></pre></div><p>Modifico el html:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;!DOCTYPE html lang=&#34;es&#34;&gt;
+</span></span><span class="line"><span class="cl">      &lt;head&gt;
+</span></span><span class="line"><span class="cl">          &lt;meta charset=&#34;utf-8&#34;&gt;
+</span></span><span class="line"><span class="cl">          &lt;title&gt;arantxa.iesgn.org&lt;/title&gt;
+</span></span><span class="line"><span class="cl">      &lt;/head&gt;
+</span></span><span class="line"><span class="cl">      &lt;body&gt;
+</span></span><span class="line"><span class="cl">          &lt;h1&gt;Arantxa Fernández Morató&lt;/h1&gt;
+</span></span><span class="line"><span class="cl">          &lt;h2&gt;Criptografía III. Certificados digitales y https.&lt;/h2&gt;
+</span></span><span class="line"><span class="cl">          &lt;p&gt;Esto es una web de prueba para la práctica de criptografía de SAD.&lt;/p&gt;
+</span></span><span class="line"><span class="cl">          &lt;p&gt;NGINX funcionando!!!&lt;/p&gt;
+</span></span><span class="line"><span class="cl">      &lt;/body&gt;
+</span></span><span class="line"><span class="cl">&lt;/html&gt;
+</span></span></code></pre></div><p>Firmo el certificado:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo openssl rsa -in /etc/ssl/private/clavearantxa.key -out /etc/ssl/private/clavearantxa2.key
+</span></span></code></pre></div><p>Enlace simbólico y reiniciar servicio nginx:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo ln -s /etc/nginx/sites-available/maria.iesgn.org.conf /etc/nginx/sites-enabled/
+</span></span><span class="line"><span class="cl">sudo systemctl restart nginx
+</span></span></code></pre></div><p>Compruebo que la web funciona correctamente.</p>
+<p><img src="/img/cripto3/46.png" alt="web-nginx"></p>
+<p><img src="/img/cripto3/47.png" alt="web-nginx2"></p>
+
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://afermor8.github.io/tags/sad/">SAD</a>&nbsp;
+            
+          </div>
+        
+
+        
+            <hr/>
+            <section id="social-share">
+              <div class="list-inline footer-links">
+                
+
+<div class="share-box" aria-hidden="true">
+    <ul class="share">
+      
+      <li>
+        <a href="//twitter.com/share?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcripto3%2f&amp;text=Criptograf%c3%ada%20III.%20Certificados%20digiales.%20HTTPS&amp;via=" target="_blank" title="Share on Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fafermor8.github.io%2fpost%2fcripto3%2f" target="_blank" title="Share on Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//reddit.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcripto3%2f&amp;title=Criptograf%c3%ada%20III.%20Certificados%20digiales.%20HTTPS" target="_blank" title="Share on Reddit">
+          <i class="fab fa-reddit"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcripto3%2f&amp;title=Criptograf%c3%ada%20III.%20Certificados%20digiales.%20HTTPS" target="_blank" title="Share on LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcripto3%2f&amp;title=Criptograf%c3%ada%20III.%20Certificados%20digiales.%20HTTPS" target="_blank" title="Share on StumbleUpon">
+          <i class="fab fa-stumbleupon"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcripto3%2f&amp;description=Criptograf%c3%ada%20III.%20Certificados%20digiales.%20HTTPS" target="_blank" title="Share on Pinterest">
+          <i class="fab fa-pinterest"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+
+              </div>
+            </section>
+        
+
+        
+          
+            
+          
+
+          
+                  <h4 class="see-also">Ver también</h4>
+                  <ul>
+                
+                
+                    <li><a href="/post/cripto2/">Criptografía II. Integridad, firmas y autenticación</a></li>
+                
+                    <li><a href="/post/criptografia1/">Criptografia I. Cifrado asimétrico con gpg y openssl</a></li>
+                
+              </ul>
+
+          
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://afermor8.github.io/post/cripto2/" data-toggle="tooltip" data-placement="top" title="Criptografía II. Integridad, firmas y autenticación">&larr; Artículo anterior</a>
+            </li>
+          
+          
+        </ul>
+      
+
+
+      
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+      
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+		
+		  <a href="mailto:ara.fer.mor@gmail.com" title="Email me">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://github.com/afermor8" title="GitHub">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://Afermor.slack.com/" title="Slack">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-slack fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://linkedin.com/in/arantxa-f-6136617b" title="LinkedIn">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://telegram.me/arantxipu" title="Telegram">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-telegram fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            <a href="" title="RSS">
+              <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              <a href="afermor8.github.io">afermor8</a>
+            
+          
+
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2023
+          
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="https://gohugo.io">Hugo v0.104.3</a> alimentada &nbsp;&bull;&nbsp; Tema <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adaptado de <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer><script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://afermor8.github.io/js/main.js"></script>
+<script src="https://afermor8.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://afermor8.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>
+
