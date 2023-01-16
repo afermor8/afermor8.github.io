@@ -60,7 +60,7 @@
   "headline": "Criptografía III. Certificados digiales. HTTPS",
   "description" : "Certificado digital de persona física Tarea 1: Instalación del certificado 1. Una vez que hayas obtenido tu certificado, explica brevemente como se instala en tu navegador favorito Este punto lo explico junto al siguiente punto para mostrar las capturas.\n2. Muestra una captura de pantalla donde se vea las preferencias del navegador donde se ve instalado tu certificado Una vez tenemos el certificado digital, para agregarlo a Google Chrome vamos a los tres puntos de la barra superior y hacemos click en Configuración.",
   "inLanguage" : "es",
-  "wordCount":  2339 ,
+  "wordCount":  3290 ,
   "datePublished" : "2023-01-11T13:42:27",
   "dateModified" : "2023-01-11T13:42:27",
   "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
@@ -253,10 +253,10 @@
   <i class="fas fa-calendar"></i>&nbsp;Publicado el January 11, 2023
   
   
-    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;11&nbsp;minutos
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;16&nbsp;minutos
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2339&nbsp;palabras
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;3290&nbsp;palabras
   
   
     
@@ -293,10 +293,10 @@
   <i class="fas fa-calendar"></i>&nbsp;Publicado el January 11, 2023
   
   
-    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;11&nbsp;minutos
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;16&nbsp;minutos
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2339&nbsp;palabras
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;3290&nbsp;palabras
   
   
     
@@ -442,15 +442,15 @@
 </span></span><span class="line"><span class="cl">          &lt;title&gt;arantxa.iesgn.org&lt;/title&gt;
 </span></span><span class="line"><span class="cl">      &lt;/head&gt;
 </span></span><span class="line"><span class="cl">      &lt;body&gt;
-</span></span><span class="line"><span class="cl">          &lt;h1&gt;Arantxa Fern\u00e1ndez Morat\u00f3&lt;/h1&gt;
-</span></span><span class="line"><span class="cl">          &lt;h2&gt;Criptograf\u00eda III. Certificados digitales y https.&lt;/h2&gt;
-</span></span><span class="line"><span class="cl">          &lt;p&gt;Esto es una web de prueba para la pr\u00e1ctica de criptograf\u00eda de SAD.&lt;/p&gt;
+</span></span><span class="line"><span class="cl">          &lt;h1&gt;Arantxa Fernández Morató&lt;/h1&gt;
+</span></span><span class="line"><span class="cl">          &lt;h2&gt;Criptografia III. Certificados digitales y https.&lt;/h2&gt;
+</span></span><span class="line"><span class="cl">          &lt;p&gt;Esto es una web de prueba para la práctica de criptografía de SAD.&lt;/p&gt;
 </span></span><span class="line"><span class="cl">      &lt;/body&gt;
 </span></span><span class="line"><span class="cl">&lt;/html&gt;
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">cd /etc/apache2/sites-available
 </span></span><span class="line"><span class="cl">sudo cp 000-default.conf arantxa.iesgn.org.conf
-</span></span><span class="line"><span class="cl">nano arantxa.iesgn.org.conf
+</span></span><span class="line"><span class="cl">sudo nano arantxa.iesgn.org.conf
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">&lt;VirtualHost *:80&gt;
 </span></span><span class="line"><span class="cl">        ServerName arantxa.iesgn.org
@@ -479,311 +479,502 @@
 <p>El alumno que hace de Autoridad Certificadora deberá entregar una documentación donde explique los siguientes puntos:</p>
 <h4 id="1-crear-su-autoridad-certificadora-generar-el-certificado-digital-de-la-ca-mostrar-el-fichero-de-configuración-de-la-ac">1. Crear su autoridad certificadora (generar el certificado digital de la CA). Mostrar el fichero de configuración de la AC.</h4>
 <p>En la máquina virtual donde crearé la web estática voy a crear la autoridad certificadora.</p>
-<p>Creo los siguientes directorios:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">mkdir CA
+<p>Accedo con root y creo los siguientes directorios:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo su
+</span></span><span class="line"><span class="cl">mkdir -p CA/{certsdb,certreqs,crl,private,certs}
 </span></span><span class="line"><span class="cl">cd CA
-</span></span><span class="line"><span class="cl">mkdir certs csr crl newcerts private
-</span></span></code></pre></div><p>Cambio los permisos al fichero private.</p>
+</span></span></code></pre></div><p>Cambio los permisos al fichero private por motivos de seguridad.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">chmod 700 private
 </span></span></code></pre></div><p>Creamos un fichero donde se guardarán los certificados existentes.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">touch index.txt
-</span></span><span class="line"><span class="cl">touch index.txt.attr
-</span></span><span class="line"><span class="cl">echo 1000 &gt; serial
 </span></span></code></pre></div><p>Copiamos el fichero openssl para adaptarlo a nuestras necesidades.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cp /usr/lib/ssl/openssl.cnf ./
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cp /usr/lib/ssl/openssl.cnf .
 </span></span><span class="line"><span class="cl">nano openssl.cnf
 </span></span></code></pre></div><p>Lo modificamos y lo dejamos como se muestra a continuación:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">HOME			= .
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">oid_section		= new_oids
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">openssl_conf = default_conf
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">[ new_oids ]
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">tsa_policy1 = 1.2.3.4.1
-</span></span><span class="line"><span class="cl">tsa_policy2 = 1.2.3.4.5.6
-</span></span><span class="line"><span class="cl">tsa_policy3 = 1.2.3.4.5.7
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">[ ca ]
-</span></span><span class="line"><span class="cl">default_ca	= CA_default		# The default ca section
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">[ CA_default ]
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">dir		= /usuario1/CA		# Where everything is kept
-</span></span><span class="line"><span class="cl">certs		= $dir/certs		# Where the issued certs are kept
-</span></span><span class="line"><span class="cl">crl_dir		= $dir/crl		# Where the issued crl are kept
-</span></span><span class="line"><span class="cl">database	= $dir/index.txt	# database index file.
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">new_certs_dir	= $dir/newcerts		# default place for new certs.
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">certificate	= $dir/certs/cacert.crt 	# The CA certificate
-</span></span><span class="line"><span class="cl">serial		= $dir/serial 		# The current serial number
-</span></span><span class="line"><span class="cl">crlnumber	= $dir/crlnumber	# the current crl number
-</span></span><span class="line"><span class="cl">					# must be commented out to leave a V1 CRL
-</span></span><span class="line"><span class="cl">crl		= $dir/crl/ca.crl.pem 		# The current CRL
-</span></span><span class="line"><span class="cl">private_key	= $dir/private/private.key # The private key
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">x509_extensions	= usr_cert		# The extensions to add to the cert
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">name_opt 	= ca_default		# Subject Name options
-</span></span><span class="line"><span class="cl">cert_opt 	= ca_default		# Certificate field options
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">default_days	= 365			# how long to certify for
-</span></span><span class="line"><span class="cl">default_crl_days= 30			# how long before next CRL
-</span></span><span class="line"><span class="cl">default_md	= sha256		# use public key default MD
-</span></span><span class="line"><span class="cl">preserve	= no			# keep passed DN ordering
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">policy		= policy_strict
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">[ policy_strict ]
-</span></span><span class="line"><span class="cl">countryName		= match
-</span></span><span class="line"><span class="cl">stateOrProvinceName	= match
-</span></span><span class="line"><span class="cl">organizationName	= match
-</span></span><span class="line"><span class="cl">organizationalUnitName	= optional
-</span></span><span class="line"><span class="cl">commonName		= supplied
-</span></span><span class="line"><span class="cl">emailAddress		= optional
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">[ policy_loose ]
-</span></span><span class="line"><span class="cl">countryName		= optional
-</span></span><span class="line"><span class="cl">stateOrProvinceName	= optional
-</span></span><span class="line"><span class="cl">localityName		= optional
-</span></span><span class="line"><span class="cl">organizationName	= optional
-</span></span><span class="line"><span class="cl">organizationalUnitName	= optional
-</span></span><span class="line"><span class="cl">commonName		= supplied
-</span></span><span class="line"><span class="cl">emailAddress		= optional
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">[ req ]
-</span></span><span class="line"><span class="cl">default_bits		= 2048
-</span></span><span class="line"><span class="cl">default_keyfile 	= privkey.pem
-</span></span><span class="line"><span class="cl">distinguished_name	= req_distinguished_name
-</span></span><span class="line"><span class="cl">attributes		= req_attributes
-</span></span><span class="line"><span class="cl">x509_extensions	= v3_ca	# The extensions to add to the self signed cert
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">string_mask = utf8only
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">req_extensions = v3_req # The extensions to add to a certificate request
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">[ req_distinguished_name ]
-</span></span><span class="line"><span class="cl">countryName			= Country Name (2 letter code)
-</span></span><span class="line"><span class="cl">countryName_default		= ES
-</span></span><span class="line"><span class="cl">countryName_min			= 2
-</span></span><span class="line"><span class="cl">countryName_max			= 2
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">stateOrProvinceName		= State or Province Name (full name)
-</span></span><span class="line"><span class="cl">stateOrProvinceName_default	= Sevilla
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">localityName			= Locality Name (eg, city)
-</span></span><span class="line"><span class="cl">localityName_default		= Dos Hermanas
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">0.organizationName		= Organization Name (eg, company)
-</span></span><span class="line"><span class="cl">0.organizationName_default	= Afermor8
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">organizationalUnitName		= Organizational Unit Name (eg, section)
-</span></span><span class="line"><span class="cl">organizationalUnitName_default	= GN
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">commonName			= Common Name (e.g. server FQDN or YOUR name)
-</span></span><span class="line"><span class="cl">commonName_max			= 64
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">emailAddress			= Email Address
-</span></span><span class="line"><span class="cl">emailAddress_max		= 64
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">[ usr_cert ]
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">basicConstraints=CA:FALSE
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">nsCertType = client, email
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">keyUsage = critical, nonRepudiation, digitalSignature, keyEncipherment
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">nsComment			= &#34;OpenSSL Generated Certificate&#34;
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">subjectKeyIdentifier = hash
-</span></span><span class="line"><span class="cl">authorityKeyIdentifier = keyid,issuer
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">extendedKeyUsage = clientAuth, emailProtection
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">[ v3_req ]
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">basicConstraints = CA:FALSE
-</span></span><span class="line"><span class="cl">keyUsage = nonRepudiation, digitalSignature, keyEncipherment
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">[ v3_ca ]
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">subjectKeyIdentifier = hash
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">authorityKeyIdentifier = keyid:always,issuer
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">basicConstraints = critical,CA:true
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">keyUsage = critical, digitalSignature, cRLSign, keyCertSign
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">[ v3_intermediate_ca ]
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">subjectKeyIdentifier = hash
-</span></span><span class="line"><span class="cl">authorityKeyIdentifier = keyid:always,issuer
-</span></span><span class="line"><span class="cl">basicConstraints = critical, CA:true, pathlen:0
-</span></span><span class="line"><span class="cl">keyUsage = critical, digitalSignature, cRLSign, keyCertSign
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">[ crl_ext ]
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">authorityKeyIdentifier = keyid:always
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">[ ocsp ]
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">basicConstraints = CA:FALSE
-</span></span><span class="line"><span class="cl">subjectKeyIdentifier = hash
-</span></span><span class="line"><span class="cl">authorityKeyIdentifier = keyid,issuer
-</span></span><span class="line"><span class="cl">keyUsage = critical, digitalSignature
-</span></span><span class="line"><span class="cl">extendedKeyUsage = critical, OCSPSigning
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">[ proxy_cert_ext ]
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">basicConstraints=CA:FALSE
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">nsComment			= &#34;OpenSSL Generated Certificate&#34;
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">subjectKeyIdentifier=hash
-</span></span><span class="line"><span class="cl">authorityKeyIdentifier=keyid,issuer
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">proxyCertInfo=critical,language:id-ppl-anyLanguage,pathlen:3,policy:foo
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">[ tsa ]
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">default_tsa = tsa_config1	# the default TSA section
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">[ tsa_config1 ]
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">dir		= ./demoCA		# TSA root directory
-</span></span><span class="line"><span class="cl">serial		= $dir/tsaserial	# The current serial number (mandatory)
-</span></span><span class="line"><span class="cl">crypto_device	= builtin		# OpenSSL engine to use for signing
-</span></span><span class="line"><span class="cl">signer_cert	= $dir/tsacert.pem 	# The TSA signing certificate
-</span></span><span class="line"><span class="cl">					# (optional)
-</span></span><span class="line"><span class="cl">certs		= $dir/cacert.pem	# Certificate chain to include in reply
-</span></span><span class="line"><span class="cl">					# (optional)
-</span></span><span class="line"><span class="cl">signer_key	= $dir/private/tsakey.pem # The TSA private key (optional)
-</span></span><span class="line"><span class="cl">signer_digest  = sha256			# Signing digest to use. (Optional)
-</span></span><span class="line"><span class="cl">default_policy	= tsa_policy1		# Policy if request did not specify it
-</span></span><span class="line"><span class="cl">					# (optional)
-</span></span><span class="line"><span class="cl">other_policies	= tsa_policy2, tsa_policy3	# acceptable policies (optional)
-</span></span><span class="line"><span class="cl">digests     = sha1, sha256, sha384, sha512  # Acceptable message digests (mandatory)
-</span></span><span class="line"><span class="cl">accuracy	= secs:1, millisecs:500, microsecs:100	# (optional)
-</span></span><span class="line"><span class="cl">clock_precision_digits  = 0	# number of digits after dot. (optional)
-</span></span><span class="line"><span class="cl">ordering		= yes	# Is ordering defined for timestamps?
-</span></span><span class="line"><span class="cl">				# (optional, default: no)
-</span></span><span class="line"><span class="cl">tsa_name		= yes	# Must the TSA name be included in the reply?
-</span></span><span class="line"><span class="cl">				# (optional, default: no)
-</span></span><span class="line"><span class="cl">ess_cert_id_chain	= no	# Must the ESS cert id chain be included?
-</span></span><span class="line"><span class="cl">				# (optional, default: no)
-</span></span><span class="line"><span class="cl">ess_cert_id_alg		= sha1	# algorithm to compute certificate
-</span></span><span class="line"><span class="cl">				# identifier (optional, default: sha1)
-</span></span><span class="line"><span class="cl">[default_conf]
-</span></span><span class="line"><span class="cl">ssl_conf = ssl_sect
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">[ssl_sect]
-</span></span><span class="line"><span class="cl">system_default = system_default_sect
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">[system_default_sect]
-</span></span><span class="line"><span class="cl">MinProtocol = TLSv1.2
-</span></span><span class="line"><span class="cl">CipherString = DEFAULT@SECLEVEL=2
-</span></span></code></pre></div><p>Creamos a continuación la clave y el fichero de solicitud de firma del certificado.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">openssl genrsa -aes256 -out private/private.key 4096
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">sed -i &#39;s|xxxsubjectAltNamexxx =|subjectAltName = ${ENV::SAN}|g&#39; openssl.conf URL=juanjesus.iesgn.org
-</span></span><span class="line"><span class="cl">  export SAN=DNS:$URL
-</span></span></code></pre></div><p>Ahora creamos el certificado:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">openssl req -config openssl.cnf -key private/private.key -new -x509 -days 365 -sha256 -extensions v3_ca -out certs/cacert.crt
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">chmod 444 certs/cacert.crt    
-</span></span></code></pre></div><h4 id="2-debe-recibir-el-fichero-csr-solicitud-de-firmar-un-certificado-de-su-compañero-debe-firmarlo-y-enviar-el-certificado-generado-a-su-compañero">2. Debe recibir el fichero CSR (Solicitud de Firmar un Certificado) de su compañero, debe firmarlo y enviar el certificado generado a su compañero.</h4>
-<p>Mi compañero me envía su fichero CSR, el cual he añadido al directorio <strong>/usuario1/CA/csr/</strong>, y se lo firmo del siguiente modo:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">openssl ca -config openssl.conf -extensions v3_req -days 365 -notext -md sha256 -in csr/arturo.csr -out certs/arturo.crt
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-zed" data-lang="zed"><span class="line"><span class="cl"><span class="err">#</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">OpenSSL</span><span class="w"> </span><span class="n">example</span><span class="w"> </span><span class="n">configuration</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">mostly</span><span class="w"> </span><span class="n">being</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">generation</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">certificate</span><span class="w"> </span><span class="n">requests</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Note</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">you</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">include</span><span class="w"> </span><span class="n">other</span><span class="w"> </span><span class="n">files</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="n">configuration</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="n">using</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="p">.</span><span class="n">include</span><span class="w"> </span><span class="n">directive</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="p">.</span><span class="n">include</span><span class="w"> </span><span class="n">filename</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="kt">definition</span><span class="w"> </span><span class="n">stops</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">following</span><span class="w"> </span><span class="n">lines</span><span class="w"> </span><span class="n">choking</span><span class="w"> </span><span class="n">if</span><span class="w"> </span><span class="n">HOME</span><span class="w"> </span><span class="n">isn</span><span class="err">&#39;</span><span class="n">t</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">defined</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">HOME</span><span class="w">			</span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Extra</span><span class="w"> </span><span class="n">OBJECT</span><span class="w"> </span><span class="n">IDENTIFIER</span><span class="w"> </span><span class="n">info</span><span class="o">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nv">#oid_file</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="err">$</span><span class="n">ENV</span><span class="o">::</span><span class="nn">HOME/</span><span class="p">.</span><span class="n">oid</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">oid_section</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">new_oids</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">System</span><span class="w"> </span><span class="n">default</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">openssl_conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">default_conf</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">To</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">configuration</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="err">&#34;</span><span class="o">-</span><span class="n">extfile</span><span class="err">&#34;</span><span class="w"> </span><span class="n">option</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="err">&#34;</span><span class="n">openssl</span><span class="w"> </span><span class="n">x509</span><span class="err">&#34;</span><span class="w"> </span><span class="n">utility</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="n">here</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">section</span><span class="w"> </span><span class="n">containing</span><span class="w"> </span><span class="n">the</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">X</span><span class="p">.</span><span class="err">509</span><span class="n">v3</span><span class="w"> </span><span class="n">extensions</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">use</span><span class="o">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">extensions</span><span class="w">		</span><span class="o">=</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="p">(</span><span class="n">Alternatively</span><span class="p">,</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">configuration</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">has</span><span class="w"> </span><span class="n">only</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">X</span><span class="p">.</span><span class="err">509</span><span class="n">v3</span><span class="w"> </span><span class="n">extensions</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">its</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="p">[</span><span class="o">=</span><span class="w"> </span><span class="n">default</span><span class="p">]</span><span class="w"> </span><span class="n">section</span><span class="p">.)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="w"> </span><span class="n">new_oids</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">We</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">add</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">OIDs</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">here</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="err">&#39;</span><span class="n">ca</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="err">&#39;</span><span class="n">req</span><span class="err">&#39;</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="err">&#39;</span><span class="n">ts</span><span class="err">&#39;</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Add</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">simple</span><span class="w"> </span><span class="n">OID</span><span class="w"> </span><span class="n">like</span><span class="w"> </span><span class="n">this</span><span class="o">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">testoid1</span><span class="o">=</span><span class="err">1</span><span class="p">.</span><span class="err">2</span><span class="p">.</span><span class="err">3</span><span class="p">.</span><span class="err">4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Or</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="n">substitution</span><span class="w"> </span><span class="n">like</span><span class="w"> </span><span class="n">this</span><span class="o">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">testoid2</span><span class="o">=</span><span class="err">$</span><span class="p">{</span><span class="n">testoid1</span><span class="p">}.</span><span class="err">5</span><span class="p">.</span><span class="err">6</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Policies</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">TSA</span><span class="w"> </span><span class="n">examples</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">tsa_policy1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">1</span><span class="p">.</span><span class="err">2</span><span class="p">.</span><span class="err">3</span><span class="p">.</span><span class="err">4</span><span class="p">.</span><span class="err">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">tsa_policy2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">1</span><span class="p">.</span><span class="err">2</span><span class="p">.</span><span class="err">3</span><span class="p">.</span><span class="err">4</span><span class="p">.</span><span class="err">5</span><span class="p">.</span><span class="err">6</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">tsa_policy3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">1</span><span class="p">.</span><span class="err">2</span><span class="p">.</span><span class="err">3</span><span class="p">.</span><span class="err">4</span><span class="p">.</span><span class="err">5</span><span class="p">.</span><span class="err">7</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">####################################################################</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="w"> </span><span class="n">ca</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">default_ca</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">CA_default</span><span class="w">		</span><span class="err">#</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">default</span><span class="w"> </span><span class="n">ca</span><span class="w"> </span><span class="n">section</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">####################################################################</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="w"> </span><span class="n">CA_default</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">dir</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="o">/</span><span class="nn">root/</span><span class="n">CA</span><span class="w">		</span><span class="err">#</span><span class="w"> </span><span class="n">Where</span><span class="w"> </span><span class="n">everything</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">kept</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">certs</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="err">$</span><span class="nn">dir/</span><span class="n">certsdb</span><span class="w">		</span><span class="err">#</span><span class="w"> </span><span class="n">Where</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">issued</span><span class="w"> </span><span class="n">certs</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">kept</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">crl_dir</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="err">$</span><span class="nn">dir/</span><span class="n">crl</span><span class="w">		</span><span class="err">#</span><span class="w"> </span><span class="n">Where</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">issued</span><span class="w"> </span><span class="n">crl</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">kept</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">database</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="err">$</span><span class="nn">dir/</span><span class="n">index</span><span class="p">.</span><span class="n">txt</span><span class="w">	</span><span class="err">#</span><span class="w"> </span><span class="n">database</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nv">#unique_subject</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">no</span><span class="w">			</span><span class="err">#</span><span class="w"> </span><span class="n">Set</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="err">&#39;</span><span class="n">no</span><span class="err">&#39;</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">allow</span><span class="w"> </span><span class="n">creation</span><span class="w"> </span><span class="n">of</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">					</span><span class="err">#</span><span class="w"> </span><span class="n">several</span><span class="w"> </span><span class="n">certs</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">same</span><span class="w"> </span><span class="n">subject</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">new_certs_dir</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="err">$</span><span class="nn">dir/</span><span class="n">certs</span><span class="w">		</span><span class="err">#</span><span class="w"> </span><span class="n">default</span><span class="w"> </span><span class="n">place</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">certs</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">certificate</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="err">$</span><span class="nn">dir/</span><span class="n">cacert</span><span class="p">.</span><span class="n">pem</span><span class="w"> 	</span><span class="err">#</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">CA</span><span class="w"> </span><span class="n">certificate</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">serial</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="err">$</span><span class="nn">dir/</span><span class="n">serial</span><span class="w"> 		</span><span class="err">#</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="n">serial</span><span class="w"> </span><span class="n">number</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">crlnumber</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="err">$</span><span class="nn">dir/</span><span class="n">crlnumber</span><span class="w">	</span><span class="err">#</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="n">crl</span><span class="w"> </span><span class="n">number</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">					</span><span class="err">#</span><span class="w"> </span><span class="n">must</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">commented</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">leave</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">V1</span><span class="w"> </span><span class="n">CRL</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">crl</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="err">$</span><span class="nn">dir/</span><span class="n">crl</span><span class="p">.</span><span class="n">pem</span><span class="w"> 		</span><span class="err">#</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="n">CRL</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">private_key</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="err">$</span><span class="nn">dir/private/</span><span class="n">cakey</span><span class="p">.</span><span class="n">pem</span><span class="err">#</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">private</span><span class="w"> </span><span class="n">key</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">x509_extensions</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">usr_cert</span><span class="w">		</span><span class="err">#</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">extensions</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">add</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">cert</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Comment</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">following</span><span class="w"> </span><span class="n">two</span><span class="w"> </span><span class="n">lines</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="err">&#34;</span><span class="n">traditional</span><span class="err">&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="p">(</span><span class="n">and</span><span class="w"> </span><span class="n">highly</span><span class="w"> </span><span class="n">broken</span><span class="p">)</span><span class="w"> </span><span class="n">format</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">name_opt</span><span class="w"> 	</span><span class="o">=</span><span class="w"> </span><span class="n">ca_default</span><span class="w">		</span><span class="err">#</span><span class="w"> </span><span class="n">Subject</span><span class="w"> </span><span class="n">Name</span><span class="w"> </span><span class="n">options</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">cert_opt</span><span class="w"> 	</span><span class="o">=</span><span class="w"> </span><span class="n">ca_default</span><span class="w">		</span><span class="err">#</span><span class="w"> </span><span class="n">Certificate</span><span class="w"> </span><span class="n">field</span><span class="w"> </span><span class="n">options</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Extension</span><span class="w"> </span><span class="n">copying</span><span class="w"> </span><span class="n">option</span><span class="o">:</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">caution</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">copy_extensions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">copy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Extensions</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">add</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">CRL</span><span class="p">.</span><span class="w"> </span><span class="n">Note</span><span class="o">:</span><span class="w"> </span><span class="n">Netscape</span><span class="w"> </span><span class="n">communicator</span><span class="w"> </span><span class="n">chokes</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">V2</span><span class="w"> </span><span class="n">CRLs</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">so</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">commented</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">default</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">leave</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">V1</span><span class="w"> </span><span class="n">CRL</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">crlnumber</span><span class="w"> </span><span class="n">must</span><span class="w"> </span><span class="n">also</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">commented</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">leave</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">V1</span><span class="w"> </span><span class="n">CRL</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">crl_extensions</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">crl_ext</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">default_days</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="err">365</span><span class="w">			</span><span class="err">#</span><span class="w"> </span><span class="n">how</span><span class="w"> </span><span class="n">long</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">certify</span><span class="w"> </span><span class="n">for</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">default_crl_days</span><span class="o">=</span><span class="w"> </span><span class="err">30</span><span class="w">			</span><span class="err">#</span><span class="w"> </span><span class="n">how</span><span class="w"> </span><span class="n">long</span><span class="w"> </span><span class="n">before</span><span class="w"> </span><span class="n">next</span><span class="w"> </span><span class="n">CRL</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">default_md</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">default</span><span class="w">		</span><span class="err">#</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="n">public</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="n">default</span><span class="w"> </span><span class="n">MD</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">preserve</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">no</span><span class="w">			</span><span class="err">#</span><span class="w"> </span><span class="n">keep</span><span class="w"> </span><span class="n">passed</span><span class="w"> </span><span class="n">DN</span><span class="w"> </span><span class="n">ordering</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="n">few</span><span class="w"> </span><span class="n">difference</span><span class="w"> </span><span class="n">way</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">specifying</span><span class="w"> </span><span class="n">how</span><span class="w"> </span><span class="n">similar</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="n">should</span><span class="w"> </span><span class="n">look</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">For</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="n">CA</span><span class="p">,</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">listed</span><span class="w"> </span><span class="n">attributes</span><span class="w"> </span><span class="n">must</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">same</span><span class="p">,</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">optional</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">supplied</span><span class="w"> </span><span class="n">fields</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">just</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="o">:-</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">policy</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">policy_match</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">For</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">CA</span><span class="w"> </span><span class="n">policy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="w"> </span><span class="n">policy_match</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">countryName</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">match</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">stateOrProvinceName</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">match</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">organizationName</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">match</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">organizationalUnitName</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">optional</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">commonName</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">supplied</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">emailAddress</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">optional</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">For</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="err">&#39;</span><span class="n">anything</span><span class="err">&#39;</span><span class="w"> </span><span class="n">policy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">At</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">point</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">time</span><span class="p">,</span><span class="w"> </span><span class="n">you</span><span class="w"> </span><span class="n">must</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">acceptable</span><span class="w"> </span><span class="err">&#39;</span><span class="n">object</span><span class="err">&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">types</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="w"> </span><span class="n">policy_anything</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">countryName</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">optional</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">stateOrProvinceName</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">optional</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">localityName</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">optional</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">organizationName</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">optional</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">organizationalUnitName</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">optional</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">commonName</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">supplied</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">emailAddress</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">optional</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">####################################################################</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="w"> </span><span class="n">req</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">default_bits</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="err">2048</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">default_keyfile</span><span class="w"> 	</span><span class="o">=</span><span class="w"> </span><span class="n">privkey</span><span class="p">.</span><span class="n">pem</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">distinguished_name</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">req_distinguished_name</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">attributes</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">req_attributes</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">x509_extensions</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">v3_ca</span><span class="w">	</span><span class="err">#</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">extensions</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">add</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">self</span><span class="w"> </span><span class="n">signed</span><span class="w"> </span><span class="n">cert</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Passwords</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">private</span><span class="w"> </span><span class="n">keys</span><span class="w"> </span><span class="n">if</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">present</span><span class="w"> </span><span class="n">they</span><span class="w"> </span><span class="n">will</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">prompted</span><span class="w"> </span><span class="n">for</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">input_password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">secret</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">output_password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">secret</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">sets</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">permitted</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="n">types</span><span class="p">.</span><span class="w"> </span><span class="n">There</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">several</span><span class="w"> </span><span class="n">options</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">default</span><span class="o">:</span><span class="w"> </span><span class="n">PrintableString</span><span class="p">,</span><span class="w"> </span><span class="n">T61String</span><span class="p">,</span><span class="w"> </span><span class="n">BMPString</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">pkix</span><span class="w">	 </span><span class="o">:</span><span class="w"> </span><span class="n">PrintableString</span><span class="p">,</span><span class="w"> </span><span class="n">BMPString</span><span class="w"> </span><span class="p">(</span><span class="n">PKIX</span><span class="w"> </span><span class="n">recommendation</span><span class="w"> </span><span class="n">before</span><span class="w"> </span><span class="err">2004</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">utf8only</span><span class="o">:</span><span class="w"> </span><span class="n">only</span><span class="w"> </span><span class="n">UTF8Strings</span><span class="w"> </span><span class="p">(</span><span class="n">PKIX</span><span class="w"> </span><span class="n">recommendation</span><span class="w"> </span><span class="n">after</span><span class="w"> </span><span class="err">2004</span><span class="p">).</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">nombstr</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">PrintableString</span><span class="p">,</span><span class="w"> </span><span class="n">T61String</span><span class="w"> </span><span class="p">(</span><span class="n">no</span><span class="w"> </span><span class="n">BMPStrings</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">UTF8Strings</span><span class="p">).</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">MASK</span><span class="o">:</span><span class="n">XXXX</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">literal</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">WARNING</span><span class="o">:</span><span class="w"> </span><span class="n">ancient</span><span class="w"> </span><span class="n">versions</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">Netscape</span><span class="w"> </span><span class="n">crash</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">BMPStrings</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">UTF8Strings</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">string_mask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">utf8only</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">req_extensions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v3_req</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">extensions</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">add</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">certificate</span><span class="w"> </span><span class="n">request</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="w"> </span><span class="n">req_distinguished_name</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">countryName</span><span class="w">			</span><span class="o">=</span><span class="w"> </span><span class="n">Country</span><span class="w"> </span><span class="n">Name</span><span class="w"> </span><span class="p">(</span><span class="err">2</span><span class="w"> </span><span class="n">letter</span><span class="w"> </span><span class="n">code</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">countryName_default</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">ES</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">countryName_min</span><span class="w">			</span><span class="o">=</span><span class="w"> </span><span class="err">2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">countryName_max</span><span class="w">			</span><span class="o">=</span><span class="w"> </span><span class="err">2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">stateOrProvinceName</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">State</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">Province</span><span class="w"> </span><span class="n">Name</span><span class="w"> </span><span class="p">(</span><span class="n">full</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">stateOrProvinceName_default</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">Sevilla</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">localityName</span><span class="w">			</span><span class="o">=</span><span class="w"> </span><span class="n">Locality</span><span class="w"> </span><span class="n">Name</span><span class="w"> </span><span class="p">(</span><span class="n">eg</span><span class="p">,</span><span class="w"> </span><span class="n">city</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">localityName_default</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">Dos</span><span class="w"> </span><span class="n">Hermanas</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">0</span><span class="p">.</span><span class="n">organizationName</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">Organization</span><span class="w"> </span><span class="n">Name</span><span class="w"> </span><span class="p">(</span><span class="n">eg</span><span class="p">,</span><span class="w"> </span><span class="n">company</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">0</span><span class="p">.</span><span class="n">organizationName_default</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">Afermor8</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">we</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">do</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">needed</span><span class="w"> </span><span class="n">normally</span><span class="w"> </span><span class="o">:-</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#1</span><span class="p">.</span><span class="n">organizationName</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">Second</span><span class="w"> </span><span class="n">Organization</span><span class="w"> </span><span class="n">Name</span><span class="w"> </span><span class="p">(</span><span class="n">eg</span><span class="p">,</span><span class="w"> </span><span class="n">company</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#1</span><span class="p">.</span><span class="n">organizationName_default</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">World</span><span class="w"> </span><span class="n">Wide</span><span class="w"> </span><span class="n">Web</span><span class="w"> </span><span class="n">Pty</span><span class="w"> </span><span class="n">Ltd</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">organizationalUnitName</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">Organizational</span><span class="w"> </span><span class="n">Unit</span><span class="w"> </span><span class="n">Name</span><span class="w"> </span><span class="p">(</span><span class="n">eg</span><span class="p">,</span><span class="w"> </span><span class="n">section</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">organizationalUnitName_default</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">GN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">commonName</span><span class="w">			</span><span class="o">=</span><span class="w"> </span><span class="n">Common</span><span class="w"> </span><span class="n">Name</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">g</span><span class="p">.</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="n">FQDN</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">YOUR</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">commonName_max</span><span class="w">			</span><span class="o">=</span><span class="w"> </span><span class="err">64</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">emailAddress</span><span class="w">			</span><span class="o">=</span><span class="w"> </span><span class="n">Email</span><span class="w"> </span><span class="n">Address</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">emailAddress_max</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="err">64</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">SET</span><span class="o">-</span><span class="n">ex3</span><span class="w">			</span><span class="o">=</span><span class="w"> </span><span class="n">SET</span><span class="w"> </span><span class="n">extension</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="err">3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="w"> </span><span class="n">req_attributes</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nv">#challengePassword</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="n">challenge</span><span class="w"> </span><span class="n">password</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nv">#challengePassword_min</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="err">4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nv">#challengePassword_max</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="err">20</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nv">#unstructuredName</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">An</span><span class="w"> </span><span class="n">optional</span><span class="w"> </span><span class="n">company</span><span class="w"> </span><span class="n">name</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="w"> </span><span class="n">usr_cert</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">These</span><span class="w"> </span><span class="n">extensions</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">added</span><span class="w"> </span><span class="n">when</span><span class="w"> </span><span class="err">&#39;</span><span class="n">ca</span><span class="err">&#39;</span><span class="w"> </span><span class="n">signs</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">goes</span><span class="w"> </span><span class="n">against</span><span class="w"> </span><span class="n">PKIX</span><span class="w"> </span><span class="n">guidelines</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">some</span><span class="w"> </span><span class="n">CAs</span><span class="w"> </span><span class="n">do</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">some</span><span class="w"> </span><span class="n">software</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">requires</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">avoid</span><span class="w"> </span><span class="n">interpreting</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="n">certificate</span><span class="w"> </span><span class="n">as</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">CA</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">basicConstraints</span><span class="o">=</span><span class="n">CA</span><span class="o">:</span><span class="n">FALSE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Here</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">some</span><span class="w"> </span><span class="n">examples</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">usage</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">nsCertType</span><span class="p">.</span><span class="w"> </span><span class="n">If</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">omitted</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">certificate</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">anything</span><span class="w"> </span><span class="o">*</span><span class="n">except</span><span class="o">*</span><span class="w"> </span><span class="n">object</span><span class="w"> </span><span class="n">signing</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">OK</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">SSL</span><span class="w"> </span><span class="n">server</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">nsCertType</span><span class="w">			</span><span class="o">=</span><span class="w"> </span><span class="n">server</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">For</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">object</span><span class="w"> </span><span class="n">signing</span><span class="w"> </span><span class="n">certificate</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">would</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">used</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">nsCertType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">objsign</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">For</span><span class="w"> </span><span class="n">normal</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">typical</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">nsCertType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">,</span><span class="w"> </span><span class="n">email</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">everything</span><span class="w"> </span><span class="n">including</span><span class="w"> </span><span class="n">object</span><span class="w"> </span><span class="n">signing</span><span class="o">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">nsCertType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">,</span><span class="w"> </span><span class="n">email</span><span class="p">,</span><span class="w"> </span><span class="n">objsign</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">typical</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">keyUsage</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="n">certificate</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">keyUsage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nonRepudiation</span><span class="p">,</span><span class="w"> </span><span class="n">digitalSignature</span><span class="p">,</span><span class="w"> </span><span class="n">keyEncipherment</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">will</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">displayed</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">Netscape</span><span class="err">&#39;</span><span class="n">s</span><span class="w"> </span><span class="n">comment</span><span class="w"> </span><span class="n">listbox</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">nsComment</span><span class="w">			</span><span class="o">=</span><span class="w"> </span><span class="err">&#34;</span><span class="n">OpenSSL</span><span class="w"> </span><span class="n">Generated</span><span class="w"> </span><span class="n">Certificate</span><span class="err">&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">PKIX</span><span class="w"> </span><span class="n">recommendations</span><span class="w"> </span><span class="n">harmless</span><span class="w"> </span><span class="n">if</span><span class="w"> </span><span class="n">included</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">certificates</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">subjectKeyIdentifier</span><span class="o">=</span><span class="n">hash</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">authorityKeyIdentifier</span><span class="o">=</span><span class="n">keyid</span><span class="p">,</span><span class="n">issuer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">stuff</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">subjectAltName</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">issuerAltname</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Import</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="n">address</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">subjectAltName</span><span class="o">=</span><span class="n">email</span><span class="o">:</span><span class="n">copy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">An</span><span class="w"> </span><span class="n">alternative</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">produce</span><span class="w"> </span><span class="n">certificates</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">aren</span><span class="err">&#39;</span><span class="n">t</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">deprecated</span><span class="w"> </span><span class="n">according</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">PKIX</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">subjectAltName</span><span class="o">=</span><span class="n">email</span><span class="o">:</span><span class="n">move</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Copy</span><span class="w"> </span><span class="n">subject</span><span class="w"> </span><span class="n">details</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">issuerAltName</span><span class="o">=</span><span class="n">issuer</span><span class="o">:</span><span class="n">copy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nv">#nsCaRevocationUrl</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">http</span><span class="o">:</span><span class="c1">//www.domain.dom/ca-crl.pem
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">#nsBaseUrl</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nv">#nsRevocationUrl</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nv">#nsRenewalUrl</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nv">#nsCaPolicyUrl</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nv">#nsSslServerName</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">required</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">TSA</span><span class="w"> </span><span class="n">certificates</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">extendedKeyUsage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">critical</span><span class="p">,</span><span class="n">timeStamping</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="w"> </span><span class="n">v3_req</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Extensions</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">add</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">certificate</span><span class="w"> </span><span class="n">request</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">basicConstraints</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CA</span><span class="o">:</span><span class="n">FALSE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">keyUsage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nonRepudiation</span><span class="p">,</span><span class="w"> </span><span class="n">digitalSignature</span><span class="p">,</span><span class="w"> </span><span class="n">keyEncipherment</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="w"> </span><span class="n">v3_ca</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Extensions</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">typical</span><span class="w"> </span><span class="n">CA</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">PKIX</span><span class="w"> </span><span class="n">recommendation</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">subjectKeyIdentifier</span><span class="o">=</span><span class="n">hash</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">authorityKeyIdentifier</span><span class="o">=</span><span class="n">keyid</span><span class="o">:</span><span class="n">always</span><span class="p">,</span><span class="n">issuer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">basicConstraints</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">critical</span><span class="p">,</span><span class="n">CA</span><span class="o">:</span><span class="n">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Key</span><span class="w"> </span><span class="n">usage</span><span class="o">:</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">typical</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">CA</span><span class="w"> </span><span class="n">certificate</span><span class="p">.</span><span class="w"> </span><span class="n">However</span><span class="w"> </span><span class="n">since</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="n">will</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">prevent</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="n">being</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="n">as</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">test</span><span class="w"> </span><span class="n">self</span><span class="o">-</span><span class="n">signed</span><span class="w"> </span><span class="n">certificate</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">best</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">left</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">default</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">keyUsage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cRLSign</span><span class="p">,</span><span class="w"> </span><span class="n">keyCertSign</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Some</span><span class="w"> </span><span class="n">might</span><span class="w"> </span><span class="n">want</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">also</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">nsCertType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sslCA</span><span class="p">,</span><span class="w"> </span><span class="n">emailCA</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Include</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="n">address</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">subject</span><span class="w"> </span><span class="n">alt</span><span class="w"> </span><span class="n">name</span><span class="o">:</span><span class="w"> </span><span class="n">another</span><span class="w"> </span><span class="n">PKIX</span><span class="w"> </span><span class="n">recommendation</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">subjectAltName</span><span class="o">=</span><span class="n">email</span><span class="o">:</span><span class="n">copy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Copy</span><span class="w"> </span><span class="n">issuer</span><span class="w"> </span><span class="n">details</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">issuerAltName</span><span class="o">=</span><span class="n">issuer</span><span class="o">:</span><span class="n">copy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">DER</span><span class="w"> </span><span class="n">hex</span><span class="w"> </span><span class="n">encoding</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">extension</span><span class="o">:</span><span class="w"> </span><span class="n">beware</span><span class="w"> </span><span class="n">experts</span><span class="w"> </span><span class="n">only</span><span class="o">!</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">obj</span><span class="o">=</span><span class="n">DER</span><span class="o">:</span><span class="err">02</span><span class="o">:</span><span class="err">03</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Where</span><span class="w"> </span><span class="err">&#39;</span><span class="n">obj</span><span class="err">&#39;</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">standard</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">added</span><span class="w"> </span><span class="n">object</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">You</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">even</span><span class="w"> </span><span class="n">override</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">supported</span><span class="w"> </span><span class="n">extension</span><span class="o">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">basicConstraints</span><span class="o">=</span><span class="w"> </span><span class="n">critical</span><span class="p">,</span><span class="w"> </span><span class="n">DER</span><span class="o">:</span><span class="err">30</span><span class="o">:</span><span class="err">03</span><span class="o">:</span><span class="err">01</span><span class="o">:</span><span class="err">01</span><span class="o">:</span><span class="n">FF</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="w"> </span><span class="n">crl_ext</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">CRL</span><span class="w"> </span><span class="n">extensions</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Only</span><span class="w"> </span><span class="n">issuerAltName</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">authorityKeyIdentifier</span><span class="w"> </span><span class="n">make</span><span class="w"> </span><span class="n">any</span><span class="w"> </span><span class="n">sense</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">CRL</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">issuerAltName</span><span class="o">=</span><span class="n">issuer</span><span class="o">:</span><span class="n">copy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">authorityKeyIdentifier</span><span class="o">=</span><span class="n">keyid</span><span class="o">:</span><span class="n">always</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="w"> </span><span class="n">proxy_cert_ext</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">These</span><span class="w"> </span><span class="n">extensions</span><span class="w"> </span><span class="n">should</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">added</span><span class="w"> </span><span class="n">when</span><span class="w"> </span><span class="n">creating</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">proxy</span><span class="w"> </span><span class="n">certificate</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">goes</span><span class="w"> </span><span class="n">against</span><span class="w"> </span><span class="n">PKIX</span><span class="w"> </span><span class="n">guidelines</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">some</span><span class="w"> </span><span class="n">CAs</span><span class="w"> </span><span class="n">do</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">some</span><span class="w"> </span><span class="n">software</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">requires</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">avoid</span><span class="w"> </span><span class="n">interpreting</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="n">certificate</span><span class="w"> </span><span class="n">as</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">CA</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">basicConstraints</span><span class="o">=</span><span class="n">CA</span><span class="o">:</span><span class="n">FALSE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Here</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">some</span><span class="w"> </span><span class="n">examples</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">usage</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">nsCertType</span><span class="p">.</span><span class="w"> </span><span class="n">If</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">omitted</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">certificate</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">anything</span><span class="w"> </span><span class="o">*</span><span class="n">except</span><span class="o">*</span><span class="w"> </span><span class="n">object</span><span class="w"> </span><span class="n">signing</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">OK</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">SSL</span><span class="w"> </span><span class="n">server</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">nsCertType</span><span class="w">			</span><span class="o">=</span><span class="w"> </span><span class="n">server</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">For</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">object</span><span class="w"> </span><span class="n">signing</span><span class="w"> </span><span class="n">certificate</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">would</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">used</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">nsCertType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">objsign</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">For</span><span class="w"> </span><span class="n">normal</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">typical</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">nsCertType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">,</span><span class="w"> </span><span class="n">email</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">everything</span><span class="w"> </span><span class="n">including</span><span class="w"> </span><span class="n">object</span><span class="w"> </span><span class="n">signing</span><span class="o">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">nsCertType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">,</span><span class="w"> </span><span class="n">email</span><span class="p">,</span><span class="w"> </span><span class="n">objsign</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">typical</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">keyUsage</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="n">certificate</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">keyUsage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nonRepudiation</span><span class="p">,</span><span class="w"> </span><span class="n">digitalSignature</span><span class="p">,</span><span class="w"> </span><span class="n">keyEncipherment</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">will</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">displayed</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">Netscape</span><span class="err">&#39;</span><span class="n">s</span><span class="w"> </span><span class="n">comment</span><span class="w"> </span><span class="n">listbox</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">nsComment</span><span class="w">			</span><span class="o">=</span><span class="w"> </span><span class="err">&#34;</span><span class="n">OpenSSL</span><span class="w"> </span><span class="n">Generated</span><span class="w"> </span><span class="n">Certificate</span><span class="err">&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">PKIX</span><span class="w"> </span><span class="n">recommendations</span><span class="w"> </span><span class="n">harmless</span><span class="w"> </span><span class="n">if</span><span class="w"> </span><span class="n">included</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">certificates</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">subjectKeyIdentifier</span><span class="o">=</span><span class="n">hash</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">authorityKeyIdentifier</span><span class="o">=</span><span class="n">keyid</span><span class="p">,</span><span class="n">issuer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">stuff</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">subjectAltName</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">issuerAltname</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Import</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="n">address</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">subjectAltName</span><span class="o">=</span><span class="n">email</span><span class="o">:</span><span class="n">copy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">An</span><span class="w"> </span><span class="n">alternative</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">produce</span><span class="w"> </span><span class="n">certificates</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">aren</span><span class="err">&#39;</span><span class="n">t</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">deprecated</span><span class="w"> </span><span class="n">according</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">PKIX</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">subjectAltName</span><span class="o">=</span><span class="n">email</span><span class="o">:</span><span class="n">move</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">Copy</span><span class="w"> </span><span class="n">subject</span><span class="w"> </span><span class="n">details</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">issuerAltName</span><span class="o">=</span><span class="n">issuer</span><span class="o">:</span><span class="n">copy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nv">#nsCaRevocationUrl</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">http</span><span class="o">:</span><span class="c1">//www.domain.dom/ca-crl.pem
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nv">#nsBaseUrl</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nv">#nsRevocationUrl</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nv">#nsRenewalUrl</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nv">#nsCaPolicyUrl</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nv">#nsSslServerName</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">really</span><span class="w"> </span><span class="n">needs</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">place</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">proxy</span><span class="w"> </span><span class="n">certificate</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">proxyCertInfo</span><span class="o">=</span><span class="n">critical</span><span class="p">,</span><span class="n">language</span><span class="o">:</span><span class="n">id</span><span class="o">-</span><span class="n">ppl</span><span class="o">-</span><span class="n">anyLanguage</span><span class="p">,</span><span class="n">pathlen</span><span class="o">:</span><span class="err">3</span><span class="p">,</span><span class="n">policy</span><span class="o">:</span><span class="n">foo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">####################################################################</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="w"> </span><span class="n">tsa</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">default_tsa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsa_config1</span><span class="w">	</span><span class="err">#</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">default</span><span class="w"> </span><span class="n">TSA</span><span class="w"> </span><span class="n">section</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="w"> </span><span class="n">tsa_config1</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">#</span><span class="w"> </span><span class="n">These</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">TSA</span><span class="w"> </span><span class="n">reply</span><span class="w"> </span><span class="n">generation</span><span class="w"> </span><span class="n">only</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">dir</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="o">/</span><span class="n">demoCA</span><span class="w">		</span><span class="err">#</span><span class="w"> </span><span class="n">TSA</span><span class="w"> </span><span class="n">root</span><span class="w"> </span><span class="n">directory</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">serial</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="err">$</span><span class="nn">dir/</span><span class="n">tsaserial</span><span class="w">	</span><span class="err">#</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="n">serial</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="p">(</span><span class="n">mandatory</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">crypto_device</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">builtin</span><span class="w">		</span><span class="err">#</span><span class="w"> </span><span class="n">OpenSSL</span><span class="w"> </span><span class="n">engine</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">signing</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">signer_cert</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="err">$</span><span class="nn">dir/</span><span class="n">tsacert</span><span class="p">.</span><span class="n">pem</span><span class="w"> 	</span><span class="err">#</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">TSA</span><span class="w"> </span><span class="n">signing</span><span class="w"> </span><span class="n">certificate</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">					</span><span class="err">#</span><span class="w"> </span><span class="p">(</span><span class="n">optional</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">certs</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="err">$</span><span class="nn">dir/</span><span class="n">cacert</span><span class="p">.</span><span class="n">pem</span><span class="w">	</span><span class="err">#</span><span class="w"> </span><span class="n">Certificate</span><span class="w"> </span><span class="n">chain</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">include</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">reply</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">					</span><span class="err">#</span><span class="w"> </span><span class="p">(</span><span class="n">optional</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">signer_key</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="err">$</span><span class="nn">dir/private/</span><span class="n">tsakey</span><span class="p">.</span><span class="n">pem</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">TSA</span><span class="w"> </span><span class="n">private</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="p">(</span><span class="n">optional</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">signer_digest</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">sha256</span><span class="w">			</span><span class="err">#</span><span class="w"> </span><span class="n">Signing</span><span class="w"> </span><span class="n">digest</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">use</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="n">Optional</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">default_policy</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">tsa_policy1</span><span class="w">		</span><span class="err">#</span><span class="w"> </span><span class="n">Policy</span><span class="w"> </span><span class="n">if</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="n">did</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">specify</span><span class="w"> </span><span class="n">it</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">					</span><span class="err">#</span><span class="w"> </span><span class="p">(</span><span class="n">optional</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">other_policies</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">tsa_policy2</span><span class="p">,</span><span class="w"> </span><span class="n">tsa_policy3</span><span class="w">	</span><span class="err">#</span><span class="w"> </span><span class="n">acceptable</span><span class="w"> </span><span class="n">policies</span><span class="w"> </span><span class="p">(</span><span class="n">optional</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">digests</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">sha1</span><span class="p">,</span><span class="w"> </span><span class="n">sha256</span><span class="p">,</span><span class="w"> </span><span class="n">sha384</span><span class="p">,</span><span class="w"> </span><span class="n">sha512</span><span class="w">  </span><span class="err">#</span><span class="w"> </span><span class="n">Acceptable</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="n">digests</span><span class="w"> </span><span class="p">(</span><span class="n">mandatory</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">accuracy</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">secs</span><span class="o">:</span><span class="err">1</span><span class="p">,</span><span class="w"> </span><span class="n">millisecs</span><span class="o">:</span><span class="err">500</span><span class="p">,</span><span class="w"> </span><span class="n">microsecs</span><span class="o">:</span><span class="err">100</span><span class="w">	</span><span class="err">#</span><span class="w"> </span><span class="p">(</span><span class="n">optional</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">clock_precision_digits</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="err">0</span><span class="w">	</span><span class="err">#</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">digits</span><span class="w"> </span><span class="n">after</span><span class="w"> </span><span class="n">dot</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="n">optional</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">ordering</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">yes</span><span class="w">	</span><span class="err">#</span><span class="w"> </span><span class="n">Is</span><span class="w"> </span><span class="n">ordering</span><span class="w"> </span><span class="n">defined</span><span class="w"> </span><span class="n">for</span><span class="w"> </span><span class="n">timestamps</span><span class="o">?</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="err">#</span><span class="w"> </span><span class="p">(</span><span class="n">optional</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="o">:</span><span class="w"> </span><span class="n">no</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">tsa_name</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">yes</span><span class="w">	</span><span class="err">#</span><span class="w"> </span><span class="n">Must</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">TSA</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">included</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">reply</span><span class="o">?</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="err">#</span><span class="w"> </span><span class="p">(</span><span class="n">optional</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="o">:</span><span class="w"> </span><span class="n">no</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">ess_cert_id_chain</span><span class="w">	</span><span class="o">=</span><span class="w"> </span><span class="n">no</span><span class="w">	</span><span class="err">#</span><span class="w"> </span><span class="n">Must</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">ESS</span><span class="w"> </span><span class="n">cert</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="n">chain</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">included</span><span class="o">?</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="err">#</span><span class="w"> </span><span class="p">(</span><span class="n">optional</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="o">:</span><span class="w"> </span><span class="n">no</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">ess_cert_id_alg</span><span class="w">		</span><span class="o">=</span><span class="w"> </span><span class="n">sha1</span><span class="w">	</span><span class="err">#</span><span class="w"> </span><span class="n">algorithm</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">compute</span><span class="w"> </span><span class="n">certificate</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">				</span><span class="err">#</span><span class="w"> </span><span class="n">identifier</span><span class="w"> </span><span class="p">(</span><span class="n">optional</span><span class="p">,</span><span class="w"> </span><span class="n">default</span><span class="o">:</span><span class="w"> </span><span class="n">sha1</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="n">default_conf</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">ssl_conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ssl_sect</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="n">ssl_sect</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">system_default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">system_default_sect</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="n">system_default_sect</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">MinProtocol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TLSv1</span><span class="p">.</span><span class="err">2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">CipherString</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DEFAULT</span><span class="err">@</span><span class="n">SECLEVEL</span><span class="o">=</span><span class="err">2</span><span class="w">
+</span></span></span></code></pre></div><p>Creamos a continuación la clave y el fichero de solicitud de firma.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">openssl req -new -newkey rsa:2048 -keyout private/cakey.pem -out careq.pem -config ./openssl.cnf
+</span></span></code></pre></div><p><img src="/img/cripto3/46.png" alt="clave"></p>
+<p>Nos autofirmamos el certificado generado.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">openssl ca -create_serial -out cacert.pem -days 365 -keyfile private/cakey.pem -selfsign -extensions v3_ca -config ./openssl.cnf -infiles careq.pem
+</span></span></code></pre></div><p><img src="/img/cripto3/47.png" alt="clave"></p>
+<h4 id="2-debe-recibir-el-fichero-csr-solicitud-de-firmar-un-certificado-de-su-compañero-debe-firmarlo-y-enviar-el-certificado-generado-a-su-compañero">2. Debe recibir el fichero CSR (Solicitud de Firmar un Certificado) de su compañero, debe firmarlo y enviar el certificado generado a su compañero.</h4>
+<p>Mi compañero me envía su fichero CSR mediante scp, el cual he movido al directorio <strong>/root/CA/certreqs/</strong>, y se lo firmo del siguiente modo:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">openssl ca -config openssl.cnf -out certsdb/arturo.crt -infiles certreqs/arturo.csr 
 </span></span></code></pre></div><p>Una vez firmado se lo vuelvo a enviar.</p>
 <h4 id="3-qué-otra-información-debes-aportar-a-tu-compañero-para-que-éste-configure-de-forma-adecuada-su-servidor-web-con-el-certificado-generado">3. ¿Qué otra información debes aportar a tu compañero para que éste configure de forma adecuada su servidor web con el certificado generado?</h4>
-<p>Habría que enviar a nuetro compañero el fichero CA/certs/cacert.crt de la autoridad certificadora para que pueda verificar la firma sobre su certificado.</p>
+<p>Habría que enviar a nuestro compañero además el certificado de la autoridad certificadora (cacert.pem) para que pueda verificar la firma sobre su propio certificado.</p>
 <h3 id="administrador-servidor-web">Administrador servidor web</h3>
 <p>El alumno que hace de administrador del servidor web, debe entregar una documentación que describa los siguientes puntos:</p>
 <h4 id="1-crea-una-clave-privada-rsa-de-4096-bits-para-identificar-el-servidor">1. Crea una clave privada RSA de 4096 bits para identificar el servidor.</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo openssl genrsa -aes256 -out /etc/ssl/private/clavearantxa.key 4096
 </span></span><span class="line"><span class="cl">sudo chmod 400 /etc/ssl/private/clavearantxa.key
 </span></span></code></pre></div><h4 id="2-utiliza-la-clave-anterior-para-generar-un-csr-considerando-que-deseas-acceder-al-servidor-con-el-fqdn-tunombreiesgnorg">2. Utiliza la clave anterior para generar un CSR, considerando que deseas acceder al servidor con el FQDN (tunombre.iesgn.org).</h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo openssl req -new -sha256 -key /etc/ssl/private/clavearantxa.key -out arantxa.csr
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">openssl req -new -sha256 -key /etc/ssl/private/clavearantxa.key -out arantxa.csr
 </span></span></code></pre></div><p><img src="/img/cripto3/41.png" alt="certificado"></p>
 <h4 id="3-envía-la-solicitud-de-firma-a-la-entidad-certificadora-su-compañero">3. Envía la solicitud de firma a la entidad certificadora (su compañero).</h4>
 <p>Le envío mi csr (arantxa.csr) a mi compañero.</p>
 <p><img src="/img/cripto3/42.png" alt="certificado"></p>
 <h4 id="4-recibe-como-respuesta-un-certificado-x509-para-el-servidor-firmado-y-el-certificado-de-la-autoridad-certificadora">4. Recibe como respuesta un certificado X.509 para el servidor firmado y el certificado de la autoridad certificadora.</h4>
 <p>Recibo mi csr firmado por la autoridad certificadora de mi compañero.</p>
-<p><img src="/img/cripto3/43.png" alt="csr"></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">ls -l /home/usuario1/ | egrep &#39;(cacert|arantxa)&#39;
+</span></span></code></pre></div><p><img src="/img/cripto3/43.png" alt="csr"></p>
 <h4 id="5-configura-tu-servidor-web-con-https-en-el-puerto-443-haciendo-que-las-peticiones-http-se-redireccionen-a-https-forzar-https">5. Configura tu servidor web con https en el puerto 443, haciendo que las peticiones http se redireccionen a https (forzar https).</h4>
-<p>Vamos a modificar el fichero de configuración del virtualhost (/etc/apache2/sites-available/arantxa.iesgn.org.conf), quedando de la siguiente manera:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">IfModule mod_ssl.c&gt;
+<p>Para empezar copio los ficheros a /etc/ssl/certs/, cambiamos el usuario al que pertenece y cambiamos los permisos.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo cp /home/usuario1/arantxa.crt /etc/ssl/certs/
+</span></span><span class="line"><span class="cl">sudo cp /home/usuario1/cacert.pem /etc/ssl/certs/
+</span></span><span class="line"><span class="cl">sudo chown root:root /etc/ssl/certs/arantxa.crt
+</span></span><span class="line"><span class="cl">sudo chown root:root /etc/ssl/certs/cacert.pem
+</span></span><span class="line"><span class="cl">sudo chmod 644 /etc/ssl/certs/arantxa.crt
+</span></span><span class="line"><span class="cl">sudo chmod 644 /etc/ssl/certs/cacert.pem
+</span></span></code></pre></div><p>Modificamos el virtualhost para https.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">nano /etc/apache2/sites-available/default-ssl.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;IfModule mod_ssl.c&gt;
 </span></span><span class="line"><span class="cl">        &lt;VirtualHost *:443&gt;
+</span></span><span class="line"><span class="cl">                ServerAdmin webmaster@localhost
 </span></span><span class="line"><span class="cl">                ServerName arantxa.iesgn.org
 </span></span><span class="line"><span class="cl">                DocumentRoot /var/www/arantxa.iesgn.org
-</span></span><span class="line"><span class="cl">                Redirect 301 / https://arantxa.iesgn.org/
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">                ErrorLog ${APACHE_LOG_DIR}/error-arantxaiesgn.log
 </span></span><span class="line"><span class="cl">                CustomLog ${APACHE_LOG_DIR}/access-arantxaiesgn.log combined
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">                SSLEngine on
-</span></span><span class="line"><span class="cl">                SSLCertificateFile /etc/ssl/certs/arantxa.crt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                SSLCertificateFile      /etc/ssl/certs/arantxa.crt
 </span></span><span class="line"><span class="cl">                SSLCertificateKeyFile /etc/ssl/private/clavearantxa.key
-</span></span><span class="line"><span class="cl">                SSLCertificateChainFile /etc/ssl/certs/cacert.crt
-</span></span><span class="line"><span class="cl">                
-</span></span><span class="line"><span class="cl">                &lt;Directory /var/www/arantxa.iesgn.org&gt;
-</span></span><span class="line"><span class="cl">                        Options Indexes FollowSymLinks
-</span></span><span class="line"><span class="cl">                        AllowOverride None
-</span></span><span class="line"><span class="cl">                        Require all granted
+</span></span><span class="line"><span class="cl">                SSLCACertificateFile /etc/ssl/certs/cacert.pem
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                &lt;FilesMatch &#34;\.(cgi|shtml|phtml|php)$&#34;&gt;
+</span></span><span class="line"><span class="cl">                                SSLOptions +StdEnvVars
+</span></span><span class="line"><span class="cl">                &lt;/FilesMatch&gt;
+</span></span><span class="line"><span class="cl">                &lt;Directory /usr/lib/cgi-bin&gt;
+</span></span><span class="line"><span class="cl">                                SSLOptions +StdEnvVars
 </span></span><span class="line"><span class="cl">                &lt;/Directory&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        &lt;/VirtualHost&gt;
-</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">&lt;/IfModule&gt;
-</span></span></code></pre></div><p>Movemos los ficheros a /etc/ssl/certs/, cambiamos el usuario al que pertenece y cambiamos los permisos.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo mv arantxa.crt /etc/ssl/certs/
-</span></span><span class="line"><span class="cl">sudo mv cacert.crt /etc/ssl/certs/
-</span></span><span class="line"><span class="cl">sudo chown root:root /etc/ssl/certs/arantxa.crt
-</span></span><span class="line"><span class="cl">sudo chown root:root /etc/ssl/certs/cacert.crt
-</span></span><span class="line"><span class="cl">sudo chmod 644 /etc/ssl/certs/arantxa.crt
-</span></span><span class="line"><span class="cl">sudo chmod 644 /etc/ssl/certs/cacert.crt
-</span></span></code></pre></div><p>Habilito el módulo ssl y volvemos a reiniciar apache2.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo a2enmod ssl
-</span></span><span class="line"><span class="cl">sudo a2ensite ssl-arantxa.iesgn.org.conf
+</span></span></code></pre></div><p>Habilito el virualhost para https y el módulo ssl.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo a2ensite default-ssl
+</span></span><span class="line"><span class="cl">sudo a2enmod ssl
+</span></span></code></pre></div><p>Añadimos la redirección al virtualhost y reiniciamos el servicio:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo nano /etc/apache2/sites-available/arantxa.iesgn.org.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;VirtualHost *:80&gt;
+</span></span><span class="line"><span class="cl">        ServerName arantxa.iesgn.org
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        ServerAdmin webmaster@localhost
+</span></span><span class="line"><span class="cl">        DocumentRoot /var/www/arantxa.iesgn.org
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        ErrorLog ${APACHE_LOG_DIR}/error-arantxaiesgn.log
+</span></span><span class="line"><span class="cl">        CustomLog ${APACHE_LOG_DIR}/access-arantxaiesgn.log combined
+</span></span><span class="line"><span class="cl">        Redirect 301 / https://arantxa.iesgn.org/
+</span></span><span class="line"><span class="cl">&lt;/VirtualHost&gt;
+</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">sudo systemctl restart apache2
-</span></span></code></pre></div><p>Ya debería funcionar correctamente mi página web desde https.</p>
+</span></span></code></pre></div><p>Al intentar acceder nos aparece lo siguiente:</p>
 <p><img src="/img/cripto3/44.png" alt="web"></p>
-<p><img src="/img/cripto3/45.png" alt="web2"></p>
+<p>Tendremos que importar el certificado cacert.pem que nos mandó nuestro compañero para que nos permita acceder de forma segura.</p>
+<p><img src="/img/cripto3/45.png" alt="web"></p>
+<p><img src="/img/cripto3/48.png" alt="web"></p>
+<p><img src="/img/cripto3/49.png" alt="web"></p>
+<p>Ya debería funcionar correctamente mi página web desde https.</p>
+<p><img src="/img/cripto3/50.png" alt="web"></p>
 <h4 id="6-instala-ahora-un-servidor-nginx-y-realiza-la-misma-configuración-que-anteriormente-para-que-se-sirva-la-página-con-https">6. Instala ahora un servidor nginx, y realiza la misma configuración que anteriormente para que se sirva la página con HTTPS.</h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo systemctl disable --now apache2
-</span></span><span class="line"><span class="cl">sudo apt install nginx
-</span></span><span class="line"><span class="cl">sudo nano /var/www/arantxa.iesgn.org/index.html
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">systemctl disable --now apache2
+</span></span><span class="line"><span class="cl">apt install nginx
+</span></span><span class="line"><span class="cl">nano /etc/nginx/sites-available/arantxa.iesgn.org.nginx.conf
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"> server {
-</span></span><span class="line"><span class="cl">      listen 80;
-</span></span><span class="line"><span class="cl">      listen [::]:80;
-</span></span><span class="line"><span class="cl">      server_name arantxa.iesgn.org;
-</span></span><span class="line"><span class="cl">      return 301 https://$server_name$request_uri;
-</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">server {
+</span></span><span class="line"><span class="cl">        listen 80;
+</span></span><span class="line"><span class="cl">        listen [::]:80;
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  server {
-</span></span><span class="line"><span class="cl">      listen 443 ssl http2;
-</span></span><span class="line"><span class="cl">      listen [::]:443 ssl http2;
-</span></span><span class="line"><span class="cl">      server_name arantxa.iesgn.org;
+</span></span><span class="line"><span class="cl">        server_name arantxa.iesgn.org;
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">      ssl_certificate /etc/ssl/certs/arantxa.crt;
-</span></span><span class="line"><span class="cl">      ssl_certificate_key /etc/ssl/private/clavearantxa.key;
-</span></span><span class="line"><span class="cl">      ssl_trusted_certificate /etc/ssl/certs/cacert.crt;
+</span></span><span class="line"><span class="cl">        return 301 https://$server_name$request_uri;
+</span></span><span class="line"><span class="cl">}
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">      root /var/www/html/arantxa.iesgn.org;
-</span></span><span class="line"><span class="cl">      index index.html;
+</span></span><span class="line"><span class="cl">server {
+</span></span><span class="line"><span class="cl">        listen 443 ssl http2;
+</span></span><span class="line"><span class="cl">        listen [::]:443 ssl http2;
+</span></span><span class="line"><span class="cl">        server_name arantxa.iesgn.org;
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">      location / {
-</span></span><span class="line"><span class="cl">          try_files $uri $uri/ =404;
-</span></span><span class="line"><span class="cl">      }
-</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">        ssl_certificate    /etc/ssl/certs/arantxa.crt;
+</span></span><span class="line"><span class="cl">        ssl_certificate_key    /etc/ssl/private/clavearantxa.key;
+</span></span><span class="line"><span class="cl">        ssl_trusted_certificate /etc/ssl/certs/cacert.crt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        root /var/www/arantxa.iesgn.org;
+</span></span><span class="line"><span class="cl">        index index.html index.htm index.nginx-debian.html;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        location / {
+</span></span><span class="line"><span class="cl">                try_files $uri $uri/ =404;
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">}
 </span></span></code></pre></div><p>Modifico el html:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;!DOCTYPE html lang=&#34;es&#34;&gt;
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;!DOCTYPE html lang=&#34;es&#34;&gt;
 </span></span><span class="line"><span class="cl">      &lt;head&gt;
 </span></span><span class="line"><span class="cl">          &lt;meta charset=&#34;utf-8&#34;&gt;
 </span></span><span class="line"><span class="cl">          &lt;title&gt;arantxa.iesgn.org&lt;/title&gt;
@@ -795,10 +986,8 @@
 </span></span><span class="line"><span class="cl">          &lt;p&gt;NGINX funcionando!!!&lt;/p&gt;
 </span></span><span class="line"><span class="cl">      &lt;/body&gt;
 </span></span><span class="line"><span class="cl">&lt;/html&gt;
-</span></span></code></pre></div><p>Firmo el certificado:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo openssl rsa -in /etc/ssl/private/clavearantxa.key -out /etc/ssl/private/clavearantxa2.key
-</span></span></code></pre></div><p>Enlace simbólico y reiniciar servicio nginx:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo ln -s /etc/nginx/sites-available/maria.iesgn.org.conf /etc/nginx/sites-enabled/
+</span></span></code></pre></div><p>Crear el enlace simbólico y reiniciar servicio nginx:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo ln -s /etc/nginx/sites-available/arantxa.iesgn.org.nginx.conf /etc/nginx/sites-enabled/
 </span></span><span class="line"><span class="cl">sudo systemctl restart nginx
 </span></span></code></pre></div><p>Compruebo que la web funciona correctamente.</p>
 <p><img src="/img/cripto3/46.png" alt="web-nginx"></p>
