@@ -755,27 +755,27 @@
 <p><img src="/img/cripto3/44.png" alt="web"></p>
 <p><img src="/img/cripto3/45.png" alt="web2"></p>
 <h4 id="6-instala-ahora-un-servidor-nginx-y-realiza-la-misma-configuración-que-anteriormente-para-que-se-sirva-la-página-con-https">6. Instala ahora un servidor nginx, y realiza la misma configuración que anteriormente para que se sirva la página con HTTPS.</h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  sudo systemctl disable --now apache2
-</span></span><span class="line"><span class="cl">  sudo apt install nginx
-</span></span><span class="line"><span class="cl">  sudo nano /var/www/arantxa.iesgn.org/index.html
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo systemctl disable --now apache2
+</span></span><span class="line"><span class="cl">sudo apt install nginx
+</span></span><span class="line"><span class="cl">sudo nano /var/www/arantxa.iesgn.org/index.html
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"> server {
 </span></span><span class="line"><span class="cl">      listen 80;
 </span></span><span class="line"><span class="cl">      listen [::]:80;
-</span></span><span class="line"><span class="cl">      server_name maria.iesgn.org;
+</span></span><span class="line"><span class="cl">      server_name arantxa.iesgn.org;
 </span></span><span class="line"><span class="cl">      return 301 https://$server_name$request_uri;
 </span></span><span class="line"><span class="cl">  }
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">  server {
 </span></span><span class="line"><span class="cl">      listen 443 ssl http2;
 </span></span><span class="line"><span class="cl">      listen [::]:443 ssl http2;
-</span></span><span class="line"><span class="cl">      server_name maria.iesgn.org;
+</span></span><span class="line"><span class="cl">      server_name arantxa.iesgn.org;
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">      ssl_certificate /etc/ssl/certs/maria.crt;
-</span></span><span class="line"><span class="cl">      ssl_certificate_key /etc/ssl/private/maria-priv.key;
+</span></span><span class="line"><span class="cl">      ssl_certificate /etc/ssl/certs/arantxa.crt;
+</span></span><span class="line"><span class="cl">      ssl_certificate_key /etc/ssl/private/clavearantxa.key;
 </span></span><span class="line"><span class="cl">      ssl_trusted_certificate /etc/ssl/certs/cacert.crt;
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">      root /var/www/html/maria.iesgn.org;
+</span></span><span class="line"><span class="cl">      root /var/www/html/arantxa.iesgn.org;
 </span></span><span class="line"><span class="cl">      index index.html;
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">      location / {
