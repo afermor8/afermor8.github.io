@@ -60,7 +60,7 @@
   "headline": "Criptografía III. Certificados digiales. HTTPS",
   "description" : "Certificado digital de persona física Tarea 1: Instalación del certificado 1. Una vez que hayas obtenido tu certificado, explica brevemente como se instala en tu navegador favorito Este punto lo explico junto al siguiente punto para mostrar las capturas.\n2. Muestra una captura de pantalla donde se vea las preferencias del navegador donde se ve instalado tu certificado Una vez tenemos el certificado digital, para agregarlo a Google Chrome vamos a los tres puntos de la barra superior y hacemos click en Configuración.",
   "inLanguage" : "es",
-  "wordCount":  3290 ,
+  "wordCount":  3279 ,
   "datePublished" : "2023-01-11T13:42:27",
   "dateModified" : "2023-01-11T13:42:27",
   "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
@@ -256,7 +256,7 @@
     &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;16&nbsp;minutos
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;3290&nbsp;palabras
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;3279&nbsp;palabras
   
   
     
@@ -296,7 +296,7 @@
     &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;16&nbsp;minutos
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;3290&nbsp;palabras
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;3279&nbsp;palabras
   
   
     
@@ -868,13 +868,14 @@
 <h3 id="administrador-servidor-web">Administrador servidor web</h3>
 <p>El alumno que hace de administrador del servidor web, debe entregar una documentación que describa los siguientes puntos:</p>
 <h4 id="1-crea-una-clave-privada-rsa-de-4096-bits-para-identificar-el-servidor">1. Crea una clave privada RSA de 4096 bits para identificar el servidor.</h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo openssl genrsa -aes256 -out /etc/ssl/private/clavearantxa.key 4096
-</span></span><span class="line"><span class="cl">sudo chmod 400 /etc/ssl/private/clavearantxa.key
-</span></span></code></pre></div><h4 id="2-utiliza-la-clave-anterior-para-generar-un-csr-considerando-que-deseas-acceder-al-servidor-con-el-fqdn-tunombreiesgnorg">2. Utiliza la clave anterior para generar un CSR, considerando que deseas acceder al servidor con el FQDN (tunombre.iesgn.org).</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">openssl genrsa -out /etc/ssl/private/clavearantxa.key 4096
+</span></span><span class="line"><span class="cl">chmod 400 /etc/ssl/private/clavearantxa.key
+</span></span></code></pre></div><p><img src="/img/cripto3/50.png" alt="certificado"></p>
+<h4 id="2-utiliza-la-clave-anterior-para-generar-un-csr-considerando-que-deseas-acceder-al-servidor-con-el-fqdn-tunombreiesgnorg">2. Utiliza la clave anterior para generar un CSR, considerando que deseas acceder al servidor con el FQDN (tunombre.iesgn.org).</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">openssl req -new -sha256 -key /etc/ssl/private/clavearantxa.key -out arantxa.csr
 </span></span></code></pre></div><p><img src="/img/cripto3/41.png" alt="certificado"></p>
 <h4 id="3-envía-la-solicitud-de-firma-a-la-entidad-certificadora-su-compañero">3. Envía la solicitud de firma a la entidad certificadora (su compañero).</h4>
-<p>Le envío mi csr (arantxa.csr) a mi compañero.</p>
+<p>Le envío mi csr (arantxa.csr) a mi compañero mediante scp.</p>
 <p><img src="/img/cripto3/42.png" alt="certificado"></p>
 <h4 id="4-recibe-como-respuesta-un-certificado-x509-para-el-servidor-firmado-y-el-certificado-de-la-autoridad-certificadora">4. Recibe como respuesta un certificado X.509 para el servidor firmado y el certificado de la autoridad certificadora.</h4>
 <p>Recibo mi csr firmado por la autoridad certificadora de mi compañero.</p>
@@ -882,12 +883,15 @@
 </span></span></code></pre></div><p><img src="/img/cripto3/43.png" alt="csr"></p>
 <h4 id="5-configura-tu-servidor-web-con-https-en-el-puerto-443-haciendo-que-las-peticiones-http-se-redireccionen-a-https-forzar-https">5. Configura tu servidor web con https en el puerto 443, haciendo que las peticiones http se redireccionen a https (forzar https).</h4>
 <p>Para empezar copio los ficheros a /etc/ssl/certs/, cambiamos el usuario al que pertenece y cambiamos los permisos.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo cp /home/usuario1/arantxa.crt /etc/ssl/certs/
-</span></span><span class="line"><span class="cl">sudo cp /home/usuario1/cacert.pem /etc/ssl/certs/
-</span></span><span class="line"><span class="cl">sudo chown root:root /etc/ssl/certs/arantxa.crt
-</span></span><span class="line"><span class="cl">sudo chown root:root /etc/ssl/certs/cacert.pem
-</span></span><span class="line"><span class="cl">sudo chmod 644 /etc/ssl/certs/arantxa.crt
-</span></span><span class="line"><span class="cl">sudo chmod 644 /etc/ssl/certs/cacert.pem
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cp /home/usuario1/arantxa.crt /etc/ssl/certs/
+</span></span><span class="line"><span class="cl">cp /home/usuario1/cacert.pem /etc/ssl/certs/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">chown root:root /etc/ssl/certs/arantxa.crt
+</span></span><span class="line"><span class="cl">chown root:root /etc/ssl/certs/cacert.pem
+</span></span><span class="line"><span class="cl">chmod 644 /etc/ssl/certs/arantxa.crt
+</span></span><span class="line"><span class="cl">chmod 644 /etc/ssl/certs/cacert.pem
 </span></span></code></pre></div><p>Modificamos el virtualhost para https.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">nano /etc/apache2/sites-available/default-ssl.conf
 </span></span><span class="line"><span class="cl">
@@ -917,8 +921,8 @@
 </span></span><span class="line"><span class="cl">        &lt;/VirtualHost&gt;
 </span></span><span class="line"><span class="cl">&lt;/IfModule&gt;
 </span></span></code></pre></div><p>Habilito el virualhost para https y el módulo ssl.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo a2ensite default-ssl
-</span></span><span class="line"><span class="cl">sudo a2enmod ssl
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">a2ensite default-ssl
+</span></span><span class="line"><span class="cl">a2enmod ssl
 </span></span></code></pre></div><p>Añadimos la redirección al virtualhost y reiniciamos el servicio:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo nano /etc/apache2/sites-available/arantxa.iesgn.org.conf
 </span></span><span class="line"><span class="cl">
@@ -941,7 +945,7 @@
 <p><img src="/img/cripto3/48.png" alt="web"></p>
 <p><img src="/img/cripto3/49.png" alt="web"></p>
 <p>Ya debería funcionar correctamente mi página web desde https.</p>
-<p><img src="/img/cripto3/50.png" alt="web"></p>
+<p><img src="/img/cripto3/58.png" alt="web"></p>
 <h4 id="6-instala-ahora-un-servidor-nginx-y-realiza-la-misma-configuración-que-anteriormente-para-que-se-sirva-la-página-con-https">6. Instala ahora un servidor nginx, y realiza la misma configuración que anteriormente para que se sirva la página con HTTPS.</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">systemctl disable --now apache2
 </span></span><span class="line"><span class="cl">apt install nginx
@@ -963,7 +967,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        ssl_certificate    /etc/ssl/certs/arantxa.crt;
 </span></span><span class="line"><span class="cl">        ssl_certificate_key    /etc/ssl/private/clavearantxa.key;
-</span></span><span class="line"><span class="cl">        ssl_trusted_certificate /etc/ssl/certs/cacert.crt;
+</span></span><span class="line"><span class="cl">        ssl_trusted_certificate /etc/ssl/certs/cacert.pem;
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">        root /var/www/arantxa.iesgn.org;
 </span></span><span class="line"><span class="cl">        index index.html index.htm index.nginx-debian.html;
@@ -987,11 +991,11 @@
 </span></span><span class="line"><span class="cl">      &lt;/body&gt;
 </span></span><span class="line"><span class="cl">&lt;/html&gt;
 </span></span></code></pre></div><p>Crear el enlace simbólico y reiniciar servicio nginx:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo ln -s /etc/nginx/sites-available/arantxa.iesgn.org.nginx.conf /etc/nginx/sites-enabled/
-</span></span><span class="line"><span class="cl">sudo systemctl restart nginx
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">ln -s /etc/nginx/sites-available/arantxa.iesgn.org.nginx.conf /etc/nginx/sites-enabled/
+</span></span><span class="line"><span class="cl">systemctl restart nginx
 </span></span></code></pre></div><p>Compruebo que la web funciona correctamente.</p>
-<p><img src="/img/cripto3/53.png" alt="web-nginx"></p>
-<p><img src="/img/cripto3/54.png" alt="web-nginx2"></p>
+<p><img src="/img/cripto3/59.png" alt="web-nginx"></p>
+<p><img src="/img/cripto3/60.png" alt="web-nginx2"></p>
 
 
         
