@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="es" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Despliegue de aplicaciones Python (Django) - Mi paso por ASIR Blog</title>
+  <meta name="description" content="Tarea 1: Entorno de desarrollo Vamos a desplegar la aplicación del tutorial de django. Como entorno de desarrollo tienes dos opciones:
+Que tu entorno de desarrollo se la máquina bravo de tu entorno de desarrollo. Opción que dará más puntos.
+Que tu entorno de desarrollo sea una máquina de openstack con el sistema operativo que quieras. Opción que dará menos puntos.
+Vamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación, para ello:">
+  <meta name="author" content="afermor8"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Mi paso por ASIR Blog",
+    
+    "url": "https:\/\/afermor8.github.io"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/afermor8.github.io"
+  
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io\/post\/django\/",
+          "name": "Despliegue de aplicaciones python ( django)"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "afermor8"
+  },
+  "headline": "Despliegue de aplicaciones Python (Django)",
+  "description" : "Tarea 1: Entorno de desarrollo Vamos a desplegar la aplicación del tutorial de django. Como entorno de desarrollo tienes dos opciones:\nQue tu entorno de desarrollo se la máquina bravo de tu entorno de desarrollo. Opción que dará más puntos.\nQue tu entorno de desarrollo sea una máquina de openstack con el sistema operativo que quieras. Opción que dará menos puntos.\nVamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación, para ello:",
+  "inLanguage" : "es",
+  "wordCount":  2028 ,
+  "datePublished" : "2023-01-26T10:51:57",
+  "dateModified" : "2023-01-26T10:51:57",
+  "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+  "keywords" : [ "IAW" ],
+  "mainEntityOfPage" : "https:\/\/afermor8.github.io\/post\/django\/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https:\/\/afermor8.github.io",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
+
+<meta property="og:title" content="Despliegue de aplicaciones Python (Django)" />
+<meta property="og:description" content="Tarea 1: Entorno de desarrollo Vamos a desplegar la aplicación del tutorial de django. Como entorno de desarrollo tienes dos opciones:
+Que tu entorno de desarrollo se la máquina bravo de tu entorno de desarrollo. Opción que dará más puntos.
+Que tu entorno de desarrollo sea una máquina de openstack con el sistema operativo que quieras. Opción que dará menos puntos.
+Vamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación, para ello:">
+<meta property="og:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+<meta property="og:url" content="https://afermor8.github.io/post/django/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Mi paso por ASIR Blog" />
+
+  <meta name="twitter:title" content="Despliegue de aplicaciones Python (Django)" />
+  <meta name="twitter:description" content="Tarea 1: Entorno de desarrollo Vamos a desplegar la aplicación del tutorial de django. Como entorno de desarrollo tienes dos opciones:
+Que tu entorno de desarrollo se la máquina bravo de tu entorno de …">
+  <meta name="twitter:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link href='https://afermor8.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta name="generator" content="Hugo 0.104.3" />
+  <link rel="alternate" href="https://afermor8.github.io/index.xml" type="application/rss+xml" title="Mi paso por ASIR Blog"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://afermor8.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://afermor8.github.io/css/highlight.min.css" /><link rel="stylesheet" href="https://afermor8.github.io/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Conmuta navegación</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/page/about/">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Tags" href="/tags">Tags</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    
+      <div class="avatar-container">
+        <div class="avatar-img-border">
+          <a title="Mi paso por ASIR Blog" href="https://afermor8.github.io">
+            <img class="avatar-img" src="https://afermor8.github.io/img/avatar-icon.png" alt="Mi paso por ASIR Blog" />
+          </a>
+        </div>
+      </div>
+    
+
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+    <div id="header-big-imgs" data-num-img=3 
+      
+         
+          data-img-src-1="/img/triangle.jpg" 
+         
+         data-img-desc-1="Triangle"
+      
+         
+          data-img-src-2="/img/sphere.jpg" 
+         
+         data-img-desc-2="Sphere"
+      
+         
+          data-img-src-3="/img/hexagon.jpg" 
+         
+         data-img-desc-3="Hexagon"
+      ></div>
+  
+
+  <header class="header-section has-img">
+    
+      <div class="intro-header big-img">
+        
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+              <div class="post-heading">
+                <h1>Despliegue de aplicaciones Python (Django)</h1>
+                  
+                  
+                    <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el January 26, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;10&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2028&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="img-desc" style="display: inline;"></span>
+      </div>
+    
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>Despliegue de aplicaciones Python (Django)</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el January 26, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;10&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2028&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <hr>
+<h2 id="tarea-1-entorno-de-desarrollo">Tarea 1: Entorno de desarrollo</h2>
+<p>Vamos a desplegar la aplicación del tutorial de django. Como entorno de desarrollo tienes dos opciones:</p>
+<ol>
+<li>
+<p>Que tu entorno de desarrollo se la máquina bravo de tu entorno de desarrollo. Opción que dará más puntos.</p>
+</li>
+<li>
+<p>Que tu entorno de desarrollo sea una máquina de openstack con el sistema operativo que quieras. Opción que dará menos puntos.</p>
+</li>
+</ol>
+<p>Vamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación, para ello:</p>
+<ul>
+<li>Realiza un fork del repositorio de GitHub: <a href="https://github.com/josedom24/django_tutorial">https://github.com/josedom24/django_tutorial</a>.</li>
+<li>Crea un entorno virtual de python3 e instala las dependencias necesarias para que funcione el proyecto.</li>
+<li>Comprueba que vamos a trabajar con una base de datos sqlite. ¿Qué fichero tienes que consultar? ¿Cómo se llama la base de datos que vamos a crear?</li>
+<li>Crea la base de datos. A partir del modelo de datos se crean las tablas de la base de datos.</li>
+<li>Crea un usuario administrador.</li>
+<li>Ejecuta el servidor web de desarrollo y entra en la zona de administración (/admin) para comprobar que los datos se han añadido correctamente.</li>
+<li>Crea dos preguntas, con posibles respuestas.</li>
+<li>Comprueba en el navegador que la aplicación está funcionando, accede a la url /polls.</li>
+<li>Configura el servidor web apache2 con el módulo wsgi para servir la página web. Si utilizas como entorno de desarrollo la máquina bravo, se accederá con el nombre python.tunombre.gonzalonazareno.org. Si tu entorno de desarrollo es una máquina de openstack, elige el nombre con el que acceder y entrega la dirección IP de la máquina.</li>
+</ul>
+<hr>
+<p>He realizado un fork del repositorio de GitHub: <a href="https://github.com/josedom24/django_tutorial">https://github.com/josedom24/django_tutorial</a> y he clonado el fork en mi entorno de desarrollo.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">git clone git@github.com:afermor8/django_tutorial.git
+</span></span></code></pre></div><p>He creado un entorno virtual de python3 llamado django. E instalo requirements (en este caso es el paquete django lo que se instalará).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">python3 -m venv venv/django
+</span></span><span class="line"><span class="cl">source venv/django/bin/activate
+</span></span><span class="line"><span class="cl">cd django_tutorial
+</span></span><span class="line"><span class="cl">pip install -r requirements.txt
+</span></span></code></pre></div><p>Compruebo que la base de datos con la que vamos a trabajar es sqlite. En el repositorio clonado accedemos a django_tutorial y en el fichero settings.py podremos encontrar la siguiente información.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">…
+</span></span><span class="line"><span class="cl">DATABASES = {
+</span></span><span class="line"><span class="cl">    &#39;default&#39;: {
+</span></span><span class="line"><span class="cl">        &#39;ENGINE&#39;: &#39;django.db.backends.sqlite3&#39;,
+</span></span><span class="line"><span class="cl">        &#39;NAME&#39;: BASE_DIR / &#39;db.sqlite3&#39;,
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">…
+</span></span></code></pre></div><p>Vemos que la base de datos se llama db.sqlite3.
+Creamos la base de datos con el siguiente comando:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">python manage.py migrate
+</span></span></code></pre></div><p><img src="/img/django/p1.png" alt="migrate"></p>
+<p>Creamos un usuario administrador para la base de datos:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">python3 manage.py createsuperuser
+</span></span></code></pre></div><p>En settings.py tenemos que añadir nuestra IP a ALLOWED_HOSTS.</p>
+<p><img src="/img/django/p2.png" alt=""></p>
+<p>Ejecutamos el servidor de desarrollo.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">python3 manage.py runserver 192.168.122.192:8000
+</span></span></code></pre></div><p><img src="/img/django/p3.png" alt=""></p>
+<p>Entramos en la zona de administración con el usuario y contraseña creada anteriormente:</p>
+<p><img src="/img/django/p4.png" alt=""></p>
+<p>Creo dos preguntas presionando en ‘Add’ al lado de ‘Questions’.</p>
+<p><img src="/img/django/p5.png" alt=""></p>
+<p><img src="/img/django/p6.png" alt=""></p>
+<p><img src="/img/django/p7.png" alt=""></p>
+<p>Comprobamos que podemos acceder en el navegador a las preguntas creadas (/polls).</p>
+<p><img src="/img/django/p8.png" alt=""></p>
+<p><img src="/img/django/p9.png" alt=""></p>
+<p>Ahora configuramos el servidor web apache2 con el módulo wsgi para servir la página web. Instalamos apache2 si no lo tuvieramos y el módulo wsgi.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo apt install libapache2-mod-wsgi-py3
+</span></span></code></pre></div><p>El fichero wsgi, que será el punto de acceso a la aplicación se encuentra en django_tutorial/django_tutorial/wsgi.py</p>
+<p>Creo un virtualhost que tendrá el siguiente contenido (he creado los alias para que se muestre el contenido estático de la aplicación):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;VirtualHost *:80&gt;
+</span></span><span class="line"><span class="cl">	ServerName django.arantxa.org
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	ServerAdmin webmaster@localhost
+</span></span><span class="line"><span class="cl">	DocumentRoot /home/usuario1/django_tutorial
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">         Alias /static/admin/ /home/usuario1/venv/django/lib/python3.9/site-packages/django/contrib/admin/static/admin/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        &lt;Directory /home/usuario1/venv/django/lib/python3.9/site-packages/django/contrib/admin/static/admin/&gt;
+</span></span><span class="line"><span class="cl">                Require all granted
+</span></span><span class="line"><span class="cl">        &lt;/Directory&gt;
+</span></span><span class="line"><span class="cl">        Alias /static/ /home/usuario1/django_tutorial/polls/static/
+</span></span><span class="line"><span class="cl">        &lt;Directory /homre/usuario1/django_tutorial/polls/static&gt;
+</span></span><span class="line"><span class="cl">                Require all granted
+</span></span><span class="line"><span class="cl">        &lt;/Directory&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        WSGIDaemonProcess django-tutorial python-path=/home/usuario1/django_tutorial:/home/usuario1/venv/django/lib/python3.9/site-packages
+</span></span><span class="line"><span class="cl">        WSGIProcessGroup django-tutorial
+</span></span><span class="line"><span class="cl">        WSGIScriptAlias / /home/usuario1/django_tutorial/django_tutorial/wsgi.py process-group=django-tutorial
+</span></span><span class="line"><span class="cl">        &lt;Directory /home/usuario1/django_tutorial/django_tutorial&gt;
+</span></span><span class="line"><span class="cl">                Require all granted
+</span></span><span class="line"><span class="cl">        &lt;/Directory&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	ErrorLog ${APACHE_LOG_DIR}/error-django-arantxa-org.log
+</span></span><span class="line"><span class="cl">	CustomLog ${APACHE_LOG_DIR}/access-django-arantxa-org.log combined
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;/VirtualHost&gt;
+</span></span></code></pre></div><p>He llamado a la web django.arantxa.org. Creo el enlace del virtualhost y reinicio el servicio.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo a2ensite django.arantxa.org.conf
+</span></span><span class="line"><span class="cl">sudo systemctl restart apache2
+</span></span></code></pre></div><p>Añado a /etc/hosts la resolución estática:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">192.168.122.192 		django.arantxa.org
+</span></span></code></pre></div><p>Por último añadir django.arantxa.org a settings.py (ALLOWED_HOSTS) y cambiar el usuario y grupo a www-data.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">chown -R django_tutorial
+</span></span></code></pre></div><p><img src="/img/django/p10.png" alt="">
+<img src="/img/django/p11.png" alt="">
+<img src="/img/django/p12.png" alt="">
+<img src="/img/django/p13.png" alt="">
+<img src="/img/django/p14.png" alt=""></p>
+<hr>
+<h2 id="tarea-2-entorno-de-producción">Tarea 2: Entorno de producción</h2>
+<p>Vamos a realizar el despliegue de nuestra aplicación en un entorno de producción, para ello vamos a utilizar nuestro VPS, sigue los siguientes pasos:</p>
+<ul>
+<li>Clona el repositorio en el VPS.</li>
+<li>Crea un entorno virtual e instala las dependencias de tu aplicación.</li>
+<li>Instala el módulo que permite que python trabaje con mysql:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">        (env)$ pip install mysqlclient
+</span></span></code></pre></div><ul>
+<li>Crea una base de datos y un usuario en mysql.</li>
+<li>Configura la aplicación para trabajar con mysql, para ello modifica la configuración de la base de datos en el archivo settings.py:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">        DATABASES = {
+</span></span><span class="line"><span class="cl">            &#39;default&#39;: {
+</span></span><span class="line"><span class="cl">                &#39;ENGINE&#39;: &#39;django.db.backends.mysql&#39;,
+</span></span><span class="line"><span class="cl">                &#39;NAME&#39;: &#39;myproject&#39;,
+</span></span><span class="line"><span class="cl">                &#39;USER&#39;: &#39;myprojectuser&#39;,
+</span></span><span class="line"><span class="cl">                &#39;PASSWORD&#39;: &#39;password&#39;,
+</span></span><span class="line"><span class="cl">                &#39;HOST&#39;: &#39;localhost&#39;,
+</span></span><span class="line"><span class="cl">                &#39;PORT&#39;: &#39;&#39;,
+</span></span><span class="line"><span class="cl">            }
+</span></span><span class="line"><span class="cl">        }
+</span></span></code></pre></div><ul>
+<li>Crea una copia de seguridad de la base de datos. Ten en cuenta que en el entorno de desarrollo vas a tener una base de datos sqlite, y en el entorno de producción una mariadb, por lo tanto es recomendable para hacer la copia de seguridad y recuperarla con los comandos: python manage.py dumpdata y python manage.py loaddata, para más información.</li>
+<li>Configura el servidor de aplicaciones uwsgi, creando una unidad de systemd como hicimos en el taller2) y configura nginx como proxy inverso para servir la aplicación.</li>
+<li>Debes asegurarte que el contenido estático se está sirviendo: ¿Se muestra la imagen de fondo de la aplicación? ¿Se ve de forma adecuada la hoja de estilo de la zona de administración?</li>
+<li>Desactiva en la configuración el modo debug a False. Para que los errores de ejecución no den información sensible de la aplicación.</li>
+<li>La página web debe ser accesible usando https, en la URL: <a href="https://python.tudominio.algo">https://python.tudominio.algo</a></li>
+<li>Muestra la página funcionando. En la zona de administración se debe ver de forma adecuada la hoja de estilo.</li>
+</ul>
+<p>En este momento, muestra al profesor la aplicación funcionando. Entrega una documentación resumida donde expliques los pasos fundamentales para realizar esta tarea y pantallazos donde se vea que todo está funcionando. (3,5 puntos)</p>
+<hr>
+<p>Entro en mi vps y clono el repositorio django_tutorial.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">ssh arantxa@217.160.225.205
+</span></span><span class="line"><span class="cl">git clone git@github.com:afermor8/django_tutorial.git
+</span></span></code></pre></div><p>Creo el entorno virtual e instalo las dependencias:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">python3 – venv venv/django
+</span></span><span class="line"><span class="cl">source venv/django/bin/activate
+</span></span><span class="line"><span class="cl">pip install -r django_tutorial/requirementes.txt
+</span></span></code></pre></div><p>Creo una base de datos y un usuario en mysql (se instalan las dependencias si no las tenemos).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo apt install python3-dev default-libmysqlclient-dev build-essential
+</span></span><span class="line"><span class="cl">pip install mysqlclient
+</span></span><span class="line"><span class="cl">sudo mysql -u root -p
+</span></span><span class="line"><span class="cl">create database djangodb;
+</span></span><span class="line"><span class="cl">grant all on djangodb.* to &#39;arantxa&#39;@&#39;%&#39; identified by &#39;*********&#39; with grant option;
+</span></span></code></pre></div><p>Modifico el fichero django_tutorial/django_tutorial/settings.py</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">DATABASES = {
+</span></span><span class="line"><span class="cl">    &#39;default&#39;: {
+</span></span><span class="line"><span class="cl">        &#39;ENGINE&#39;: &#39;django.db.backends.mysql&#39;,
+</span></span><span class="line"><span class="cl">        &#39;NAME&#39;: &#39;djangodb&#39;,
+</span></span><span class="line"><span class="cl">        &#39;USER&#39;: &#39;arantxa&#39;,
+</span></span><span class="line"><span class="cl">        &#39;PASSWORD&#39;: &#39;*********&#39;,
+</span></span><span class="line"><span class="cl">        &#39;HOST&#39;: &#39;localhost&#39;,
+</span></span><span class="line"><span class="cl">        &#39;PORT&#39;: &#39;&#39;,
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><p>Creo la migración y creo un superusuario.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">python3 django_tutorial/manage.py migrate
+</span></span><span class="line"><span class="cl">python3 django_tutorial/manage.py createsuperuser
+</span></span></code></pre></div><p>Instalo uwsgi.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">pip install uwsgi
+</span></span></code></pre></div><p>Creo el fichero .ini</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo nano venv/django/django.ini
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[uwsgi]
+</span></span><span class="line"><span class="cl">http = :8080
+</span></span><span class="line"><span class="cl">chdir = /home/arantxa/django_tutorial
+</span></span><span class="line"><span class="cl">wsgi-file = /home/arantxa/django_tutorial/django_tutorial/wsgi.py
+</span></span><span class="line"><span class="cl">processes = 4
+</span></span><span class="line"><span class="cl">threads = 2
+</span></span></code></pre></div><p>Creo el fichero systemd:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo nano /etc/systemd/system/uwsgi-django.service
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[Unit]
+</span></span><span class="line"><span class="cl">Description=uwsgi-django
+</span></span><span class="line"><span class="cl">After=network.target
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[Install]
+</span></span><span class="line"><span class="cl">WantedBy=multi-user.target
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[Service]
+</span></span><span class="line"><span class="cl">User=www-data
+</span></span><span class="line"><span class="cl">Group=www-data
+</span></span><span class="line"><span class="cl">Restart=always
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">ExecStart=/home/arantxa/django/bin/uwsgi /home/aranxa/django/django.ini
+</span></span><span class="line"><span class="cl">ExecReload=/bin/kill -s HUP $MAINPID
+</span></span><span class="line"><span class="cl">ExecStop=/bin/kill -s TERM $MAINPID
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">WorkingDirectory=/home/arantxa/django_tutorial
+</span></span><span class="line"><span class="cl">Environment=PYTHONPATH=&#39;/home/arantxa/django_tutorial:/home/arantxa/django/lib/python3.9/site-packages&#39;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">PrivateTmp=true
+</span></span></code></pre></div><p>Activamos la unidad systemd y la iniciamos:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo systemctl enable uwsgi-django.service
+</span></span><span class="line"><span class="cl">sudo systemctl start uwsgi-django.service
+</span></span></code></pre></div><p>Creo el virtualhost de nginx.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo nano /etc/nginx/sites-available/django.afm-tars.es
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">server {
+</span></span><span class="line"><span class="cl">	listen 80;
+</span></span><span class="line"><span class="cl">	listen [::]:80;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	# SSL configuration
+</span></span><span class="line"><span class="cl">	#
+</span></span><span class="line"><span class="cl">	# listen 443 ssl default_server;
+</span></span><span class="line"><span class="cl">	# listen [::]:443 ssl default_server;
+</span></span><span class="line"><span class="cl">	#
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	root /home/arantxa/django_tutorial;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	index index.html index.htm index.nginx-debian.html;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	server_name python.afm-tars.es;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	location / {
+</span></span><span class="line"><span class="cl">		proxy_pass http://localhost:8080;
+</span></span><span class="line"><span class="cl">		include proxy_params;
+</span></span><span class="line"><span class="cl">	}
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	location /static/ {
+</span></span><span class="line"><span class="cl">		alias /home/arantxa/django_tutorial/polls/static/;
+</span></span><span class="line"><span class="cl">	}
+</span></span><span class="line"><span class="cl">	location /static/admin/ {
+</span></span><span class="line"><span class="cl">		alias /home/arantxa/venv/django/lib/python3.9/site-packages/django/contrib/admin/static/admin/;
+</span></span><span class="line"><span class="cl">	}
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><p>Creo el enlace simbólico:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo ln -s /etc/nginx/sites-available/django.afm-tars.es /etc/nginx/sites-enabled/
+</span></span></code></pre></div><p>En settings he puesto DEBUG igual a False.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo nano django_tutorial/django_tutorial/settings.py 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># SECURITY WARNING: don&#39;t run with debug turned on in production!
+</span></span><span class="line"><span class="cl">DEBUG = False
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">ALLOWED_HOSTS = [&#39;python.afm-tars.es&#39;,&#39;217.160.225.205&#39;]
+</span></span></code></pre></div><p>He copiado la información de los datos de la aplicación del entorno de desarrollo para cargarlos en el servidor python.afm-tars.es.
+Primero en el entorno de desarrollo:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">python3 django_tutorial/manage.py dumpdata &gt; db.json
+</span></span><span class="line"><span class="cl">scp db.json arantxa@217.160.225.205:.
+</span></span></code></pre></div><p>Y en el servidor vps:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">pip install  pymysql
+</span></span><span class="line"><span class="cl">python3 django_tutorial/manage.py loaddata db.json 
+</span></span></code></pre></div><p>Creo la resolución estática en /etc/hosts.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo nano /etc/hosts
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">217.160.225.205         python.afm-tars.es
+</span></span></code></pre></div><p>En mi vps he creado una directiva CNAME para que python.afm-tars.es vaya a walle.afm-tars.es</p>
+<p><img src="/img/django/p15.png" alt=""></p>
+<p>Reinicio el servicio y ya debería funcionar la web.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo systemctl restart nginx
+</span></span></code></pre></div><p><img src="/img/django/p16.png" alt="">
+<img src="/img/django/p17.png" alt="">
+<img src="/img/django/p18.png" alt="">
+<img src="/img/django/p19.png" alt="">
+<img src="/img/django/p20.png" alt=""></p>
+<p>Para que la web sea accesible desde la URL <a href="https://python.afm-tar.es">https://python.afm-tar.es</a> con https primero tenemos que tener el certificado de letsencrypt. Si no lo tuviéramos habría que seguir los siguientes pasos:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo apt install certbot
+</span></span><span class="line"><span class="cl">sudo apt install python3-certbot-nginx
+</span></span><span class="line"><span class="cl">sudo certbot --nginx
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Saving debug log to /var/log/letsencrypt/letsencrypt.log
+</span></span><span class="line"><span class="cl">Plugins selected: Authenticator nginx, Installer nginx
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Which names would you like to activate HTTPS for?
+</span></span><span class="line"><span class="cl">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+</span></span><span class="line"><span class="cl">1: python.afm-tars.es
+</span></span><span class="line"><span class="cl">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+</span></span><span class="line"><span class="cl">Select the appropriate numbers separated by commas and/or spaces, or leave input
+</span></span><span class="line"><span class="cl">blank to select all options shown (Enter &#39;c&#39; to cancel): 1
+</span></span><span class="line"><span class="cl">Requesting a certificate for python.afm-tars.es
+</span></span><span class="line"><span class="cl">Performing the following challenges:
+</span></span><span class="line"><span class="cl">http-01 challenge for python.afm-tars.es
+</span></span><span class="line"><span class="cl">Waiting for verification...
+</span></span><span class="line"><span class="cl">Cleaning up challenges
+</span></span><span class="line"><span class="cl">Deploying Certificate to VirtualHost /etc/nginx/sites-enabled/django.afm-tars.es
+</span></span><span class="line"><span class="cl">Redirecting all traffic on port 80 to ssl in /etc/nginx/sites-enabled/django.afm-tars.es
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+</span></span><span class="line"><span class="cl">Congratulations! You have successfully enabled https://python.afm-tars.es
+</span></span><span class="line"><span class="cl">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">IMPORTANT NOTES:
+</span></span><span class="line"><span class="cl"> - Congratulations! Your certificate and chain have been saved at:
+</span></span><span class="line"><span class="cl">   /etc/letsencrypt/live/python.afm-tars.es/fullchain.pem
+</span></span><span class="line"><span class="cl">   Your key file has been saved at:
+</span></span><span class="line"><span class="cl">   /etc/letsencrypt/live/python.afm-tars.es/privkey.pem
+</span></span><span class="line"><span class="cl">   Your certificate will expire on 2023-04-24. To obtain a new or
+</span></span><span class="line"><span class="cl">   tweaked version of this certificate in the future, simply run
+</span></span><span class="line"><span class="cl">   certbot again with the &#34;certonly&#34; option. To non-interactively
+</span></span><span class="line"><span class="cl">   renew *all* of your certificates, run &#34;certbot renew&#34;
+</span></span><span class="line"><span class="cl"> - If you like Certbot, please consider supporting our work by:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   Donating to ISRG / Let&#39;s Encrypt:   https://letsencrypt.org/donate
+</span></span><span class="line"><span class="cl">   Donating to EFF:                    https://eff.org/donate-le
+</span></span></code></pre></div><p>Cuando tengamos el certificado modificamos el virtualhost de nginx dejándolo de la siguiente forma:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo nano /etc/nginx/sites-available/django.afm-tars.es
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">server {
+</span></span><span class="line"><span class="cl">	listen 80;
+</span></span><span class="line"><span class="cl">	listen [::]:80;
+</span></span><span class="line"><span class="cl">	server_name python.afm-tars.es;
+</span></span><span class="line"><span class="cl">	return 301 https://$server_name$request_uri;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">server {
+</span></span><span class="line"><span class="cl">	listen 443 ssl http2;
+</span></span><span class="line"><span class="cl">	listen [::]:443 ssl http2;
+</span></span><span class="line"><span class="cl">	server_name python.afm-tars.es;
+</span></span><span class="line"><span class="cl">	ssl_certificate /etc/letsencrypt/live/python.afm-tars.es/fullchain.pem; # managed by Certbot
+</span></span><span class="line"><span class="cl">	ssl_certificate_key /etc/letsencrypt/live/python.afm-tars.es/privkey.pem; # managed by Certbot
+</span></span><span class="line"><span class="cl">	include /etc/letsencrypt/options-ssl-nginx.conf;
+</span></span><span class="line"><span class="cl">	ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	root /home/arantxa/django_tutorial;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	index index.php;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	location / {
+</span></span><span class="line"><span class="cl">		proxy_pass http://localhost:8080;
+</span></span><span class="line"><span class="cl">		include proxy_params;
+</span></span><span class="line"><span class="cl">	}
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	location /static/ {
+</span></span><span class="line"><span class="cl">		alias /home/arantxa/django_tutorial/polls/static/;
+</span></span><span class="line"><span class="cl">	}
+</span></span><span class="line"><span class="cl">	location /static/admin/ {
+</span></span><span class="line"><span class="cl">		alias /home/arantxa/venv/django/lib/python3.9/site-packages/django/contrib/admin/static/admin/;
+</span></span><span class="line"><span class="cl">	}
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><p><img src="/img/django/p21.png" alt="">
+<img src="/img/django/p22.png" alt="">
+<img src="/img/django/p23.png" alt="">
+<img src="/img/django/p24.png" alt=""></p>
+<hr>
+<h2 id="tarea-3-modificación-de-nuestra-aplicación">Tarea 3: Modificación de nuestra aplicación</h2>
+<p>Vamos a realizar cambios en el entorno de desarrollo y posteriormente vamos a subirlas a producción. Vamos a realizar tres modificaciones, pero recuerda que primero lo haces en el entorno de desarrollo, y luego tendrás que llevar los cambios a producción:</p>
+<ol>
+<li>Modifica la página inicial donde se ven las encuestas para que aparezca tu nombre: Para ello modifica el archivo django_tutorial/polls/templates/polls/index.html.</li>
+<li>Modifica la imagen de fondo que se ve la aplicación.</li>
+<li>Vamos a crear una nueva tabla en la base de datos, para ello sigue los siguientes pasos:</li>
+</ol>
+<p>◦ Añade un nuevo modelo al fichero polls/models.py:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">            class Categoria(models.Model):        
+</span></span><span class="line"><span class="cl">                  Abr = models.CharField(max_length=4)
+</span></span><span class="line"><span class="cl">                  Nombre = models.CharField(max_length=50)
+</span></span><span class="line"><span class="cl">          
+</span></span><span class="line"><span class="cl">                  def __str__(self):
+</span></span><span class="line"><span class="cl">                          return self.Abr+&#34; - &#34;+self.Nombre
+</span></span></code></pre></div><p>◦ Crea una nueva migración.
+◦ Y realiza la migración.
+◦ Añade el nuevo modelo al sitio de administración de django:
+Para ello cambia la siguiente línea en el fichero polls/admin.py:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">            from .models import Choice, Question
+</span></span></code></pre></div><p>Por esta otra:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">            from .models import Choice, Question, Categoria
+</span></span></code></pre></div><p>Y añade al final la siguiente línea:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">            admin.site.register(Categoria)
+</span></span></code></pre></div><p>◦ Despliega el cambio producido al crear la nueva tabla en el entorno de producción.</p>
+<p>Explica los cambios que has realizado en el entorno de desarrollo y cómo lo has desplegado en producción para cada una de las modificaciones. Entrega pantallazos donde se vean las distintas modificaciones y que todo está funcionando. (3,5 puntos)</p>
+<hr>
+<p>Modificamos la página inicial en el servidor de desarrollo y añado mi nombre al html de la siguiente forma:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cd django_tutorial/polls/templates/polls/
+</span></span><span class="line"><span class="cl">sudo nano index.html
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;h1&gt;Arantxa Fernández Morató&lt;/h1&gt;
+</span></span><span class="line"><span class="cl">&lt;h2&gt;Práctica Despliegues de Aplicaciones Python (Django). ASIR 2&lt;/h2&gt;
+</span></span></code></pre></div><p><img src="/img/django/p25.png" alt=""></p>
+<p>Ahora cambiamos la imagen de fondo, la cual se encuentra en /django_tutorial/polls/static/polls/images/background.jpg. Me descargo otra imagen y le doy el nombre de la actual para que la sobreescriba.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cd /django_tutorial/polls/static/polls/images/
+</span></span><span class="line"><span class="cl">sudo wget https://img.freepik.com/vector-gratis/fondo-ondulado-abstracto-marron-claro_1108-592.jpg?w=2000 -O background.jpg
+</span></span></code></pre></div><p>Comprobamos los cambios en la web.</p>
+<p><img src="/img/django/p26.png" alt=""></p>
+
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://afermor8.github.io/tags/iaw/">IAW</a>&nbsp;
+            
+          </div>
+        
+
+        
+            <hr/>
+            <section id="social-share">
+              <div class="list-inline footer-links">
+                
+
+<div class="share-box" aria-hidden="true">
+    <ul class="share">
+      
+      <li>
+        <a href="//twitter.com/share?url=https%3a%2f%2fafermor8.github.io%2fpost%2fdjango%2f&amp;text=Despliegue%20de%20aplicaciones%20Python%20%28Django%29&amp;via=" target="_blank" title="Share on Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fafermor8.github.io%2fpost%2fdjango%2f" target="_blank" title="Share on Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//reddit.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fdjango%2f&amp;title=Despliegue%20de%20aplicaciones%20Python%20%28Django%29" target="_blank" title="Share on Reddit">
+          <i class="fab fa-reddit"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fafermor8.github.io%2fpost%2fdjango%2f&amp;title=Despliegue%20de%20aplicaciones%20Python%20%28Django%29" target="_blank" title="Share on LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fdjango%2f&amp;title=Despliegue%20de%20aplicaciones%20Python%20%28Django%29" target="_blank" title="Share on StumbleUpon">
+          <i class="fab fa-stumbleupon"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fafermor8.github.io%2fpost%2fdjango%2f&amp;description=Despliegue%20de%20aplicaciones%20Python%20%28Django%29" target="_blank" title="Share on Pinterest">
+          <i class="fab fa-pinterest"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+
+              </div>
+            </section>
+        
+
+        
+          
+
+          
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://afermor8.github.io/post/vpn/" data-toggle="tooltip" data-placement="top" title="Vpn. Redes Privadas Virtuales">&larr; Artículo anterior</a>
+            </li>
+          
+          
+        </ul>
+      
+
+
+      
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+      
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+		
+		  <a href="mailto:ara.fer.mor@gmail.com" title="Email me">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://github.com/afermor8" title="GitHub">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://Afermor.slack.com/" title="Slack">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-slack fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://linkedin.com/in/arantxa-f-6136617b" title="LinkedIn">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://telegram.me/arantxipu" title="Telegram">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-telegram fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            <a href="" title="RSS">
+              <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              <a href="afermor8.github.io">afermor8</a>
+            
+          
+
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2023
+          
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="https://gohugo.io">Hugo v0.104.3</a> alimentada &nbsp;&bull;&nbsp; Tema <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adaptado de <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer><script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://afermor8.github.io/js/main.js"></script>
+<script src="https://afermor8.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://afermor8.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>
+
