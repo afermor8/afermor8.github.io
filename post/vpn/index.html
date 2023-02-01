@@ -60,7 +60,7 @@ Uno de los dos equipos (el que actuará como servidor) estará conectado a dos r
   "headline": "Vpn. Redes Privadas Virtuales",
   "description" : "VPN. Redes Privadas Virtuales A) VPN de acceso remoto con OpenVPN y certificados x509 (5 puntos) Configura una conexión VPN de acceso remoto entre dos equipos del cloud:\nUno de los dos equipos (el que actuará como servidor) estará conectado a dos redes Para la autenticación de los extremos se usarán obligatoriamente certificados digitales, que se generarán utilizando openssl y se almacenarán en el directorio \/etc\/openvpn, junto con los parámetros Diffie-Helman y el certificado de la propia Autoridad de Certificación.",
   "inLanguage" : "es",
-  "wordCount":  1757 ,
+  "wordCount":  2858 ,
   "datePublished" : "2023-01-24T18:15:29",
   "dateModified" : "2023-01-24T18:15:29",
   "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
@@ -254,10 +254,10 @@ Uno de los dos equipos (el que …">
   <i class="fas fa-calendar"></i>&nbsp;Publicado el January 24, 2023
   
   
-    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;9&nbsp;minutos
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;14&nbsp;minutos
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1757&nbsp;palabras
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2858&nbsp;palabras
   
   
     
@@ -294,10 +294,10 @@ Uno de los dos equipos (el que …">
   <i class="fas fa-calendar"></i>&nbsp;Publicado el January 24, 2023
   
   
-    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;9&nbsp;minutos
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;14&nbsp;minutos
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1757&nbsp;palabras
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2858&nbsp;palabras
   
   
     
@@ -761,6 +761,253 @@ Documenta el proceso detalladamente.</li>
 <hr>
 <h3 id="c-vpn-de-acceso-remoto-con-wireguard-5-puntos">C) VPN de acceso remoto con WireGuard (5 puntos)</h3>
 <p>Monta una VPN de acceso remoto usando Wireguard. Intenta probarla con clientes Windows, Linux y Android. Documenta el proceso adecuadamente y compáralo con el del apartado A.</p>
+<hr>
+<h4 id="desde-cliente-debian-11">Desde cliente Debian 11:</h4>
+<p>Primero creo el escenario para hacerlo desde un cliente Debian 11, que será el siguiente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Vagrant.configure<span class="o">(</span><span class="s2">&#34;2&#34;</span><span class="o">)</span> <span class="k">do</span> <span class="p">|</span>config<span class="p">|</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">config.vm.synced_folder <span class="s2">&#34;.&#34;</span>, <span class="s2">&#34;/vagrant&#34;</span>, disabled: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  config.vm.provider :libvirt <span class="k">do</span> <span class="p">|</span>libvirt<span class="p">|</span>
+</span></span><span class="line"><span class="cl">    libvirt.cpus <span class="o">=</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">    libvirt.memory <span class="o">=</span> <span class="m">512</span>
+</span></span><span class="line"><span class="cl">  end
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  config.vm.define :clientelx <span class="k">do</span> <span class="p">|</span>clientelx<span class="p">|</span>
+</span></span><span class="line"><span class="cl">    clientelx.vm.box <span class="o">=</span> <span class="s2">&#34;debian/bullseye64&#34;</span>
+</span></span><span class="line"><span class="cl">    clientelx.vm.hostname <span class="o">=</span> <span class="s2">&#34;clientelx&#34;</span>
+</span></span><span class="line"><span class="cl">    clientelx.vm.network :private_network,
+</span></span><span class="line"><span class="cl">      :libvirt__network_name <span class="o">=</span>&gt; <span class="s2">&#34;redexterna&#34;</span>,
+</span></span><span class="line"><span class="cl">      :libvirt__dhcp_enabled <span class="o">=</span>&gt; false,
+</span></span><span class="line"><span class="cl">      :ip <span class="o">=</span>&gt; <span class="s2">&#34;192.168.50.2&#34;</span>,
+</span></span><span class="line"><span class="cl">      :libvirt__netmask <span class="o">=</span>&gt; <span class="s1">&#39;255.255.255.0&#39;</span>,
+</span></span><span class="line"><span class="cl">      :libvirt__forward_mode <span class="o">=</span>&gt; <span class="s2">&#34;veryisolated&#34;</span>
+</span></span><span class="line"><span class="cl">  end
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  config.vm.define :servervpn <span class="k">do</span> <span class="p">|</span>servervpn<span class="p">|</span>
+</span></span><span class="line"><span class="cl">    servervpn.vm.box <span class="o">=</span> <span class="s2">&#34;debian/bullseye64&#34;</span>
+</span></span><span class="line"><span class="cl">    servervpn.vm.hostname <span class="o">=</span> <span class="s2">&#34;servervpn&#34;</span>
+</span></span><span class="line"><span class="cl">    servervpn.vm.network :private_network,
+</span></span><span class="line"><span class="cl">      :libvirt__network_name <span class="o">=</span>&gt; <span class="s2">&#34;redexterna&#34;</span>,
+</span></span><span class="line"><span class="cl">      :libvirt__dhcp_enabled <span class="o">=</span>&gt; false,
+</span></span><span class="line"><span class="cl">      :ip <span class="o">=</span>&gt; <span class="s2">&#34;192.168.50.1&#34;</span>,
+</span></span><span class="line"><span class="cl">      :libvirt__netmask <span class="o">=</span>&gt; <span class="s1">&#39;255.255.255.0&#39;</span>,
+</span></span><span class="line"><span class="cl">      :libvirt__forward_mode <span class="o">=</span>&gt; <span class="s2">&#34;veryisolated&#34;</span>
+</span></span><span class="line"><span class="cl">    servervpn.vm.network :private_network,
+</span></span><span class="line"><span class="cl">      :libvirt__network_name <span class="o">=</span>&gt; <span class="s2">&#34;redinterna&#34;</span>,
+</span></span><span class="line"><span class="cl">      :libvirt__dhcp_enabled <span class="o">=</span>&gt; false,
+</span></span><span class="line"><span class="cl">      :ip <span class="o">=</span>&gt; <span class="s2">&#34;192.168.80.1&#34;</span>,
+</span></span><span class="line"><span class="cl">      :libvirt__netmask <span class="o">=</span>&gt; <span class="s1">&#39;255.255.255.0&#39;</span>,
+</span></span><span class="line"><span class="cl">      :libvirt__forward_mode <span class="o">=</span>&gt; <span class="s2">&#34;veryisolated&#34;</span>
+</span></span><span class="line"><span class="cl">  end
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  config.vm.define :aislada <span class="k">do</span> <span class="p">|</span>aislada<span class="p">|</span>
+</span></span><span class="line"><span class="cl">    aislada.vm.box <span class="o">=</span> <span class="s2">&#34;debian/bullseye64&#34;</span>
+</span></span><span class="line"><span class="cl">    aislada.vm.hostname <span class="o">=</span> <span class="s2">&#34;aislada&#34;</span>
+</span></span><span class="line"><span class="cl">    aislada.vm.network :private_network,
+</span></span><span class="line"><span class="cl">      :libvirt__network_name <span class="o">=</span>&gt; <span class="s2">&#34;redinterna&#34;</span>,
+</span></span><span class="line"><span class="cl">      :libvirt__dhcp_enabled <span class="o">=</span>&gt; false,
+</span></span><span class="line"><span class="cl">      :ip <span class="o">=</span>&gt; <span class="s2">&#34;192.168.80.2&#34;</span>,
+</span></span><span class="line"><span class="cl">      :libvirt__netmask <span class="o">=</span>&gt; <span class="s1">&#39;255.255.255.0&#39;</span>,
+</span></span><span class="line"><span class="cl">      :libvirt__forward_mode <span class="o">=</span>&gt; <span class="s2">&#34;veryisolated&#34;</span>
+</span></span><span class="line"><span class="cl">  end
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">end
+</span></span></code></pre></div><p><strong>En <em>servervpn</em>:</strong></p>
+<p>Instalamos Wireguard.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt install wireguard
+</span></span></code></pre></div><p>En este caso no activaremos el bit de forwarding manualmente ya que lo haremos directamente desde el fichero de configuración de Wireguard.</p>
+<p>Generamos el par de claves en <strong>/etc/wireguard/</strong>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo su
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /etc/wireguard/
+</span></span><span class="line"><span class="cl">wg genkey <span class="p">|</span> tee serverprivatekey <span class="p">|</span> wg pubkey &gt; serverpublickey
+</span></span></code></pre></div><p>Creamos el fichero de configuración (en la opción &lsquo;PrivateKey&rsquo; debemos copiar la clave privada generada anteriormente).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat serverprivatekey
+</span></span><span class="line"><span class="cl">nano wg0.conf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Server config</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Interface<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Address</span> <span class="o">=</span> 10.99.99.1
+</span></span><span class="line"><span class="cl"><span class="nv">PrivateKey</span> <span class="o">=</span> yG48lnvU/+blnbVOSmIDz5yyDRsGAFmCqLSxQRous2Q<span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ListenPort</span> <span class="o">=</span> <span class="m">51820</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># IP forwarding</span>
+</span></span><span class="line"><span class="cl"><span class="nv">PreUp</span> <span class="o">=</span> sysctl -w net.ipv4.ip_forward<span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#iptables rules</span>
+</span></span><span class="line"><span class="cl"><span class="nv">PostUp</span> <span class="o">=</span> iptables -A FORWARD -i %i -j ACCEPT<span class="p">;</span> iptables -A FORWARD -o %i -j ACCEPT<span class="p">;</span> iptables -t nat -A POSTROUTING -o wlp3s0 -j MASQUERADE
+</span></span><span class="line"><span class="cl"><span class="nv">PostDown</span> <span class="o">=</span> iptables -D FORWARD -i %i -j ACCEPT<span class="p">;</span> iptables -D FORWARD -o %i -j ACCEPT<span class="p">;</span> iptables -t nat -D POSTROUTING -o wlp3s0 -j MASQUERADE
+</span></span></code></pre></div><p>Modificamos los permisos por seguridad.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">chmod <span class="m">600</span> /etc/wireguard/ -R
+</span></span></code></pre></div><p>Avtivamos la interfaz creada y comprobamos que funciona.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wg-quick up wg0
+</span></span><span class="line"><span class="cl">wg
+</span></span><span class="line"><span class="cl">ip -br a
+</span></span></code></pre></div><p><img src="/img/vpn/13.png" alt="prueba"></p>
+<p><strong>En <em>clientelx</em>:</strong></p>
+<p>Instalo Wireguard y creo el par de claves en /etc/wireguard.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt install wireguard
+</span></span><span class="line"><span class="cl">sudo su
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /etc/wireguard
+</span></span><span class="line"><span class="cl">wg genkey <span class="p">|</span> tee clientprivatekey <span class="p">|</span> wg pubkey &gt; clientpublickey
+</span></span></code></pre></div><p>Creo el fichero de configuración.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat clientprivatekey
+</span></span><span class="line"><span class="cl">cat clientpublickey 
+</span></span><span class="line"><span class="cl">nano wg0.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Interface<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Address</span> <span class="o">=</span> 10.99.99.2
+</span></span><span class="line"><span class="cl"><span class="nv">PrivateKey</span> <span class="o">=</span> 4HH9loDo2Bj90nYw4ZlKOGeWS0Bk9lLa/Aw/jSnuSFU<span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ListenPort</span> <span class="o">=</span> <span class="m">51820</span>
+</span></span><span class="line"><span class="cl"><span class="nv">PostUp</span> <span class="o">=</span> ip route add 192.168.80.0/24 dev wg0
+</span></span><span class="line"><span class="cl"><span class="nv">PostDown</span> <span class="o">=</span> ip route del 192.168.80.0/24 dev wg0
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Peer<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">PublicKey</span> <span class="o">=</span> p/Fg6cK6MPh76HWi7B0dj44ISBJjb8D263a8b5cSQ18<span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="nv">AllowedIPs</span> <span class="o">=</span> 0.0.0.0/0
+</span></span><span class="line"><span class="cl"><span class="nv">Endpoint</span> <span class="o">=</span> 192.168.50.1:51820
+</span></span><span class="line"><span class="cl"><span class="nv">PersistentKeepalive</span> <span class="o">=</span> <span class="m">25</span>
+</span></span></code></pre></div><p>En PrivateKey copio la clave privada del cliente con <code>cat clientprivatekey</code>.</p>
+<p>En Postup y Postdown habrá que poner la red interna a la que nos conectaremos.</p>
+<p>En Endpoint tendremos que poner la IP del servidor Wireguard (servervpn), el que configuramos en el punto anterior, y en PublicKey voy a copiar la <strong>clave pública</strong> de <strong>servervpn</strong> con <code>cat clientpublickey</code>.</p>
+<p>Cambiamos los permisos.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">chmod <span class="m">600</span> /etc/wireguard/ -R
+</span></span></code></pre></div><p>Ahora activamos la interfaz y comprobamos que funciona.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wg-quick up wg0
+</span></span><span class="line"><span class="cl">ip -br a
+</span></span></code></pre></div><p><img src="/img/vpn/13.png" alt="prueba"></p>
+<p>Por último, añadimos <strong>en servervpn</strong> el bloque Peer del cliente que acabamos de configurar. Añadimos al fichero de configuración <strong>wg0.conf</strong> lo siguiente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Cliente Debian 11</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Peer<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Publickey</span> <span class="o">=</span> <span class="nv">Xs2GEu0honQOS3clIjosaLUa7D0VwnrbSTIALr7cvk4</span><span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="nv">AllowedIPs</span> <span class="o">=</span> 10.99.99.2/32
+</span></span><span class="line"><span class="cl"><span class="nv">PersistentKeepAlive</span> <span class="o">=</span> <span class="m">25</span>
+</span></span></code></pre></div><p>En Publickey hay que poner la clave pública del cliente.</p>
+<p>Reiniciamos el servicio y comprobamos que funciona.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wg-quick down wg0
+</span></span><span class="line"><span class="cl">wg-quick up wg0
+</span></span><span class="line"><span class="cl">wg
+</span></span><span class="line"><span class="cl">ip r
+</span></span></code></pre></div><p><img src="/img/vpn/15.png" alt="prueba"></p>
+<p><strong>En <em>aislada</em>:</strong></p>
+<p>Cambiamos la ruta por defecto en la máquina aislada.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo ip r del default
+</span></span><span class="line"><span class="cl">sudo ip r add default via 192.168.80.1
+</span></span></code></pre></div><p><img src="/img/vpn/17.png" alt="prueba"></p>
+<p><strong>Comprobación:</strong></p>
+<p>Volvemos a la máquina <strong>clientelx</strong> y probamos que se puede hacer ping y traceroute a la máquina <strong>aislada</strong> de la red interna.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ping 192.168.80.2
+</span></span><span class="line"><span class="cl">traceroute 192.168.80.2
+</span></span></code></pre></div><p><img src="/img/vpn/18.png" alt="prueba"></p>
+<p>Hacemos ping y traceroute desde <strong>clientelx</strong> al otro extremo del túnel.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ping 10.99.99.1
+</span></span><span class="line"><span class="cl">traceroute 10.99.99.1
+</span></span></code></pre></div><p><img src="/img/vpn/20.png" alt="prueba"></p>
+<p>Hacemos ping y traceroute desde la máquina <strong>aislada</strong> de la red interna a la interfaz del túnel del cliente externo.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ping 10.99.99.2
+</span></span><span class="line"><span class="cl">traceroute 10.99.99.2
+</span></span></code></pre></div><p><img src="/img/vpn/19.png" alt="prueba"></p>
+<h4 id="desde-windows-10">Desde <em>Windows 10</em>:</h4>
+<p>Iniciamos la máquina y lo primero que haremos es instalar Wireguard desde la <a href="https://www.wireguard.com/install/">página oficial</a>.</p>
+<p><img src="/img/vpn/24.png" alt="prueba"></p>
+<p>Ahora conectamos la máquina Windows 10 a la red <strong>redexterna</strong> creada anteriormente.</p>
+<p><img src="/img/vpn/21.png" alt="prueba"></p>
+<p>En Símbolo del sistema (como administrador) configuramos la interfaz de forma estática.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">netsh interface ip <span class="nb">set</span> address <span class="nv">name</span><span class="o">=</span><span class="s2">&#34;Ethernet&#34;</span> static 192.168.50.3 255.255.255.0 192.168.50.1
+</span></span></code></pre></div><p>Compruebo la configuración y si tenemos conectividad.</p>
+<p><img src="/img/vpn/22.png" alt="prueba">
+<img src="/img/vpn/23.png" alt="prueba"></p>
+<p>Iniciamos el programa y creamos un túnel vacío.</p>
+<p><img src="/img/vpn/25.png" alt="prueba"></p>
+<p>Se generan las claves de forma automática.</p>
+<p><img src="/img/vpn/26.png" alt="prueba"></p>
+<p>Completamos la configuración.</p>
+<p><img src="/img/vpn/27.png" alt="prueba"></p>
+<p>Ya nos aparecerá el tunel creado en el programa Wireguard.</p>
+<p><img src="/img/vpn/28.png" alt="prueba"></p>
+<p><strong>En <em>servervpn</em>:</strong></p>
+<p>A continuación vamos a la máquina servervpn y añadimos al fichero wg0.conf lo siguiente.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#Cliente Windows 10</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Peer<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">PublicKey</span> <span class="o">=</span> p9xaV3uyUxqq89E79sgdj52AGcapJ+D4GqMJn/ZI31g<span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="nv">AllowedIPs</span> <span class="o">=</span> 10.99.99.3/32
+</span></span><span class="line"><span class="cl"><span class="nv">PersistentKeepAlive</span> <span class="o">=</span> <span class="m">25</span>
+</span></span></code></pre></div><p>Reiniciamos wireguard.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wg-quick down wg0
+</span></span><span class="line"><span class="cl">wg-quick up wg0
+</span></span><span class="line"><span class="cl">wg
+</span></span></code></pre></div><p><img src="/img/vpn/29.png" alt="prueba"></p>
+<p><strong>Volvemos al cliente Windows 10:</strong></p>
+<p>Activamos el túnel que creamos anteriormente.</p>
+<p><img src="/img/vpn/30.png" alt="prueba"></p>
+<p><img src="/img/vpn/31.png" alt="prueba"></p>
+<p>Comprobamos que se nos ha creado la interfaz del túnel.</p>
+<p><img src="/img/vpn/32.png" alt="prueba"></p>
+<p><strong>Comprobación:</strong></p>
+<p>Hacemos ping y tracert desde Windows al otro extremo del túnel:</p>
+<p><img src="/img/vpn/.png" alt="prueba"></p>
+<p>Hacemos ping y tracert desde Windows a la máquina <strong>aislada</strong>.</p>
+<p><img src="/img/vpn/.png" alt="prueba"></p>
+<h4 id="desde-android">Desde <em>Android</em>:</h4>
+<p>En este caso voy a utilizar mi teléfono móvil Android (192.168.1.130) conectado a mi máquina host (192.168.1.248) para crear un túnel y poderme conectar a una máquina llamada aislada (192.168.121.12) que está conectada a mi host (192.168.121.1).</p>
+<p>Para hacer esto primero tendremos que configurar mi host con wireguard como hicimos en el primer caso.</p>
+<p>Instalamos Wireguard y generamos el par de claves.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install wireguard
+</span></span><span class="line"><span class="cl">sudo su
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /etc/wireguard/
+</span></span><span class="line"><span class="cl">wg genkey <span class="p">|</span> tee serverprivatekey <span class="p">|</span> wg pubkey &gt; serverpublickey
+</span></span></code></pre></div><p>Creamos el fichero de configuración.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat serverprivatekey
+</span></span><span class="line"><span class="cl">nano wg0.conf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Server config</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Interface<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Address</span> <span class="o">=</span> 10.99.99.1
+</span></span><span class="line"><span class="cl"><span class="nv">PrivateKey</span> <span class="o">=</span> mPGSoAZLQZg/B4Dqy3htpv4sMJgUIiZBSYaNandPA0A<span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ListenPort</span> <span class="o">=</span> <span class="m">51820</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># IP forwarding</span>
+</span></span><span class="line"><span class="cl"><span class="nv">PreUp</span> <span class="o">=</span> sysctl -w net.ipv4.ip_forward<span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#iptables rules</span>
+</span></span><span class="line"><span class="cl"><span class="nv">PostUp</span> <span class="o">=</span> iptables -A FORWARD -i %i -j ACCEPT<span class="p">;</span> iptables -A FORWARD -o %i -j ACCEPT<span class="p">;</span> iptables -t nat -A POSTROUTING -o wlp3s0 -j MASQUERADE
+</span></span><span class="line"><span class="cl"><span class="nv">PostDown</span> <span class="o">=</span> iptables -D FORWARD -i %i -j ACCEPT<span class="p">;</span> iptables -D FORWARD -o %i -j ACCEPT<span class="p">;</span> iptables -t nat -D POSTROUTING -o wlp3s0 -j MASQUERADE
+</span></span></code></pre></div><p>Modificamos los permisos.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">chmod <span class="m">600</span> /etc/wireguard/ -R
+</span></span></code></pre></div><p>Avtivamos la interfaz creada y comprobamos que funciona.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wg-quick up wg0
+</span></span><span class="line"><span class="cl">wg
+</span></span><span class="line"><span class="cl">ip -br a
+</span></span></code></pre></div><p><img src="/img/vpn/35.png" alt="prueba"></p>
+<p>Vamos ahora al teléfono Android y descargamos Wireguard.</p>
+<p><img src="/img/vpn/movil1.jpeg" alt="prueba"></p>
+<p>Para crear el túnel vamos a usar la opción de crear desde cero.</p>
+<p><img src="/img/vpn/movil2.jpeg" alt="prueba"></p>
+<p>Generamos el par de claves y completamos la configuración.</p>
+<p><img src="/img/vpn/movil3.jpeg" alt="prueba"></p>
+<p><img src="/img/vpn/movil4.jpeg" alt="prueba"></p>
+<p><img src="/img/vpn/movil5.jpeg" alt="prueba"></p>
+<p><img src="/img/vpn/movil6.jpeg" alt="prueba"></p>
+<p>En la captura anterior me faltó poner el puerto, pero en la siguiente se ve correctamente creado.</p>
+<p><img src="/img/vpn/movil7.jpeg" alt="prueba"></p>
+<p>Vamos a nuestro host y modificamos el fichero de configuración wg0.conf. Añadimos lo siguiente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Cliente Android</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Peer<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">PublicKey</span> <span class="o">=</span> bwYcPk16D5PLJL1yf82J/BiaS0aVTIt+fVUgUNrPkkE<span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="nv">AllowedIPs</span> <span class="o">=</span> 10.99.99.2/32
+</span></span></code></pre></div><p>Reiniciamos el servidor vpn.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wg-quick down wg0
+</span></span><span class="line"><span class="cl">wg-quick up wg0
+</span></span><span class="line"><span class="cl">wg
+</span></span></code></pre></div><p><img src="/img/vpn/36.png" alt="prueba"></p>
+<p>Ahora sí vamos a nuestro teléfono y activamos el túnel creado.</p>
+<p><img src="/img/vpn/movil8.jpeg" alt="prueba"></p>
+<p>Con Terminal Emulator comprobamos que se ha creado el túnel.</p>
+<p><strong>Comprobación:</strong></p>
+<p>Hacemos ping y traceroute al otro extremo del túnel (10.99.99.1).</p>
+<p><img src="/img/vpn/.png" alt="prueba"></p>
+<p>Hacemos ping y traceroute a la máquina aislada (192.168.121.12).</p>
+<p><img src="/img/vpn/.png" alt="prueba"></p>
 <hr>
 <h3 id="d-vpn-sitio-a-sitio-con-wireguard-10-puntos">D) VPN sitio a sitio con WireGuard (10 puntos)</h3>
 <p>Configura una VPN sitio a sitio usando WireGuard. Documenta el proceso adecuadamente y compáralo con el del apartado B.</p>
