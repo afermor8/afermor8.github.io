@@ -15,7 +15,7 @@
       <author>ara.fer.mor@gmail.com (afermor8)</author>
       <guid>https://afermor8.github.io/post/vpn/</guid>
       <description>VPN. Redes Privadas Virtuales A) VPN de acceso remoto con OpenVPN y certificados x509 (5 puntos) Configura una conexión VPN de acceso remoto entre dos equipos del cloud:
-Uno de los dos equipos (el que actuará como servidor) estará conectado a dos redes Para la autenticación de los extremos se usarán obligatoriamente certificados digitales, que se generarán utilizando openssl y se almacenarán en el directorio /etc/openvpn, junto con los parámetros Diffie-Helman y el certificado de la propia Autoridad de Certificación.</description>
+Uno de los dos equipos (el que actuará como servidor) estará conectado a dos redes. Para la autenticación de los extremos se usarán obligatoriamente certificados digitales, que se generarán utilizando openssl y se almacenarán en el directorio /etc/openvpn, junto con los parámetros Diffie-Helman y el certificado de la propia Autoridad de Certificación.</description>
     </item>
     
     <item>
