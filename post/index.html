@@ -182,7 +182,7 @@
                 <span class="post-meta">
   
   
-  <i class="fas fa-calendar"></i>&nbsp;Publicado el January 26, 2023
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el February 20, 2023
   
   
     &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;0&nbsp;minutos
@@ -215,6 +215,103 @@
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         
         <div class="posts-list">
+          
+            <article class="post-preview">
+    <a href="https://afermor8.github.io/post/auditoria/">
+        <h2 class="post-title">Auditoría</h2>
+        
+        
+        
+    </a>
+
+    <p class="post-meta">
+        <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el February 20, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;11&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2250&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+    </p>
+    <div class="post-entry">
+        
+        1. Activa desde SQL*Plus la auditoría de los intentos de acceso exitosos al sistema. Comprueba su funcionamiento. Podemos ver los parámetros de auditoria con show parameter audit o haciendo una consulta a v$parameter.
+show parameter audit NAME TYPE VALUE ------------------------------------ ----------- ------------------------------ audit_file_dest string /opt/oracle/admin/ORCLCDB/adump audit_syslog_level string audit_sys_operations boolean TRUE audit_trail string DB unified_audit_common_systemlog string unified_audit_sga_queue_size integer 1048576 unified_audit_systemlog string SELECT name, value FROM v$parameter WHERE name like &#39;audit_trail&#39;; NAME -------------------------------------------------------------------------------- VALUE -------------------------------------------------------------------------------- audit_trail DB Vemos que el parámetro audit_trail está activado ya que su valor es &lsquo;DB&rsquo;.
+        <a href="https://afermor8.github.io/post/auditoria/" class="post-read-more">[Leer más]</a>
+        
+    </div>
+
+    
+    <div class="blog-tags">
+        
+        <a href="https://afermor8.github.io/tags/bbdd/">bbdd</a>&nbsp;
+        
+    </div>
+    
+
+</article>
+          
+            <article class="post-preview">
+    <a href="https://afermor8.github.io/post/forense/">
+        <h2 class="post-title">Informática Forense</h2>
+        
+        
+        
+    </a>
+
+    <p class="post-meta">
+        <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el February 6, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;9&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1804&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+    </p>
+    <div class="post-entry">
+        
+        Descripción La informática forense es el conjunto de técnicas que nos permite obtener la máxima información posible tras un incidente o delito informático.
+En esta práctica, realizarás la fase de toma de evidencias y análisis de las mismas sobre una máquina Linux y otra Windows. Supondremos que pillamos al delincuente in fraganti y las máquinas se encontraban encendidas. Opcionalmente, podéis realizar el análisis de un dispositivo Android.
+Sobre cada una de las máquinas debes realizar un volcado de memoria y otro de disco duro, tomando las medidas necesarias para certificar posteriormente la cadena de custodia.
+        <a href="https://afermor8.github.io/post/forense/" class="post-read-more">[Leer más]</a>
+        
+    </div>
+
+    
+    <div class="blog-tags">
+        
+        <a href="https://afermor8.github.io/tags/sad/">SAD</a>&nbsp;
+        
+    </div>
+    
+
+</article>
           
             <article class="post-preview">
     <a href="https://afermor8.github.io/post/django/">

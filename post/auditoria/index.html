@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="es" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Auditoría - Mi paso por ASIR Blog</title>
+  <meta name="description" content="1. Activa desde SQL*Plus la auditoría de los intentos de acceso exitosos al sistema. Comprueba su funcionamiento. Podemos ver los parámetros de auditoria con show parameter audit o haciendo una consulta a v$parameter.
+show parameter audit NAME TYPE VALUE ------------------------------------ ----------- ------------------------------ audit_file_dest string /opt/oracle/admin/ORCLCDB/adump audit_syslog_level string audit_sys_operations boolean TRUE audit_trail string DB unified_audit_common_systemlog string unified_audit_sga_queue_size integer 1048576 unified_audit_systemlog string SELECT name, value FROM v$parameter WHERE name like &#39;audit_trail&#39;; NAME -------------------------------------------------------------------------------- VALUE -------------------------------------------------------------------------------- audit_trail DB Vemos que el parámetro audit_trail está activado ya que su valor es &lsquo;DB&rsquo;.">
+  <meta name="author" content="afermor8"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Mi paso por ASIR Blog",
+    
+    "url": "https:\/\/afermor8.github.io"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/afermor8.github.io"
+  
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io\/post\/auditoria\/",
+          "name": "Auditoría"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "afermor8"
+  },
+  "headline": "Auditoría",
+  "description" : "1. Activa desde SQL*Plus la auditoría de los intentos de acceso exitosos al sistema. Comprueba su funcionamiento. Podemos ver los parámetros de auditoria con show parameter audit o haciendo una consulta a v$parameter.\nshow parameter audit NAME TYPE VALUE ------------------------------------ ----------- ------------------------------ audit_file_dest string \/opt\/oracle\/admin\/ORCLCDB\/adump audit_syslog_level string audit_sys_operations boolean TRUE audit_trail string DB unified_audit_common_systemlog string unified_audit_sga_queue_size integer 1048576 unified_audit_systemlog string SELECT name, value FROM v$parameter WHERE name like \u0026#39;audit_trail\u0026#39;; NAME -------------------------------------------------------------------------------- VALUE -------------------------------------------------------------------------------- audit_trail DB Vemos que el parámetro audit_trail está activado ya que su valor es \u0026lsquo;DB\u0026rsquo;.",
+  "inLanguage" : "es",
+  "wordCount":  2250 ,
+  "datePublished" : "2023-02-20T11:31:49",
+  "dateModified" : "2023-02-20T11:31:49",
+  "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+  "keywords" : [ "bbdd" ],
+  "mainEntityOfPage" : "https:\/\/afermor8.github.io\/post\/auditoria\/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https:\/\/afermor8.github.io",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
+
+<meta property="og:title" content="Auditoría" />
+<meta property="og:description" content="1. Activa desde SQL*Plus la auditoría de los intentos de acceso exitosos al sistema. Comprueba su funcionamiento. Podemos ver los parámetros de auditoria con show parameter audit o haciendo una consulta a v$parameter.
+show parameter audit NAME TYPE VALUE ------------------------------------ ----------- ------------------------------ audit_file_dest string /opt/oracle/admin/ORCLCDB/adump audit_syslog_level string audit_sys_operations boolean TRUE audit_trail string DB unified_audit_common_systemlog string unified_audit_sga_queue_size integer 1048576 unified_audit_systemlog string SELECT name, value FROM v$parameter WHERE name like &#39;audit_trail&#39;; NAME -------------------------------------------------------------------------------- VALUE -------------------------------------------------------------------------------- audit_trail DB Vemos que el parámetro audit_trail está activado ya que su valor es &lsquo;DB&rsquo;.">
+<meta property="og:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+<meta property="og:url" content="https://afermor8.github.io/post/auditoria/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Mi paso por ASIR Blog" />
+
+  <meta name="twitter:title" content="Auditoría" />
+  <meta name="twitter:description" content="1. Activa desde SQL*Plus la auditoría de los intentos de acceso exitosos al sistema. Comprueba su funcionamiento. Podemos ver los parámetros de auditoria con show parameter audit o haciendo una …">
+  <meta name="twitter:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link href='https://afermor8.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta name="generator" content="Hugo 0.104.3" />
+  <link rel="alternate" href="https://afermor8.github.io/index.xml" type="application/rss+xml" title="Mi paso por ASIR Blog"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://afermor8.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://afermor8.github.io/css/highlight.min.css" /><link rel="stylesheet" href="https://afermor8.github.io/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Conmuta navegación</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/page/about/">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Tags" href="/tags">Tags</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    
+      <div class="avatar-container">
+        <div class="avatar-img-border">
+          <a title="Mi paso por ASIR Blog" href="https://afermor8.github.io">
+            <img class="avatar-img" src="https://afermor8.github.io/img/avatar-icon.png" alt="Mi paso por ASIR Blog" />
+          </a>
+        </div>
+      </div>
+    
+
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+    <div id="header-big-imgs" data-num-img=3 
+      
+         
+          data-img-src-1="/img/triangle.jpg" 
+         
+         data-img-desc-1="Triangle"
+      
+         
+          data-img-src-2="/img/sphere.jpg" 
+         
+         data-img-desc-2="Sphere"
+      
+         
+          data-img-src-3="/img/hexagon.jpg" 
+         
+         data-img-desc-3="Hexagon"
+      ></div>
+  
+
+  <header class="header-section has-img">
+    
+      <div class="intro-header big-img">
+        
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+              <div class="post-heading">
+                <h1>Auditoría</h1>
+                  
+                  
+                    <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el February 20, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;11&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2250&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="img-desc" style="display: inline;"></span>
+      </div>
+    
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>Auditoría</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el February 20, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;11&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2250&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <h2 id="1-activa-desde-sqlplus-la-auditoría-de-los-intentos-de-acceso-exitosos-al-sistema-comprueba-su-funcionamiento">1. Activa desde SQL*Plus la auditoría de los intentos de acceso exitosos al sistema. Comprueba su funcionamiento.</h2>
+<p>Podemos ver los parámetros de auditoria con <code>show parameter audit</code> o haciendo una consulta a v$parameter.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">show</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="n">audit</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">NAME</span><span class="w">                                 </span><span class="k">TYPE</span><span class="w">        </span><span class="n">VALUE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">------------------------------------ ----------- ------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">audit_file_dest</span><span class="w">                      </span><span class="n">string</span><span class="w">      </span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">oracle</span><span class="o">/</span><span class="k">admin</span><span class="o">/</span><span class="n">ORCLCDB</span><span class="o">/</span><span class="n">adump</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">audit_syslog_level</span><span class="w">                   </span><span class="n">string</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">audit_sys_operations</span><span class="w">                </span><span class="nb">boolean</span><span class="w">      </span><span class="k">TRUE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">audit_trail</span><span class="w">                          </span><span class="n">string</span><span class="w">      </span><span class="n">DB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">unified_audit_common_systemlog</span><span class="w">       </span><span class="n">string</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">unified_audit_sga_queue_size</span><span class="w">         </span><span class="nb">integer</span><span class="w">     </span><span class="mi">1048576</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">unified_audit_systemlog</span><span class="w">              </span><span class="n">string</span><span class="w">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">v$parameter</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="k">like</span><span class="w"> </span><span class="s1">&#39;audit_trail&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">VALUE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">audit_trail</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DB</span><span class="w">
+</span></span></span></code></pre></div><p>Vemos que el parámetro audit_trail está activado ya que su valor es &lsquo;DB&rsquo;. DB significa que se activa la auditoría y los datos se almacenarán en la tabla SYS.AUD$ de Oracle (es equivalente a TRUE).</p>
+<p>Si estuviera desactivado su valor sería &lsquo;NONE&rsquo; y lo activaríamos con el siguiente comando:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">SYSTEM</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">audit_trail</span><span class="o">=</span><span class="n">db</span><span class="w"> </span><span class="k">scope</span><span class="o">=</span><span class="n">spfile</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><blockquote>
+<p>Tras activarlo habría que reiniciar la base de datos de Oracle haciendo <code>shutdown</code> y <code>startup</code>.</p>
+</blockquote>
+<p>Cuando el valor del parámetro audit_trail sea &lsquo;DB&rsquo; ya podremos activar la auditoría de intentos de accesos. Para auditar tanto los intentos fallidos como los exitosos se utiliza:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">AUDIT</span><span class="w"> </span><span class="k">SESSION</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>Para auditar solamente los fallidos:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">AUDIT</span><span class="w"> </span><span class="k">CREATE</span><span class="w"> </span><span class="k">SESSION</span><span class="w"> </span><span class="k">WHENEVER</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="n">SUCCESSFUL</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>Y para auditar los exitosos:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">AUDIT</span><span class="w"> </span><span class="k">CREATE</span><span class="w"> </span><span class="k">SESSION</span><span class="w"> </span><span class="k">WHENEVER</span><span class="w"> </span><span class="n">SUCCESSFUL</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>En mi caso voy a auditar tanto los fallidos como los exitosos.</p>
+<p>Ahora intentamos acceder con dos usuarios que no existen y uno que sí existe.</p>
+<p><img src="/img/audit/1.png" alt="accesos"></p>
+<p>Comprobamos los intentos de acceso.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">OS_USERNAME</span><span class="p">,</span><span class="w"> </span><span class="n">USERNAME</span><span class="p">,</span><span class="w"> </span><span class="n">EXTENDED_TIMESTAMP</span><span class="p">,</span><span class="w"> </span><span class="n">ACTION_NAME</span><span class="p">,</span><span class="w"> </span><span class="n">RETURNCODE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">DBA_AUDIT_SESSION</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">OS_USERNAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">USERNAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">EXTENDED_TIMESTAMP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">---------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ACTION_NAME</span><span class="w">                  </span><span class="n">RETURNCODE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">---------------------------- ----------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">usuario</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ADMIN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">12</span><span class="p">:</span><span class="mi">38</span><span class="p">:</span><span class="mi">28</span><span class="p">,</span><span class="mi">851148</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">LOGON</span><span class="w">                             </span><span class="mi">0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">OS_USERNAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">USERNAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">EXTENDED_TIMESTAMP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">---------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ACTION_NAME</span><span class="w">                  </span><span class="n">RETURNCODE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">---------------------------- ----------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">usuario</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">PEPITO</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">12</span><span class="p">:</span><span class="mi">09</span><span class="p">:</span><span class="mi">55</span><span class="p">,</span><span class="mi">805600</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">LOGON</span><span class="w">                          </span><span class="mi">1017</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">OS_USERNAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">USERNAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">EXTENDED_TIMESTAMP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">---------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ACTION_NAME</span><span class="w">                   </span><span class="n">RETURNCODE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">---------------------------- ----------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">usuario</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">BASILISCO</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">12</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">04</span><span class="p">,</span><span class="mi">099451</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">LOGON</span><span class="w">                          </span><span class="mi">1017</span><span class="w">
+</span></span></span></code></pre></div><p>Si queremos ver las auditorías activadas:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">dba_priv_audit_opts</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">USER_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">PROXY_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">PRIVILEGE</span><span class="w">                                </span><span class="n">SUCCESS</span><span class="w">    </span><span class="n">FAILURE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">---------------------------------------- ---------- ----------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">SESSION</span><span class="w">                           </span><span class="k">BY</span><span class="w"> </span><span class="k">ACCESS</span><span class="w">    </span><span class="k">BY</span><span class="w"> </span><span class="k">ACCESS</span><span class="w">
+</span></span></span></code></pre></div><p>Y si quisiéramos desactivar la auditoría que hemos activado en este ejercicio:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">NOAUDIT</span><span class="w"> </span><span class="k">SESSION</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- ó:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">NOAUDIT</span><span class="w"> </span><span class="k">CREATE</span><span class="w"> </span><span class="k">SESSION</span><span class="w"> </span><span class="k">WHENEVER</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="n">SUCCESSFUL</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- ó:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">NOAUDIT</span><span class="w"> </span><span class="k">CREATE</span><span class="w"> </span><span class="k">SESSION</span><span class="w"> </span><span class="k">WHENEVER</span><span class="w"> </span><span class="n">SUCCESSFUL</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><h2 id="2-realiza-un-procedimiento-en-plsql-que-te-muestre-los-accesos-fallidos-junto-con-el-motivo-de-los-mismos-transformando-el-código-de-error-almacenado-en-un-mensaje-de-texto-comprensible-contempla-todos-los-motivos-posibles-para-que-un-acceso-sea-fallido">2. Realiza un procedimiento en PL/SQL que te muestre los accesos fallidos junto con el motivo de los mismos, transformando el código de error almacenado en un mensaje de texto comprensible. Contempla todos los motivos posibles para que un acceso sea fallido.</h2>
+<p>Primero he creado una función que explique el código almacenado.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">REPLACE</span><span class="w"> </span><span class="k">FUNCTION</span><span class="w"> </span><span class="n">CodigoExplicado</span><span class="w"> </span><span class="p">(</span><span class="n">p_cod</span><span class="w"> </span><span class="n">DBA_AUDIT_SESSION</span><span class="p">.</span><span class="n">RETURNCODE</span><span class="o">%</span><span class="k">TYPE</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">RETURN</span><span class="w"> </span><span class="n">VARCHAR2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">IS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">v_resultado</span><span class="w"> </span><span class="n">VARCHAR2</span><span class="p">(</span><span class="mi">4000</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">BEGIN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">CASE</span><span class="w"> </span><span class="n">p_cod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="n">v_resultado</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Acceso correcto&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="mi">1004</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="n">v_resultado</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Acceso denegado. Nombre de usuario por defecto no compatible&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="mi">1017</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="n">v_resultado</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;El usuario y/o contrasena es invalido&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="mi">1045</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="n">v_resultado</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;El usuario no tiene el privilegio CREATE SESSION&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="mi">28000</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="n">v_resultado</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;La cuenta esta bloqueada&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="mi">28001</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="n">v_resultado</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;La contrasena ha expirado&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="mi">28002</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="n">v_resultado</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;La contrasena vencerá en pocos dias&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="mi">28003</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="n">v_resultado</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;La contrasena no es lo bastante compleja&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="mi">28007</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="n">v_resultado</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;No puedes reutilizar la contrasena&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="mi">28008</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="n">v_resultado</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Has utilizado un contrasena antigua inválida&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="mi">28009</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="n">v_resultado</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;La conexión como SYS debe ser a traves de SYSDBA o SYSOPER&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="mi">28011</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="n">v_resultado</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;La cuenta expirara pronto, cambia la contrasena ahora&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">ELSE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="n">v_resultado</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Ha habido un ERROR. Pongase en contacto con el administrador para saber mas&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">END</span><span class="w"> </span><span class="k">CASE</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">RETURN</span><span class="w"> </span><span class="n">v_resultado</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">END</span><span class="w"> </span><span class="n">CodigoExplicado</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">/</span><span class="w">
+</span></span></span></code></pre></div><p>Creo el procedimiento que muestre los accesos fallidos. Como en mi caso se almacenaban tanto los intentos exitosos como fallidos cuando haya un acceso con código 0 (acceso correcto) no se mostrará nada.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">REPLACE</span><span class="w"> </span><span class="k">PROCEDURE</span><span class="w"> </span><span class="n">MostrarAccesosFallidos</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">IS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">CURSOR</span><span class="w"> </span><span class="n">C_INTENTOS_FALLIDOS</span><span class="w"> </span><span class="k">IS</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">SELECT</span><span class="w"> </span><span class="n">OS_USERNAME</span><span class="p">,</span><span class="w"> </span><span class="n">USERNAME</span><span class="p">,</span><span class="w"> </span><span class="n">EXTENDED_TIMESTAMP</span><span class="p">,</span><span class="w"> </span><span class="n">RETURNCODE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">DBA_AUDIT_SESSION</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">V_REG</span><span class="w"> </span><span class="n">C_INTENTOS_FALLIDOS</span><span class="o">%</span><span class="n">ROWTYPE</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">BEGIN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">&#39;--ACCESOS FALLIDOS--&#39;</span><span class="o">||</span><span class="n">CHR</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">||</span><span class="s1">&#39;-------------------------------------------------------&#39;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">FOR</span><span class="w"> </span><span class="n">V_REG</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">C_INTENTOS_FALLIDOS</span><span class="w"> </span><span class="n">LOOP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">--Si es diferente a 0 (Acceso correcto) significa que ha habido un error por lo que se muestran los datos importantes del intento de acceso y la explicación del código usando la funcion CodigoExplicado
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="k">IF</span><span class="w"> </span><span class="n">CodigoExplicado</span><span class="p">(</span><span class="n">V_REG</span><span class="p">.</span><span class="n">RETURNCODE</span><span class="p">)</span><span class="o">!=</span><span class="s1">&#39;Acceso correcto&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">&#39;Usuario del sistema: &#39;</span><span class="o">||</span><span class="n">V_REG</span><span class="p">.</span><span class="n">OS_USERNAME</span><span class="o">||</span><span class="n">CHR</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">||</span><span class="s1">&#39;Usuario de la base de datos: &#39;</span><span class="o">||</span><span class="n">V_REG</span><span class="p">.</span><span class="n">USERNAME</span><span class="o">||</span><span class="n">CHR</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">||</span><span class="s1">&#39;Fecha y Hora: &#39;</span><span class="o">||</span><span class="n">V_REG</span><span class="p">.</span><span class="n">EXTENDED_TIMESTAMP</span><span class="o">||</span><span class="n">CHR</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">||</span><span class="s1">&#39;Motivo: &#39;</span><span class="o">||</span><span class="n">CodigoExplicado</span><span class="p">(</span><span class="n">V_REG</span><span class="p">.</span><span class="n">RETURNCODE</span><span class="p">)</span><span class="o">||</span><span class="n">CHR</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">||</span><span class="s1">&#39;-------------------------------------------------------&#39;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">END</span><span class="w"> </span><span class="k">IF</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="n">LOOP</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">END</span><span class="w"> </span><span class="n">MostrarAccesosFallidos</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">/</span><span class="w">
+</span></span></span></code></pre></div><p><strong>Comprobación:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">exec</span><span class="w"> </span><span class="n">MostrarAccesosFallidos</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p><img src="/img/audit/2.png" alt="errores"></p>
+<h2 id="3-activa-la-auditoría-de-las-operaciones-dml-realizadas-por-scott-comprueba-su-funcionamiento">3. Activa la auditoría de las operaciones DML realizadas por SCOTT. Comprueba su funcionamiento.</h2>
+<p>Para activar la auditoría que se nos pide usamos el siguiente comando:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">AUDIT</span><span class="w"> </span><span class="k">INSERT</span><span class="w"> </span><span class="k">TABLE</span><span class="p">,</span><span class="w"> </span><span class="k">UPDATE</span><span class="w"> </span><span class="k">TABLE</span><span class="p">,</span><span class="w"> </span><span class="k">DELETE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">SCOTT</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><blockquote>
+<p>BY ACCESS realiza un registro por cada acción. BY SESSION realizaría un registro de todas las acciones por cada sesión iniciada.</p>
+</blockquote>
+<p>Pobamos haciendo insert, update y delete con el usuario Scott para que se auditen los cambios.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">dept</span><span class="w"> </span><span class="k">VALUES</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="s1">&#39;RECEPTION&#39;</span><span class="p">,</span><span class="s1">&#39;SAN FRANCISCO&#39;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">UPDATE</span><span class="w"> </span><span class="n">dept</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;WASHINGTON&#39;</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">deptno</span><span class="o">=</span><span class="mi">50</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">dept</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">deptno</span><span class="o">=</span><span class="mi">50</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">COMMIT</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p><strong>Comprobación:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">os_username</span><span class="p">,</span><span class="w"> </span><span class="n">username</span><span class="p">,</span><span class="w"> </span><span class="n">obj_name</span><span class="p">,</span><span class="w"> </span><span class="n">action_name</span><span class="p">,</span><span class="w"> </span><span class="n">extended_timestamp</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">dba_audit_object</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;SCOTT&#39;</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>Resultados:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">OS_USERNAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">USERNAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">OBJ_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ACTION_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">----------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">EXTENDED_TIMESTAMP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">---------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">usuario</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">SCOTT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DEPT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">14</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">28</span><span class="p">,</span><span class="mi">780958</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">OS_USERNAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">USERNAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">OBJ_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ACTION_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">----------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">EXTENDED_TIMESTAMP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">---------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">usuario</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">SCOTT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DEPT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">UPDATE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">14</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">28</span><span class="p">,</span><span class="mi">783132</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">OS_USERNAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">USERNAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">OBJ_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ACTION_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">----------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">EXTENDED_TIMESTAMP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">---------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">usuario</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">SCOTT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DEPT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DELETE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">14</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">28</span><span class="p">,</span><span class="mi">787416</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span></code></pre></div><h2 id="4-realiza-una-auditoría-de-grano-fino-para-almacenar-información-sobre-la-inserción-de-empleados-con-sueldo-superior-a-2000-en-la-tabla-emp-de-scott">4. Realiza una auditoría de grano fino para almacenar información sobre la inserción de empleados con sueldo superior a 2000 en la tabla emp de scott.</h2>
+<p>En la Auditoría de Grano Fino se guarda qué consulta ejecutó un usuario sobre una tabla en un momento determinado o qué datos fueron borrados, modificados o insertados por parte del usuario.</p>
+<p>Vamos a crear una auditoría de grano fino que guardará información sobre la inserción de nuevos empleados con un sueldo superior a 2000 en la tabla emp de Scott. Para ello realizaremos un procedimiento con la siguiente política desde SYS:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">BEGIN</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">DBMS_FGA</span><span class="p">.</span><span class="n">ADD_POLICY</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">object_schema</span><span class="w">      </span><span class="o">=&gt;</span><span class="w">  </span><span class="s1">&#39;SCOTT&#39;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">object_name</span><span class="w">        </span><span class="o">=&gt;</span><span class="w">  </span><span class="s1">&#39;EMP&#39;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">policy_name</span><span class="w">        </span><span class="o">=&gt;</span><span class="w">  </span><span class="s1">&#39;pol_nomayor2000&#39;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">audit_condition</span><span class="w">    </span><span class="o">=&gt;</span><span class="w">  </span><span class="s1">&#39;SAL &gt; 2000&#39;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">statement_types</span><span class="w">    </span><span class="o">=&gt;</span><span class="w">  </span><span class="s1">&#39;INSERT&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">END</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">/</span><span class="w">
+</span></span></span></code></pre></div><p>Podemos ver la política creada de la siguiente forma:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">select</span><span class="w"> </span><span class="n">object_schema</span><span class="p">,</span><span class="n">object_name</span><span class="p">,</span><span class="n">policy_name</span><span class="p">,</span><span class="n">policy_text</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">from</span><span class="w"> </span><span class="n">dba_audit_policies</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">OBJECT_SCHEMA</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">OBJECT_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">POLICY_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">POLICY_TEXT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">SCOTT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">EMP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">POL_NOMAYOR2000</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">SAL</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">2000</span><span class="w">
+</span></span></span></code></pre></div><p>Ahora con el usuario Scott insertamos algunos registros con sueldosuperior a 2000 para comprobar los datos guardados en la auditoría.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">insert</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">emp</span><span class="w"> </span><span class="k">values</span><span class="p">(</span><span class="mi">8000</span><span class="p">,</span><span class="s1">&#39;PEPITO&#39;</span><span class="p">,</span><span class="s1">&#39;CLERK&#39;</span><span class="p">,</span><span class="k">null</span><span class="p">,</span><span class="n">sysdate</span><span class="p">,</span><span class="mi">3000</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">insert</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">emp</span><span class="w"> </span><span class="k">values</span><span class="p">(</span><span class="mi">8001</span><span class="p">,</span><span class="s1">&#39;WILSON&#39;</span><span class="p">,</span><span class="s1">&#39;CLERK&#39;</span><span class="p">,</span><span class="k">null</span><span class="p">,</span><span class="n">sysdate</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">insert</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">emp</span><span class="w"> </span><span class="k">values</span><span class="p">(</span><span class="mi">8002</span><span class="p">,</span><span class="s1">&#39;RUBY&#39;</span><span class="p">,</span><span class="s1">&#39;CLERK&#39;</span><span class="p">,</span><span class="k">null</span><span class="p">,</span><span class="n">sysdate</span><span class="p">,</span><span class="mi">2500</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">insert</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">emp</span><span class="w"> </span><span class="k">values</span><span class="p">(</span><span class="mi">8003</span><span class="p">,</span><span class="s1">&#39;RICOH&#39;</span><span class="p">,</span><span class="s1">&#39;CLERK&#39;</span><span class="p">,</span><span class="k">null</span><span class="p">,</span><span class="n">sysdate</span><span class="p">,</span><span class="mi">800</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">commit</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>Comprobamos los datos insertados desde SYS:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">db_user</span><span class="p">,</span><span class="w"> </span><span class="n">object_name</span><span class="p">,</span><span class="w"> </span><span class="n">sql_text</span><span class="p">,</span><span class="w"> </span><span class="n">extended_timestamp</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w"> </span><span class="n">dba_fga_audit_trail</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w"> </span><span class="n">policy_name</span><span class="o">=</span><span class="s1">&#39;POL_NOMAYOR2000&#39;</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>Nos aparecerá la siguiente información:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">DB_USER</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">OBJECT_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">SQL_TEXT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">EXTENDED_TIMESTAMP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">---------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">SCOTT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">EMP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">insert</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">emp</span><span class="w"> </span><span class="k">values</span><span class="p">(</span><span class="mi">8000</span><span class="p">,</span><span class="s1">&#39;PEPITO&#39;</span><span class="p">,</span><span class="s1">&#39;CLERK&#39;</span><span class="p">,</span><span class="k">null</span><span class="p">,</span><span class="n">sysdate</span><span class="p">,</span><span class="mi">3000</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">18</span><span class="p">:</span><span class="mi">07</span><span class="p">:</span><span class="mi">35</span><span class="p">,</span><span class="mi">471112</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DB_USER</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">OBJECT_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">SQL_TEXT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">EXTENDED_TIMESTAMP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">---------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">SCOTT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">EMP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">insert</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">emp</span><span class="w"> </span><span class="k">values</span><span class="p">(</span><span class="mi">8002</span><span class="p">,</span><span class="s1">&#39;RUBY&#39;</span><span class="p">,</span><span class="s1">&#39;CLERK&#39;</span><span class="p">,</span><span class="k">null</span><span class="p">,</span><span class="n">sysdate</span><span class="p">,</span><span class="mi">2500</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">18</span><span class="p">:</span><span class="mi">07</span><span class="p">:</span><span class="mi">35</span><span class="p">,</span><span class="mi">488884</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span></code></pre></div><p>Vemos que solo nos aparecen dos de los registros ya que solo dos de ellos tienen el salario superior a 2000.</p>
+<h2 id="5-explica-la-diferencia-entre-auditar-una-operación-by-access-o-by-session-ilustrándolo-con-ejemplos">5. Explica la diferencia entre auditar una operación by access o by session ilustrándolo con ejemplos.</h2>
+<p>La diferenca entre una y otra está en cómo se registra la información de auditoría.</p>
+<p>La auditoría BY ACCESS crea una entrada en el registro de auditoría para cada operación de acceso a los recursos. Esto significa que cada vez que un usuario intenta acceder al recurso, se registra una entrada en el registro de auditoría, incluso si el usuario no tiene éxito.</p>
+<p>Por otro lado, la auditoría BY SESSION registra una entrada en el registro de auditoría para cada sesión de usuario. Esto significa que la entrada se registra solo cuando el usuario inicia una sesión en el recurso, y no cada vez que el usuario intenta acceder a dicho recurso.</p>
+<p>En resumen, la auditoría BY ACCESS es más detallada y puede generar una gran cantidad de registros, mientras que la auditoría BY SESSION es menos detallada pero más fácil de analizar y entender en términos de sesiones de usuario.</p>
+<p>La forma de utilizar cada uno de ellos sería añadiéndolo al final de la sentencia durante la creción de una auditoría. Por ejemplo en la auditaría del ejercicio 3 sería de la siguiente forma:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">AUDIT</span><span class="w"> </span><span class="k">INSERT</span><span class="w"> </span><span class="k">TABLE</span><span class="p">,</span><span class="w"> </span><span class="k">UPDATE</span><span class="w"> </span><span class="k">TABLE</span><span class="p">,</span><span class="w"> </span><span class="k">DELETE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">SCOTT</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">ACCESS</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- ó:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">AUDIT</span><span class="w"> </span><span class="k">INSERT</span><span class="w"> </span><span class="k">TABLE</span><span class="p">,</span><span class="w"> </span><span class="k">UPDATE</span><span class="w"> </span><span class="k">TABLE</span><span class="p">,</span><span class="w"> </span><span class="k">DELETE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">SCOTT</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">SESSION</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><h2 id="6-documenta-las-diferencias-entre-los-valores-db-y-dbextended-del-parámetro-audit_trail-de-oracle-demuéstralas-poniendo-un-ejemplo-de-la-información-sobre-una-operación-concreta-recopilada-con-cada-uno-de-ellos">6. Documenta las diferencias entre los valores &lsquo;DB&rsquo; y &lsquo;DB,EXTENDED&rsquo; del parámetro audit_trail de ORACLE. Demuéstralas poniendo un ejemplo de la información sobre una operación concreta recopilada con cada uno de ellos.</h2>
+<p>El parámetro audit_trail en Oracle determina el nivel de detalle de la información de auditoría que se va a registrar. Hay diferentes valores posibles para este parámetro, como &lsquo;OS&rsquo;, &lsquo;DB&rsquo;, &lsquo;DB,EXTENDED&rsquo;, &lsquo;XML&rsquo; y &lsquo;XML,EXTENDED&rsquo;. En este caso vamos a ver &lsquo;DB&rsquo; y &lsquo;DB,EXTENDED&rsquo;.</p>
+<ul>
+<li>
+<p>DB: con este valor, Oracle registra la información de auditoría en la tabla SYS.AUD$, que incluye el nombre del usuario, la fecha y hora, el comando ejecutado y el objeto afectado por el comando. Este nivel de auditoría proporciona información básica sobre los comandos ejecutados.</p>
+</li>
+<li>
+<p>DB,EXTENDED: con este valor, Oracle registra información adicional en la tabla SYS.AUD$. Guardaría todos los datos como en &lsquo;DB&rsquo; y además escribe los valores correspondientes en las columnas SQLBIND y SQLTEXT de la misma tabla.</p>
+</li>
+</ul>
+<p>Los registros almacenados en la tabla SYS.AUD$ se pueden ver directamente en ésta o en las siguientes vistas:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">view_name</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w">   </span><span class="n">dba_views</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w">  </span><span class="n">view_name</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;DBA%AUDIT%&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">view_name</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">VIEW_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">DBA_AUDIT_EXISTS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DBA_AUDIT_MGMT_CLEAN_EVENTS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DBA_AUDIT_MGMT_CLEANUP_JOBS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DBA_AUDIT_MGMT_CONFIG_PARAMS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DBA_AUDIT_MGMT_LAST_ARCH_TS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DBA_AUDIT_OBJECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DBA_AUDIT_POLICIES</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DBA_AUDIT_POLICY_COLUMNS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DBA_AUDIT_SESSION</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DBA_AUDIT_STATEMENT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DBA_AUDIT_TRAIL</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DBA_COMMON_AUDIT_TRAIL</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DBA_DV_PATCH_ADMIN_AUDIT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DBA_FGA_AUDIT_TRAIL</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DBA_OBJ_AUDIT_OPTS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DBA_OLS_AUDIT_OPTIONS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DBA_PRIV_AUDIT_OPTS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DBA_SA_AUDIT_OPTIONS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DBA_STMT_AUDIT_OPTS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DBA_XS_AUDIT_POLICY_OPTIONS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DBA_XS_AUDIT_TRAIL</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">DBA_XS_ENABLED_AUDIT_POLICIES</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">22</span><span class="w"> </span><span class="n">filas</span><span class="w"> </span><span class="n">seleccionadas</span><span class="p">.</span><span class="w">
+</span></span></span></code></pre></div><p>Vamos a ver un ejemplo primero con la configuración &lsquo;DB&rsquo; y posteriormente realizaremos el mismo ejemplo para la configuración &lsquo;DB,EXTENDED&rsquo;.</p>
+<p>Primero voy a crear un usuario llamado audit_test y vamos a auditar todas las operaciones realizadas por este.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="n">audit_test</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">password</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">TABLESPACE</span><span class="w"> </span><span class="n">users</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="k">TEMPORARY</span><span class="w"> </span><span class="n">TABLESPACE</span><span class="w"> </span><span class="n">temp</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">QUOTA</span><span class="w"> </span><span class="n">UNLIMITED</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GRANT</span><span class="w"> </span><span class="k">connect</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">audit_test</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GRANT</span><span class="w"> </span><span class="k">create</span><span class="w"> </span><span class="k">table</span><span class="p">,</span><span class="w"> </span><span class="k">create</span><span class="w"> </span><span class="k">procedure</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">audit_test</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT</span><span class="w"> </span><span class="k">ALL</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">audit_test</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">ACCESS</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="k">TABLE</span><span class="p">,</span><span class="w"> </span><span class="k">UPDATE</span><span class="w"> </span><span class="k">TABLE</span><span class="p">,</span><span class="w"> </span><span class="k">INSERT</span><span class="w"> </span><span class="k">TABLE</span><span class="p">,</span><span class="w"> </span><span class="k">DELETE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">audit_test</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">ACCESS</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT</span><span class="w"> </span><span class="k">EXECUTE</span><span class="w"> </span><span class="k">PROCEDURE</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">audit_test</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">ACCESS</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>Las opciones anteriores auditan todos los DDL y DML, junto con algunos eventos del sistema.</p>
+<ul>
+<li>DDL (CREATE, ALTER y DROP)</li>
+<li>DML (INSERT, UPDATE, DELETE, SELECT, EXECUTE).</li>
+<li>EVENTOS DEL SISTEMA (LOGON, LOGOFF, etc.)</li>
+</ul>
+<p>Nos conectamos con el usuario creado y realizamos algunas operaciones:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">conn</span><span class="w"> </span><span class="n">audit_test</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">test_tab</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">id</span><span class="w">  </span><span class="nb">NUMBER</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">test_tab</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">UPDATE</span><span class="w"> </span><span class="n">test_tab</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">test_tab</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">test_tab</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">test_tab</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>Comprobamos los registros en la vista dba_audit_trail desde el usuario SYS.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">username</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">       </span><span class="n">extended_timestamp</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">       </span><span class="k">owner</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">       </span><span class="n">obj_name</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">       </span><span class="n">action_name</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w">   </span><span class="n">dba_audit_trail</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w">  </span><span class="k">owner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;AUDIT_TEST&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">extended_timestamp</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p><strong>Resultados (DB):</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">USERNAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">EXTENDED_TIMESTAMP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">---------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">OWNER</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">OBJ_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ACTION_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">----------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">45</span><span class="p">,</span><span class="mi">970048</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">52</span><span class="p">,</span><span class="mi">466208</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">52</span><span class="p">,</span><span class="mi">473496</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">UPDATE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">52</span><span class="p">,</span><span class="mi">477009</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">52</span><span class="p">,</span><span class="mi">479997</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DELETE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">53</span><span class="p">,</span><span class="mi">567785</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">6</span><span class="w"> </span><span class="n">filas</span><span class="w"> </span><span class="n">seleccionadas</span><span class="p">.</span><span class="w">
+</span></span></span></code></pre></div><p>Vamos ahora con el segundo ejemplo (con la configuración &lsquo;DB,EXTENDED&rsquo;).</p>
+<p>Primero, para cambiar nuestra base de datos del valor &lsquo;DB&rsquo; a &lsquo;DB,EXTENDED&rsquo; utilizamos el siguiente comando:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">ALTER</span><span class="w"> </span><span class="k">SYSTEM</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">audit_trail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DB</span><span class="p">,</span><span class="n">EXTENDED</span><span class="w"> </span><span class="k">SCOPE</span><span class="o">=</span><span class="n">SPFILE</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>Reiniciamos la base de datos.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">shutdown</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">startup</span><span class="w">
+</span></span></span></code></pre></div><p><img src="/img/audit/3.png" alt="accesos"></p>
+<p>Comprobamos que ha cambiado:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">show</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="n">audit</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">NAME</span><span class="w">                                 </span><span class="k">TYPE</span><span class="w">        </span><span class="n">VALUE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">------------------------------------ ----------- ------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">audit_file_dest</span><span class="w">                      </span><span class="n">string</span><span class="w">      </span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">oracle</span><span class="o">/</span><span class="k">admin</span><span class="o">/</span><span class="n">ORCLCDB</span><span class="o">/</span><span class="n">adump</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">audit_syslog_level</span><span class="w">                   </span><span class="n">string</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">audit_sys_operations</span><span class="w">                 </span><span class="nb">boolean</span><span class="w">     </span><span class="k">TRUE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">audit_trail</span><span class="w">                          </span><span class="n">string</span><span class="w">      </span><span class="n">DB</span><span class="p">,</span><span class="w"> </span><span class="n">EXTENDED</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">unified_audit_common_systemlog</span><span class="w">       </span><span class="n">string</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">unified_audit_sga_queue_size</span><span class="w">         </span><span class="nb">integer</span><span class="w">     </span><span class="mi">1048576</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">unified_audit_systemlog</span><span class="w">              </span><span class="n">string</span><span class="w">
+</span></span></span></code></pre></div><p>Seguimos los pasos anteriores. Nos conectamos con el usuario audit_test y realizamos las siguientes operaciones.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">test_tab</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">id</span><span class="w">  </span><span class="nb">NUMBER</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">test_tab</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">UPDATE</span><span class="w"> </span><span class="n">test_tab</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">test_tab</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">test_tab</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">test_tab</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>Comprobamos los registros en la vista dba_audit_trail (vemos también las columnas SQL_BIND y SQL_TEXT).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="n">username</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">       </span><span class="n">extended_timestamp</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">       </span><span class="k">owner</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">       </span><span class="n">obj_name</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">       </span><span class="n">action_name</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">       </span><span class="n">sql_bind</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">       </span><span class="n">sql_text</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w">   </span><span class="n">dba_audit_trail</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w">  </span><span class="k">owner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;AUDIT_TEST&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">extended_timestamp</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p><strong>Resultados (DB,EXTENDED):</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">USERNAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">EXTENDED_TIMESTAMP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">---------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">OWNER</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">OBJ_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ACTION_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">----------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">SQL_BIND</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">SQL_TEXT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">--------------------------------------------------------------------------------
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">45</span><span class="p">,</span><span class="mi">970048</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">52</span><span class="p">,</span><span class="mi">466208</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">52</span><span class="p">,</span><span class="mi">473496</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">UPDATE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">52</span><span class="p">,</span><span class="mi">477009</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">52</span><span class="p">,</span><span class="mi">479997</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DELETE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">53</span><span class="p">,</span><span class="mi">567785</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">19</span><span class="p">:</span><span class="mi">51</span><span class="p">,</span><span class="mi">022584</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">test_tab</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">19</span><span class="p">:</span><span class="mi">51</span><span class="p">,</span><span class="mi">029225</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">UPDATE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">UPDATE</span><span class="w"> </span><span class="n">test_tab</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">19</span><span class="p">:</span><span class="mi">51</span><span class="p">,</span><span class="mi">036064</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">test_tab</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">19</span><span class="p">:</span><span class="mi">51</span><span class="p">,</span><span class="mi">042390</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DELETE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">test_tab</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">19</span><span class="p">:</span><span class="mi">52</span><span class="p">,</span><span class="mi">181657</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">test_tab</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">15</span><span class="p">,</span><span class="mi">615407</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">test_tab</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="n">id</span><span class="w">  </span><span class="nb">NUMBER</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">15</span><span class="p">,</span><span class="mi">638909</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">test_tab</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">15</span><span class="p">,</span><span class="mi">645566</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">UPDATE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">UPDATE</span><span class="w"> </span><span class="n">test_tab</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">15</span><span class="p">,</span><span class="mi">648545</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">test_tab</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">15</span><span class="p">,</span><span class="mi">650443</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DELETE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">test_tab</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">20</span><span class="o">/</span><span class="mi">02</span><span class="o">/</span><span class="mi">23</span><span class="w"> </span><span class="mi">20</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">16</span><span class="p">,</span><span class="mi">421276</span><span class="w"> </span><span class="o">+</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">AUDIT_TEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">TEST_TAB</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">test_tab</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="mi">17</span><span class="w"> </span><span class="n">filas</span><span class="w"> </span><span class="n">seleccionadas</span><span class="p">.</span><span class="w">
+</span></span></span></code></pre></div><p>Podemos comprobar que en las acciones que se llevaron a cabo con la configuración &lsquo;DB&rsquo; no tienen registros tanto en SQL_BIND como en SQL_TEXT. Sin embargo, en las últimas acciones llevadas a cabo por el usuario audit_test con la configuración &lsquo;DB,EXTENDED&rsquo; sí se han registrado datos en SQL_TEXT.</p>
+<h2 id="7-averigua-si-en-postgres-se-pueden-realizar-los-cuatro-primeros-apartados-si-es-así-documenta-el-proceso-adecuadamente">7. Averigua si en Postgres se pueden realizar los cuatro primeros apartados. Si es así, documenta el proceso adecuadamente.</h2>
+<h2 id="8-averigua-si-en-mysql-se-pueden-realizar-los-apartados-1-3-y-4-si-es-así-documenta-el-proceso-adecuadamente">8. Averigua si en MySQL se pueden realizar los apartados 1, 3 y 4. Si es así, documenta el proceso adecuadamente.</h2>
+<h2 id="9-averigua-las-posibilidades-que-ofrece-mongodb-para-auditar-los-cambios-que-va-sufriendo-un-documento-demuestra-su-funcionamiento">9. Averigua las posibilidades que ofrece MongoDB para auditar los cambios que va sufriendo un documento. Demuestra su funcionamiento.</h2>
+<h2 id="10-averigua-si-en-mongodb-se-pueden-auditar-los-accesos-a-una-colección-concreta-demuestra-su-funcionamiento">10. Averigua si en MongoDB se pueden auditar los accesos a una colección concreta. Demuestra su funcionamiento.</h2>
+
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://afermor8.github.io/tags/bbdd/">bbdd</a>&nbsp;
+            
+          </div>
+        
+
+        
+            <hr/>
+            <section id="social-share">
+              <div class="list-inline footer-links">
+                
+
+<div class="share-box" aria-hidden="true">
+    <ul class="share">
+      
+      <li>
+        <a href="//twitter.com/share?url=https%3a%2f%2fafermor8.github.io%2fpost%2fauditoria%2f&amp;text=Auditor%c3%ada&amp;via=" target="_blank" title="Share on Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fafermor8.github.io%2fpost%2fauditoria%2f" target="_blank" title="Share on Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//reddit.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fauditoria%2f&amp;title=Auditor%c3%ada" target="_blank" title="Share on Reddit">
+          <i class="fab fa-reddit"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fafermor8.github.io%2fpost%2fauditoria%2f&amp;title=Auditor%c3%ada" target="_blank" title="Share on LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fauditoria%2f&amp;title=Auditor%c3%ada" target="_blank" title="Share on StumbleUpon">
+          <i class="fab fa-stumbleupon"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fafermor8.github.io%2fpost%2fauditoria%2f&amp;description=Auditor%c3%ada" target="_blank" title="Share on Pinterest">
+          <i class="fab fa-pinterest"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+
+              </div>
+            </section>
+        
+
+        
+          
+            
+          
+
+          
+                  <h4 class="see-also">Ver también</h4>
+                  <ul>
+                
+                
+                    <li><a href="/post/interconexion-bbdd/">Interconexion entre BBDD</a></li>
+                
+                    <li><a href="/post/install-bbdd/">Sistemas Gestores de Bases de Datos MySQL, PostgreSQL, Oracle 19c (en Debian11) y MongoDB</a></li>
+                
+              </ul>
+
+          
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://afermor8.github.io/post/forense/" data-toggle="tooltip" data-placement="top" title="Informática Forense">&larr; Artículo anterior</a>
+            </li>
+          
+          
+        </ul>
+      
+
+
+      
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+      
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+		
+		  <a href="mailto:ara.fer.mor@gmail.com" title="Email me">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://github.com/afermor8" title="GitHub">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://Afermor.slack.com/" title="Slack">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-slack fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://linkedin.com/in/arantxa-f-6136617b" title="LinkedIn">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://telegram.me/arantxipu" title="Telegram">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-telegram fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            <a href="" title="RSS">
+              <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              <a href="afermor8.github.io">afermor8</a>
+            
+          
+
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2023
+          
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="https://gohugo.io">Hugo v0.104.3</a> alimentada &nbsp;&bull;&nbsp; Tema <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adaptado de <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer><script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://afermor8.github.io/js/main.js"></script>
+<script src="https://afermor8.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://afermor8.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>
+

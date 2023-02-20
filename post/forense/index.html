@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="es" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Informática Forense - Mi paso por ASIR Blog</title>
+  <meta name="description" content="Descripción La informática forense es el conjunto de técnicas que nos permite obtener la máxima información posible tras un incidente o delito informático.
+En esta práctica, realizarás la fase de toma de evidencias y análisis de las mismas sobre una máquina Linux y otra Windows. Supondremos que pillamos al delincuente in fraganti y las máquinas se encontraban encendidas. Opcionalmente, podéis realizar el análisis de un dispositivo Android.
+Sobre cada una de las máquinas debes realizar un volcado de memoria y otro de disco duro, tomando las medidas necesarias para certificar posteriormente la cadena de custodia.">
+  <meta name="author" content="afermor8"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Mi paso por ASIR Blog",
+    
+    "url": "https:\/\/afermor8.github.io"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/afermor8.github.io"
+  
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io\/post\/forense\/",
+          "name": "Informática forense"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "afermor8"
+  },
+  "headline": "Informática Forense",
+  "description" : "Descripción La informática forense es el conjunto de técnicas que nos permite obtener la máxima información posible tras un incidente o delito informático.\nEn esta práctica, realizarás la fase de toma de evidencias y análisis de las mismas sobre una máquina Linux y otra Windows. Supondremos que pillamos al delincuente in fraganti y las máquinas se encontraban encendidas. Opcionalmente, podéis realizar el análisis de un dispositivo Android.\nSobre cada una de las máquinas debes realizar un volcado de memoria y otro de disco duro, tomando las medidas necesarias para certificar posteriormente la cadena de custodia.",
+  "inLanguage" : "es",
+  "wordCount":  1804 ,
+  "datePublished" : "2023-02-06T12:50:51",
+  "dateModified" : "2023-02-06T12:50:51",
+  "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+  "keywords" : [ "SAD" ],
+  "mainEntityOfPage" : "https:\/\/afermor8.github.io\/post\/forense\/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https:\/\/afermor8.github.io",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
+
+<meta property="og:title" content="Informática Forense" />
+<meta property="og:description" content="Descripción La informática forense es el conjunto de técnicas que nos permite obtener la máxima información posible tras un incidente o delito informático.
+En esta práctica, realizarás la fase de toma de evidencias y análisis de las mismas sobre una máquina Linux y otra Windows. Supondremos que pillamos al delincuente in fraganti y las máquinas se encontraban encendidas. Opcionalmente, podéis realizar el análisis de un dispositivo Android.
+Sobre cada una de las máquinas debes realizar un volcado de memoria y otro de disco duro, tomando las medidas necesarias para certificar posteriormente la cadena de custodia.">
+<meta property="og:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+<meta property="og:url" content="https://afermor8.github.io/post/forense/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Mi paso por ASIR Blog" />
+
+  <meta name="twitter:title" content="Informática Forense" />
+  <meta name="twitter:description" content="Descripción La informática forense es el conjunto de técnicas que nos permite obtener la máxima información posible tras un incidente o delito informático.
+En esta práctica, realizarás la fase de toma …">
+  <meta name="twitter:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link href='https://afermor8.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta name="generator" content="Hugo 0.104.3" />
+  <link rel="alternate" href="https://afermor8.github.io/index.xml" type="application/rss+xml" title="Mi paso por ASIR Blog"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://afermor8.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://afermor8.github.io/css/highlight.min.css" /><link rel="stylesheet" href="https://afermor8.github.io/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Conmuta navegación</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/page/about/">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Tags" href="/tags">Tags</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    
+      <div class="avatar-container">
+        <div class="avatar-img-border">
+          <a title="Mi paso por ASIR Blog" href="https://afermor8.github.io">
+            <img class="avatar-img" src="https://afermor8.github.io/img/avatar-icon.png" alt="Mi paso por ASIR Blog" />
+          </a>
+        </div>
+      </div>
+    
+
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+    <div id="header-big-imgs" data-num-img=3 
+      
+         
+          data-img-src-1="/img/triangle.jpg" 
+         
+         data-img-desc-1="Triangle"
+      
+         
+          data-img-src-2="/img/sphere.jpg" 
+         
+         data-img-desc-2="Sphere"
+      
+         
+          data-img-src-3="/img/hexagon.jpg" 
+         
+         data-img-desc-3="Hexagon"
+      ></div>
+  
+
+  <header class="header-section has-img">
+    
+      <div class="intro-header big-img">
+        
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+              <div class="post-heading">
+                <h1>Informática Forense</h1>
+                  
+                  
+                    <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el February 6, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;9&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1804&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="img-desc" style="display: inline;"></span>
+      </div>
+    
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>Informática Forense</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el February 6, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;9&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1804&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <h2 id="descripción">Descripción</h2>
+<p>La informática forense es el conjunto de técnicas que nos permite obtener la máxima información posible tras un incidente o delito informático.</p>
+<p>En esta práctica, realizarás la fase de toma de evidencias y análisis de las mismas sobre una máquina Linux y otra Windows. Supondremos que pillamos al delincuente in fraganti y las máquinas se encontraban encendidas. Opcionalmente, podéis realizar el análisis de un dispositivo Android.</p>
+<p>Sobre cada una de las máquinas debes realizar un volcado de memoria y otro de disco duro, tomando las medidas necesarias para certificar posteriormente la cadena de custodia.</p>
+<p>Debes tratar de obtener las siguientes informaciones:</p>
+<h3 id="apartado-a-máquina-windows">Apartado A) Máquina Windows.</h3>
+<h4 id="por-comandos">Por comandos:</h4>
+<p><strong>1. Procesos en ejecución.</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">tasklist
+</span></span></code></pre></div><p><img src="/img/forense/1.png" alt="procesos"></p>
+<p>Para ver los procesos en ejecución:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">tasklist /fi <span class="s2">&#34;STATUS eq running&#34;</span>
+</span></span></code></pre></div><p><img src="/img/forense/2.png" alt="procesos"></p>
+<p><strong>2. Servicios en ejecución.</strong></p>
+<p>Mostrar solo los servicios iniciados:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">net start
+</span></span></code></pre></div><p><img src="/img/forense/3.png" alt="servicios"></p>
+<p>Mostrar todos los servicios con nombre corto:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wmic service get name
+</span></span></code></pre></div><p><img src="/img/forense/4.png" alt="servicios"></p>
+<p>Mostrar todos los servicios con información adicional.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sc query
+</span></span></code></pre></div><p><img src="/img/forense/5.png" alt="servicios"></p>
+<p><strong>3. Puertos abiertos.</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">netstat -a
+</span></span></code></pre></div><p><img src="/img/forense/6.png" alt="puertos"></p>
+<p><strong>4. Conexiones establecidas por la máquina.</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">netstat -n
+</span></span></code></pre></div><p><img src="/img/forense/7.png" alt="conn"></p>
+<p><strong>5. Sesiones de usuario establecidas remotamente.</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">query user
+</span></span><span class="line"><span class="cl">query session
+</span></span></code></pre></div><blockquote>
+<p>Este comando no funciona en Windows 10 Home, pero sí en Windows 10 Pro o Windows Server.</p>
+</blockquote>
+<p><img src="/img/forense/8.png" alt="sesiones"></p>
+<p><strong>6. Ficheros transferidos recientemente por NetBios.</strong></p>
+<p>MIRAR INCIBE PAG 30</p>
+<p>No es posible ver los archivos transferidos recientemente por NetBios en Windows 10, ya que NetBios es un protocolo antiguo que ha sido reemplazado por otros protocolos de red más seguros.</p>
+<p>NetBIOS es un protocolo de red que viene activado por defecto en Windows 10 pero que no se utiliza hoy en día. Al estar obsoleto pero activado podría llegar a ser una puerta de entrada para ciberdelincuentes, por lo que es recomendable desactivarlo.</p>
+<p>Para monitorear la transferencia de archivos en nuestra red, habría que considerar la implementación de un sistema de monitoreo de red o un software de seguimiento de archivos que se ajuste a nuestras necesidades.</p>
+<p><strong>7. Contenido de la caché DNS.</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ipconfig /displaydns
+</span></span></code></pre></div><p><img src="/img/forense/9.png" alt="cachedns"></p>
+<p><strong>8. Variables de entorno.</strong></p>
+<p>Se obtiene la lista de variables de entorno con el comando <code>set</code>.</p>
+<p><img src="/img/forense/10.png" alt="variables"></p>
+<h4 id="analizando-el-registro-de-windows">Analizando el Registro de Windows:</h4>
+<p>El registro de Windows almacena información detallada sobre eventos y acciones que tienen lugar en un sistema operativo Windows. La información relacionada con las acciones mencionadas anteriormente se encuentra en diferentes archivos de registro de Windows. Para acceder a ellos y ver la información específica, uno puede usar la utilidad de registro de eventos o el Editor del Registro de Windows (regedit).</p>
+<p><strong>9. Dispositivos USB conectados.</strong></p>
+<p>En Registro de Windows vamos a <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\</code> y ahí veremos los dispositivos conectados. Por ejemplo:</p>
+<p><img src="/img/forense/11.png" alt="usbs"></p>
+<p><strong>10. Redes wifi utilizadas recientemente.</strong></p>
+<p>Para ver las redes wifi utilizadas recientemente vamos a <code>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles</code>.</p>
+<p><img src="/img/forense/12.png" alt="redes"></p>
+<p><strong>11. Configuración del firewall de nodo.</strong></p>
+<p>En <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy</code> estará toda la configuración del Firewall.</p>
+<p><img src="/img/forense/13.png" alt="firewall">
+<img src="/img/forense/14.png" alt="firewall"></p>
+<p><strong>12. Programas que se ejecutan en el Inicio.</strong></p>
+<p>Miramos en <code>HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run</code>.</p>
+<p><img src="/img/forense/15.png" alt="redes"></p>
+<p><strong>13. Asociación de extensiones de ficheros y aplicaciones.</strong></p>
+<p>En <code>HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts</code> nos aparecerán todas las exteniones de ficheros y aplicaciones y su asociación. Por ejemplo en la extenión .html, si vemos la opción elegida por el usuario vemos que FirefoxHTML.</p>
+<p><img src="/img/forense/16.png" alt="redes"></p>
+<p><strong>14. Aplicaciones usadas recientemente.</strong></p>
+<p>No hay una ubicación específica en el Registro de Windows 10 que proporcione información sobre las aplicaciones que se han usado recientemente. Algunos programas y aplicaciones pueden almacenar información en el Registro de Windows, pero esto varía según el programa y no es una función estándar de Windows 10.</p>
+<p>Una forma de ver Elementos recientes utilizados en Windows (ficheros, aplicaciones&hellip;) es presionando el símbolo de Windows + R y escribimos Shell:Recent. Se nos abrirá lo siguiente:</p>
+<p><img src="/img/forense/17.png" alt="recientes"></p>
+<p><strong>15. Ficheros abiertos recientemente.</strong></p>
+<p>En <code>HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs</code>.</p>
+<p><img src="/img/forense/18.png" alt="ficheros"></p>
+<p><strong>16. Software Instalado.</strong></p>
+<p>Los programas instalados se encuentran en <code>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall</code>.</p>
+<p><img src="/img/forense/19.png" alt="ficheros"></p>
+<p><strong>17. Contraseñas guardadas.</strong></p>
+<p>En el Registro de Windows solo se puede ver información relacionada con las contraseñas pero no podemos ver las contraseñas guardadas ya que se encuentran cifradas. Una forma de ver las contraseñas de Windows y las contraseñas guardadas de internet es con el <strong>Administrador de credenciales</strong>.</p>
+<p><img src="/img/forense/20.png" alt="contraseñas"></p>
+<p><strong>18. Cuentas de Usuario.</strong></p>
+<p>Podemos ver las cuentas de usuario creadas en <code>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList</code>. En mi máquina solo tengo una cuenta de usuario llamada &lsquo;usuario&rsquo; por lo que solo aparecerá una.</p>
+<p><img src="/img/forense/21.png" alt="usuarios"></p>
+<h4 id="con-aplicaciones-de-terceros">Con Aplicaciones de terceros:</h4>
+<p><strong>19. Historial de navegación y descargas. Cookies.</strong></p>
+<p>Con la herramienta <strong>BrowsingHistoryView</strong> podemos comprobar el historial de las webs más utilizadas.</p>
+<p>Me descargo la herramienta de la <a href="https://www.nirsoft.net/utils/browsinghistoryview.zip">web oficial</a> y hago una búsqueda de todos los navegadores en los últimos diez días.</p>
+<p><img src="/img/forense/23.png" alt="bhv"></p>
+<p>Entre lás búsquedas del historial de navegación podemos ver también las descargas.</p>
+<p><img src="/img/forense/24.png" alt="bhv"></p>
+<p>Para las coockies me he descargado la herramienta <strong>MozillaCookiesView</strong> ya que Firefox es el navegador que más se ha utilizado. Me descargo el programa de la <a href="http://www.nirsoft.net/utils/mzcv.html">web oficial</a> y lo ejecuto. Me aparecerán automáticamente las coockies guardadas.</p>
+<p><img src="/img/forense/25.png" alt="mcv"></p>
+<p><strong>20. Volúmenes cifrados.</strong></p>
+<p>He creado un volumen cifrado mediante VeraCrypt. Usando <strong>Encrypted Disk Detector (EDD)</strong> voy a comprobar los volúmenes cifrados que tiene la máquina. Para ello me he <a href="https://www.softpedia.com/get/Security/Security-Related/Encrypted-Disk-Detector.shtml#download">descargado</a> EDD y lo ejecuto. Me aparecerá lo siguiente.</p>
+<p><img src="/img/forense/22.png" alt="edd"></p>
+<p>En la captura vemos que el volumen cifrado está montado en <strong>X:</strong> y que lo ha detectado correctamente.</p>
+<h4 id="sobre-la-imagen-del-disco">Sobre la imagen del disco:</h4>
+<p>Para analizar los puntos anteriores utilizaremos <strong>Autopsy</strong>. Lo descargamos desde la <a href="https://www.autopsy.com/download/">web oficial</a>. Tras instalarlo lo ejecutamos como administrador y empezamos rellenando un nuevo caso.</p>
+<p><img src="/img/forense/26.png" alt="autopsy"></p>
+<p><img src="/img/forense/27.png" alt="autopsy"></p>
+<p><img src="/img/forense/28.png" alt="autopsy"></p>
+<p>Ahora seleccionamos el host y el tipo de fuente de datos.</p>
+<p><img src="/img/forense/29.png" alt="autopsy"></p>
+<p><img src="/img/forense/30.png" alt="autopsy"></p>
+<p>Seleccionamos el disco que se analizará y los módulos ingest.</p>
+<p><img src="/img/forense/31.png" alt="autopsy"></p>
+<p><img src="/img/forense/32.png" alt="autopsy"></p>
+<p>Entonces comenzará el proceso para añadir todos los módulos a la base de datos local.</p>
+<p><img src="/img/forense/33.png" alt="autopsy"></p>
+<p>Cuando se añada todo podremos analizar cada uno de los puntos.</p>
+<p><img src="/img/forense/34.png" alt="autopsy"></p>
+<p><strong>21. Archivos con extensión cambiada.</strong></p>
+<p>En Analysis Results -&gt; Extension Mismatch Detected podemos ver los archivos con extensión cambiada. Como prueba cambié de extensión los archivos x.doc y z.pdf.</p>
+<p><img src="/img/forense/38.png" alt="autopsy"></p>
+<p>Si hago doble click sobre x.doc podemos comprobar que el fichero en realidad es una imagen.</p>
+<p><img src="/img/forense/39.png" alt="autopsy"></p>
+<p>Si seleccionamos z.pdf también podremos ver que era una imagen anteriormente.</p>
+<p><img src="/img/forense/40.png" alt="autopsy"></p>
+<p><strong>22. Archivos eliminados.</strong></p>
+<p>Para ver los archivos eliminados nos vamos a la pestaña File Views -&gt; Deleted Files.</p>
+<p><img src="/img/forense/35.png" alt="autopsy"></p>
+<p><strong>23. Archivos Ocultos.</strong></p>
+<p>No hay una funcionalidad para ver los ficheros ocultos, pero sí podemos ver si un fichero es oculto o no. Para comprobarlo voy a seleccionar un fichero oculto que creé a modo de prueba. Entre la información del fichero vemos que tiene un Flag llamada Hidden (oculto).</p>
+<p><img src="/img/forense/46.png" alt="autopsy"></p>
+<p><strong>24. Archivos que contienen una cadena determinada.</strong></p>
+<p>Para esto primero vamos a realizar una búsqueda por palabra clave.</p>
+<p><img src="/img/forense/36.png" alt="autopsy"></p>
+<p>Ahora nos vamos a la opción Analysis Results &gt; Keyword Hits. Aquí podremos ver los resultados de búsquedas por palabras claves cuyas coincidencias pueden ser subcadena, correos, palabras literales, expresiones regulares&hellip;</p>
+<p><img src="/img/forense/37.png" alt="autopsy"></p>
+<p><strong>25. Búsqueda de imágenes por ubicación.</strong></p>
+<p>En la opción Images/Video de la barra superior hacemos click y se nos abre una nueva ventana en la que podemos buscar las imágener por ubicación. En mi caso me voy a ir a la ubicación Pictures -&gt; Saved Pictures, y ahí vemos algunas imágenes que he descargado anteriormente.</p>
+<p><img src="/img/forense/41.png" alt="autopsy"></p>
+<p><strong>26. Búsqueda de archivos por autor.</strong></p>
+<hr>
+<p>Por último generamos el informe. Hacemos click en Tools y Generate Report. Se nos abre la siguiente ventana:</p>
+<p><img src="/img/forense/42.png" alt="autopsy"></p>
+<p>He seleccionado que el informe sea formato texto. Le damos a siguiente y finalizar.</p>
+<p><img src="/img/forense/43.png" alt="autopsy"></p>
+<p><img src="/img/forense/44.png" alt="autopsy"></p>
+<p>Comienza la generación. Cuando termine seleccionar la ruta y se nos abrirá el informe.</p>
+<p><img src="/img/forense/45.png" alt="autopsy"></p>
+<p><img src="/img/forense/47.png" alt="autopsy"></p>
+<h4 id="volcado-de-memoria-y-de-disco-duro">Volcado de memoria y de disco duro</h4>
+<p>Me he descargado <a href="https://github.com/thimbleweed/All-In-USB/blob/master/utilities/DumpIt/DumpIt.exe?raw=true">DumpIt</a> para Windows 10.</p>
+<p>Ejecuto el .exe como administrador.</p>
+<p><img src="/img/forense/48.png" alt="autopsy"></p>
+<p>Escribimos &lsquo;y&rsquo; para continuar y cuando termine el proceso tendremos en la dirección de destino el volcado de memoria.</p>
+<p><img src="/img/forense/49.png" alt="autopsy"></p>
+<p><img src="/img/forense/50.png" alt="autopsy"></p>
+<p>También puede resultar de gran interés para el análisis forense la obtención de la memoria virtual, por lo que es recomendable adquirir el fichero pagefile.sys siempre que sea posible. Para ello utilizaremos la herramienta especializada <a href="https://tzworks.com/download_links.php">NTFSCopy</a>.</p>
+<p>Ejecutamos Símbolo del Sistema como administrador y escribimos lo siguiente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ntfscopy64.exe c:<span class="se">\p</span>agefile.sys o:<span class="se">\p</span>agefile.sys –raw –MD5
+</span></span></code></pre></div><h4 id="cadena-de-custodia">Cadena de custodia</h4>
+<p>La cadena de custodia es un documento que habrá que rellenar con todas las evidencias recogidas. Debe estar claramente documentada y se deben detallar los siguientes puntos:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">CADENA DE CUSTODIA DE EVIDENCIAS
+</span></span><span class="line"><span class="cl">Número de caso:
+</span></span><span class="line"><span class="cl">Tipo de incidente:
+</span></span><span class="line"><span class="cl">Empresa afectada:
+</span></span><span class="line"><span class="cl">Dirección:
+</span></span><span class="line"><span class="cl">Teléfono:
+</span></span><span class="line"><span class="cl">Fecha y Hora:
+</span></span><span class="line"><span class="cl">Investigador:
+</span></span><span class="line"><span class="cl">Observaciones
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Listado de evidencias
+</span></span><span class="line"><span class="cl">Número de caso:
+</span></span><span class="line"><span class="cl">Número de página:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Evidencia (Código): 
+</span></span><span class="line"><span class="cl">Cantidad: 
+</span></span><span class="line"><span class="cl">Descripción del artículo (Marca, Modelo, Número de serie, estado, etc):
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Evidencia (Código): 
+</span></span><span class="line"><span class="cl">Cantidad: 
+</span></span><span class="line"><span class="cl">Descripción del artículo (Marca, Modelo, Número de serie, estado, etc):
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Evidencia (Código): 
+</span></span><span class="line"><span class="cl">Cantidad: 
+</span></span><span class="line"><span class="cl">Descripción del artículo (Marca, Modelo, Número de serie, estado, etc):
+</span></span></code></pre></div><h3 id="apartado-b-máquina-linux">Apartado B) Máquina Linux.</h3>
+<p>Intenta realizar las mismas operaciones en una máquina Linux para aquellos apartados que tengan sentido y no se realicen de manera idéntica a Windows.</p>
+<h4 id="por-comandos-en-debian-11">Por comandos en Debian 11:</h4>
+<p><strong>1. Procesos en ejecución.</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ps aux
+</span></span></code></pre></div><p><strong>2. Servicios en ejecución.</strong></p>
+<p>Para ver los servicios activos en Debian se puede hacer de varias formas, por ejemplo:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl status
+</span></span></code></pre></div><p>Ó</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl list-units --type<span class="o">=</span>service
+</span></span></code></pre></div><p><strong>3. Puertos abiertos.</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ss -puntal
+</span></span></code></pre></div><p><strong>4. Conexiones establecidas por la máquina.</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ss -punta <span class="p">|</span> egrep ESTAB
+</span></span></code></pre></div><p><strong>5. Sesiones de usuario establecidas.</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">w
+</span></span></code></pre></div><p><strong>7. Contenido de la caché DNS.</strong></p>
+<p>En otras distribuciones Linux se podría utilizar systemd-resolve, pero en Debian 11 no se puede.</p>
+<p><strong>8. Variables de entorno.</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">printenv
+</span></span></code></pre></div><p><strong>9. Dispositivos USB</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">lsusb
+</span></span></code></pre></div><p><strong>10. Redes wifi utilizadas recientemente.</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo iwconfig
+</span></span><span class="line"><span class="cl">ip a
+</span></span></code></pre></div><p><strong>11. Configuración del firewall.</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nft list ruleset
+</span></span><span class="line"><span class="cl">sudo iptables-save 
+</span></span><span class="line"><span class="cl">sudo ip6tables-save 
+</span></span></code></pre></div><p><strong>16. Software Instalado.</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dpkg -l
+</span></span><span class="line"><span class="cl">dpkg --get-selections
+</span></span></code></pre></div><p><strong>18. Cuentas de Usuario</strong></p>
+<p>Para ver los usuarios que tiene creados la máquina.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat /etc/passwd
+</span></span></code></pre></div><h4 id="con-aplicaciones-de-terceros-1">Con Aplicaciones de terceros:</h4>
+<p><strong>12. Programas que se ejecutan en el Inicio.</strong></p>
+<p><strong>13. Asociación de extensiones de ficheros y aplicaciones.</strong></p>
+<p><strong>17. Contraseñas guardadas.</strong></p>
+<p><strong>14. Aplicaciones usadas y ficheros abiertos recientemente.</strong></p>
+<p>Instalar Zeitgeist Explorer.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install zeitgeist-explorer
+</span></span></code></pre></div><p>Ejecutamos el programa y podremos ver las aplicaciones y ficheros usados recientemente.</p>
+<p><a href="https://www.rootsolutions.com.ar/desinstalando-el-software-espia-en-debian-8/">https://www.rootsolutions.com.ar/desinstalando-el-software-espia-en-debian-8/</a></p>
+<p><strong>19. Historial de navegación y descargas. Cookies.</strong></p>
+<p>Con Zeitgeist también podemos ver el historial de navegación.</p>
+<p>CAPTURA</p>
+<p>Para ver las cookies me voy a descargar el programa MozillaCookiesView.</p>
+<p><a href="https://unix.stackexchange.com/questions/82597/where-does-firefox-store-its-cookies-on-linux">https://unix.stackexchange.com/questions/82597/where-does-firefox-store-its-cookies-on-linux</a></p>
+<p><strong>20. Volúmenes cifrados</strong></p>
+<p>Mirar Encrypted Disk Detector (EDD)</p>
+<h4 id="sobre-la-imagen-del-disco-1">Sobre la imagen del disco:</h4>
+<p><a href="https://www.solvetic.com/tutoriales/article/2325-analisis-forense-de-discos-duros-y-particiones-con-autopsy/">https://www.solvetic.com/tutoriales/article/2325-analisis-forense-de-discos-duros-y-particiones-con-autopsy/</a></p>
+<p><a href="https://byte-mind.net/analisis-forense-con-volatility/">https://byte-mind.net/analisis-forense-con-volatility/</a></p>
+<p><a href="https://urjc-ctf.github.io/web/2021-22/mod2/2_forense_sesion2.pdf">https://urjc-ctf.github.io/web/2021-22/mod2/2_forense_sesion2.pdf</a></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install autopsy
+</span></span></code></pre></div><p><strong>21. Archivos con extensión cambiada.</strong></p>
+<p><strong>22. Archivos eliminados.</strong></p>
+<p><strong>23. Archivos Ocultos.</strong></p>
+<p><strong>24. Archivos que contienen una cadena determinada.</strong></p>
+<p><strong>25. Búsqueda de imágenes por ubicación.</strong></p>
+<p><strong>26. Búsqueda de archivos por autor.</strong></p>
+<h4 id="volcado-de-memoria-y-de-disco-duro-1">Volcado de memoria y de disco duro</h4>
+<p>tomando las medidas necesarias para certificar posteriormente la cadena de custodia</p>
+<h3 id="apartado-c">Apartado C)</h3>
+<p>En un dispositivo Android, trata de hacer un volcado de memoria y recuperar información de ubicación, llamadas, mensajes, aplicaciones de mensajería, perfiles en redes sociales, etc&hellip;</p>
+<hr>
+<p>Algunos kits de herramientas forenses open-source:</p>
+<ul>
+<li>Caine</li>
+<li>DFF (Digital Forensics Framework)</li>
+<li>The Sleuth Kit</li>
+<li>Helix Live CD</li>
+<li>Digital Evidence and Forensics Toolkit (DEFT)</li>
+</ul>
+<p>Para análisis de memoria:</p>
+<ul>
+<li>Volatility</li>
+<li>Access Data FTK Imager</li>
+<li>MDD</li>
+</ul>
+<p>Para análisis de registro de Windows:</p>
+<ul>
+<li>AccessData Registry Viewer</li>
+<li>Kape</li>
+<li>Fred (Forensic Registry Editor)</li>
+</ul>
+<p>Para análisis de discos duros:</p>
+<ul>
+<li>Autopsy</li>
+</ul>
+<p>Herramientas gratuitas para Android:</p>
+<ul>
+<li>AFLogical OSE</li>
+<li>OSAF (Open Source Android Forensics)</li>
+<li>Andriller</li>
+<li>ADEL (Android Data Extractor Lite)</li>
+<li>WhatsApp Xtract</li>
+<li>Skype Xtractor</li>
+<li>Android Pattern Lock Cracker</li>
+</ul>
+<p>Para saber algo más:</p>
+<ul>
+<li>Cursos básicos de Análisis Forense Linux y Windows en OpenWebinars.</li>
+<li>Cursos gratuitos en TryHackMe.</li>
+</ul>
+
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://afermor8.github.io/tags/sad/">SAD</a>&nbsp;
+            
+          </div>
+        
+
+        
+            <hr/>
+            <section id="social-share">
+              <div class="list-inline footer-links">
+                
+
+<div class="share-box" aria-hidden="true">
+    <ul class="share">
+      
+      <li>
+        <a href="//twitter.com/share?url=https%3a%2f%2fafermor8.github.io%2fpost%2fforense%2f&amp;text=Inform%c3%a1tica%20Forense&amp;via=" target="_blank" title="Share on Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fafermor8.github.io%2fpost%2fforense%2f" target="_blank" title="Share on Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//reddit.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fforense%2f&amp;title=Inform%c3%a1tica%20Forense" target="_blank" title="Share on Reddit">
+          <i class="fab fa-reddit"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fafermor8.github.io%2fpost%2fforense%2f&amp;title=Inform%c3%a1tica%20Forense" target="_blank" title="Share on LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fforense%2f&amp;title=Inform%c3%a1tica%20Forense" target="_blank" title="Share on StumbleUpon">
+          <i class="fab fa-stumbleupon"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fafermor8.github.io%2fpost%2fforense%2f&amp;description=Inform%c3%a1tica%20Forense" target="_blank" title="Share on Pinterest">
+          <i class="fab fa-pinterest"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+
+              </div>
+            </section>
+        
+
+        
+          
+            
+          
+
+          
+                  <h4 class="see-also">Ver también</h4>
+                  <ul>
+                
+                
+                    <li><a href="/post/vpn/">Vpn. Redes Privadas Virtuales</a></li>
+                
+                    <li><a href="/post/cripto3/">Criptografía III. Certificados digiales. HTTPS</a></li>
+                
+                    <li><a href="/post/cripto2/">Criptografía II. Integridad, firmas y autenticación</a></li>
+                
+                    <li><a href="/post/criptografia1/">Criptografia I. Cifrado asimétrico con gpg y openssl</a></li>
+                
+              </ul>
+
+          
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://afermor8.github.io/post/django/" data-toggle="tooltip" data-placement="top" title="Despliegue de aplicaciones Python (Django)">&larr; Artículo anterior</a>
+            </li>
+          
+          
+            <li class="next">
+              <a href="https://afermor8.github.io/post/auditoria/" data-toggle="tooltip" data-placement="top" title="Auditoría">Artículo siguiente &rarr;</a>
+            </li>
+          
+        </ul>
+      
+
+
+      
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+      
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+		
+		  <a href="mailto:ara.fer.mor@gmail.com" title="Email me">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://github.com/afermor8" title="GitHub">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://Afermor.slack.com/" title="Slack">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-slack fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://linkedin.com/in/arantxa-f-6136617b" title="LinkedIn">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://telegram.me/arantxipu" title="Telegram">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-telegram fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            <a href="" title="RSS">
+              <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              <a href="afermor8.github.io">afermor8</a>
+            
+          
+
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2023
+          
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="https://gohugo.io">Hugo v0.104.3</a> alimentada &nbsp;&bull;&nbsp; Tema <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adaptado de <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer><script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://afermor8.github.io/js/main.js"></script>
+<script src="https://afermor8.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://afermor8.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>
+
