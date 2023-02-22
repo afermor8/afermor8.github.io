@@ -60,7 +60,7 @@ show parameter audit NAME TYPE VALUE ------------------------------------ ------
   "headline": "Auditoría",
   "description" : "1. Activa desde SQL*Plus la auditoría de los intentos de acceso exitosos al sistema. Comprueba su funcionamiento. Podemos ver los parámetros de auditoria con show parameter audit o haciendo una consulta a v$parameter.\nshow parameter audit NAME TYPE VALUE ------------------------------------ ----------- ------------------------------ audit_file_dest string \/opt\/oracle\/admin\/ORCLCDB\/adump audit_syslog_level string audit_sys_operations boolean TRUE audit_trail string DB unified_audit_common_systemlog string unified_audit_sga_queue_size integer 1048576 unified_audit_systemlog string SELECT name, value FROM v$parameter WHERE name like \u0026#39;audit_trail\u0026#39;; NAME -------------------------------------------------------------------------------- VALUE -------------------------------------------------------------------------------- audit_trail DB Vemos que el parámetro audit_trail está activado ya que su valor es \u0026lsquo;DB\u0026rsquo;.",
   "inLanguage" : "es",
-  "wordCount":  4278 ,
+  "wordCount":  4315 ,
   "datePublished" : "2023-02-20T11:31:49",
   "dateModified" : "2023-02-20T11:31:49",
   "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
@@ -256,7 +256,7 @@ show parameter audit NAME TYPE VALUE ------------------------------------ ------
     &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;21&nbsp;minutos
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;4278&nbsp;palabras
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;4315&nbsp;palabras
   
   
     
@@ -296,7 +296,7 @@ show parameter audit NAME TYPE VALUE ------------------------------------ ------
     &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;21&nbsp;minutos
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;4278&nbsp;palabras
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;4315&nbsp;palabras
   
   
     
@@ -1229,7 +1229,8 @@ show parameter audit NAME TYPE VALUE ------------------------------------ ------
 </span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;param.command&#34;: { $in: [ &#34;find&#34;, &#34;insert&#34;, &#34;delete&#34;, &#34;update&#34;, &#34;findandmodify&#34; ] }
 </span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span>
 </span></span><span class="line"><span class="cl">--auditFormat BSON --auditPath data/db/auditLog.bson
-</span></span></code></pre></div>
+</span></span></code></pre></div><p>En el comando anterior se auditan los accesos a la colección película de la base de datos maravilla cada vez que se utilicen las opciones &lsquo;find&rsquo;, &lsquo;insert&rsquo;, &lsquo;delete&rsquo;, &lsquo;update&rsquo; y &lsquo;findandmodify&rsquo; con los datos de dicha colección.</p>
+
 
         
           <div class="blog-tags">
