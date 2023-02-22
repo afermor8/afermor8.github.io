@@ -60,7 +60,7 @@ show parameter audit NAME TYPE VALUE ------------------------------------ ------
   "headline": "Auditoría",
   "description" : "1. Activa desde SQL*Plus la auditoría de los intentos de acceso exitosos al sistema. Comprueba su funcionamiento. Podemos ver los parámetros de auditoria con show parameter audit o haciendo una consulta a v$parameter.\nshow parameter audit NAME TYPE VALUE ------------------------------------ ----------- ------------------------------ audit_file_dest string \/opt\/oracle\/admin\/ORCLCDB\/adump audit_syslog_level string audit_sys_operations boolean TRUE audit_trail string DB unified_audit_common_systemlog string unified_audit_sga_queue_size integer 1048576 unified_audit_systemlog string SELECT name, value FROM v$parameter WHERE name like \u0026#39;audit_trail\u0026#39;; NAME -------------------------------------------------------------------------------- VALUE -------------------------------------------------------------------------------- audit_trail DB Vemos que el parámetro audit_trail está activado ya que su valor es \u0026lsquo;DB\u0026rsquo;.",
   "inLanguage" : "es",
-  "wordCount":  3586 ,
+  "wordCount":  4244 ,
   "datePublished" : "2023-02-20T11:31:49",
   "dateModified" : "2023-02-20T11:31:49",
   "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
@@ -253,10 +253,10 @@ show parameter audit NAME TYPE VALUE ------------------------------------ ------
   <i class="fas fa-calendar"></i>&nbsp;Publicado el February 20, 2023
   
   
-    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;17&nbsp;minutos
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;20&nbsp;minutos
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;3586&nbsp;palabras
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;4244&nbsp;palabras
   
   
     
@@ -293,10 +293,10 @@ show parameter audit NAME TYPE VALUE ------------------------------------ ------
   <i class="fas fa-calendar"></i>&nbsp;Publicado el February 20, 2023
   
   
-    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;17&nbsp;minutos
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;20&nbsp;minutos
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;3586&nbsp;palabras
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;4244&nbsp;palabras
   
   
     
@@ -1100,6 +1100,127 @@ show parameter audit NAME TYPE VALUE ------------------------------------ ------
 </span></span></span></code></pre></div><p><strong>4) Realizar una auditoría de grano fino para almacenar información sobre la inserción de empleados con sueldo superior a 2000 en la tabla emp del usuario scott.</strong></p>
 <p>MySQL no ofrece una opción nativa para realizar una auditoría de grano fino como en Oracle.</p>
 <h2 id="9-averigua-las-posibilidades-que-ofrece-mongodb-para-auditar-los-cambios-que-va-sufriendo-un-documento-demuestra-su-funcionamiento">9. Averigua las posibilidades que ofrece MongoDB para auditar los cambios que va sufriendo un documento. Demuestra su funcionamiento.</h2>
+<p>MongoDB Enterprise incluye la capacidad de auditaría para instancias mongod y mongos. La función de auditoría permite a los administradores y usuarios realizar un seguimiento de la actividad del sistema para implementaciones con múltiples usuarios y aplicaciones.</p>
+<p><strong>Habilitar y configurar la salida de auditoría.</strong></p>
+<p>Para habilitar la auditoría en MongoDB Enterprise, se establece un destino de salida de auditoría con <code>--auditDestination</code>.</p>
+<p>El destino, donde se escriben los evenos de auditoría pueden ser: en la consola, syslog, un archivo JSON o un archivo BSON.</p>
+<ul>
+<li><strong>Syslog:</strong></li>
+</ul>
+<p>Para habilitar la auditoría e imprimir eventos de auditoría en syslog en formato JSON, se especifica <code>syslog</code> para la configuración <code>--auditDestination</code>. Se pueden incluir opciones adicionales según sea necesario para nuestra configuración (por ejemplo la opción <code>--bind_ip</code>). La forma en la que se escribiría el comando sería la siguiente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mongod --dbpath data/db --auditDestination syslog
+</span></span></code></pre></div><p>Otra forma  de hacerlo es especificar estas opciones en el archivo de configuración:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">storage:
+</span></span><span class="line"><span class="cl">   dbPath: data/db
+</span></span><span class="line"><span class="cl">auditLog:
+</span></span><span class="line"><span class="cl">   destination: syslog
+</span></span></code></pre></div><ul>
+<li><strong>Consola:</strong></li>
+</ul>
+<p>Para habilitar la auditoría y mostrar los eventos como salida estándar (es decir, <code>stdout</code>), se especifica <code>console</code> para la configuración <code>--auditDestination</code> (también se pueden especificar algunas opciones adicionales como <code>--bind_ip</code>).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mongod --dbpath data/db --auditDestination console
+</span></span></code></pre></div><p>También se puede especificar estas opciones en el archivo de configuración:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">storage:
+</span></span><span class="line"><span class="cl">    dbPath: data/db
+</span></span><span class="line"><span class="cl">auditLog:
+</span></span><span class="line"><span class="cl">    destination: console
+</span></span></code></pre></div><ul>
+<li><strong>Archivo JSON:</strong></li>
+</ul>
+<p>Para habilitar la auditoría e imprimir eventos de auditoría en un archivo en formato JSON, se especifican las siguientes opciones:</p>
+<table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&ndash;auditDestination</td>
+<td>file</td>
+</tr>
+<tr>
+<td>&ndash;auditFormat</td>
+<td>JSON</td>
+</tr>
+<tr>
+<td>&ndash;auditPath</td>
+<td>El nombre del archivo de salida. Acepta el nombre de ruta completo o el nombre de ruta relativo.</td>
+</tr>
+</tbody>
+</table>
+<p>Por ejemplo, lo siguiente habilita la auditoría y registra los eventos de auditoría en un archivo con el nombre de ruta relativa data/db/auditLog.json:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mongod --dbpath data/db --auditDestination file --auditFormat JSON --auditPath data/db/auditLog.json
+</span></span></code></pre></div><p>Como en los casos anteriores, también podemos añadir opciones adicionales según sea necesario para la configuración (<code>--bind_ip</code>).</p>
+<p>El archivo de auditoría se puede rotar con el comando <code>logRotate</code>, ya sea junto con el registro del servidor o de forma independiente. Los detalles de la rotación se pueden configurar con la opción de archivo de configuración <code>systemLog.logRotate</code> o la opción de línea de comandos <code>--logRotate</code>.</p>
+<p>También puede especificar estas opciones en el archivo de configuración:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">storage:
+</span></span><span class="line"><span class="cl">   dbPath: data/db
+</span></span><span class="line"><span class="cl">auditLog:
+</span></span><span class="line"><span class="cl">   destination: file
+</span></span><span class="line"><span class="cl">   format: JSON
+</span></span><span class="line"><span class="cl">   path: data/db/auditLog.json
+</span></span></code></pre></div><p>La impresión de eventos de auditoría en un archivo en formato JSON degrada el rendimiento del servidor más que la impresión en un archivo en formato BSON.</p>
+<ul>
+<li><strong>Archivo BSON:</strong></li>
+</ul>
+<p>Para habilitar la auditoría e imprimir eventos en un archivo en formato binario BSON, se especifican las siguientes opciones:</p>
+<table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&ndash;auditDestination</td>
+<td>file</td>
+</tr>
+<tr>
+<td>&ndash;auditFormat</td>
+<td>BSON</td>
+</tr>
+<tr>
+<td>&ndash;auditPath</td>
+<td>El nombre del archivo de salida. Acepta el nombre de ruta completo o el nombre de ruta relativo.</td>
+</tr>
+</tbody>
+</table>
+<p>Por ejemplo, el siguiente comando habilita la auditoría y registra eventos de auditoría en un archivo BSON con el nombre de ruta relativo de data/db/auditLog.bson:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mongod --dbpath data/db --auditDestination file --auditFormat BSON --auditPath data/db/auditLog.bson
+</span></span></code></pre></div><p>El archivo de auditoría se rota al mismo tiempo que el archivo de registro del servidor. Los detalles de la rotación se pueden configurar con la opción de archivo de configuración <code>systemLog.logRotate</code> o la opción de línea de comandos <code>--logRotate</code>.</p>
+<p>También puede especificar estas opciones en el archivo de configuración:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">storage:
+</span></span><span class="line"><span class="cl">   dbPath: data/db
+</span></span><span class="line"><span class="cl">auditLog:
+</span></span><span class="line"><span class="cl">   destination: file
+</span></span><span class="line"><span class="cl">   format: BSON
+</span></span><span class="line"><span class="cl">   path: data/db/auditLog.bson
+</span></span></code></pre></div><p>Con el siguiente comando se convierte y muestra el registro de auditoría en un formato legible mediante <code>bsondump</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">bsondump data/db/auditLog.bson
+</span></span></code></pre></div><p><strong>Qué se alamacena en un registro de auditoría.</strong></p>
+<p>Una vez habilitado, el sistema de auditoría puede registrar las siguientes operaciones:</p>
+<ul>
+<li>Esquema (DDL)</li>
+<li>Conjunto de réplicas y clúster fragmentado</li>
+<li>Autenticación y autorización</li>
+<li>Operaciones CRUD (requiere <code>auditAuthorizationSuccess</code> establecido en true).</li>
+</ul>
+<p>Además con el sistema de auditoría se pueden configurar filtros para restringir los eventos capturados.</p>
+<p>Por último decir que si queremos ver la configuración de auditoría de una instancia mongod o mongos usaremos el siguiente comando:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">db.adminCommand<span class="o">(</span>
+</span></span><span class="line"><span class="cl">   <span class="o">{</span>
+</span></span><span class="line"><span class="cl">     getAuditConfig: <span class="m">1</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">)</span>
+</span></span></code></pre></div><p>Para más info ver:</p>
+<ul>
+<li><a href="https://www.mongodb.com/docs/manual/reference/command/setAuditConfig/#mongodb-dbcommand-dbcmd.setAuditConfig">Comando setAuditConfig</a></li>
+<li><a href="https://www.mongodb.com/docs/manual/tutorial/configure-audit-filters/">Configurar filtros de auditoría</a></li>
+<li><a href="https://www.mongodb.com/docs/manual/reference/audit-message/">Significado de los mensajes de eventos de auditoría</a>.</li>
+</ul>
 <h2 id="10-averigua-si-en-mongodb-se-pueden-auditar-los-accesos-a-una-colección-concreta-demuestra-su-funcionamiento">10. Averigua si en MongoDB se pueden auditar los accesos a una colección concreta. Demuestra su funcionamiento.</h2>
 
 
