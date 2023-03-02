@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="es" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Movimiento de datos - Mi paso por ASIR Blog</title>
+  <meta name="description" content="Movimiento de datos. Exportación e importación Creando el esquema Scott rlwrap sqlplus / as sysdba startup alter session set &#34;_ORACLE_SCRIPT&#34;=true; SET ECHO OFF -- Si ya estaba creado el esquema Scott pero lo queremos crear de nuevo borramos el usario con la opción cascade DROP USER SCOTT CASCADE; -- Creamos y damos privilegios a SCOTT, cuya contraseña es TIGER y finalmente nos conectamos con SCOTT/TIGER GRANT CONNECT, RESOURCE, UNLIMITED TABLESPACE TO SCOTT IDENTIFIED BY TIGER; ALTER USER SCOTT ACCOUNT UNLOCK; ALTER USER SCOTT DEFAULT TABLESPACE USERS; ALTER USER SCOTT TEMPORARY TABLESPACE TEMP; CONN SCOTT/TIGER -- Creación de las tablas de SCOTT CREATE TABLE DUMMY (DUMMY NUMBER); CREATE TABLE DEPT ( DEPTNO NUMBER(2) CONSTRAINT PK_DEPT PRIMARY KEY, DNAME VARCHAR2(14), LOC VARCHAR2(13)); CREATE TABLE EMP ( EMPNO NUMBER(4) CONSTRAINT PK_EMP PRIMARY KEY, ENAME VARCHAR2(10), JOB VARCHAR2(9), MGR NUMBER(4), HIREDATE DATE, SAL NUMBER(7,2), COMM NUMBER(7,2), DEPTNO NUMBER(2) CONSTRAINT FK_DEPTNO REFERENCES DEPT); CREATE TABLE BONUS ( ENAME VARCHAR2(10), JOB VARCHAR2(9), SAL NUMBER, COMM NUMBER); CREATE TABLE SALGRADE ( GRADE NUMBER, LOSAL NUMBER, HISAL NUMBER); -- Inserción de datos en las tablas INSERT INTO DEPT VALUES (10,&#39;ACCOUNTING&#39;,&#39;NEW YORK&#39;); INSERT INTO DEPT VALUES (20,&#39;RESEARCH&#39;,&#39;DALLAS&#39;); INSERT INTO DEPT VALUES (30,&#39;SALES&#39;,&#39;CHICAGO&#39;); INSERT INTO DEPT VALUES (40,&#39;OPERATIONS&#39;,&#39;BOSTON&#39;); INSERT INTO EMP VALUES (7369,&#39;SMITH&#39;,&#39;CLERK&#39;,7902,to_date(&#39;17-12-1980&#39;,&#39;dd-mm-yyyy&#39;),800,NULL,20); INSERT INTO EMP VALUES (7499,&#39;ALLEN&#39;,&#39;SALESMAN&#39;,7698,to_date(&#39;20-2-1981&#39;,&#39;dd-mm-yyyy&#39;),1600,300,30); INSERT INTO EMP VALUES (7521,&#39;WARD&#39;,&#39;SALESMAN&#39;,7698,to_date(&#39;22-2-1981&#39;,&#39;dd-mm-yyyy&#39;),1250,500,30); INSERT INTO EMP VALUES (7566,&#39;JONES&#39;,&#39;MANAGER&#39;,7839,to_date(&#39;2-4-1981&#39;,&#39;dd-mm-yyyy&#39;),2975,NULL,20); INSERT INTO EMP VALUES (7654,&#39;MARTIN&#39;,&#39;SALESMAN&#39;,7698,to_date(&#39;28-9-1981&#39;,&#39;dd-mm-yyyy&#39;),1250,1400,30); INSERT INTO EMP VALUES (7698,&#39;BLAKE&#39;,&#39;MANAGER&#39;,7839,to_date(&#39;1-5-1981&#39;,&#39;dd-mm-yyyy&#39;),2850,NULL,30); INSERT INTO EMP VALUES (7782,&#39;CLARK&#39;,&#39;MANAGER&#39;,7839,to_date(&#39;9-6-1981&#39;,&#39;dd-mm-yyyy&#39;),2450,NULL,10); INSERT INTO EMP VALUES (7788,&#39;SCOTT&#39;,&#39;ANALYST&#39;,7566,to_date(&#39;13-JUL-87&#39;)-85,3000,NULL,20); INSERT INTO EMP VALUES (7839,&#39;KING&#39;,&#39;PRESIDENT&#39;,NULL,to_date(&#39;17-11-1981&#39;,&#39;dd-mm-yyyy&#39;),5000,NULL,10); INSERT INTO EMP VALUES (7844,&#39;TURNER&#39;,&#39;SALESMAN&#39;,7698,to_date(&#39;8-9-1981&#39;,&#39;dd-mm-yyyy&#39;),1500,0,30); INSERT INTO EMP VALUES (7876,&#39;ADAMS&#39;,&#39;CLERK&#39;,7788,to_date(&#39;13-JUL-87&#39;)-51,1100,NULL,20); INSERT INTO EMP VALUES (7900,&#39;JAMES&#39;,&#39;CLERK&#39;,7698,to_date(&#39;3-12-1981&#39;,&#39;dd-mm-yyyy&#39;),950,NULL,30); INSERT INTO EMP VALUES (7902,&#39;FORD&#39;,&#39;ANALYST&#39;,7566,to_date(&#39;3-12-1981&#39;,&#39;dd-mm-yyyy&#39;),3000,NULL,20); INSERT INTO EMP VALUES (7934,&#39;MILLER&#39;,&#39;CLERK&#39;,7782,to_date(&#39;23-1-1982&#39;,&#39;dd-mm-yyyy&#39;),1300,NULL,10); INSERT INTO SALGRADE VALUES (1,700,1200); INSERT INTO SALGRADE VALUES (2,1201,1400); INSERT INTO SALGRADE VALUES (3,1401,2000); INSERT INTO SALGRADE VALUES (4,2001,3000); INSERT INTO SALGRADE VALUES (5,3001,9999); INSERT INTO DUMMY VALUES (0); COMMIT; SET TERMOUT ON SET ECHO ON 1.">
+  <meta name="author" content="afermor8"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Mi paso por ASIR Blog",
+    
+    "url": "https:\/\/afermor8.github.io"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/afermor8.github.io"
+  
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io\/post\/movdatos\/",
+          "name": "Movimiento de datos"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "afermor8"
+  },
+  "headline": "Movimiento de datos",
+  "description" : "Movimiento de datos. Exportación e importación Creando el esquema Scott rlwrap sqlplus \/ as sysdba startup alter session set \u0026#34;_ORACLE_SCRIPT\u0026#34;=true; SET ECHO OFF -- Si ya estaba creado el esquema Scott pero lo queremos crear de nuevo borramos el usario con la opción cascade DROP USER SCOTT CASCADE; -- Creamos y damos privilegios a SCOTT, cuya contraseña es TIGER y finalmente nos conectamos con SCOTT\/TIGER GRANT CONNECT, RESOURCE, UNLIMITED TABLESPACE TO SCOTT IDENTIFIED BY TIGER; ALTER USER SCOTT ACCOUNT UNLOCK; ALTER USER SCOTT DEFAULT TABLESPACE USERS; ALTER USER SCOTT TEMPORARY TABLESPACE TEMP; CONN SCOTT\/TIGER -- Creación de las tablas de SCOTT CREATE TABLE DUMMY (DUMMY NUMBER); CREATE TABLE DEPT ( DEPTNO NUMBER(2) CONSTRAINT PK_DEPT PRIMARY KEY, DNAME VARCHAR2(14), LOC VARCHAR2(13)); CREATE TABLE EMP ( EMPNO NUMBER(4) CONSTRAINT PK_EMP PRIMARY KEY, ENAME VARCHAR2(10), JOB VARCHAR2(9), MGR NUMBER(4), HIREDATE DATE, SAL NUMBER(7,2), COMM NUMBER(7,2), DEPTNO NUMBER(2) CONSTRAINT FK_DEPTNO REFERENCES DEPT); CREATE TABLE BONUS ( ENAME VARCHAR2(10), JOB VARCHAR2(9), SAL NUMBER, COMM NUMBER); CREATE TABLE SALGRADE ( GRADE NUMBER, LOSAL NUMBER, HISAL NUMBER); -- Inserción de datos en las tablas INSERT INTO DEPT VALUES (10,\u0026#39;ACCOUNTING\u0026#39;,\u0026#39;NEW YORK\u0026#39;); INSERT INTO DEPT VALUES (20,\u0026#39;RESEARCH\u0026#39;,\u0026#39;DALLAS\u0026#39;); INSERT INTO DEPT VALUES (30,\u0026#39;SALES\u0026#39;,\u0026#39;CHICAGO\u0026#39;); INSERT INTO DEPT VALUES (40,\u0026#39;OPERATIONS\u0026#39;,\u0026#39;BOSTON\u0026#39;); INSERT INTO EMP VALUES (7369,\u0026#39;SMITH\u0026#39;,\u0026#39;CLERK\u0026#39;,7902,to_date(\u0026#39;17-12-1980\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),800,NULL,20); INSERT INTO EMP VALUES (7499,\u0026#39;ALLEN\u0026#39;,\u0026#39;SALESMAN\u0026#39;,7698,to_date(\u0026#39;20-2-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),1600,300,30); INSERT INTO EMP VALUES (7521,\u0026#39;WARD\u0026#39;,\u0026#39;SALESMAN\u0026#39;,7698,to_date(\u0026#39;22-2-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),1250,500,30); INSERT INTO EMP VALUES (7566,\u0026#39;JONES\u0026#39;,\u0026#39;MANAGER\u0026#39;,7839,to_date(\u0026#39;2-4-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),2975,NULL,20); INSERT INTO EMP VALUES (7654,\u0026#39;MARTIN\u0026#39;,\u0026#39;SALESMAN\u0026#39;,7698,to_date(\u0026#39;28-9-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),1250,1400,30); INSERT INTO EMP VALUES (7698,\u0026#39;BLAKE\u0026#39;,\u0026#39;MANAGER\u0026#39;,7839,to_date(\u0026#39;1-5-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),2850,NULL,30); INSERT INTO EMP VALUES (7782,\u0026#39;CLARK\u0026#39;,\u0026#39;MANAGER\u0026#39;,7839,to_date(\u0026#39;9-6-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),2450,NULL,10); INSERT INTO EMP VALUES (7788,\u0026#39;SCOTT\u0026#39;,\u0026#39;ANALYST\u0026#39;,7566,to_date(\u0026#39;13-JUL-87\u0026#39;)-85,3000,NULL,20); INSERT INTO EMP VALUES (7839,\u0026#39;KING\u0026#39;,\u0026#39;PRESIDENT\u0026#39;,NULL,to_date(\u0026#39;17-11-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),5000,NULL,10); INSERT INTO EMP VALUES (7844,\u0026#39;TURNER\u0026#39;,\u0026#39;SALESMAN\u0026#39;,7698,to_date(\u0026#39;8-9-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),1500,0,30); INSERT INTO EMP VALUES (7876,\u0026#39;ADAMS\u0026#39;,\u0026#39;CLERK\u0026#39;,7788,to_date(\u0026#39;13-JUL-87\u0026#39;)-51,1100,NULL,20); INSERT INTO EMP VALUES (7900,\u0026#39;JAMES\u0026#39;,\u0026#39;CLERK\u0026#39;,7698,to_date(\u0026#39;3-12-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),950,NULL,30); INSERT INTO EMP VALUES (7902,\u0026#39;FORD\u0026#39;,\u0026#39;ANALYST\u0026#39;,7566,to_date(\u0026#39;3-12-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),3000,NULL,20); INSERT INTO EMP VALUES (7934,\u0026#39;MILLER\u0026#39;,\u0026#39;CLERK\u0026#39;,7782,to_date(\u0026#39;23-1-1982\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),1300,NULL,10); INSERT INTO SALGRADE VALUES (1,700,1200); INSERT INTO SALGRADE VALUES (2,1201,1400); INSERT INTO SALGRADE VALUES (3,1401,2000); INSERT INTO SALGRADE VALUES (4,2001,3000); INSERT INTO SALGRADE VALUES (5,3001,9999); INSERT INTO DUMMY VALUES (0); COMMIT; SET TERMOUT ON SET ECHO ON 1.",
+  "inLanguage" : "es",
+  "wordCount":  2662 ,
+  "datePublished" : "2023-03-01T12:18:27",
+  "dateModified" : "2023-03-01T12:18:27",
+  "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+  "keywords" : [ "bbdd" ],
+  "mainEntityOfPage" : "https:\/\/afermor8.github.io\/post\/movdatos\/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https:\/\/afermor8.github.io",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
+
+<meta property="og:title" content="Movimiento de datos" />
+<meta property="og:description" content="Movimiento de datos. Exportación e importación Creando el esquema Scott rlwrap sqlplus / as sysdba startup alter session set &#34;_ORACLE_SCRIPT&#34;=true; SET ECHO OFF -- Si ya estaba creado el esquema Scott pero lo queremos crear de nuevo borramos el usario con la opción cascade DROP USER SCOTT CASCADE; -- Creamos y damos privilegios a SCOTT, cuya contraseña es TIGER y finalmente nos conectamos con SCOTT/TIGER GRANT CONNECT, RESOURCE, UNLIMITED TABLESPACE TO SCOTT IDENTIFIED BY TIGER; ALTER USER SCOTT ACCOUNT UNLOCK; ALTER USER SCOTT DEFAULT TABLESPACE USERS; ALTER USER SCOTT TEMPORARY TABLESPACE TEMP; CONN SCOTT/TIGER -- Creación de las tablas de SCOTT CREATE TABLE DUMMY (DUMMY NUMBER); CREATE TABLE DEPT ( DEPTNO NUMBER(2) CONSTRAINT PK_DEPT PRIMARY KEY, DNAME VARCHAR2(14), LOC VARCHAR2(13)); CREATE TABLE EMP ( EMPNO NUMBER(4) CONSTRAINT PK_EMP PRIMARY KEY, ENAME VARCHAR2(10), JOB VARCHAR2(9), MGR NUMBER(4), HIREDATE DATE, SAL NUMBER(7,2), COMM NUMBER(7,2), DEPTNO NUMBER(2) CONSTRAINT FK_DEPTNO REFERENCES DEPT); CREATE TABLE BONUS ( ENAME VARCHAR2(10), JOB VARCHAR2(9), SAL NUMBER, COMM NUMBER); CREATE TABLE SALGRADE ( GRADE NUMBER, LOSAL NUMBER, HISAL NUMBER); -- Inserción de datos en las tablas INSERT INTO DEPT VALUES (10,&#39;ACCOUNTING&#39;,&#39;NEW YORK&#39;); INSERT INTO DEPT VALUES (20,&#39;RESEARCH&#39;,&#39;DALLAS&#39;); INSERT INTO DEPT VALUES (30,&#39;SALES&#39;,&#39;CHICAGO&#39;); INSERT INTO DEPT VALUES (40,&#39;OPERATIONS&#39;,&#39;BOSTON&#39;); INSERT INTO EMP VALUES (7369,&#39;SMITH&#39;,&#39;CLERK&#39;,7902,to_date(&#39;17-12-1980&#39;,&#39;dd-mm-yyyy&#39;),800,NULL,20); INSERT INTO EMP VALUES (7499,&#39;ALLEN&#39;,&#39;SALESMAN&#39;,7698,to_date(&#39;20-2-1981&#39;,&#39;dd-mm-yyyy&#39;),1600,300,30); INSERT INTO EMP VALUES (7521,&#39;WARD&#39;,&#39;SALESMAN&#39;,7698,to_date(&#39;22-2-1981&#39;,&#39;dd-mm-yyyy&#39;),1250,500,30); INSERT INTO EMP VALUES (7566,&#39;JONES&#39;,&#39;MANAGER&#39;,7839,to_date(&#39;2-4-1981&#39;,&#39;dd-mm-yyyy&#39;),2975,NULL,20); INSERT INTO EMP VALUES (7654,&#39;MARTIN&#39;,&#39;SALESMAN&#39;,7698,to_date(&#39;28-9-1981&#39;,&#39;dd-mm-yyyy&#39;),1250,1400,30); INSERT INTO EMP VALUES (7698,&#39;BLAKE&#39;,&#39;MANAGER&#39;,7839,to_date(&#39;1-5-1981&#39;,&#39;dd-mm-yyyy&#39;),2850,NULL,30); INSERT INTO EMP VALUES (7782,&#39;CLARK&#39;,&#39;MANAGER&#39;,7839,to_date(&#39;9-6-1981&#39;,&#39;dd-mm-yyyy&#39;),2450,NULL,10); INSERT INTO EMP VALUES (7788,&#39;SCOTT&#39;,&#39;ANALYST&#39;,7566,to_date(&#39;13-JUL-87&#39;)-85,3000,NULL,20); INSERT INTO EMP VALUES (7839,&#39;KING&#39;,&#39;PRESIDENT&#39;,NULL,to_date(&#39;17-11-1981&#39;,&#39;dd-mm-yyyy&#39;),5000,NULL,10); INSERT INTO EMP VALUES (7844,&#39;TURNER&#39;,&#39;SALESMAN&#39;,7698,to_date(&#39;8-9-1981&#39;,&#39;dd-mm-yyyy&#39;),1500,0,30); INSERT INTO EMP VALUES (7876,&#39;ADAMS&#39;,&#39;CLERK&#39;,7788,to_date(&#39;13-JUL-87&#39;)-51,1100,NULL,20); INSERT INTO EMP VALUES (7900,&#39;JAMES&#39;,&#39;CLERK&#39;,7698,to_date(&#39;3-12-1981&#39;,&#39;dd-mm-yyyy&#39;),950,NULL,30); INSERT INTO EMP VALUES (7902,&#39;FORD&#39;,&#39;ANALYST&#39;,7566,to_date(&#39;3-12-1981&#39;,&#39;dd-mm-yyyy&#39;),3000,NULL,20); INSERT INTO EMP VALUES (7934,&#39;MILLER&#39;,&#39;CLERK&#39;,7782,to_date(&#39;23-1-1982&#39;,&#39;dd-mm-yyyy&#39;),1300,NULL,10); INSERT INTO SALGRADE VALUES (1,700,1200); INSERT INTO SALGRADE VALUES (2,1201,1400); INSERT INTO SALGRADE VALUES (3,1401,2000); INSERT INTO SALGRADE VALUES (4,2001,3000); INSERT INTO SALGRADE VALUES (5,3001,9999); INSERT INTO DUMMY VALUES (0); COMMIT; SET TERMOUT ON SET ECHO ON 1.">
+<meta property="og:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+<meta property="og:url" content="https://afermor8.github.io/post/movdatos/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Mi paso por ASIR Blog" />
+
+  <meta name="twitter:title" content="Movimiento de datos" />
+  <meta name="twitter:description" content="Movimiento de datos. Exportación e importación Creando el esquema Scott rlwrap sqlplus / as sysdba startup alter session set &#34;_ORACLE_SCRIPT&#34;=true; SET ECHO OFF -- Si ya estaba creado el …">
+  <meta name="twitter:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link href='https://afermor8.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta name="generator" content="Hugo 0.104.3" />
+  <link rel="alternate" href="https://afermor8.github.io/index.xml" type="application/rss+xml" title="Mi paso por ASIR Blog"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://afermor8.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://afermor8.github.io/css/highlight.min.css" /><link rel="stylesheet" href="https://afermor8.github.io/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Conmuta navegación</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/page/about/">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Tags" href="/tags">Tags</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    
+      <div class="avatar-container">
+        <div class="avatar-img-border">
+          <a title="Mi paso por ASIR Blog" href="https://afermor8.github.io">
+            <img class="avatar-img" src="https://afermor8.github.io/img/avatar-icon.png" alt="Mi paso por ASIR Blog" />
+          </a>
+        </div>
+      </div>
+    
+
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+    <div id="header-big-imgs" data-num-img=3 
+      
+         
+          data-img-src-1="/img/triangle.jpg" 
+         
+         data-img-desc-1="Triangle"
+      
+         
+          data-img-src-2="/img/sphere.jpg" 
+         
+         data-img-desc-2="Sphere"
+      
+         
+          data-img-src-3="/img/hexagon.jpg" 
+         
+         data-img-desc-3="Hexagon"
+      ></div>
+  
+
+  <header class="header-section has-img">
+    
+      <div class="intro-header big-img">
+        
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+              <div class="post-heading">
+                <h1>Movimiento de datos</h1>
+                  
+                  
+                    <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el March 1, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;13&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2662&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="img-desc" style="display: inline;"></span>
+      </div>
+    
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>Movimiento de datos</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el March 1, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;13&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2662&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <h2 id="movimiento-de-datos-exportación-e-importación">Movimiento de datos. Exportación e importación</h2>
+<h3 id="creando-el-esquema-scott">Creando el esquema Scott</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">rlwrap</span><span class="w"> </span><span class="n">sqlplus</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">sysdba</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">startup</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">alter</span><span class="w"> </span><span class="k">session</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="s2">&#34;_ORACLE_SCRIPT&#34;</span><span class="o">=</span><span class="k">true</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SET</span><span class="w"> </span><span class="n">ECHO</span><span class="w"> </span><span class="k">OFF</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Si ya estaba creado el esquema Scott pero lo queremos crear de nuevo borramos el usario con la opción cascade
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">DROP</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="n">SCOTT</span><span class="w"> </span><span class="k">CASCADE</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Creamos y damos privilegios a SCOTT, cuya contraseña es TIGER y finalmente nos conectamos con SCOTT/TIGER
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">GRANT</span><span class="w"> </span><span class="k">CONNECT</span><span class="p">,</span><span class="w"> </span><span class="n">RESOURCE</span><span class="p">,</span><span class="w"> </span><span class="n">UNLIMITED</span><span class="w"> </span><span class="n">TABLESPACE</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">SCOTT</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">TIGER</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="n">SCOTT</span><span class="w"> </span><span class="n">ACCOUNT</span><span class="w"> </span><span class="n">UNLOCK</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="n">SCOTT</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="n">TABLESPACE</span><span class="w"> </span><span class="n">USERS</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">ALTER</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="n">SCOTT</span><span class="w"> </span><span class="k">TEMPORARY</span><span class="w"> </span><span class="n">TABLESPACE</span><span class="w"> </span><span class="n">TEMP</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">CONN</span><span class="w"> </span><span class="n">SCOTT</span><span class="o">/</span><span class="n">TIGER</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Creación de las tablas de SCOTT
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">DUMMY</span><span class="w"> </span><span class="p">(</span><span class="n">DUMMY</span><span class="w"> </span><span class="nb">NUMBER</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">DEPT</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">DEPTNO</span><span class="w"> </span><span class="nb">NUMBER</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">PK_DEPT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">DNAME</span><span class="w"> </span><span class="n">VARCHAR2</span><span class="p">(</span><span class="mi">14</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">LOC</span><span class="w"> </span><span class="n">VARCHAR2</span><span class="p">(</span><span class="mi">13</span><span class="p">));</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">EMP</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">EMPNO</span><span class="w"> </span><span class="nb">NUMBER</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">PK_EMP</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">ENAME</span><span class="w"> </span><span class="n">VARCHAR2</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">JOB</span><span class="w"> </span><span class="n">VARCHAR2</span><span class="p">(</span><span class="mi">9</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">MGR</span><span class="w"> </span><span class="nb">NUMBER</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">HIREDATE</span><span class="w"> </span><span class="nb">DATE</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">SAL</span><span class="w"> </span><span class="nb">NUMBER</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">COMM</span><span class="w"> </span><span class="nb">NUMBER</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">DEPTNO</span><span class="w"> </span><span class="nb">NUMBER</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">CONSTRAINT</span><span class="w"> </span><span class="n">FK_DEPTNO</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">DEPT</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">BONUS</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">ENAME</span><span class="w"> </span><span class="n">VARCHAR2</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">JOB</span><span class="w"> </span><span class="n">VARCHAR2</span><span class="p">(</span><span class="mi">9</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">SAL</span><span class="w"> </span><span class="nb">NUMBER</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">COMM</span><span class="w"> </span><span class="nb">NUMBER</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">         
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">SALGRADE</span><span class="w"> </span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">GRADE</span><span class="w"> </span><span class="nb">NUMBER</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">LOSAL</span><span class="w"> </span><span class="nb">NUMBER</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">HISAL</span><span class="w"> </span><span class="nb">NUMBER</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c1">-- Inserción de datos en las tablas
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">     
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">DEPT</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="s1">&#39;ACCOUNTING&#39;</span><span class="p">,</span><span class="s1">&#39;NEW YORK&#39;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">DEPT</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="s1">&#39;RESEARCH&#39;</span><span class="p">,</span><span class="s1">&#39;DALLAS&#39;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">DEPT</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="s1">&#39;SALES&#39;</span><span class="p">,</span><span class="s1">&#39;CHICAGO&#39;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">DEPT</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">40</span><span class="p">,</span><span class="s1">&#39;OPERATIONS&#39;</span><span class="p">,</span><span class="s1">&#39;BOSTON&#39;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">EMP</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">7369</span><span class="p">,</span><span class="s1">&#39;SMITH&#39;</span><span class="p">,</span><span class="s1">&#39;CLERK&#39;</span><span class="p">,</span><span class="mi">7902</span><span class="p">,</span><span class="n">to_date</span><span class="p">(</span><span class="s1">&#39;17-12-1980&#39;</span><span class="p">,</span><span class="s1">&#39;dd-mm-yyyy&#39;</span><span class="p">),</span><span class="mi">800</span><span class="p">,</span><span class="k">NULL</span><span class="p">,</span><span class="mi">20</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">EMP</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">7499</span><span class="p">,</span><span class="s1">&#39;ALLEN&#39;</span><span class="p">,</span><span class="s1">&#39;SALESMAN&#39;</span><span class="p">,</span><span class="mi">7698</span><span class="p">,</span><span class="n">to_date</span><span class="p">(</span><span class="s1">&#39;20-2-1981&#39;</span><span class="p">,</span><span class="s1">&#39;dd-mm-yyyy&#39;</span><span class="p">),</span><span class="mi">1600</span><span class="p">,</span><span class="mi">300</span><span class="p">,</span><span class="mi">30</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">EMP</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">7521</span><span class="p">,</span><span class="s1">&#39;WARD&#39;</span><span class="p">,</span><span class="s1">&#39;SALESMAN&#39;</span><span class="p">,</span><span class="mi">7698</span><span class="p">,</span><span class="n">to_date</span><span class="p">(</span><span class="s1">&#39;22-2-1981&#39;</span><span class="p">,</span><span class="s1">&#39;dd-mm-yyyy&#39;</span><span class="p">),</span><span class="mi">1250</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span><span class="mi">30</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">EMP</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">7566</span><span class="p">,</span><span class="s1">&#39;JONES&#39;</span><span class="p">,</span><span class="s1">&#39;MANAGER&#39;</span><span class="p">,</span><span class="mi">7839</span><span class="p">,</span><span class="n">to_date</span><span class="p">(</span><span class="s1">&#39;2-4-1981&#39;</span><span class="p">,</span><span class="s1">&#39;dd-mm-yyyy&#39;</span><span class="p">),</span><span class="mi">2975</span><span class="p">,</span><span class="k">NULL</span><span class="p">,</span><span class="mi">20</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">EMP</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">7654</span><span class="p">,</span><span class="s1">&#39;MARTIN&#39;</span><span class="p">,</span><span class="s1">&#39;SALESMAN&#39;</span><span class="p">,</span><span class="mi">7698</span><span class="p">,</span><span class="n">to_date</span><span class="p">(</span><span class="s1">&#39;28-9-1981&#39;</span><span class="p">,</span><span class="s1">&#39;dd-mm-yyyy&#39;</span><span class="p">),</span><span class="mi">1250</span><span class="p">,</span><span class="mi">1400</span><span class="p">,</span><span class="mi">30</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">EMP</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">7698</span><span class="p">,</span><span class="s1">&#39;BLAKE&#39;</span><span class="p">,</span><span class="s1">&#39;MANAGER&#39;</span><span class="p">,</span><span class="mi">7839</span><span class="p">,</span><span class="n">to_date</span><span class="p">(</span><span class="s1">&#39;1-5-1981&#39;</span><span class="p">,</span><span class="s1">&#39;dd-mm-yyyy&#39;</span><span class="p">),</span><span class="mi">2850</span><span class="p">,</span><span class="k">NULL</span><span class="p">,</span><span class="mi">30</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">EMP</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">7782</span><span class="p">,</span><span class="s1">&#39;CLARK&#39;</span><span class="p">,</span><span class="s1">&#39;MANAGER&#39;</span><span class="p">,</span><span class="mi">7839</span><span class="p">,</span><span class="n">to_date</span><span class="p">(</span><span class="s1">&#39;9-6-1981&#39;</span><span class="p">,</span><span class="s1">&#39;dd-mm-yyyy&#39;</span><span class="p">),</span><span class="mi">2450</span><span class="p">,</span><span class="k">NULL</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">EMP</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">7788</span><span class="p">,</span><span class="s1">&#39;SCOTT&#39;</span><span class="p">,</span><span class="s1">&#39;ANALYST&#39;</span><span class="p">,</span><span class="mi">7566</span><span class="p">,</span><span class="n">to_date</span><span class="p">(</span><span class="s1">&#39;13-JUL-87&#39;</span><span class="p">)</span><span class="o">-</span><span class="mi">85</span><span class="p">,</span><span class="mi">3000</span><span class="p">,</span><span class="k">NULL</span><span class="p">,</span><span class="mi">20</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">EMP</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">7839</span><span class="p">,</span><span class="s1">&#39;KING&#39;</span><span class="p">,</span><span class="s1">&#39;PRESIDENT&#39;</span><span class="p">,</span><span class="k">NULL</span><span class="p">,</span><span class="n">to_date</span><span class="p">(</span><span class="s1">&#39;17-11-1981&#39;</span><span class="p">,</span><span class="s1">&#39;dd-mm-yyyy&#39;</span><span class="p">),</span><span class="mi">5000</span><span class="p">,</span><span class="k">NULL</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">EMP</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">7844</span><span class="p">,</span><span class="s1">&#39;TURNER&#39;</span><span class="p">,</span><span class="s1">&#39;SALESMAN&#39;</span><span class="p">,</span><span class="mi">7698</span><span class="p">,</span><span class="n">to_date</span><span class="p">(</span><span class="s1">&#39;8-9-1981&#39;</span><span class="p">,</span><span class="s1">&#39;dd-mm-yyyy&#39;</span><span class="p">),</span><span class="mi">1500</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">30</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">EMP</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">7876</span><span class="p">,</span><span class="s1">&#39;ADAMS&#39;</span><span class="p">,</span><span class="s1">&#39;CLERK&#39;</span><span class="p">,</span><span class="mi">7788</span><span class="p">,</span><span class="n">to_date</span><span class="p">(</span><span class="s1">&#39;13-JUL-87&#39;</span><span class="p">)</span><span class="o">-</span><span class="mi">51</span><span class="p">,</span><span class="mi">1100</span><span class="p">,</span><span class="k">NULL</span><span class="p">,</span><span class="mi">20</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">EMP</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">7900</span><span class="p">,</span><span class="s1">&#39;JAMES&#39;</span><span class="p">,</span><span class="s1">&#39;CLERK&#39;</span><span class="p">,</span><span class="mi">7698</span><span class="p">,</span><span class="n">to_date</span><span class="p">(</span><span class="s1">&#39;3-12-1981&#39;</span><span class="p">,</span><span class="s1">&#39;dd-mm-yyyy&#39;</span><span class="p">),</span><span class="mi">950</span><span class="p">,</span><span class="k">NULL</span><span class="p">,</span><span class="mi">30</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">EMP</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">7902</span><span class="p">,</span><span class="s1">&#39;FORD&#39;</span><span class="p">,</span><span class="s1">&#39;ANALYST&#39;</span><span class="p">,</span><span class="mi">7566</span><span class="p">,</span><span class="n">to_date</span><span class="p">(</span><span class="s1">&#39;3-12-1981&#39;</span><span class="p">,</span><span class="s1">&#39;dd-mm-yyyy&#39;</span><span class="p">),</span><span class="mi">3000</span><span class="p">,</span><span class="k">NULL</span><span class="p">,</span><span class="mi">20</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">EMP</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">7934</span><span class="p">,</span><span class="s1">&#39;MILLER&#39;</span><span class="p">,</span><span class="s1">&#39;CLERK&#39;</span><span class="p">,</span><span class="mi">7782</span><span class="p">,</span><span class="n">to_date</span><span class="p">(</span><span class="s1">&#39;23-1-1982&#39;</span><span class="p">,</span><span class="s1">&#39;dd-mm-yyyy&#39;</span><span class="p">),</span><span class="mi">1300</span><span class="p">,</span><span class="k">NULL</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">SALGRADE</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">700</span><span class="p">,</span><span class="mi">1200</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">SALGRADE</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1201</span><span class="p">,</span><span class="mi">1400</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">SALGRADE</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1401</span><span class="p">,</span><span class="mi">2000</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">SALGRADE</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">2001</span><span class="p">,</span><span class="mi">3000</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">SALGRADE</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3001</span><span class="p">,</span><span class="mi">9999</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">DUMMY</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">COMMIT</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SET</span><span class="w"> </span><span class="n">TERMOUT</span><span class="w"> </span><span class="k">ON</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SET</span><span class="w"> </span><span class="n">ECHO</span><span class="w"> </span><span class="k">ON</span><span class="w">
+</span></span></span></code></pre></div><h3 id="1-realiza-una-exportación-del-esquema-de-scott-usando-oracle-data-pump-con-las-siguientes-condiciones">1. Realiza una exportación del esquema de SCOTT usando Oracle Data Pump con las siguientes condiciones:</h3>
+<p><strong>• Exporta tanto la estructura de las tablas como los datos de las mismas.</strong>
+<strong>• Excluye la tabla BONUS y los departamentos con menos de dos empleados.</strong>
+<strong>• Realiza una estimación previa del tamaño necesario para el fichero de exportación.</strong>
+<strong>• Programa la operación para dentro de 2 minutos.</strong>
+<strong>• Genera un archivo de log en el directorio raíz.</strong></p>
+<p>Le damos permisos a Scott para exportar datos.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">GRANT</span><span class="w"> </span><span class="n">DATAPUMP_EXP_FULL_DATABASE</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">SCOTT</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>Para realizar la exportación del esquema SCOTT utilizando Oracle Data Pump con las condiciones especificadas, podemos utilizar el siguiente comando desde la terminal de Debian:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;expdp SCOTT/TIGER DIRECTORY=DATA_PUMP_DIR DUMPFILE=scott.dmp LOGFILE=scott.log ESTIMATE=STATISTICS EXCLUDE=TABLE:\&#34;=\&#39;BONUS\&#39;\&#34;  QUERY=dept:&#39;&#34;</span>WHERE deptno IN <span class="se">\(</span>SELECT deptno FROM EMP GROUP BY deptno HAVING COUNT<span class="se">\(</span>*<span class="se">\)</span>&gt;2<span class="se">\)</span><span class="s2">&#34;&#39; SCHEMAS=scott COMPRESSION=ALL&#34;</span> <span class="p">|</span> at now + <span class="m">2</span> minutes
+</span></span></code></pre></div><p>Explicación del comando:</p>
+<ul>
+<li>DIRECTORY: indica el directorio en el que se va a generar el archivo de exportación. En este caso, se utiliza el directorio predefinido DATA_PUMP_DIR de Oracle.</li>
+<li>DUMPFILE: especifica el nombre del archivo de exportación. En este caso, se utiliza el nombre scott.dmp.</li>
+<li>LOGFILE: indica el nombre del archivo de log. En este caso, se utiliza el nombre scott.log.</li>
+<li>ESTIMATE: genera una estimación previa del tamaño necesario para el fichero de exportación.</li>
+<li>EXCLUDE: excluye la tabla BONUS</li>
+<li>QUERY: exporta solo los datos de la consulta, en este caso, de la tabla dept exporta todos los departamentos con más de dos empleados, o lo que es lo mismo, exporta todos los datos exceptuando los departamentos con menos de dos empleados.</li>
+<li>SCHEMAS: indica el esquema que se va a exportar. En este caso, es el esquema SCOTT.</li>
+<li>COMPRESSION: indica el nivel de compresión que se va a utilizar para el archivo de exportación. En este caso, se utiliza el nivel máximo de compresión (ALL).</li>
+<li>at now + 2 minutes: indica que el comando se ejecutará dentro de 2 minutos.</li>
+</ul>
+<p>Una vez ejecutado el comando, se generará un archivo de exportación en el directorio DATA_PUMP_DIR (/opt/oracle/admin/ORCLCDB/dpdump/) con el nombre scott.dmp y un archivo de log con el nombre scott.log.</p>
+<p><strong>Resultado:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Export: Release 19.0.0.0.0 - Production on Wed Mar <span class="m">1</span> 14:34:54 <span class="m">2023</span>
+</span></span><span class="line"><span class="cl">Version 19.3.0.0.0
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Copyright <span class="o">(</span>c<span class="o">)</span> 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Connected to: Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Advertencia: Las operaciones de Oracle Data Pump no se necesitan normalmente cuando se conecta a la raiz o al elemento inicial de una base de datos del contenedor.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Iniciando <span class="s2">&#34;SCOTT&#34;</span>.<span class="s2">&#34;SYS_EXPORT_SCHEMA_01&#34;</span>:  SCOTT/******** <span class="nv">DIRECTORY</span><span class="o">=</span>DATA_PUMP_DIR <span class="nv">DUMPFILE</span><span class="o">=</span>scott.dmp <span class="nv">LOGFILE</span><span class="o">=</span>scott.log <span class="nv">ESTIMATE</span><span class="o">=</span>STATISTICS <span class="nv">EXCLUDE</span><span class="o">=</span>TABLE:<span class="s2">&#34;=&#39;BONUS&#39;&#34;</span> <span class="nv">QUERY</span><span class="o">=</span>dept:<span class="s2">&#34;WHERE deptno IN \(SELECT deptno FROM EMP GROUP BY deptno HAVING COUNT\(*\)&gt;2\)&#34;</span> <span class="nv">SCHEMAS</span><span class="o">=</span>scott <span class="nv">COMPRESSION</span><span class="o">=</span>ALL 
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto SCHEMA_EXPORT/TABLE/TABLE_DATA
+</span></span><span class="line"><span class="cl">.  estimado <span class="s2">&#34;SCOTT&#34;</span>.<span class="s2">&#34;DEPT&#34;</span>                              4.683 KB
+</span></span><span class="line"><span class="cl">.  estimado <span class="s2">&#34;SCOTT&#34;</span>.<span class="s2">&#34;DUMMY&#34;</span>                             4.683 KB
+</span></span><span class="line"><span class="cl">.  estimado <span class="s2">&#34;SCOTT&#34;</span>.<span class="s2">&#34;EMP&#34;</span>                               4.683 KB
+</span></span><span class="line"><span class="cl">.  estimado <span class="s2">&#34;SCOTT&#34;</span>.<span class="s2">&#34;SALGRADE&#34;</span>                          4.683 KB
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto SCHEMA_EXPORT/TABLE/INDEX/STATISTICS/INDEX_STATISTICS
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto SCHEMA_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto SCHEMA_EXPORT/STATISTICS/MARKER
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto SCHEMA_EXPORT/ROLE_GRANT
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto SCHEMA_EXPORT/DEFAULT_ROLE
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto SCHEMA_EXPORT/PRE_SCHEMA/PROCACT_SCHEMA
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto SCHEMA_EXPORT/TABLE/TABLE
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto SCHEMA_EXPORT/TABLE/COMMENT
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto SCHEMA_EXPORT/TABLE/INDEX/INDEX
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto SCHEMA_EXPORT/TABLE/CONSTRAINT/CONSTRAINT
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto SCHEMA_EXPORT/TABLE/CONSTRAINT/REF_CONSTRAINT
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SCOTT&#34;</span>.<span class="s2">&#34;DEPT&#34;</span>                              4.953 KB       <span class="m">3</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SCOTT&#34;</span>.<span class="s2">&#34;DUMMY&#34;</span>                             4.687 KB       <span class="m">1</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SCOTT&#34;</span>.<span class="s2">&#34;EMP&#34;</span>                               5.679 KB      <span class="m">14</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SCOTT&#34;</span>.<span class="s2">&#34;SALGRADE&#34;</span>                          4.906 KB       <span class="m">5</span> filas exportadas
+</span></span><span class="line"><span class="cl">La tabla maestra <span class="s2">&#34;SCOTT&#34;</span>.<span class="s2">&#34;SYS_EXPORT_SCHEMA_01&#34;</span> se ha cargado/descargado correctamente
+</span></span><span class="line"><span class="cl">******************************************************************************
+</span></span><span class="line"><span class="cl">El juego de archivos de volcado para SCOTT.SYS_EXPORT_SCHEMA_01 es:
+</span></span><span class="line"><span class="cl">  /opt/oracle/admin/ORCLCDB/dpdump/scott.dmp
+</span></span><span class="line"><span class="cl">El trabajo <span class="s2">&#34;SCOTT&#34;</span>.<span class="s2">&#34;SYS_EXPORT_SCHEMA_01&#34;</span> ha terminado correctamente en Mie Mar <span class="m">1</span> 14:35:34 <span class="m">2023</span> elapsed <span class="m">0</span> 00:00:40
+</span></span></code></pre></div><p><img src="/img/movdatos/1.png" alt="exportacion"></p>
+<h3 id="2-importa-el-fichero-obtenido-anteriormente-usando-oracle-data-pump-pero-en-un-usuario-distinto-de-la-misma-base-de-datos">2. Importa el fichero obtenido anteriormente usando Oracle Data Pump pero en un usuario distinto de la misma base de datos.</h3>
+<p>Concedemos el permiso para realizar la importación al usuario llamado &lsquo;ara&rsquo;, en el caso de que no lo tuviera.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">GRANT</span><span class="w"> </span><span class="n">IMP_FULL_DATABASE</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">ARA</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div><p>Importamos los datos para el usuario &lsquo;ara&rsquo;.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">impdp ara/ara <span class="nv">schemas</span><span class="o">=</span>scott <span class="nv">directory</span><span class="o">=</span>DATA_PUMP_DIR <span class="nv">dumpfile</span><span class="o">=</span>scott.dmp <span class="nv">logfile</span><span class="o">=</span>scott.log <span class="nv">REMAP_SCHEMA</span><span class="o">=</span>SCOTT:ara
+</span></span></code></pre></div><p><strong>Resultado:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Import: Release 19.0.0.0.0 - Production on Thu Mar <span class="m">2</span> 13:07:33 <span class="m">2023</span>
+</span></span><span class="line"><span class="cl">Version 19.3.0.0.0
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Copyright <span class="o">(</span>c<span class="o">)</span> 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Connected to: Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Advertencia: Las operaciones de Oracle Data Pump no se necesitan normalmente cuando se conecta a la raiz o al elemento inicial de una base de datos del contenedor.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">La tabla maestra <span class="s2">&#34;ARA&#34;</span>.<span class="s2">&#34;SYS_IMPORT_SCHEMA_01&#34;</span> se ha cargado/descargado correctamente
+</span></span><span class="line"><span class="cl">Iniciando <span class="s2">&#34;ARA&#34;</span>.<span class="s2">&#34;SYS_IMPORT_SCHEMA_01&#34;</span>:  ara/******** <span class="nv">schemas</span><span class="o">=</span>scott <span class="nv">directory</span><span class="o">=</span>DATA_PUMP_DIR <span class="nv">dumpfile</span><span class="o">=</span>scott.dmp <span class="nv">logfile</span><span class="o">=</span>scott.log <span class="nv">REMAP_SCHEMA</span><span class="o">=</span>SCOTT:ara 
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto SCHEMA_EXPORT/ROLE_GRANT
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto SCHEMA_EXPORT/DEFAULT_ROLE
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto SCHEMA_EXPORT/PRE_SCHEMA/PROCACT_SCHEMA
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto SCHEMA_EXPORT/TABLE/TABLE
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto SCHEMA_EXPORT/TABLE/TABLE_DATA
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;ARA&#34;</span>.<span class="s2">&#34;DEPT&#34;</span>                                4.953 KB       <span class="m">3</span> filas importadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;ARA&#34;</span>.<span class="s2">&#34;DUMMY&#34;</span>                               4.687 KB       <span class="m">1</span> filas importadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;ARA&#34;</span>.<span class="s2">&#34;EMP&#34;</span>                                 5.679 KB      <span class="m">14</span> filas importadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;ARA&#34;</span>.<span class="s2">&#34;SALGRADE&#34;</span>                            4.906 KB       <span class="m">5</span> filas importadas
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto SCHEMA_EXPORT/TABLE/CONSTRAINT/CONSTRAINT
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto SCHEMA_EXPORT/TABLE/INDEX/STATISTICS/INDEX_STATISTICS
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto SCHEMA_EXPORT/TABLE/CONSTRAINT/REF_CONSTRAINT
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto SCHEMA_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto SCHEMA_EXPORT/STATISTICS/MARKER
+</span></span><span class="line"><span class="cl">El trabajo <span class="s2">&#34;ARA&#34;</span>.<span class="s2">&#34;SYS_IMPORT_SCHEMA_01&#34;</span> ha terminado correctamente en Jue Mar <span class="m">2</span> 13:07:37 <span class="m">2023</span> elapsed <span class="m">0</span> 00:00:04
+</span></span></code></pre></div><p><img src="/img/movdatos/2.png" alt="exportacion"></p>
+<h3 id="3-realiza-una-exportación-de-la-estructura-de-todas-las-tablas-de-la-base-de-datos-usando-el-comando-expdp-de-oracle-data-pump-probando-al-menos-cinco-de-las-posibles-opciones-que-ofrece-dicho-comando-y-documentándolas-adecuadamente">3. Realiza una exportación de la estructura de todas las tablas de la base de datos usando el comando expdp de Oracle Data Pump probando al menos cinco de las posibles opciones que ofrece dicho comando y documentándolas adecuadamente.</h3>
+<p>En el ejercicio 1 ya expliqué detalladamente lo que hacía cada parámetro del comando expdp de Oracle Data Pump, pero ahora vamos a hacerlo con todas las tablas de la base de datos de forma más sencilla.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">expdp system/system <span class="nv">FULL</span><span class="o">=</span>y <span class="nv">DIRECTORY</span><span class="o">=</span>DATA_PUMP_DIR <span class="nv">DUMPFILE</span><span class="o">=</span>full_db.dmp <span class="nv">EXCLUDE</span><span class="o">=</span>INDEX <span class="nv">JOB_NAME</span><span class="o">=</span>export_full
+</span></span></code></pre></div><ul>
+<li>
+<p>FULL: realiza una exportación completa de la base de datos incluyendo todas las tablas, índices, procedimientos almacenados, etc.</p>
+</li>
+<li>
+<p>DIRECTORY: especifica el directorio de sistema de archivos donde se guardarán los archivos de exportación en este caso usará el directorio por defecto de Oracle para guardar los archivos de exportación (/opt/oracle/admin/ORCLCDB/dpdump/).</p>
+</li>
+<li>
+<p>DUMPFILE: especifica el nombre del archivo de volcado que se creará en el directorio especificado, en este caso el nombre del archivo es full_db.dmp.</p>
+</li>
+<li>
+<p>EXCLUDE: especifica los objetos que se excluirán de la exportación. En este caso, podemos excluir los índices de todas las tablas usando el parámetro EXCLUDE=INDEX.</p>
+</li>
+<li>
+<p>JOB_NAME: asigna un nombre al trabajo de exportación, en este caso export_full.</p>
+</li>
+</ul>
+<p><strong>Resultado:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Export: Release 19.0.0.0.0 - Production on Thu Mar <span class="m">2</span> 13:36:14 <span class="m">2023</span>
+</span></span><span class="line"><span class="cl">Version 19.3.0.0.0
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Copyright <span class="o">(</span>c<span class="o">)</span> 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Connected to: Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Advertencia: Las operaciones de Oracle Data Pump no se necesitan normalmente cuando se conecta a la raiz o al elemento inicial de una base de datos del contenedor.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Iniciando <span class="s2">&#34;SYSTEM&#34;</span>.<span class="s2">&#34;EXPORT_FULL&#34;</span>:  system/******** <span class="nv">FULL</span><span class="o">=</span>y <span class="nv">DIRECTORY</span><span class="o">=</span>DATA_PUMP_DIR <span class="nv">DUMPFILE</span><span class="o">=</span>full_db.dmp <span class="nv">EXCLUDE</span><span class="o">=</span>INDEX <span class="nv">JOB_NAME</span><span class="o">=</span>export_full 
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/EARLY_OPTIONS/VIEWS_AS_TABLES/TABLE_DATA
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/NORMAL_OPTIONS/TABLE_DATA
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/NORMAL_OPTIONS/VIEWS_AS_TABLES/TABLE_DATA
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SCHEMA/TABLE/TABLE_DATA
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SCHEMA/TABLE/STATISTICS/TABLE_STATISTICS
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/STATISTICS/MARKER
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/PRE_SYSTEM_IMPCALLOUT/MARKER
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/PRE_INSTANCE_IMPCALLOUT/MARKER
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/TABLESPACE
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/PROFILE
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/RADM_FPTM
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/GRANT/SYSTEM_GRANT/PROC_SYSTEM_GRANT
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SCHEMA/GRANT/SYSTEM_GRANT
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SCHEMA/ROLE_GRANT
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SCHEMA/DEFAULT_ROLE
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SCHEMA/ON_USER_GRANT
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SCHEMA/TABLESPACE_QUOTA
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/RESOURCE_COST
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SCHEMA/DB_LINK
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/TRUSTED_DB_LINK
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/DIRECTORY/DIRECTORY
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/DIRECTORY/GRANT/OWNER_GRANT/OBJECT_GRANT
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SYSTEM_PROCOBJACT/PRE_SYSTEM_ACTIONS/PROCACT_SYSTEM
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SYSTEM_PROCOBJACT/PROCOBJ
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SYSTEM_PROCOBJACT/POST_SYSTEM_ACTIONS/PROCACT_SYSTEM
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SCHEMA/PROCACT_SCHEMA
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/EARLY_OPTIONS/VIEWS_AS_TABLES/TABLE
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/EARLY_POST_INSTANCE_IMPCALLOUT/MARKER
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/NORMAL_OPTIONS/TABLE
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/NORMAL_OPTIONS/VIEWS_AS_TABLES/TABLE
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/NORMAL_POST_INSTANCE_IMPCALLOUT/MARKER
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SCHEMA/TABLE/TABLE
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SCHEMA/TABLE/GRANT/OWNER_GRANT/OBJECT_GRANT
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SCHEMA/TABLE/COMMENT
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SCHEMA/PACKAGE/PACKAGE_SPEC
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SCHEMA/PACKAGE/CODE_BASE_GRANT
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SCHEMA/FUNCTION/FUNCTION
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SCHEMA/PROCEDURE/PROCEDURE
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SCHEMA/PACKAGE/COMPILE_PACKAGE/PACKAGE_SPEC/ALTER_PACKAGE_SPEC
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SCHEMA/FUNCTION/ALTER_FUNCTION
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SCHEMA/PROCEDURE/ALTER_PROCEDURE
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SCHEMA/TABLE/CONSTRAINT/CONSTRAINT
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SCHEMA/TABLE/CONSTRAINT/REF_CONSTRAINT
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/FINAL_POST_INSTANCE_IMPCALLOUT/MARKER
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/SCHEMA/POST_SCHEMA/PROCACT_SCHEMA
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/AUDIT_UNIFIED/AUDIT_POLICY_ENABLE
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/AUDIT
+</span></span><span class="line"><span class="cl">Procesando el tipo de objeto DATABASE_EXPORT/POST_SYSTEM_IMPCALLOUT/MARKER
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;KU</span><span class="nv">$_USER_MAPPING_VIEW</span><span class="s2">&#34;</span>               6.195 KB      <span class="m">45</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;AUDSYS&#34;</span>.<span class="s2">&#34;AUD</span><span class="nv">$UNIFIED</span><span class="s2">&#34;</span>:<span class="s2">&#34;SYS_P181&#34;</span>           131.0 KB     <span class="m">159</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;AUDSYS&#34;</span>.<span class="s2">&#34;AUD</span><span class="nv">$UNIFIED</span><span class="s2">&#34;</span>:<span class="s2">&#34;SYS_P454&#34;</span>           64.37 KB      <span class="m">15</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;AUDSYS&#34;</span>.<span class="s2">&#34;AUD</span><span class="nv">$UNIFIED</span><span class="s2">&#34;</span>:<span class="s2">&#34;SYS_P330&#34;</span>           57.76 KB      <span class="m">15</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;AUDSYS&#34;</span>.<span class="s2">&#34;AUD</span><span class="nv">$UNIFIED</span><span class="s2">&#34;</span>:<span class="s2">&#34;SYS_P650&#34;</span>           91.28 KB     <span class="m">104</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYSTEM&#34;</span>.<span class="s2">&#34;REDO_DB&#34;</span>                          25.59 KB       <span class="m">1</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$WORKSPACES_TABLE</span>$<span class="s2">&#34;</span>              12.10 KB       <span class="m">1</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$HINT_TABLE</span>$<span class="s2">&#34;</span>                    9.984 KB      <span class="m">97</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;LBACSYS&#34;</span>.<span class="s2">&#34;OLS</span><span class="nv">$INSTALLATIONS</span><span class="s2">&#34;</span>               6.960 KB       <span class="m">2</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$WORKSPACE_PRIV_TABLE</span>$<span class="s2">&#34;</span>          7.078 KB      <span class="m">11</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;DAM_CONFIG_PARAM</span>$<span class="s2">&#34;</span>                   6.531 KB      <span class="m">14</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;TSDP_SUBPOL</span>$<span class="s2">&#34;</span>                        6.328 KB       <span class="m">1</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$NEXTVER_TABLE</span>$<span class="s2">&#34;</span>                 6.375 KB       <span class="m">1</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;LBACSYS&#34;</span>.<span class="s2">&#34;OLS</span><span class="nv">$PROPS</span><span class="s2">&#34;</span>                       6.234 KB       <span class="m">5</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$ENV_VARS</span>$<span class="s2">&#34;</span>                      6.015 KB       <span class="m">3</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;TSDP_PARAMETER</span>$<span class="s2">&#34;</span>                     5.953 KB       <span class="m">1</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;TSDP_POLICY</span>$<span class="s2">&#34;</span>                        5.921 KB       <span class="m">1</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$VERSION_HIERARCHY_TABLE</span>$<span class="s2">&#34;</span>       5.984 KB       <span class="m">1</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$EVENTS_INFO</span>$<span class="s2">&#34;</span>                   5.812 KB      <span class="m">12</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;LBACSYS&#34;</span>.<span class="s2">&#34;OLS</span><span class="nv">$AUDIT_ACTIONS</span><span class="s2">&#34;</span>               5.757 KB       <span class="m">8</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;LBACSYS&#34;</span>.<span class="s2">&#34;OLS</span><span class="nv">$DIP_EVENTS</span><span class="s2">&#34;</span>                  5.539 KB       <span class="m">2</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;AUDSYS&#34;</span>.<span class="s2">&#34;AUD</span><span class="nv">$UNIFIED</span><span class="s2">&#34;</span>:<span class="s2">&#34;AUD_UNIFIED_P0&#34;</span>         <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;AUDSYS&#34;</span>.<span class="s2">&#34;AUD</span><span class="nv">$UNIFIED</span><span class="s2">&#34;</span>:<span class="s2">&#34;SYS_P790&#34;</span>           148.7 KB      <span class="m">67</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;LBACSYS&#34;</span>.<span class="s2">&#34;OLS</span><span class="nv">$AUDIT</span><span class="s2">&#34;</span>                           <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;LBACSYS&#34;</span>.<span class="s2">&#34;OLS</span><span class="nv">$COMPARTMENTS</span><span class="s2">&#34;</span>                    <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;LBACSYS&#34;</span>.<span class="s2">&#34;OLS</span><span class="nv">$DIP_DEBUG</span><span class="s2">&#34;</span>                       <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;LBACSYS&#34;</span>.<span class="s2">&#34;OLS</span><span class="nv">$GROUPS</span><span class="s2">&#34;</span>                          <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;LBACSYS&#34;</span>.<span class="s2">&#34;OLS</span><span class="nv">$LAB</span><span class="s2">&#34;</span>                             <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;LBACSYS&#34;</span>.<span class="s2">&#34;OLS</span><span class="nv">$LEVELS</span><span class="s2">&#34;</span>                          <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;LBACSYS&#34;</span>.<span class="s2">&#34;OLS</span><span class="nv">$POL</span><span class="s2">&#34;</span>                             <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;LBACSYS&#34;</span>.<span class="s2">&#34;OLS</span><span class="nv">$POLICY_ADMIN</span><span class="s2">&#34;</span>                    <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;LBACSYS&#34;</span>.<span class="s2">&#34;OLS</span><span class="nv">$POLS</span><span class="s2">&#34;</span>                            <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;LBACSYS&#34;</span>.<span class="s2">&#34;OLS</span><span class="nv">$POLT</span><span class="s2">&#34;</span>                            <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;LBACSYS&#34;</span>.<span class="s2">&#34;OLS</span><span class="nv">$PROFILE</span><span class="s2">&#34;</span>                         <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;LBACSYS&#34;</span>.<span class="s2">&#34;OLS</span><span class="nv">$PROFILES</span><span class="s2">&#34;</span>                        <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;LBACSYS&#34;</span>.<span class="s2">&#34;OLS</span><span class="nv">$PROG</span><span class="s2">&#34;</span>                            <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;LBACSYS&#34;</span>.<span class="s2">&#34;OLS</span><span class="nv">$SESSINFO</span><span class="s2">&#34;</span>                        <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;LBACSYS&#34;</span>.<span class="s2">&#34;OLS</span><span class="nv">$USER</span><span class="s2">&#34;</span>                            <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;LBACSYS&#34;</span>.<span class="s2">&#34;OLS</span><span class="nv">$USER_COMPARTMENTS</span><span class="s2">&#34;</span>               <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;LBACSYS&#34;</span>.<span class="s2">&#34;OLS</span><span class="nv">$USER_GROUPS</span><span class="s2">&#34;</span>                     <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;LBACSYS&#34;</span>.<span class="s2">&#34;OLS</span><span class="nv">$USER_LEVELS</span><span class="s2">&#34;</span>                     <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;AUD</span>$<span class="s2">&#34;</span>                                95.07 KB     <span class="m">187</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;DAM_CLEANUP_EVENTS</span>$<span class="s2">&#34;</span>                     <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;DAM_CLEANUP_JOBS</span>$<span class="s2">&#34;</span>                       <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;TSDP_ASSOCIATION</span>$<span class="s2">&#34;</span>                       <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;TSDP_CONDITION</span>$<span class="s2">&#34;</span>                         <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;TSDP_FEATURE_POLICY</span>$<span class="s2">&#34;</span>                    <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;TSDP_PROTECTION</span>$<span class="s2">&#34;</span>                        <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;TSDP_SENSITIVE_DATA</span>$<span class="s2">&#34;</span>                    <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;TSDP_SENSITIVE_TYPE</span>$<span class="s2">&#34;</span>                    <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;TSDP_SOURCE</span>$<span class="s2">&#34;</span>                            <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYSTEM&#34;</span>.<span class="s2">&#34;REDO_LOG&#34;</span>                             <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$BATCH_COMPRESSIBLE_TABLES</span>$<span class="s2">&#34;</span>         <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$CONS_COLUMNS</span>$<span class="s2">&#34;</span>                      <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$CONSTRAINTS_TABLE</span>$<span class="s2">&#34;</span>                 <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$LOCKROWS_INFO</span>$<span class="s2">&#34;</span>                     <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$MODIFIED_TABLES</span>$<span class="s2">&#34;</span>                   <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$MP_GRAPH_WORKSPACES_TABLE</span>$<span class="s2">&#34;</span>         <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$MP_PARENT_WORKSPACES_TABLE</span>$<span class="s2">&#34;</span>        <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$NESTED_COLUMNS_TABLE</span>$<span class="s2">&#34;</span>              <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$RESOLVE_WORKSPACES_TABLE</span>$<span class="s2">&#34;</span>          <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$RIC_LOCKING_TABLE</span>$<span class="s2">&#34;</span>                 <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$RIC_TABLE</span>$<span class="s2">&#34;</span>                         <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$RIC_TRIGGERS_TABLE</span>$<span class="s2">&#34;</span>                <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$UDTRIG_DISPATCH_PROCS</span>$<span class="s2">&#34;</span>             <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$UDTRIG_INFO</span>$<span class="s2">&#34;</span>                       <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$VERSION_TABLE</span>$<span class="s2">&#34;</span>                     <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$VT_ERRORS_TABLE</span>$<span class="s2">&#34;</span>                   <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$WORKSPACE_SAVEPOINTS_TABLE</span>$<span class="s2">&#34;</span>        <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;MDSYS&#34;</span>.<span class="s2">&#34;RDF_PARAM</span>$<span class="s2">&#34;</span>                        6.515 KB       <span class="m">3</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;AUDTAB</span><span class="nv">$TBS$FOR_EXPORT</span><span class="s2">&#34;</span>               5.953 KB       <span class="m">2</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;DBA_SENSITIVE_DATA&#34;</span>                      <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;DBA_TSDP_POLICY_PROTECTION&#34;</span>              <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;FGA_LOG</span><span class="nv">$FOR_EXPORT</span><span class="s2">&#34;</span>                  18.07 KB       <span class="m">2</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;NACL</span><span class="nv">$_ACE_EXP</span><span class="s2">&#34;</span>                           <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;NACL</span><span class="nv">$_HOST_EXP</span><span class="s2">&#34;</span>                      7.046 KB       <span class="m">3</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;NACL</span><span class="nv">$_WALLET_EXP</span><span class="s2">&#34;</span>                        <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;SQL</span><span class="nv">$_DATAPUMP</span><span class="s2">&#34;</span>                           <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;SQLOBJ</span><span class="nv">$AUXDATA_DATAPUMP</span><span class="s2">&#34;</span>                 <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;SQLOBJ</span><span class="nv">$DATA_DATAPUMP</span><span class="s2">&#34;</span>                    <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;SQLOBJ</span><span class="nv">$_DATAPUMP</span><span class="s2">&#34;</span>                        <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;SQLOBJ</span><span class="nv">$PLAN_DATAPUMP</span><span class="s2">&#34;</span>                    <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYS&#34;</span>.<span class="s2">&#34;SQL</span><span class="nv">$TEXT_DATAPUMP</span><span class="s2">&#34;</span>                       <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYSTEM&#34;</span>.<span class="s2">&#34;SCHEDULER_JOB_ARGS&#34;</span>                   <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SYSTEM&#34;</span>.<span class="s2">&#34;SCHEDULER_PROGRAM_ARGS&#34;</span>               <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$EXP_MAP</span><span class="s2">&#34;</span>                        7.718 KB       <span class="m">3</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;WMSYS&#34;</span>.<span class="s2">&#34;WM</span><span class="nv">$METADATA_MAP</span><span class="s2">&#34;</span>                       <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;RAUL&#34;</span>.<span class="s2">&#34;PROFESORES&#34;</span>                         5.539 KB       <span class="m">2</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;ADMIN&#34;</span>.<span class="s2">&#34;ACTOR&#34;</span>                             7.148 KB      <span class="m">28</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;ADMIN&#34;</span>.<span class="s2">&#34;PELICULA&#34;</span>                          7.218 KB      <span class="m">10</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;ADMIN&#34;</span>.<span class="s2">&#34;PELICULA_ACTOR&#34;</span>                    7.703 KB      <span class="m">75</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;ARA&#34;</span>.<span class="s2">&#34;DEPT&#34;</span>                                    <span class="m">6</span> KB       <span class="m">3</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;ARA&#34;</span>.<span class="s2">&#34;DUMMY&#34;</span>                               5.054 KB       <span class="m">1</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;ARA&#34;</span>.<span class="s2">&#34;EMP&#34;</span>                                 8.773 KB      <span class="m">14</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;ARA&#34;</span>.<span class="s2">&#34;SALGRADE&#34;</span>                            5.953 KB       <span class="m">5</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SCOTT&#34;</span>.<span class="s2">&#34;BONUS&#34;</span>                                 <span class="m">0</span> KB       <span class="m">0</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SCOTT&#34;</span>.<span class="s2">&#34;DEPT&#34;</span>                                  <span class="m">6</span> KB       <span class="m">3</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SCOTT&#34;</span>.<span class="s2">&#34;DUMMY&#34;</span>                             5.054 KB       <span class="m">1</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SCOTT&#34;</span>.<span class="s2">&#34;EMP&#34;</span>                               8.773 KB      <span class="m">14</span> filas exportadas
+</span></span><span class="line"><span class="cl">. . <span class="s2">&#34;SCOTT&#34;</span>.<span class="s2">&#34;SALGRADE&#34;</span>                          5.953 KB       <span class="m">5</span> filas exportadas
+</span></span><span class="line"><span class="cl">La tabla maestra <span class="s2">&#34;SYSTEM&#34;</span>.<span class="s2">&#34;EXPORT_FULL&#34;</span> se ha cargado/descargado correctamente
+</span></span><span class="line"><span class="cl">******************************************************************************
+</span></span><span class="line"><span class="cl">El juego de archivos de volcado para SYSTEM.EXPORT_FULL es:
+</span></span><span class="line"><span class="cl">  /opt/oracle/admin/ORCLCDB/dpdump/full_db.dmp
+</span></span><span class="line"><span class="cl">El trabajo <span class="s2">&#34;SYSTEM&#34;</span>.<span class="s2">&#34;EXPORT_FULL&#34;</span> ha terminado correctamente en Jue Mar <span class="m">2</span> 13:38:47 <span class="m">2023</span> elapsed <span class="m">0</span> 00:02:33
+</span></span></code></pre></div><h3 id="4-intenta-realizar-operaciones-similares-de-importación-y-exportación-con-las-herramientas-proporcionadas-con-mysql-desde-línea-de-comandos-documentando-el-proceso">4. Intenta realizar operaciones similares de importación y exportación con las herramientas proporcionadas con MySQL desde línea de comandos, documentando el proceso.</h3>
+<h3 id="5-intenta-realizar-operaciones-similares-de-importación-y-exportación-con-las-herramientas-proporcionadas-con-postgres-desde-línea-de-comandos-documentando-el-proceso">5. Intenta realizar operaciones similares de importación y exportación con las herramientas proporcionadas con Postgres desde línea de comandos, documentando el proceso.</h3>
+<h3 id="6-exporta-los-documentos-de-una-colección-de-mongodb-que-cumplan-una-determinada-condición-e-impórtalos-en-otra-base-de-datos">6. Exporta los documentos de una colección de MongoDB que cumplan una determinada condición e impórtalos en otra base de datos.</h3>
+<h3 id="7-sqlloader-es-una-herramienta-que-sirve-para-cargar-grandes-volúmenes-de-datos-en-una-instancia-de-oracle">7. SQL*Loader es una herramienta que sirve para cargar grandes volúmenes de datos en una instancia de ORACLE.</h3>
+<h3 id="exportad-los-datos-de-una-base-de-datos-completa-desde-postgres-a-texto-plano-con-delimitadores-y-emplead-sqlloader-para-realizar-el-proceso-de-carga-de-dichos-datos-a-una-instancia-oracle">Exportad los datos de una base de datos completa desde Postgres a texto plano con delimitadores y emplead SQL*Loader para realizar el proceso de carga de dichos datos a una instancia ORACLE.</h3>
+<h3 id="debéis-documentar-todo-el-proceso-explicando-los-distintos-ficheros-de-configuración-y-de-log-que-tiene-sqlloader">Debéis documentar todo el proceso, explicando los distintos ficheros de configuración y de log que tiene SQL*Loader.</h3>
+
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://afermor8.github.io/tags/bbdd/">bbdd</a>&nbsp;
+            
+          </div>
+        
+
+        
+            <hr/>
+            <section id="social-share">
+              <div class="list-inline footer-links">
+                
+
+<div class="share-box" aria-hidden="true">
+    <ul class="share">
+      
+      <li>
+        <a href="//twitter.com/share?url=https%3a%2f%2fafermor8.github.io%2fpost%2fmovdatos%2f&amp;text=Movimiento%20de%20datos&amp;via=" target="_blank" title="Share on Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fafermor8.github.io%2fpost%2fmovdatos%2f" target="_blank" title="Share on Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//reddit.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fmovdatos%2f&amp;title=Movimiento%20de%20datos" target="_blank" title="Share on Reddit">
+          <i class="fab fa-reddit"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fafermor8.github.io%2fpost%2fmovdatos%2f&amp;title=Movimiento%20de%20datos" target="_blank" title="Share on LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fmovdatos%2f&amp;title=Movimiento%20de%20datos" target="_blank" title="Share on StumbleUpon">
+          <i class="fab fa-stumbleupon"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fafermor8.github.io%2fpost%2fmovdatos%2f&amp;description=Movimiento%20de%20datos" target="_blank" title="Share on Pinterest">
+          <i class="fab fa-pinterest"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+
+              </div>
+            </section>
+        
+
+        
+          
+            
+          
+
+          
+                  <h4 class="see-also">Ver también</h4>
+                  <ul>
+                
+                
+                    <li><a href="/post/auditoria/">Auditoría</a></li>
+                
+                    <li><a href="/post/interconexion-bbdd/">Interconexion entre BBDD</a></li>
+                
+                    <li><a href="/post/install-bbdd/">Sistemas Gestores de Bases de Datos MySQL, PostgreSQL, Oracle 19c (en Debian11) y MongoDB</a></li>
+                
+              </ul>
+
+          
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://afermor8.github.io/post/auditoria/" data-toggle="tooltip" data-placement="top" title="Auditoría">&larr; Artículo anterior</a>
+            </li>
+          
+          
+        </ul>
+      
+
+
+      
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+      
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+		
+		  <a href="mailto:ara.fer.mor@gmail.com" title="Email me">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://github.com/afermor8" title="GitHub">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://Afermor.slack.com/" title="Slack">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-slack fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://linkedin.com/in/arantxa-f-6136617b" title="LinkedIn">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://telegram.me/arantxipu" title="Telegram">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-telegram fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            <a href="" title="RSS">
+              <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              <a href="afermor8.github.io">afermor8</a>
+            
+          
+
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2023
+          
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="https://gohugo.io">Hugo v0.104.3</a> alimentada &nbsp;&bull;&nbsp; Tema <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adaptado de <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer><script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://afermor8.github.io/js/main.js"></script>
+<script src="https://afermor8.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://afermor8.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>
+
