@@ -59,7 +59,7 @@
   "headline": "Movimiento de datos",
   "description" : "Movimiento de datos. Exportación e importación Creando el esquema Scott rlwrap sqlplus \/ as sysdba startup alter session set \u0026#34;_ORACLE_SCRIPT\u0026#34;=true; SET ECHO OFF -- Si ya estaba creado el esquema Scott pero lo queremos crear de nuevo borramos el usario con la opción cascade DROP USER SCOTT CASCADE; -- Creamos y damos privilegios a SCOTT, cuya contraseña es TIGER y finalmente nos conectamos con SCOTT\/TIGER GRANT CONNECT, RESOURCE, UNLIMITED TABLESPACE TO SCOTT IDENTIFIED BY TIGER; ALTER USER SCOTT ACCOUNT UNLOCK; ALTER USER SCOTT DEFAULT TABLESPACE USERS; ALTER USER SCOTT TEMPORARY TABLESPACE TEMP; CONN SCOTT\/TIGER -- Creación de las tablas de SCOTT CREATE TABLE DUMMY (DUMMY NUMBER); CREATE TABLE DEPT ( DEPTNO NUMBER(2) CONSTRAINT PK_DEPT PRIMARY KEY, DNAME VARCHAR2(14), LOC VARCHAR2(13)); CREATE TABLE EMP ( EMPNO NUMBER(4) CONSTRAINT PK_EMP PRIMARY KEY, ENAME VARCHAR2(10), JOB VARCHAR2(9), MGR NUMBER(4), HIREDATE DATE, SAL NUMBER(7,2), COMM NUMBER(7,2), DEPTNO NUMBER(2) CONSTRAINT FK_DEPTNO REFERENCES DEPT); CREATE TABLE BONUS ( ENAME VARCHAR2(10), JOB VARCHAR2(9), SAL NUMBER, COMM NUMBER); CREATE TABLE SALGRADE ( GRADE NUMBER, LOSAL NUMBER, HISAL NUMBER); -- Inserción de datos en las tablas INSERT INTO DEPT VALUES (10,\u0026#39;ACCOUNTING\u0026#39;,\u0026#39;NEW YORK\u0026#39;); INSERT INTO DEPT VALUES (20,\u0026#39;RESEARCH\u0026#39;,\u0026#39;DALLAS\u0026#39;); INSERT INTO DEPT VALUES (30,\u0026#39;SALES\u0026#39;,\u0026#39;CHICAGO\u0026#39;); INSERT INTO DEPT VALUES (40,\u0026#39;OPERATIONS\u0026#39;,\u0026#39;BOSTON\u0026#39;); INSERT INTO EMP VALUES (7369,\u0026#39;SMITH\u0026#39;,\u0026#39;CLERK\u0026#39;,7902,to_date(\u0026#39;17-12-1980\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),800,NULL,20); INSERT INTO EMP VALUES (7499,\u0026#39;ALLEN\u0026#39;,\u0026#39;SALESMAN\u0026#39;,7698,to_date(\u0026#39;20-2-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),1600,300,30); INSERT INTO EMP VALUES (7521,\u0026#39;WARD\u0026#39;,\u0026#39;SALESMAN\u0026#39;,7698,to_date(\u0026#39;22-2-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),1250,500,30); INSERT INTO EMP VALUES (7566,\u0026#39;JONES\u0026#39;,\u0026#39;MANAGER\u0026#39;,7839,to_date(\u0026#39;2-4-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),2975,NULL,20); INSERT INTO EMP VALUES (7654,\u0026#39;MARTIN\u0026#39;,\u0026#39;SALESMAN\u0026#39;,7698,to_date(\u0026#39;28-9-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),1250,1400,30); INSERT INTO EMP VALUES (7698,\u0026#39;BLAKE\u0026#39;,\u0026#39;MANAGER\u0026#39;,7839,to_date(\u0026#39;1-5-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),2850,NULL,30); INSERT INTO EMP VALUES (7782,\u0026#39;CLARK\u0026#39;,\u0026#39;MANAGER\u0026#39;,7839,to_date(\u0026#39;9-6-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),2450,NULL,10); INSERT INTO EMP VALUES (7788,\u0026#39;SCOTT\u0026#39;,\u0026#39;ANALYST\u0026#39;,7566,to_date(\u0026#39;13-JUL-87\u0026#39;)-85,3000,NULL,20); INSERT INTO EMP VALUES (7839,\u0026#39;KING\u0026#39;,\u0026#39;PRESIDENT\u0026#39;,NULL,to_date(\u0026#39;17-11-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),5000,NULL,10); INSERT INTO EMP VALUES (7844,\u0026#39;TURNER\u0026#39;,\u0026#39;SALESMAN\u0026#39;,7698,to_date(\u0026#39;8-9-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),1500,0,30); INSERT INTO EMP VALUES (7876,\u0026#39;ADAMS\u0026#39;,\u0026#39;CLERK\u0026#39;,7788,to_date(\u0026#39;13-JUL-87\u0026#39;)-51,1100,NULL,20); INSERT INTO EMP VALUES (7900,\u0026#39;JAMES\u0026#39;,\u0026#39;CLERK\u0026#39;,7698,to_date(\u0026#39;3-12-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),950,NULL,30); INSERT INTO EMP VALUES (7902,\u0026#39;FORD\u0026#39;,\u0026#39;ANALYST\u0026#39;,7566,to_date(\u0026#39;3-12-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),3000,NULL,20); INSERT INTO EMP VALUES (7934,\u0026#39;MILLER\u0026#39;,\u0026#39;CLERK\u0026#39;,7782,to_date(\u0026#39;23-1-1982\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),1300,NULL,10); INSERT INTO SALGRADE VALUES (1,700,1200); INSERT INTO SALGRADE VALUES (2,1201,1400); INSERT INTO SALGRADE VALUES (3,1401,2000); INSERT INTO SALGRADE VALUES (4,2001,3000); INSERT INTO SALGRADE VALUES (5,3001,9999); INSERT INTO DUMMY VALUES (0); COMMIT; SET TERMOUT ON SET ECHO ON 1.",
   "inLanguage" : "es",
-  "wordCount":  2662 ,
+  "wordCount":  2849 ,
   "datePublished" : "2023-03-01T12:18:27",
   "dateModified" : "2023-03-01T12:18:27",
   "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
@@ -251,10 +251,10 @@
   <i class="fas fa-calendar"></i>&nbsp;Publicado el March 1, 2023
   
   
-    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;13&nbsp;minutos
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;14&nbsp;minutos
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2662&nbsp;palabras
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2849&nbsp;palabras
   
   
     
@@ -291,10 +291,10 @@
   <i class="fas fa-calendar"></i>&nbsp;Publicado el March 1, 2023
   
   
-    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;13&nbsp;minutos
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;14&nbsp;minutos
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2662&nbsp;palabras
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2849&nbsp;palabras
   
   
     
@@ -404,11 +404,11 @@
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SET</span><span class="w"> </span><span class="n">TERMOUT</span><span class="w"> </span><span class="k">ON</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">SET</span><span class="w"> </span><span class="n">ECHO</span><span class="w"> </span><span class="k">ON</span><span class="w">
 </span></span></span></code></pre></div><h3 id="1-realiza-una-exportación-del-esquema-de-scott-usando-oracle-data-pump-con-las-siguientes-condiciones">1. Realiza una exportación del esquema de SCOTT usando Oracle Data Pump con las siguientes condiciones:</h3>
-<p><strong>• Exporta tanto la estructura de las tablas como los datos de las mismas.</strong>
-<strong>• Excluye la tabla BONUS y los departamentos con menos de dos empleados.</strong>
-<strong>• Realiza una estimación previa del tamaño necesario para el fichero de exportación.</strong>
-<strong>• Programa la operación para dentro de 2 minutos.</strong>
-<strong>• Genera un archivo de log en el directorio raíz.</strong></p>
+<p><strong>• Exporta tanto la estructura de las tablas como los datos de las mismas.</strong></p>
+<p><strong>• Excluye la tabla BONUS y los departamentos con menos de dos empleados.</strong></p>
+<p><strong>• Realiza una estimación previa del tamaño necesario para el fichero de exportación.</strong></p>
+<p><strong>• Programa la operación para dentro de 2 minutos.</strong></p>
+<p><strong>• Genera un archivo de log en el directorio raíz.</strong></p>
 <p>Le damos permisos a Scott para exportar datos.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">GRANT</span><span class="w"> </span><span class="n">DATAPUMP_EXP_FULL_DATABASE</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">SCOTT</span><span class="p">;</span><span class="w">
 </span></span></span></code></pre></div><p>Para realizar la exportación del esquema SCOTT utilizando Oracle Data Pump con las condiciones especificadas, podemos utilizar el siguiente comando desde la terminal de Debian:</p>
@@ -681,6 +681,22 @@
 </span></span><span class="line"><span class="cl">  /opt/oracle/admin/ORCLCDB/dpdump/full_db.dmp
 </span></span><span class="line"><span class="cl">El trabajo <span class="s2">&#34;SYSTEM&#34;</span>.<span class="s2">&#34;EXPORT_FULL&#34;</span> ha terminado correctamente en Jue Mar <span class="m">2</span> 13:38:47 <span class="m">2023</span> elapsed <span class="m">0</span> 00:02:33
 </span></span></code></pre></div><h3 id="4-intenta-realizar-operaciones-similares-de-importación-y-exportación-con-las-herramientas-proporcionadas-con-mysql-desde-línea-de-comandos-documentando-el-proceso">4. Intenta realizar operaciones similares de importación y exportación con las herramientas proporcionadas con MySQL desde línea de comandos, documentando el proceso.</h3>
+<h4 id="exportación-con-mysqldump">Exportación con mysqldump</h4>
+<p>La herramienta mysqldump permite exportar una o varias bases de datos completas o sólo algunas tablas de una base de datos. A continuación, se muestran algunos ejemplos:</p>
+<p><strong>Exportar la base de datos maravilla al completo</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">mysqldump</span><span class="w"> </span><span class="o">-</span><span class="n">u</span><span class="w"> </span><span class="k">admin</span><span class="w"> </span><span class="o">-</span><span class="n">p</span><span class="w"> </span><span class="n">maravilla</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">backup_maravilla</span><span class="p">.</span><span class="k">sql</span><span class="w">
+</span></span></span></code></pre></div><p><img src="/img/movdatos/3.png" alt="exportacion"></p>
+<p>En este ejemplo, admin es el nombre del usuario de MySQL y maravilla es el nombre de la base de datos que se desea exportar. El operador &gt; se utiliza para redirigir la salida del comando a un archivo llamado backup_maravilla.sql. Al ejecutar este comando, se solicitará la contraseña de MySQL.</p>
+<p><strong>Exportar sólo algunas tablas de la base de datos maravilla</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">mysqldump</span><span class="w"> </span><span class="o">-</span><span class="n">u</span><span class="w"> </span><span class="k">admin</span><span class="w"> </span><span class="o">-</span><span class="n">p</span><span class="w"> </span><span class="n">maravilla</span><span class="w"> </span><span class="n">pelicula</span><span class="w"> </span><span class="n">actor</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">backup_maravilla_pel_act</span><span class="p">.</span><span class="k">sql</span><span class="w">
+</span></span></span></code></pre></div><p><img src="/img/movdatos/4.png" alt="exportacion">
+<img src="/img/movdatos/5.png" alt="exportacion"></p>
+<p>En este ejemplo, se exportan dos tablas de la base de datos maravilla: pelicula y actor. Se guarda en un archivo llamado backup_maravilla_pel_act.sql.</p>
+<h4 id="importación">Importación</h4>
+<p>Mysql permite importar datos de un archivo de exportación sql a una base de datos. A continuación, se muestra un ejemplo:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="n">mysql</span><span class="w"> </span><span class="o">-</span><span class="n">u</span><span class="w"> </span><span class="n">root</span><span class="w"> </span><span class="o">-</span><span class="n">p</span><span class="w"> </span><span class="n">prueba</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">backup_maravilla</span><span class="p">.</span><span class="k">sql</span><span class="w">
+</span></span></span></code></pre></div><p>En el ejemplo se importan los datos de la exportación anterior a la base de datos prueba del usuario root.</p>
+<p><img src="/img/movdatos/6.png" alt="exportacion"></p>
 <h3 id="5-intenta-realizar-operaciones-similares-de-importación-y-exportación-con-las-herramientas-proporcionadas-con-postgres-desde-línea-de-comandos-documentando-el-proceso">5. Intenta realizar operaciones similares de importación y exportación con las herramientas proporcionadas con Postgres desde línea de comandos, documentando el proceso.</h3>
 <h3 id="6-exporta-los-documentos-de-una-colección-de-mongodb-que-cumplan-una-determinada-condición-e-impórtalos-en-otra-base-de-datos">6. Exporta los documentos de una colección de MongoDB que cumplan una determinada condición e impórtalos en otra base de datos.</h3>
 <h3 id="7-sqlloader-es-una-herramienta-que-sirve-para-cargar-grandes-volúmenes-de-datos-en-una-instancia-de-oracle">7. SQL*Loader es una herramienta que sirve para cargar grandes volúmenes de datos en una instancia de ORACLE.</h3>
