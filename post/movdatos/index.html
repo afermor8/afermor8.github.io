@@ -59,7 +59,7 @@
   "headline": "Movimiento de datos",
   "description" : "Movimiento de datos. Exportación e importación Creando el esquema Scott rlwrap sqlplus \/ as sysdba startup alter session set \u0026#34;_ORACLE_SCRIPT\u0026#34;=true; SET ECHO OFF -- Si ya estaba creado el esquema Scott pero lo queremos crear de nuevo borramos el usario con la opción cascade DROP USER SCOTT CASCADE; -- Creamos y damos privilegios a SCOTT, cuya contraseña es TIGER y finalmente nos conectamos con SCOTT\/TIGER GRANT CONNECT, RESOURCE, UNLIMITED TABLESPACE TO SCOTT IDENTIFIED BY TIGER; ALTER USER SCOTT ACCOUNT UNLOCK; ALTER USER SCOTT DEFAULT TABLESPACE USERS; ALTER USER SCOTT TEMPORARY TABLESPACE TEMP; CONN SCOTT\/TIGER -- Creación de las tablas de SCOTT CREATE TABLE DUMMY (DUMMY NUMBER); CREATE TABLE DEPT ( DEPTNO NUMBER(2) CONSTRAINT PK_DEPT PRIMARY KEY, DNAME VARCHAR2(14), LOC VARCHAR2(13)); CREATE TABLE EMP ( EMPNO NUMBER(4) CONSTRAINT PK_EMP PRIMARY KEY, ENAME VARCHAR2(10), JOB VARCHAR2(9), MGR NUMBER(4), HIREDATE DATE, SAL NUMBER(7,2), COMM NUMBER(7,2), DEPTNO NUMBER(2) CONSTRAINT FK_DEPTNO REFERENCES DEPT); CREATE TABLE BONUS ( ENAME VARCHAR2(10), JOB VARCHAR2(9), SAL NUMBER, COMM NUMBER); CREATE TABLE SALGRADE ( GRADE NUMBER, LOSAL NUMBER, HISAL NUMBER); -- Inserción de datos en las tablas INSERT INTO DEPT VALUES (10,\u0026#39;ACCOUNTING\u0026#39;,\u0026#39;NEW YORK\u0026#39;); INSERT INTO DEPT VALUES (20,\u0026#39;RESEARCH\u0026#39;,\u0026#39;DALLAS\u0026#39;); INSERT INTO DEPT VALUES (30,\u0026#39;SALES\u0026#39;,\u0026#39;CHICAGO\u0026#39;); INSERT INTO DEPT VALUES (40,\u0026#39;OPERATIONS\u0026#39;,\u0026#39;BOSTON\u0026#39;); INSERT INTO EMP VALUES (7369,\u0026#39;SMITH\u0026#39;,\u0026#39;CLERK\u0026#39;,7902,to_date(\u0026#39;17-12-1980\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),800,NULL,20); INSERT INTO EMP VALUES (7499,\u0026#39;ALLEN\u0026#39;,\u0026#39;SALESMAN\u0026#39;,7698,to_date(\u0026#39;20-2-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),1600,300,30); INSERT INTO EMP VALUES (7521,\u0026#39;WARD\u0026#39;,\u0026#39;SALESMAN\u0026#39;,7698,to_date(\u0026#39;22-2-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),1250,500,30); INSERT INTO EMP VALUES (7566,\u0026#39;JONES\u0026#39;,\u0026#39;MANAGER\u0026#39;,7839,to_date(\u0026#39;2-4-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),2975,NULL,20); INSERT INTO EMP VALUES (7654,\u0026#39;MARTIN\u0026#39;,\u0026#39;SALESMAN\u0026#39;,7698,to_date(\u0026#39;28-9-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),1250,1400,30); INSERT INTO EMP VALUES (7698,\u0026#39;BLAKE\u0026#39;,\u0026#39;MANAGER\u0026#39;,7839,to_date(\u0026#39;1-5-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),2850,NULL,30); INSERT INTO EMP VALUES (7782,\u0026#39;CLARK\u0026#39;,\u0026#39;MANAGER\u0026#39;,7839,to_date(\u0026#39;9-6-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),2450,NULL,10); INSERT INTO EMP VALUES (7788,\u0026#39;SCOTT\u0026#39;,\u0026#39;ANALYST\u0026#39;,7566,to_date(\u0026#39;13-JUL-87\u0026#39;)-85,3000,NULL,20); INSERT INTO EMP VALUES (7839,\u0026#39;KING\u0026#39;,\u0026#39;PRESIDENT\u0026#39;,NULL,to_date(\u0026#39;17-11-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),5000,NULL,10); INSERT INTO EMP VALUES (7844,\u0026#39;TURNER\u0026#39;,\u0026#39;SALESMAN\u0026#39;,7698,to_date(\u0026#39;8-9-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),1500,0,30); INSERT INTO EMP VALUES (7876,\u0026#39;ADAMS\u0026#39;,\u0026#39;CLERK\u0026#39;,7788,to_date(\u0026#39;13-JUL-87\u0026#39;)-51,1100,NULL,20); INSERT INTO EMP VALUES (7900,\u0026#39;JAMES\u0026#39;,\u0026#39;CLERK\u0026#39;,7698,to_date(\u0026#39;3-12-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),950,NULL,30); INSERT INTO EMP VALUES (7902,\u0026#39;FORD\u0026#39;,\u0026#39;ANALYST\u0026#39;,7566,to_date(\u0026#39;3-12-1981\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),3000,NULL,20); INSERT INTO EMP VALUES (7934,\u0026#39;MILLER\u0026#39;,\u0026#39;CLERK\u0026#39;,7782,to_date(\u0026#39;23-1-1982\u0026#39;,\u0026#39;dd-mm-yyyy\u0026#39;),1300,NULL,10); INSERT INTO SALGRADE VALUES (1,700,1200); INSERT INTO SALGRADE VALUES (2,1201,1400); INSERT INTO SALGRADE VALUES (3,1401,2000); INSERT INTO SALGRADE VALUES (4,2001,3000); INSERT INTO SALGRADE VALUES (5,3001,9999); INSERT INTO DUMMY VALUES (0); COMMIT; SET TERMOUT ON SET ECHO ON 1.",
   "inLanguage" : "es",
-  "wordCount":  3069 ,
+  "wordCount":  3058 ,
   "datePublished" : "2023-03-01T12:18:27",
   "dateModified" : "2023-03-01T12:18:27",
   "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
@@ -254,7 +254,7 @@
     &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;15&nbsp;minutos
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;3069&nbsp;palabras
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;3058&nbsp;palabras
   
   
     
@@ -294,7 +294,7 @@
     &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;15&nbsp;minutos
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;3069&nbsp;palabras
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;3058&nbsp;palabras
   
   
     
@@ -698,13 +698,12 @@
 </span></span></code></pre></div><p>En el ejemplo se importan los datos de la exportación anterior a la base de datos prueba del usuario root.</p>
 <p><img src="/img/movdatos/6.png" alt="exportacion"></p>
 <h3 id="5-intenta-realizar-operaciones-similares-de-importación-y-exportación-con-las-herramientas-proporcionadas-con-postgres-desde-línea-de-comandos-documentando-el-proceso">5. Intenta realizar operaciones similares de importación y exportación con las herramientas proporcionadas con Postgres desde línea de comandos, documentando el proceso.</h3>
-<p>En PostgreSQL podemos utilizar las herramientas pg_dump y pg_restore.</p>
 <p><strong>Exportación:</strong></p>
 <p>Para exportar una base de datos, utilizamos el comando pg_dump. Por ejemplo, para exportar la base de datos &ldquo;maravilla&rdquo; al archivo &ldquo;postgres_backup_maravilla.sql&rdquo;, ejecutamos el siguiente comando:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pg_dump -U postgres maravilla &gt; postgres_backup_maravilla.sql
 </span></span></code></pre></div><p><img src="/img/movdatos/7.png" alt="exportacion"></p>
 <p><strong>Importación:</strong></p>
-<p>Para importar una base de datos desde un archivo, utilizamos el comando pg_restore. Por ejemplo, para importar la base de datos &ldquo;maravilla&rdquo; desde el archivo &ldquo;postgres_backup_maravilla.sql&rdquo;, ejecutamos el siguiente comando:</p>
+<p>Para importar una base de datos desde un archivo, utilizamos psql. Por ejemplo, para importar la base de datos &ldquo;maravilla&rdquo; desde el archivo &ldquo;postgres_backup_maravilla.sql&rdquo;, ejecutamos el siguiente comando:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">psql -U postgres prueba_import &lt; postgres_backup_maravilla.sql
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">SET
 </span></span><span class="line"><span class="cl">SET
