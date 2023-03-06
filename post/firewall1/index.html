@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="es" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Cortafuegos I: de nodo con iptables - Mi paso por ASIR Blog</title>
+  <meta name="description" content="Realiza el ejercicio 1 de cortafuegos de nodo con IPtables de la web de Jose Domingo. Puedes encontrarlo en:
+https://fp.josedomingo.org/seguridadgs/u03/ejercicio1.html
+Debes incluir la demostración de que funciona cada una de las reglas previas del enunciado.
+Debéis incluir por cada apartado del ejercicio las reglas y la demostración del funcionamiento
+Implementación de un cortafuegos personal Vamos a realizar los primeros pasos para implementar un cortafuegos en un nodo de una red, aquel que se ejecuta en el propio equipo que trata de proteger, lo que a veces se denomina un cortafuegos personal.">
+  <meta name="author" content="afermor8"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Mi paso por ASIR Blog",
+    
+    "url": "https:\/\/afermor8.github.io"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/afermor8.github.io"
+  
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io\/post\/firewall1\/",
+          "name": "Cortafuegos i de nodo con iptables"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "afermor8"
+  },
+  "headline": "Cortafuegos I: de nodo con iptables",
+  "description" : "Realiza el ejercicio 1 de cortafuegos de nodo con IPtables de la web de Jose Domingo. Puedes encontrarlo en:\nhttps:\/\/fp.josedomingo.org\/seguridadgs\/u03\/ejercicio1.html\nDebes incluir la demostración de que funciona cada una de las reglas previas del enunciado.\nDebéis incluir por cada apartado del ejercicio las reglas y la demostración del funcionamiento\nImplementación de un cortafuegos personal Vamos a realizar los primeros pasos para implementar un cortafuegos en un nodo de una red, aquel que se ejecuta en el propio equipo que trata de proteger, lo que a veces se denomina un cortafuegos personal.",
+  "inLanguage" : "es",
+  "wordCount":  1442 ,
+  "datePublished" : "2023-03-06T11:09:59",
+  "dateModified" : "2023-03-06T11:09:59",
+  "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+  "keywords" : [ "SAD" ],
+  "mainEntityOfPage" : "https:\/\/afermor8.github.io\/post\/firewall1\/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https:\/\/afermor8.github.io",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
+
+<meta property="og:title" content="Cortafuegos I: de nodo con iptables" />
+<meta property="og:description" content="Realiza el ejercicio 1 de cortafuegos de nodo con IPtables de la web de Jose Domingo. Puedes encontrarlo en:
+https://fp.josedomingo.org/seguridadgs/u03/ejercicio1.html
+Debes incluir la demostración de que funciona cada una de las reglas previas del enunciado.
+Debéis incluir por cada apartado del ejercicio las reglas y la demostración del funcionamiento
+Implementación de un cortafuegos personal Vamos a realizar los primeros pasos para implementar un cortafuegos en un nodo de una red, aquel que se ejecuta en el propio equipo que trata de proteger, lo que a veces se denomina un cortafuegos personal.">
+<meta property="og:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+<meta property="og:url" content="https://afermor8.github.io/post/firewall1/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Mi paso por ASIR Blog" />
+
+  <meta name="twitter:title" content="Cortafuegos I: de nodo con iptables" />
+  <meta name="twitter:description" content="Realiza el ejercicio 1 de cortafuegos de nodo con IPtables de la web de Jose Domingo. Puedes encontrarlo en:
+https://fp.josedomingo.org/seguridadgs/u03/ejercicio1.html
+Debes incluir la demostración de …">
+  <meta name="twitter:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link href='https://afermor8.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta name="generator" content="Hugo 0.104.3" />
+  <link rel="alternate" href="https://afermor8.github.io/index.xml" type="application/rss+xml" title="Mi paso por ASIR Blog"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://afermor8.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://afermor8.github.io/css/highlight.min.css" /><link rel="stylesheet" href="https://afermor8.github.io/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Conmuta navegación</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/page/about/">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Tags" href="/tags">Tags</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    
+      <div class="avatar-container">
+        <div class="avatar-img-border">
+          <a title="Mi paso por ASIR Blog" href="https://afermor8.github.io">
+            <img class="avatar-img" src="https://afermor8.github.io/img/avatar-icon.png" alt="Mi paso por ASIR Blog" />
+          </a>
+        </div>
+      </div>
+    
+
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+    <div id="header-big-imgs" data-num-img=3 
+      
+         
+          data-img-src-1="/img/triangle.jpg" 
+         
+         data-img-desc-1="Triangle"
+      
+         
+          data-img-src-2="/img/sphere.jpg" 
+         
+         data-img-desc-2="Sphere"
+      
+         
+          data-img-src-3="/img/hexagon.jpg" 
+         
+         data-img-desc-3="Hexagon"
+      ></div>
+  
+
+  <header class="header-section has-img">
+    
+      <div class="intro-header big-img">
+        
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+              <div class="post-heading">
+                <h1>Cortafuegos I: de nodo con iptables</h1>
+                  
+                  
+                    <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el March 6, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;7&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1442&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="img-desc" style="display: inline;"></span>
+      </div>
+    
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>Cortafuegos I: de nodo con iptables</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el March 6, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;7&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1442&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <p>Realiza el ejercicio 1 de cortafuegos de nodo con IPtables de la web de Jose Domingo. Puedes encontrarlo en:</p>
+<p><a href="https://fp.josedomingo.org/seguridadgs/u03/ejercicio1.html">https://fp.josedomingo.org/seguridadgs/u03/ejercicio1.html</a></p>
+<p>Debes incluir la demostración de que funciona cada una de las reglas previas del enunciado.</p>
+<p>Debéis incluir por cada apartado del ejercicio las reglas y la demostración del funcionamiento</p>
+<hr>
+<h2 id="implementación-de-un-cortafuegos-personal">Implementación de un cortafuegos personal</h2>
+<p>Vamos a realizar los primeros pasos para implementar un cortafuegos en un nodo de una red, aquel que se ejecuta en el propio equipo que trata de proteger, lo que a veces se denomina un cortafuegos personal.</p>
+<p><strong>Esquema de red:</strong></p>
+<p>Vamos a utilizar una máquina en openstack, que vamos a crear con la receta heat: <a href="https://fp.josedomingo.org/seguridadgs/u03/escenario1.yaml">escenario1.yaml</a>. La receta heat ha deshabilitado el cortafuego que nos ofrece openstack (todos los puertos de todos los protocolos están abiertos). La máquina creada tendrá un servidor web instalado. Vamos a trabajar con la red de las ips flotantes: 172.22.0.0/16.</p>
+<p><img src="/img/firewall/1.png" alt="maquina"></p>
+<p>Entramos en nuestra máquina.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh debian@172.22.200.144
+</span></span></code></pre></div><p><strong>Limpieza de las reglas previas:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo su
+</span></span><span class="line"><span class="cl">iptables -F
+</span></span><span class="line"><span class="cl">iptables -t nat -F
+</span></span><span class="line"><span class="cl">iptables -Z
+</span></span><span class="line"><span class="cl">iptables -t nat -Z
+</span></span></code></pre></div><p><strong>Vamos a permitir la conexión ssh:</strong></p>
+<p>Como estamos conectados a la máquina por ssh, vamos a permitir la conexión ssh desde la red 172.22.0.0/16, antes de cambiar las políticas por defecto a DROP, para no perder la conexión:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">iptables -A INPUT -s 172.22.0.0/16 -p tcp --dport <span class="m">22</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -A OUTPUT -d 172.22.0.0/16 -p tcp --sport <span class="m">22</span> -m state --state ESTABLISHED -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -A INPUT -s 172.29.0.0/16 -p tcp --dport <span class="m">22</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -A OUTPUT -d 172.29.0.0/16 -p tcp --sport <span class="m">22</span> -m state --state ESTABLISHED -j ACCEPT
+</span></span></code></pre></div><p><strong>Política por defecto:</strong></p>
+<p>Cambiamos a DROP para que no se permita la conexión a nada que no hayamos especificado anteriormente.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">iptables -P INPUT DROP
+</span></span><span class="line"><span class="cl">iptables -P OUTPUT DROP
+</span></span></code></pre></div><p>Comprobamos que el equipo no puede acceder a ningún servicio ni de Internet ni de la red local haciendo ping, ya que la política lo impide.</p>
+<p><img src="/img/firewall/2.png" alt="drop"></p>
+<p><strong>Permitimos tráfico para la interfaz loopback:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">iptables -A INPUT -i lo -p icmp -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -A OUTPUT -o lo -p icmp -j ACCEPT
+</span></span></code></pre></div><p>Comprobamos que podemos hacer ping a nuestra propia máquina pero no a internet.</p>
+<p><img src="/img/firewall/3.png" alt="ping"></p>
+<p><strong>Peticiones y respuestas protocolo ICMP (para permitir la conexión a internet):</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">iptables -A INPUT -i ens3 -p icmp --icmp-type echo-reply -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -A OUTPUT -o ens3 -p icmp --icmp-type echo-request -j ACCEPT
+</span></span></code></pre></div><p>Comprobamos su funcionamiento haciendo ping a una IP pública:</p>
+<p><img src="/img/firewall/4.png" alt="ping"></p>
+<p><strong>Consultas y respuestas DNS:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">iptables -A OUTPUT -o ens3 -p udp --dport <span class="m">53</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -A INPUT -i ens3 -p udp --sport <span class="m">53</span> -m state --state ESTABLISHED -j ACCEPT
+</span></span></code></pre></div><p>Comprobamos su funcionamiento con una consulta DNS:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dig @1.1.1.1 www.josedomingo.org
+</span></span></code></pre></div><p><img src="/img/firewall/5.png" alt="dns"></p>
+<p><strong>Tráfico http (que la máquina pueda navegar):</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">iptables -A OUTPUT -o ens3 -p tcp --dport <span class="m">80</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -A INPUT -i ens3 -p tcp --sport <span class="m">80</span> -m state --state ESTABLISHED -j ACCEPT
+</span></span></code></pre></div><p>Comprobamos que funciona accediendo a un servicio http.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl http://portquiz.net:80
+</span></span></code></pre></div><p><img src="/img/firewall/6.png" alt="http"></p>
+<p><strong>Tráfico https:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">iptables -A OUTPUT -o ens3 -p tcp --dport <span class="m">443</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -A INPUT -i ens3 -p tcp --sport <span class="m">443</span> -m state --state ESTABLISHED -j ACCEPT
+</span></span></code></pre></div><p>Comprobamos que funciona abriendo un navegador y accediendo a cualquier sitio web (hoy en día la mayoría son https).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl portquiz.net:443
+</span></span></code></pre></div><p><img src="/img/firewall/7.png" alt="https"></p>
+<p><strong>Tráfico http/https:</strong></p>
+<p>Podemos hacer un par de reglas que permitan el tráfico http/https (los dos puntos anteriores) usando la extensión multiport:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">iptables -A OUTPUT -o ens3 -p tcp -m multiport --dports 80,443 -m state --state NEW,ESTABLISHED -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -A INPUT -i ens3 -p tcp -m multiport --sports 80,443 -m state --state ESTABLISHED -j ACCEPT
+</span></span></code></pre></div><p><strong>Permitimos el acceso a nuestro servidor web:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">iptables -A INPUT -i ens3 -p tcp --dport <span class="m">80</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -A OUTPUT -o ens3 -p tcp --sport <span class="m">80</span> -m state --state ESTABLISHED -j ACCEPT
+</span></span></code></pre></div><p><img src="/img/firewall/8.png" alt="web"></p>
+<p><strong>Configuración en un solo paso:</strong></p>
+<p>Editamos un fichero y añadimos todas las reglas anteriores:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Limpiamos las tablas</span>
+</span></span><span class="line"><span class="cl">iptables -F
+</span></span><span class="line"><span class="cl">iptables -t nat -F
+</span></span><span class="line"><span class="cl">iptables -Z
+</span></span><span class="line"><span class="cl">iptables -t nat -Z
+</span></span><span class="line"><span class="cl"><span class="c1"># Establecemos la política</span>
+</span></span><span class="line"><span class="cl">iptables -P INPUT DROP
+</span></span><span class="line"><span class="cl">iptables -P OUTPUT DROP
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">iptables -A INPUT -i lo -p icmp -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -A OUTPUT -o lo -p icmp -j ACCEPT
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">iptables -A INPUT -s 172.22.0.0/16 -p tcp --dport <span class="m">22</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -A OUTPUT -d 172.22.0.0/16 -p tcp --sport <span class="m">22</span> -m state --state ESTABLISHED -j ACCEPT
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">iptables -A INPUT -i ens3 -p icmp --icmp-type echo-reply -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -A OUTPUT -o ens3 -p icmp --icmp-type echo-request -j ACCEPT
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">iptables -A INPUT -i ens3 -p udp --sport <span class="m">53</span> -m state --state ESTABLISHED -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -A OUTPUT -o ens3 -p udp --dport <span class="m">53</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">iptables -A INPUT -i ens3 -p tcp --sport <span class="m">80</span> -m state --state ESTABLISHED -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -A OUTPUT -o ens3 -p tcp --dport <span class="m">80</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">iptables -A INPUT -i ens3 -p tcp --sport <span class="m">443</span> -m state --state ESTABLISHED -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -A OUTPUT -o ens3 -p tcp --dport <span class="m">443</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">iptables -A INPUT -i ens3 -p tcp --dport <span class="m">80</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -A OUTPUT -o ens3 -p tcp --sport <span class="m">80</span> -m state --state ESTABLISHED -j ACCEPT
+</span></span></code></pre></div><h2 id="ejercicios">Ejercicios</h2>
+<h3 id="1-permite-poder-hacer-conexiones-ssh-al-exterior">1. Permite poder hacer conexiones ssh al exterior.</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">iptables -A OUTPUT -p tcp --dport <span class="m">22</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -A INPUT -p tcp --sport <span class="m">22</span> -m state --state ESTABLISHED -j ACCEPT
+</span></span></code></pre></div><p>Comprobamos que podemos hacer una conexión ssh.</p>
+<p><img src="/img/firewall/9.png" alt="ssh"></p>
+<h3 id="2-deniega-el-acceso-a-tu-servidor-web-desde-una-ip-concreta">2. Deniega el acceso a tu servidor web desde una ip concreta.</h3>
+<p>Voy a denegar el acceso a mi web a una máquina que tengo creada en Openstack llamada <strong>aislada</strong> (a la que hicimos ssh en el ejercicio anterior).</p>
+<p>Primero comprobamos las reglas que tenemos:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">iptables -L -n -v --line-numbers
+</span></span></code></pre></div><p><img src="/img/firewall/10.png" alt="reglas"></p>
+<p>La regla de acceso a nuestro puerto 80 es el número 7 (la marcada en rojo), por lo que al añadir la nueva regla para que la IP 172.22.201.239 no pueda acceder tenemos que añadirla delante de la regla marcada en rojo para que no se permita todo el tráfico.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">iptables -I INPUT <span class="m">7</span> -s 172.22.201.239 -p tcp --dport <span class="m">80</span> -m state --state NEW,ESTABLISHED -j DROP
+</span></span></code></pre></div><p><img src="/img/firewall/11.png" alt="reglas"></p>
+<p>Comprobamos que desde la máquina aislada no podemos acceder a la web pero desde otra máquina sí.</p>
+<p><img src="/img/firewall/12.png" alt="comprobacion"></p>
+<h3 id="3-permite-hacer-consultas-dns-sólo-al-servidor-1921682022-comprueba-que-no-puedes-hacer-un-dig-1111">3. Permite hacer consultas DNS sólo al servidor 192.168.202.2. Comprueba que no puedes hacer un dig @1.1.1.1.</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">iptables -L -n -v --line-numbers
+</span></span></code></pre></div><p><img src="/img/firewall/13.png" alt="reglas"></p>
+<p>Borramos las reglas antiguas que permitían hacer consultas DNS a todo.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">iptables -D OUTPUT -o ens3 -p udp --dport <span class="m">53</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -D INPUT -i ens3 -p udp --sport <span class="m">53</span> -m state --state ESTABLISHED -j ACCEPT
+</span></span></code></pre></div><p>Añadimos las reglas que nos permite hacer consultas DNS al servidor 192.168.202.2.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">iptables -A OUTPUT -d 192.168.202.2 -p udp --dport <span class="m">53</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -A INPUT -s 192.168.202.2 -p udp --sport <span class="m">53</span> -m state --state ESTABLISHED -j ACCEPT
+</span></span></code></pre></div><p>Comprobamos que no podemos hacer una consulta DNS a @1.1.1.1, pero sí a @192.168.202.2.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dig @1.1.1.1 www.josedomingo.org
+</span></span><span class="line"><span class="cl">dig @192.168.202.2 www.josedomingo.org
+</span></span></code></pre></div><p><img src="/img/firewall/14.png" alt="dns"></p>
+<p><img src="/img/firewall/15.png" alt="dns"></p>
+<h3 id="4-no-permitir-el-acceso-al-servidor-web-de-wwwjosedomingoorg-tienes-que-utilizar-la-ip-puedes-acceder-a-fpjosedomingoorg">4. No permitir el acceso al servidor web de <a href="https://www.josedomingo.org">www.josedomingo.org</a> (Tienes que utilizar la ip). ¿Puedes acceder a fp.josedomingo.org?</h3>
+<p>En la última captura del ejercicio anterior vimos que la IP del servidor <a href="https://www.josedomingo.org">www.josedomingo.org</a> es 37.187.119.60. La necesitaremos para crear la nueva regla, pero antes debemos comprobar las reglas que ya tenemos creadas del tráfico http y https.</p>
+<p><img src="/img/firewall/16.png" alt="reglas"></p>
+<p>Añadimos la nueva regla delante de las reglas anteriores.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">iptables -I OUTPUT <span class="m">6</span> -d 37.187.119.60 -p tcp --dport <span class="m">80</span> -m state --state NEW,ESTABLISHED -j DROP
+</span></span></code></pre></div><p>Comprobamos que no tenemos acceso a <a href="https://www.josedomingo.org">www.josedomingo.org</a>. Si lo intentamos desde otra máquina sí funcionará.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl www.josedomingo.org
+</span></span></code></pre></div><p><img src="/img/firewall/17.png" alt="noaccess"></p>
+<h3 id="5-permite-mandar-un-correo-usando-nuestro-servidor-de-correo-babuino-smtp-para-probarlo-ejecuta-un-telnet-bubuino-smtpgonzalonazarenoorg-25">5. Permite mandar un correo usando nuestro servidor de correo: babuino-smtp. Para probarlo ejecuta un telnet bubuino-smtp.gonzalonazareno.org 25.</h3>
+<p>Permitimos el tráfico saliente del puerto 25 para poder enviar correos.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">iptables -A OUTPUT -d 192.168.203.3 -p tcp --dport <span class="m">25</span> -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -A INPUT -s 192.168.203.3 -p tcp --sport <span class="m">25</span> -j ACCEPT
+</span></span></code></pre></div><p>Comprobamos que nos podemos conectar mediante telnet:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">telnet babuino-smtp.gonzalonazareno.org <span class="m">25</span>
+</span></span></code></pre></div><p><img src="/img/firewall/18.png" alt="conexion"></p>
+<h3 id="6-instala-un-servidor-mariadb-y-permite-los-accesos-desde-la-ip-de-tu-cliente-comprueba-que-desde-otro-cliente-no-se-puede-acceder">6. Instala un servidor mariadb, y permite los accesos desde la ip de tu cliente. Comprueba que desde otro cliente no se puede acceder.</h3>
+<p>Tras instalar el paquete mariadb-server vamos al fichero de configuración /etc/mysql/mariadb.conf.d/50-server.cnf, y modificamos el parámetro bind-address.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nano /etc/mysql/mariadb.conf.d/50-server.cnf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">bind-address <span class="o">=</span> 0.0.0.0
+</span></span></code></pre></div><p>Reiniciamos el servicio.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl restart mariadb
+</span></span></code></pre></div><p>Añadimos las reglas iptables para permitir el acceso desde el cliente (máquina aislada).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">iptables -A INPUT -s 172.22.201.239 -p tcp --dport <span class="m">3306</span> -j ACCEPT
+</span></span><span class="line"><span class="cl">iptables -A OUTPUT -d 172.22.201.239 -p tcp --sport <span class="m">3306</span> -j ACCEPT
+</span></span></code></pre></div><p>Desde la máquina aislada, comprobamos que funciona correctamente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nc -zvw10 172.22.200.144 <span class="m">3306</span>
+</span></span></code></pre></div><p><img src="/img/firewall/19.png" alt="netcat"></p>
+<p>Pero si lo intentamos desde otra máquina nos aparecerá lo siguiente:</p>
+<p><img src="/img/firewall/20.png" alt="netcat"></p>
+
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://afermor8.github.io/tags/sad/">SAD</a>&nbsp;
+            
+          </div>
+        
+
+        
+            <hr/>
+            <section id="social-share">
+              <div class="list-inline footer-links">
+                
+
+<div class="share-box" aria-hidden="true">
+    <ul class="share">
+      
+      <li>
+        <a href="//twitter.com/share?url=https%3a%2f%2fafermor8.github.io%2fpost%2ffirewall1%2f&amp;text=Cortafuegos%20I%3a%20de%20nodo%20con%20iptables&amp;via=" target="_blank" title="Share on Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fafermor8.github.io%2fpost%2ffirewall1%2f" target="_blank" title="Share on Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//reddit.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2ffirewall1%2f&amp;title=Cortafuegos%20I%3a%20de%20nodo%20con%20iptables" target="_blank" title="Share on Reddit">
+          <i class="fab fa-reddit"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fafermor8.github.io%2fpost%2ffirewall1%2f&amp;title=Cortafuegos%20I%3a%20de%20nodo%20con%20iptables" target="_blank" title="Share on LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2ffirewall1%2f&amp;title=Cortafuegos%20I%3a%20de%20nodo%20con%20iptables" target="_blank" title="Share on StumbleUpon">
+          <i class="fab fa-stumbleupon"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fafermor8.github.io%2fpost%2ffirewall1%2f&amp;description=Cortafuegos%20I%3a%20de%20nodo%20con%20iptables" target="_blank" title="Share on Pinterest">
+          <i class="fab fa-pinterest"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+
+              </div>
+            </section>
+        
+
+        
+          
+            
+          
+
+          
+                  <h4 class="see-also">Ver también</h4>
+                  <ul>
+                
+                
+                    <li><a href="/post/forense/">Informática Forense</a></li>
+                
+                    <li><a href="/post/vpn/">Vpn. Redes Privadas Virtuales</a></li>
+                
+                    <li><a href="/post/cripto3/">Criptografía III. Certificados digiales. HTTPS</a></li>
+                
+                    <li><a href="/post/cripto2/">Criptografía II. Integridad, firmas y autenticación</a></li>
+                
+                    <li><a href="/post/criptografia1/">Criptografia I. Cifrado asimétrico con gpg y openssl</a></li>
+                
+              </ul>
+
+          
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://afermor8.github.io/post/movdatos/" data-toggle="tooltip" data-placement="top" title="Movimiento de datos">&larr; Artículo anterior</a>
+            </li>
+          
+          
+        </ul>
+      
+
+
+      
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+      
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+		
+		  <a href="mailto:ara.fer.mor@gmail.com" title="Email me">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://github.com/afermor8" title="GitHub">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://Afermor.slack.com/" title="Slack">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-slack fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://linkedin.com/in/arantxa-f-6136617b" title="LinkedIn">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://telegram.me/arantxipu" title="Telegram">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-telegram fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            <a href="" title="RSS">
+              <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              <a href="afermor8.github.io">afermor8</a>
+            
+          
+
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2023
+          
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="https://gohugo.io">Hugo v0.104.3</a> alimentada &nbsp;&bull;&nbsp; Tema <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adaptado de <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer><script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://afermor8.github.io/js/main.js"></script>
+<script src="https://afermor8.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://afermor8.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>
+

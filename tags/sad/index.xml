@@ -7,7 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <managingEditor>ara.fer.mor@gmail.com (afermor8)</managingEditor>
     <webMaster>ara.fer.mor@gmail.com (afermor8)</webMaster>
-    <lastBuildDate>Mon, 06 Feb 2023 12:50:51 +0100</lastBuildDate><atom:link href="https://afermor8.github.io/tags/sad/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 06 Mar 2023 11:09:59 +0100</lastBuildDate><atom:link href="https://afermor8.github.io/tags/sad/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cortafuegos I: de nodo con iptables</title>
+      <link>https://afermor8.github.io/post/firewall1/</link>
+      <pubDate>Mon, 06 Mar 2023 11:09:59 +0100</pubDate>
+      <author>ara.fer.mor@gmail.com (afermor8)</author>
+      <guid>https://afermor8.github.io/post/firewall1/</guid>
+      <description>Realiza el ejercicio 1 de cortafuegos de nodo con IPtables de la web de Jose Domingo. Puedes encontrarlo en:
+https://fp.josedomingo.org/seguridadgs/u03/ejercicio1.html
+Debes incluir la demostración de que funciona cada una de las reglas previas del enunciado.
+Debéis incluir por cada apartado del ejercicio las reglas y la demostración del funcionamiento
+Implementación de un cortafuegos personal Vamos a realizar los primeros pasos para implementar un cortafuegos en un nodo de una red, aquel que se ejecuta en el propio equipo que trata de proteger, lo que a veces se denomina un cortafuegos personal.</description>
+    </item>
+    
     <item>
       <title>Informática Forense</title>
       <link>https://afermor8.github.io/post/forense/</link>
