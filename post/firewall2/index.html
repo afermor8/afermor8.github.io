@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="es" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Cortafuegos II: Perimetral con nftables - Mi paso por ASIR Blog</title>
+  <meta name="description" content="Realiza con nftables el ejercicio de la página https://fp.josedomingo.org/seguridadgs/u03/perimetral_iptables.html documentando las pruebas de funcionamiento realizadas.
+Debes añadir después las reglas necesarias para que se permitan las siguientes operaciones:
+a) Permite poder hacer conexiones ssh al exterior desde la máquina cortafuegos. b) Permite hacer consultas DNS desde la máquina cortafuegos sólo al servidor 192.168.202.2. Comprueba que no puedes hacer un dig @1.1.1.1. c) Permite que la máquina cortafuegos pueda navegar por internet.">
+  <meta name="author" content="afermor8"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Mi paso por ASIR Blog",
+    
+    "url": "https:\/\/afermor8.github.io"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/afermor8.github.io"
+  
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io\/post\/firewall2\/",
+          "name": "Cortafuegos ii perimetral con nftables"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "afermor8"
+  },
+  "headline": "Cortafuegos II: Perimetral con nftables",
+  "description" : "Realiza con nftables el ejercicio de la página https:\/\/fp.josedomingo.org\/seguridadgs\/u03\/perimetral_iptables.html documentando las pruebas de funcionamiento realizadas.\nDebes añadir después las reglas necesarias para que se permitan las siguientes operaciones:\na) Permite poder hacer conexiones ssh al exterior desde la máquina cortafuegos. b) Permite hacer consultas DNS desde la máquina cortafuegos sólo al servidor 192.168.202.2. Comprueba que no puedes hacer un dig @1.1.1.1. c) Permite que la máquina cortafuegos pueda navegar por internet.",
+  "inLanguage" : "es",
+  "wordCount":  2376 ,
+  "datePublished" : "2023-03-06T17:14:20",
+  "dateModified" : "2023-03-06T17:14:20",
+  "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+  "keywords" : [ "SAD" ],
+  "mainEntityOfPage" : "https:\/\/afermor8.github.io\/post\/firewall2\/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https:\/\/afermor8.github.io",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
+
+<meta property="og:title" content="Cortafuegos II: Perimetral con nftables" />
+<meta property="og:description" content="Realiza con nftables el ejercicio de la página https://fp.josedomingo.org/seguridadgs/u03/perimetral_iptables.html documentando las pruebas de funcionamiento realizadas.
+Debes añadir después las reglas necesarias para que se permitan las siguientes operaciones:
+a) Permite poder hacer conexiones ssh al exterior desde la máquina cortafuegos. b) Permite hacer consultas DNS desde la máquina cortafuegos sólo al servidor 192.168.202.2. Comprueba que no puedes hacer un dig @1.1.1.1. c) Permite que la máquina cortafuegos pueda navegar por internet.">
+<meta property="og:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+<meta property="og:url" content="https://afermor8.github.io/post/firewall2/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Mi paso por ASIR Blog" />
+
+  <meta name="twitter:title" content="Cortafuegos II: Perimetral con nftables" />
+  <meta name="twitter:description" content="Realiza con nftables el ejercicio de la página https://fp.josedomingo.org/seguridadgs/u03/perimetral_iptables.html documentando las pruebas de funcionamiento realizadas.
+Debes añadir después las …">
+  <meta name="twitter:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link href='https://afermor8.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta name="generator" content="Hugo 0.104.3" />
+  <link rel="alternate" href="https://afermor8.github.io/index.xml" type="application/rss+xml" title="Mi paso por ASIR Blog"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://afermor8.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://afermor8.github.io/css/highlight.min.css" /><link rel="stylesheet" href="https://afermor8.github.io/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Conmuta navegación</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/page/about/">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Tags" href="/tags">Tags</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    
+      <div class="avatar-container">
+        <div class="avatar-img-border">
+          <a title="Mi paso por ASIR Blog" href="https://afermor8.github.io">
+            <img class="avatar-img" src="https://afermor8.github.io/img/avatar-icon.png" alt="Mi paso por ASIR Blog" />
+          </a>
+        </div>
+      </div>
+    
+
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+    <div id="header-big-imgs" data-num-img=3 
+      
+         
+          data-img-src-1="/img/triangle.jpg" 
+         
+         data-img-desc-1="Triangle"
+      
+         
+          data-img-src-2="/img/sphere.jpg" 
+         
+         data-img-desc-2="Sphere"
+      
+         
+          data-img-src-3="/img/hexagon.jpg" 
+         
+         data-img-desc-3="Hexagon"
+      ></div>
+  
+
+  <header class="header-section has-img">
+    
+      <div class="intro-header big-img">
+        
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+              <div class="post-heading">
+                <h1>Cortafuegos II: Perimetral con nftables</h1>
+                  
+                  
+                    <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el March 6, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;12&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2376&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="img-desc" style="display: inline;"></span>
+      </div>
+    
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>Cortafuegos II: Perimetral con nftables</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el March 6, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;12&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2376&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <p>Realiza con nftables el ejercicio de la página <a href="https://fp.josedomingo.org/seguridadgs/u03/perimetral_iptables.html">https://fp.josedomingo.org/seguridadgs/u03/perimetral_iptables.html</a> documentando las pruebas de funcionamiento realizadas.</p>
+<p>Debes añadir después las reglas necesarias para que se permitan las siguientes operaciones:</p>
+<ul>
+<li>a) Permite poder hacer conexiones ssh al exterior desde la máquina cortafuegos.</li>
+<li>b) Permite hacer consultas DNS desde la máquina cortafuegos sólo al servidor 192.168.202.2. Comprueba que no puedes hacer un dig @1.1.1.1.</li>
+<li>c) Permite que la máquina cortafuegos pueda navegar por internet.</li>
+<li>d) Los equipos de la red local deben poder tener conexión al exterior.</li>
+<li>e) Permitimos el ssh desde el cortafuego a la LAN</li>
+<li>f) Permitimos hacer ping desde la LAN a la máquina cortafuegos.</li>
+<li>g) Permite realizar conexiones ssh desde los equipos de la LAN</li>
+<li>h) Instala un servidor de correos en la máquina de la LAN. Permite el acceso desde el exterior y desde el cortafuego al servidor de correos. Para probarlo puedes ejecutar un telnet al puerto 25 tcp.</li>
+<li>i) Permite poder hacer conexiones ssh desde exterior a la LAN</li>
+<li>j) Modifica la regla anterior, para que al acceder desde el exterior por ssh tengamos que conectar al puerto 2222, aunque el servidor ssh este configurado para acceder por el puerto 22.</li>
+<li>k) Permite hacer consultas DNS desde la LAN sólo al servidor 192.168.202.2. Comprueba que no puedes hacer un dig @1.1.1.1.</li>
+<li>l) Permite que los equipos de la LAN puedan navegar por internet.</li>
+</ul>
+<hr>
+<h2 id="implementación-de-un-cortafuegos-perimetral-con-iptables">Implementación de un cortafuegos perimetral con iptables</h2>
+<p>Vamos a realizar los primeros pasos para implementar un cortafuegos que protege la red interna.</p>
+<p><strong>Esquema de red:</strong></p>
+<p>Vamos a utilizar dos máquinas en openstack, que vamos a crear con la receta heat: <a href="https://fp.josedomingo.org/seguridadgs/u03/escenario2.yaml">escenario2.yaml</a>. La receta heat ha deshabilitado el cortafuego que nos ofrece openstack (todos los puertos de todos los protocolos están abiertos). Una máquina (que tiene asignada una IP flotante) hará de cortafuegos, y la otra será una máquina de la red interna 192.168.100.0/24.</p>
+<p><img src="/img/firewall/21.png" alt="mvs"></p>
+<h3 id="lan">LAN</h3>
+<p>No conectamos a la máquina <strong>lan</strong> y configuramos la ruta por defecto:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh -AJ debian@172.22.201.82 debian@192.168.100.10
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo su
+</span></span><span class="line"><span class="cl">ip route del default
+</span></span><span class="line"><span class="cl">ip route add default via 192.168.100.2
+</span></span></code></pre></div><h3 id="router-fw">Router-fw</h3>
+<p>Si no tenemos instalado nftables lo instalamos.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo su
+</span></span><span class="line"><span class="cl">apt update
+</span></span><span class="line"><span class="cl">apt install nftables
+</span></span></code></pre></div><p>A continuación, para crear las tablas usamos el comando <code>nft add table</code>. Para crear las cadenas el comando <code>nft add chain</code>. Y para las reglas <code>nft add rule</code>.</p>
+<p><strong>Creo las tablas filter y nat:</strong></p>
+<p>De esta forma quedan las reglas ordenadas según el esquema de red definido.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add table inet filter
+</span></span><span class="line"><span class="cl">nft add table inet nat
+</span></span></code></pre></div><p><strong>Creo las cadenas de la tabla filter (input, output y forward):</strong></p>
+<p>Estas se encargarán de filtrar el tráfico.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add chain inet filter input <span class="o">{</span> <span class="nb">type</span> filter hook input priority <span class="m">0</span> <span class="se">\;</span> counter <span class="se">\;</span> policy accept <span class="se">\;</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">nft add chain inet filter output <span class="o">{</span> <span class="nb">type</span> filter hook output priority <span class="m">0</span> <span class="se">\;</span> counter <span class="se">\;</span> policy accept <span class="se">\;</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">nft add chain inet filter forward <span class="o">{</span> <span class="nb">type</span> filter hook forward priority <span class="m">0</span> <span class="se">\;</span> counter <span class="se">\;</span> policy accept <span class="se">\;</span> <span class="o">}</span>
+</span></span></code></pre></div><p><strong>Creo las cadenas de la tabla nat (prerouting y postrouting):</strong></p>
+<p>Estas se encargarán de hacer SNAT y DNAT.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add chain inet nat prerouting <span class="o">{</span> <span class="nb">type</span> nat hook prerouting priority <span class="m">0</span> <span class="se">\;</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">nft add chain inet nat postrouting <span class="o">{</span> <span class="nb">type</span> nat hook postrouting priority <span class="m">100</span> <span class="se">\;</span> <span class="o">}</span>
+</span></span></code></pre></div><p><strong>Vamos a permitir ssh al cortafuegos:</strong></p>
+<p>Como estamos conectados a la máquina por ssh, vamos a permitir la conexión ssh desde la red 172.22.0.0/16 para no perder la conexión.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet filter input ip saddr 172.22.0.0/16 tcp dport <span class="m">22</span> ct state new,established counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet filter output ip daddr 172.22.0.0/16 tcp sport <span class="m">22</span> ct state established counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet filter input ip saddr 172.29.0.0/16 tcp dport <span class="m">22</span> ct state new,established counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet filter output ip daddr 172.29.0.0/16 tcp sport <span class="m">22</span> ct state established counter accept
+</span></span></code></pre></div><p><strong>Política por defecto:</strong></p>
+<p>Por defecto, la política de la tabla filter es <strong>accept</strong>. Para que no se permita la conexión a nada que no hayamos especificado la cambiamos a <strong>drop</strong>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft chain inet filter input <span class="o">{</span> policy drop <span class="se">\;</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">nft chain inet filter output <span class="o">{</span> policy drop <span class="se">\;</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl">nft chain inet filter forward <span class="o">{</span> policy drop <span class="se">\;</span> <span class="o">}</span>
+</span></span></code></pre></div><p>Comprobamos, haciendo ping, que el equipo no puede acceder a ningún servicio ni de Internet ni de la red local, ya que la política lo impide.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ping -c <span class="m">1</span> 8.8.8.8
+</span></span><span class="line"><span class="cl">ping -c <span class="m">1</span> 127.0.0.1
+</span></span></code></pre></div><p><img src="/img/firewall/22.png" alt="ping"></p>
+<p><strong>Activar el bit de forward:</strong></p>
+<p>El primer paso común es habilitar el bit de forward mediante la instrucción:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="m">1</span> &gt; /proc/sys/net/ipv4/ip_forward
+</span></span></code></pre></div><p>Para habilitar el forward de forma permanente, habilitamos la línea <strong>net.ipv4.ip_forward=1</strong> del fichero <strong>/etc/sysctl.conf</strong> y ejecutando posteriormente <code>sysctl -p /etc/sysctl.conf</code>.</p>
+<p><strong>SNAT:</strong></p>
+<p>Hacemos SNAT para que los equipos de la LAN puedan acceder al exterior:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet nat postrouting oifname <span class="s2">&#34;ens3&#34;</span> ip saddr 192.168.100.0/24 counter masquerade
+</span></span></code></pre></div><p><strong>Permitimos el ssh desde el cortafuego a la LAN (por el puerto 22):</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet filter output oifname <span class="s2">&#34;ens4&#34;</span> ip daddr 192.168.100.0/24 tcp dport <span class="m">22</span> ct state new,established counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet filter input iifname <span class="s2">&#34;ens4&#34;</span> ip saddr 192.168.100.0/24 tcp sport <span class="m">22</span> ct state established counter accept
+</span></span></code></pre></div><p>Comprobamos que nos podemos conectar a la máquina lan mediante ssh.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh debian@192.168.100.10
+</span></span></code></pre></div><p><img src="/img/firewall/23.png" alt="ssh"></p>
+<p><strong>Permitimos tráfico para la interfaz loopback:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet filter output oifname <span class="s2">&#34;lo&#34;</span> counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet filter input iifname <span class="s2">&#34;lo&#34;</span> counter accept
+</span></span></code></pre></div><p>Comprobamos que podemos hacer ping a nuestra propia máquina pero no a internet.</p>
+<p><img src="/img/firewall/24.png" alt="ping"></p>
+<p><strong>Peticiones y respuestas protocolo ICMP:</strong></p>
+<p>ICMP de entrada:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet filter input iifname <span class="s2">&#34;ens3&#34;</span> icmp <span class="nb">type</span> echo-request counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet filter output oifname <span class="s2">&#34;ens3&#34;</span> icmp <span class="nb">type</span> echo-reply counter accept
+</span></span></code></pre></div><p>Comprobamos que funciona haciendo ping desde mi máquina host llamada tars.</p>
+<p><img src="/img/firewall/25.png" alt="ping"></p>
+<p>ICMP de salida hacia la LAN:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet filter output oifname <span class="s2">&#34;ens4&#34;</span> icmp <span class="nb">type</span> echo-request counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet filter input iifname <span class="s2">&#34;ens4&#34;</span> icmp <span class="nb">type</span> echo-reply counter accept
+</span></span></code></pre></div><p>Comprobamos que funciona haciendo ping desde la máquina que estoy configurando (router-fw) hacia la máquina lan.</p>
+<p><img src="/img/firewall/26.png" alt="ping"></p>
+<p><strong>REGLAS FORWARD:</strong></p>
+<p>Aunque ya hemos configurado SNAT, como hemos puesto la política por defecto FORWARD a DROP, los equipos de la LAN están incomunicadas, ya que no permitimos que ningún paquete pase por el cortafuego. Por lo tanto ahora tenemos que ir configurando los pares de reglas (forward en ambas direcciones) para permitir a la LAN acceder a internet.</p>
+<p><strong>Para permitir hacer ping desde la LAN:</strong></p>
+<p>Para que la LAN haga ping al exterior los paquetes ICMP tiene que estar permitidos que pasen por el cortafuego:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet filter forward iifname <span class="s2">&#34;ens4&#34;</span> oifname <span class="s2">&#34;ens3&#34;</span> ip saddr 192.168.100.0/24 icmp <span class="nb">type</span> echo-request counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet filter forward iifname <span class="s2">&#34;ens3&#34;</span> oifname <span class="s2">&#34;ens4&#34;</span> ip daddr 192.168.100.0/24 icmp <span class="nb">type</span> echo-reply counter accept
+</span></span></code></pre></div><p>Comprobamos:</p>
+<p><img src="/img/firewall/27.png" alt="ping"></p>
+<p><strong>Para consultas y respuestas DNS desde la LAN:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet filter forward iifname <span class="s2">&#34;ens4&#34;</span> oifname <span class="s2">&#34;ens3&#34;</span> ip saddr 192.168.100.0/24 udp dport <span class="m">53</span> ct state new,established counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet filter forward iifname <span class="s2">&#34;ens3&#34;</span> oifname <span class="s2">&#34;ens4&#34;</span> ip daddr 192.168.100.0/24 udp sport <span class="m">53</span> ct state established counter accept
+</span></span></code></pre></div><p>Comprobamos su funcionamiento con una consulta DNS desde la máquina lan:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dig @1.1.1.1 www.josedomingo.org
+</span></span></code></pre></div><p><img src="/img/firewall/31.png" alt="dns"></p>
+<p><strong>Para permitir la navegación web desde la LAN:</strong></p>
+<ul>
+<li>Tráfico de salida:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet filter forward iifname <span class="s2">&#34;ens4&#34;</span> oifname <span class="s2">&#34;ens3&#34;</span> ip protocol tcp ip saddr 192.168.100.0/24 tcp dport <span class="o">{</span> 80,443 <span class="o">}</span> ct state new,established counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet filter forward iifname <span class="s2">&#34;ens3&#34;</span> oifname <span class="s2">&#34;ens4&#34;</span> ip protocol tcp ip daddr 192.168.100.0/24 tcp sport <span class="o">{</span> 80,443 <span class="o">}</span> ct state established counter accept
+</span></span></code></pre></div><p>Comprobamos que el tráfico http funciona:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl portquiz.net:80
+</span></span></code></pre></div><p>Comprobamos que el tráfico https funciona:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl portquiz.net:443
+</span></span></code></pre></div><p><img src="/img/firewall/28.png" alt="curl"></p>
+<ul>
+<li>Tráfico entrante:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet filter forward iifname <span class="s2">&#34;ens3&#34;</span> oifname <span class="s2">&#34;ens4&#34;</span> ip daddr 192.168.100.0/24 tcp dport <span class="m">80</span> ct state new,established counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet filter forward iifname <span class="s2">&#34;ens4&#34;</span> oifname <span class="s2">&#34;ens3&#34;</span> ip saddr 192.168.100.0/24 tcp sport <span class="m">80</span> ct state established counter accept
+</span></span></code></pre></div><p><strong>Permitimos el acceso a nuestro servidor web de la LAN desde el exterior:</strong></p>
+<p>En un primer momento tenemos que permitir que la consulta pase por el cortafuegos, para ello aplicamos una regla DNAT para que cuando se acceda al puerto 80 de la máquina router-fw, se redirija al puerto 80 de la máquina lan.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet nat prerouting iifname <span class="s2">&#34;ens3&#34;</span> tcp dport <span class="m">80</span> counter dnat ip to 192.168.100.10
+</span></span></code></pre></div><p>He instalado apache2 en la máquina lan y he creado una página de prueba a la que accederemos externamente para comprobar que funcionan las reglas creadas.</p>
+<p>Primero desde mi host compruebo que funciona haciendo telnet a la dirección pública de la máquina router-fw, que redirigirá a la página web de la máquina lan.</p>
+<p><img src="/img/firewall/29.png" alt="telnet"></p>
+<p>Desde un navegador comprobamos que funciona.</p>
+<p><img src="/img/firewall/30.png" alt="web"></p>
+<p><strong>Hacemos persistentes las reglas creadas:</strong></p>
+<p>Para que las reglas se mantengan tras reiniciar la máquina tenemos que hacer los cambios persistentes. Para ello guardamos las reglas en un fichero de configuración.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft list ruleset &gt; /etc/nftables.conf
+</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> nftables
+</span></span><span class="line"><span class="cl">systemctl start nftables
+</span></span></code></pre></div><hr>
+<h2 id="operaciones-a-realizar">Operaciones a realizar</h2>
+<p><strong>a) Permite poder hacer conexiones ssh al exterior desde la máquina cortafuegos</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet filter output oifname <span class="s2">&#34;ens3&#34;</span> tcp dport <span class="m">22</span> ct state new,established counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet filter input iifname <span class="s2">&#34;ens3&#34;</span> tcp sport <span class="m">22</span> ct state established counter accept
+</span></span></code></pre></div><p>Comprobamos:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh arantxa@172.29.0.90
+</span></span></code></pre></div><p><img src="/img/firewall/32.png" alt="ssh"></p>
+<p><strong>b) Permite hacer consultas DNS desde la máquina cortafuegos sólo al servidor 192.168.202.2. Comprueba que no puedes hacer un dig @1.1.1.1.</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet filter output ip daddr 192.168.202.2 udp dport <span class="m">53</span> ct state new,established counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet filter input ip saddr 192.168.202.2 udp sport <span class="m">53</span> ct state established counter accept
+</span></span></code></pre></div><p>Comprobamos que podemos hacer consultas DNS al servidor 192.168.202.2 pero no a 1.1.1.1.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dig @192.168.202.2 www.josedomingo.org
+</span></span><span class="line"><span class="cl">dig @1.1.1.1 www.josedomingo.org
+</span></span></code></pre></div><p><img src="/img/firewall/34.png" alt="dns"></p>
+<p><img src="/img/firewall/35.png" alt="dns"></p>
+<p><strong>c) Permite que la máquina cortafuegos pueda navegar por internet.</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet filter output oifname <span class="s2">&#34;ens3&#34;</span> ip protocol tcp tcp dport <span class="o">{</span> 80,443 <span class="o">}</span> ct state new,established counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet filter input iifname <span class="s2">&#34;ens3&#34;</span> ip protocol tcp tcp sport <span class="o">{</span> 80,443 <span class="o">}</span> ct state established counter accept
+</span></span></code></pre></div><p>Comprobamos para http y https:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl portquiz.net:80
+</span></span><span class="line"><span class="cl">curl portquiz.net:443
+</span></span></code></pre></div><p><img src="/img/firewall/33.png" alt="curl"></p>
+<p><strong>d) Los equipos de la red local deben poder tener conexión al exterior.</strong></p>
+<p>Este paso ya lo realizamos anteriormente al crear las REGLAS FORWARD. Si hacemos ping desde la máquina lan podemos comprobar que tenemos conexión con el exterior.</p>
+<p><img src="/img/firewall/36.png" alt="ping"></p>
+<p><strong>e) Permitimos el ssh desde el cortafuego a la LAN</strong></p>
+<p>Este paso también se realizó anteriormente. Podemos comprobar que podemos hacer ssh desde la máquina router-fw a la máquina lan.</p>
+<p><img src="/img/firewall/37.png" alt="ssh"></p>
+<p><strong>f) Permitimos hacer ping desde la LAN a la máquina cortafuegos.</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet filter input iifname <span class="s2">&#34;ens4&#34;</span> icmp <span class="nb">type</span> echo-request counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet filter output oifname <span class="s2">&#34;ens4&#34;</span> icmp <span class="nb">type</span> echo-reply counter accept
+</span></span></code></pre></div><p>Comprobamos:</p>
+<p><img src="/img/firewall/38.png" alt="ping"></p>
+<p><strong>g) Permite realizar conexiones ssh desde los equipos de la LAN.</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet filter forward iifname <span class="s2">&#34;ens4&#34;</span> oifname <span class="s2">&#34;ens3&#34;</span> ip saddr 192.168.100.0/24 tcp dport <span class="m">22</span> ct state new,established counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet filter forward iifname <span class="s2">&#34;ens3&#34;</span> oifname <span class="s2">&#34;ens4&#34;</span> ip daddr 192.168.100.0/24 tcp sport <span class="m">22</span> ct state established counter accept
+</span></span></code></pre></div><p>Comprobamos:</p>
+<p><img src="/img/firewall/39.png" alt="ping"></p>
+<p><strong>h) Instala un servidor de correos en la máquina de la LAN. Permite el acceso desde el exterior y desde el cortafuego al servidor de correos. Para probarlo puedes ejecutar un telnet al puerto 25 tcp.</strong></p>
+<p>Tras instalar el servidor de correo en la máquina lan, creamos las reglas en router-fw.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet filter forward iifname <span class="s2">&#34;ens3&#34;</span> oifname <span class="s2">&#34;ens4&#34;</span> ip daddr 192.168.100.0/24 tcp dport <span class="m">25</span> counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet filter forward iifname <span class="s2">&#34;ens4&#34;</span> oifname <span class="s2">&#34;ens3&#34;</span> ip saddr 192.168.100.0/24 tcp sport <span class="m">25</span> counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet nat prerouting iifname <span class="s2">&#34;ens3&#34;</span> tcp dport <span class="m">25</span> counter dnat ip to 192.168.100.10
+</span></span></code></pre></div><p>Permitimos la conexión desde router-fw al servidor de correos de lan.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet filter output ip daddr 192.168.100.10 tcp dport <span class="m">25</span> counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet filter input ip saddr 192.168.100.10 tcp sport <span class="m">25</span> counter accept
+</span></span></code></pre></div><p>Comprobamos desde mi host.</p>
+<p><img src="/img/firewall/40.png" alt="telnet"></p>
+<p>Comprobamos desde router-fw.</p>
+<p><img src="/img/firewall/41.png" alt="telnet"></p>
+<p><strong>i) Permite poder hacer conexiones ssh desde el exterior a la LAN.</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet filter forward iifname <span class="s2">&#34;ens3&#34;</span> oifname <span class="s2">&#34;ens4&#34;</span> ip daddr 192.168.100.0/24 tcp dport <span class="m">22</span> ct state new,established counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet filter forward iifname <span class="s2">&#34;ens4&#34;</span> oifname <span class="s2">&#34;ens3&#34;</span> ip saddr 192.168.100.0/24 tcp sport <span class="m">22</span> ct state established counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet nat prerouting iifname <span class="s2">&#34;ens3&#34;</span> tcp dport <span class="m">22</span> counter dnat ip to 192.168.100.10
+</span></span></code></pre></div><p>Comprobamos:</p>
+<p><img src="/img/firewall/42.png" alt="ssh"></p>
+<p><strong>j) Modifica la regla anterior, para que al acceder desde el exterior por ssh tengamos que conectar al puerto 2222, aunque el servidor ssh este configurado para acceder por el puerto 22.</strong></p>
+<p>Cambiamos la regla DNAT:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet nat prerouting iifname <span class="s2">&#34;ens3&#34;</span> tcp dport <span class="m">2222</span> counter dnat ip to 192.168.100.10:22
+</span></span></code></pre></div><p>Cambiamos las reglas de filtrado para que se acepten las conexiones ssh en el puerto 2222:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet filter forward iifname <span class="s2">&#34;ens3&#34;</span> oifname <span class="s2">&#34;ens4&#34;</span> ip daddr 192.168.100.0/24 tcp dport <span class="m">2222</span> ct state new,established counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet filter forward iifname <span class="s2">&#34;ens4&#34;</span> oifname <span class="s2">&#34;ens3&#34;</span> ip saddr 192.168.100.0/24 tcp sport <span class="m">2222</span> ct state established counter accept
+</span></span></code></pre></div><p>Comprobamos:</p>
+<p><img src="/img/firewall/43.png" alt="ssh"></p>
+<p><strong>k) Permite hacer consultas DNS desde la LAN sólo al servidor 192.168.202.2. Comprueba que no puedes hacer un dig @1.1.1.1.</strong></p>
+<p>Comprobamos cuáles son las reglas que nos permite hacer consultas DNS a todos los servidores. Nos quedamos con el número de handle</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft -a list ruleset <span class="p">|</span> egrep <span class="m">53</span>
+</span></span></code></pre></div><p><img src="/img/firewall/44.png" alt="handles"></p>
+<p>*Aunque no estén señaladas en la imagen, los handle 22 y 23 también habría que eliminarlos.</p>
+<p>Eliminamos esas reglas.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft delete rule inet filter forward handle <span class="m">22</span>
+</span></span><span class="line"><span class="cl">nft delete rule inet filter forward handle <span class="m">23</span>
+</span></span><span class="line"><span class="cl">nft delete rule inet filter forward handle <span class="m">46</span>
+</span></span><span class="line"><span class="cl">nft delete rule inet filter forward handle <span class="m">47</span>
+</span></span></code></pre></div><p>Y creamos las nuevas reglas que nos permitirán hacer consultas DNS al servidor 192.168.202.2.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet filter forward iifname <span class="s2">&#34;ens4&#34;</span> oifname <span class="s2">&#34;ens3&#34;</span> ip saddr 192.168.100.0/24 ip daddr 192.168.202.2 udp dport <span class="m">53</span> ct state new,established counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet filter forward iifname <span class="s2">&#34;ens3&#34;</span> oifname <span class="s2">&#34;ens4&#34;</span> ip saddr 192.168.202.2 ip daddr 192.168.100.0/24 udp sport <span class="m">53</span> ct state established counter accept
+</span></span></code></pre></div><p>Comprobamos desde la máquina lan.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dig @192.168.202.2 www.josedomingo.org
+</span></span><span class="line"><span class="cl">dig @1.1.1.1 www.josedomingo.org
+</span></span></code></pre></div><p><img src="/img/firewall/45.png" alt="dns"></p>
+<p><img src="/img/firewall/46.png" alt="dns"></p>
+<p><strong>l) Permite que los equipos de la LAN puedan navegar por internet.</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nft add rule inet filter forward iifname <span class="s2">&#34;ens4&#34;</span> oifname <span class="s2">&#34;ens3&#34;</span> ip protocol tcp ip saddr 192.168.100.0/24 tcp dport <span class="o">{</span> 80,443 <span class="o">}</span> ct state new,established counter accept
+</span></span><span class="line"><span class="cl">nft add rule inet filter forward iifname <span class="s2">&#34;ens3&#34;</span> oifname <span class="s2">&#34;ens4&#34;</span> ip protocol tcp
+</span></span></code></pre></div><p>Comprobamos:</p>
+<p><img src="/img/firewall/47.png" alt="curl"></p>
+
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://afermor8.github.io/tags/sad/">SAD</a>&nbsp;
+            
+          </div>
+        
+
+        
+            <hr/>
+            <section id="social-share">
+              <div class="list-inline footer-links">
+                
+
+<div class="share-box" aria-hidden="true">
+    <ul class="share">
+      
+      <li>
+        <a href="//twitter.com/share?url=https%3a%2f%2fafermor8.github.io%2fpost%2ffirewall2%2f&amp;text=Cortafuegos%20II%3a%20Perimetral%20con%20nftables&amp;via=" target="_blank" title="Share on Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fafermor8.github.io%2fpost%2ffirewall2%2f" target="_blank" title="Share on Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//reddit.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2ffirewall2%2f&amp;title=Cortafuegos%20II%3a%20Perimetral%20con%20nftables" target="_blank" title="Share on Reddit">
+          <i class="fab fa-reddit"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fafermor8.github.io%2fpost%2ffirewall2%2f&amp;title=Cortafuegos%20II%3a%20Perimetral%20con%20nftables" target="_blank" title="Share on LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2ffirewall2%2f&amp;title=Cortafuegos%20II%3a%20Perimetral%20con%20nftables" target="_blank" title="Share on StumbleUpon">
+          <i class="fab fa-stumbleupon"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fafermor8.github.io%2fpost%2ffirewall2%2f&amp;description=Cortafuegos%20II%3a%20Perimetral%20con%20nftables" target="_blank" title="Share on Pinterest">
+          <i class="fab fa-pinterest"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+
+              </div>
+            </section>
+        
+
+        
+          
+            
+          
+
+          
+                  <h4 class="see-also">Ver también</h4>
+                  <ul>
+                
+                
+                    <li><a href="/post/firewall1/">Cortafuegos I: de nodo con iptables</a></li>
+                
+                    <li><a href="/post/forense/">Informática Forense</a></li>
+                
+                    <li><a href="/post/vpn/">Vpn. Redes Privadas Virtuales</a></li>
+                
+                    <li><a href="/post/cripto3/">Criptografía III. Certificados digiales. HTTPS</a></li>
+                
+                    <li><a href="/post/cripto2/">Criptografía II. Integridad, firmas y autenticación</a></li>
+                
+              </ul>
+
+          
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://afermor8.github.io/post/firewall1/" data-toggle="tooltip" data-placement="top" title="Cortafuegos I: de nodo con iptables">&larr; Artículo anterior</a>
+            </li>
+          
+          
+        </ul>
+      
+
+
+      
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+      
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+		
+		  <a href="mailto:ara.fer.mor@gmail.com" title="Email me">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://github.com/afermor8" title="GitHub">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://Afermor.slack.com/" title="Slack">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-slack fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://linkedin.com/in/arantxa-f-6136617b" title="LinkedIn">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://telegram.me/arantxipu" title="Telegram">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-telegram fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            <a href="" title="RSS">
+              <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              <a href="afermor8.github.io">afermor8</a>
+            
+          
+
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2023
+          
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="https://gohugo.io">Hugo v0.104.3</a> alimentada &nbsp;&bull;&nbsp; Tema <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adaptado de <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer><script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://afermor8.github.io/js/main.js"></script>
+<script src="https://afermor8.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://afermor8.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>
+

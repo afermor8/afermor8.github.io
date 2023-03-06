@@ -7,7 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <managingEditor>ara.fer.mor@gmail.com (afermor8)</managingEditor>
     <webMaster>ara.fer.mor@gmail.com (afermor8)</webMaster>
-    <lastBuildDate>Mon, 06 Mar 2023 11:09:59 +0100</lastBuildDate><atom:link href="https://afermor8.github.io/tags/sad/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 06 Mar 2023 17:14:20 +0100</lastBuildDate><atom:link href="https://afermor8.github.io/tags/sad/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cortafuegos II: Perimetral con nftables</title>
+      <link>https://afermor8.github.io/post/firewall2/</link>
+      <pubDate>Mon, 06 Mar 2023 17:14:20 +0100</pubDate>
+      <author>ara.fer.mor@gmail.com (afermor8)</author>
+      <guid>https://afermor8.github.io/post/firewall2/</guid>
+      <description>Realiza con nftables el ejercicio de la página https://fp.josedomingo.org/seguridadgs/u03/perimetral_iptables.html documentando las pruebas de funcionamiento realizadas.
+Debes añadir después las reglas necesarias para que se permitan las siguientes operaciones:
+a) Permite poder hacer conexiones ssh al exterior desde la máquina cortafuegos. b) Permite hacer consultas DNS desde la máquina cortafuegos sólo al servidor 192.168.202.2. Comprueba que no puedes hacer un dig @1.1.1.1. c) Permite que la máquina cortafuegos pueda navegar por internet.</description>
+    </item>
+    
     <item>
       <title>Cortafuegos I: de nodo con iptables</title>
       <link>https://afermor8.github.io/post/firewall1/</link>
