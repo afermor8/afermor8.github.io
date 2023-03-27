@@ -7,7 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <managingEditor>ara.fer.mor@gmail.com (afermor8)</managingEditor>
     <webMaster>ara.fer.mor@gmail.com (afermor8)</webMaster>
-    <lastBuildDate>Thu, 26 Jan 2023 10:51:57 +0100</lastBuildDate><atom:link href="https://afermor8.github.io/tags/iaw/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 27 Mar 2023 09:42:32 +0200</lastBuildDate><atom:link href="https://afermor8.github.io/tags/iaw/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Práctica 2: Implantación de aplicaciones web Python en Docker</title>
+      <link>https://afermor8.github.io/post/docker2/</link>
+      <pubDate>Mon, 27 Mar 2023 09:42:32 +0200</pubDate>
+      <author>ara.fer.mor@gmail.com (afermor8)</author>
+      <guid>https://afermor8.github.io/post/docker2/</guid>
+      <description>Queremos desplegar en docker la aplicación escrita en python django: tutorial de django, que desplegamos en la tarea Despliegue de aplicaciones python.
+Tienes que tener en cuenta los siguientes aspectos:
+La aplicación debe guardar los datos en una base de datos mariadb. La aplicación se podrá configurar para indicar los parámetros de conexión a la base de datos: usuario, contraseña, host y base de datos. La aplicación deberá tener creado un usuario administrador para el acceso.</description>
+    </item>
+    
     <item>
       <title>Despliegue de aplicaciones Python (Django)</title>
       <link>https://afermor8.github.io/post/django/</link>

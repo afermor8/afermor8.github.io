@@ -3,19 +3,31 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://afermor8.github.io/</loc>
-    <lastmod>2023-03-07T10:53:58+01:00</lastmod>
+    <lastmod>2023-03-27T09:42:32+02:00</lastmod>
     <priority>0</priority>
+  </url><url>
+    <loc>https://afermor8.github.io/tags/iaw/</loc>
+    <lastmod>2023-03-27T09:42:32+02:00</lastmod>
+  </url><url>
+    <loc>https://afermor8.github.io/post/</loc>
+    <lastmod>2023-03-27T09:42:32+02:00</lastmod>
+  </url><url>
+    <loc>https://afermor8.github.io/post/docker2/</loc>
+    <lastmod>2023-03-27T09:42:32+02:00</lastmod>
+  </url><url>
+    <loc>https://afermor8.github.io/tags/</loc>
+    <lastmod>2023-03-27T09:42:32+02:00</lastmod>
+  </url><url>
+    <loc>https://afermor8.github.io/tags/aso/</loc>
+    <lastmod>2023-03-21T08:33:20+01:00</lastmod>
+  </url><url>
+    <loc>https://afermor8.github.io/post/centos/</loc>
+    <lastmod>2023-03-21T08:33:20+01:00</lastmod>
   </url><url>
     <loc>https://afermor8.github.io/post/examen_cortafuegos/</loc>
     <lastmod>2023-03-07T10:53:58+01:00</lastmod>
   </url><url>
-    <loc>https://afermor8.github.io/post/</loc>
-    <lastmod>2023-03-07T10:53:58+01:00</lastmod>
-  </url><url>
     <loc>https://afermor8.github.io/tags/sad/</loc>
-    <lastmod>2023-03-07T10:53:58+01:00</lastmod>
-  </url><url>
-    <loc>https://afermor8.github.io/tags/</loc>
     <lastmod>2023-03-07T10:53:58+01:00</lastmod>
   </url><url>
     <loc>https://afermor8.github.io/post/firewall2/</loc>
@@ -39,9 +51,6 @@
     <loc>https://afermor8.github.io/post/django/</loc>
     <lastmod>2023-01-26T10:51:57+01:00</lastmod>
   </url><url>
-    <loc>https://afermor8.github.io/tags/iaw/</loc>
-    <lastmod>2023-01-26T10:51:57+01:00</lastmod>
-  </url><url>
     <loc>https://afermor8.github.io/post/vpn/</loc>
     <lastmod>2023-01-24T18:15:29+01:00</lastmod>
   </url><url>
@@ -59,9 +68,6 @@
   </url><url>
     <loc>https://afermor8.github.io/post/install-bbdd/</loc>
     <lastmod>2022-10-15T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://afermor8.github.io/tags/aso/</loc>
-    <lastmod>2022-10-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://afermor8.github.io/post/install-deb/</loc>
     <lastmod>2022-10-09T00:00:00+00:00</lastmod>

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="es" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Migración CentOS - Mi paso por ASIR Blog</title>
+  <meta name="description" content="Debido al anuncio del fin de soporte por parte de Red Hat de Centos8 el pasado 31 de diciembre de 2021, y teniendo en cuentas que el fin de vida de centos 7 está programada para el 30 de junio de 2024. Han salido múltiples distribuciones que cubren el hueco dejado por esta distribución tan extendida y tan usada en el ámbito de servidores.
+En la presente práctica, analiza posibles versiones candidatas y opciones desplegadas para la migración de tus servidores CentOS.">
+  <meta name="author" content="afermor8"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Mi paso por ASIR Blog",
+    
+    "url": "https:\/\/afermor8.github.io"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/afermor8.github.io"
+  
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io\/post\/centos\/",
+          "name": "Migración cent os"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "afermor8"
+  },
+  "headline": "Migración CentOS",
+  "description" : "Debido al anuncio del fin de soporte por parte de Red Hat de Centos8 el pasado 31 de diciembre de 2021, y teniendo en cuentas que el fin de vida de centos 7 está programada para el 30 de junio de 2024. Han salido múltiples distribuciones que cubren el hueco dejado por esta distribución tan extendida y tan usada en el ámbito de servidores.\nEn la presente práctica, analiza posibles versiones candidatas y opciones desplegadas para la migración de tus servidores CentOS.",
+  "inLanguage" : "es",
+  "wordCount":  1523 ,
+  "datePublished" : "2023-03-21T08:33:20",
+  "dateModified" : "2023-03-21T08:33:20",
+  "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+  "keywords" : [ "ASO" ],
+  "mainEntityOfPage" : "https:\/\/afermor8.github.io\/post\/centos\/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https:\/\/afermor8.github.io",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
+
+<meta property="og:title" content="Migración CentOS" />
+<meta property="og:description" content="Debido al anuncio del fin de soporte por parte de Red Hat de Centos8 el pasado 31 de diciembre de 2021, y teniendo en cuentas que el fin de vida de centos 7 está programada para el 30 de junio de 2024. Han salido múltiples distribuciones que cubren el hueco dejado por esta distribución tan extendida y tan usada en el ámbito de servidores.
+En la presente práctica, analiza posibles versiones candidatas y opciones desplegadas para la migración de tus servidores CentOS.">
+<meta property="og:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+<meta property="og:url" content="https://afermor8.github.io/post/centos/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Mi paso por ASIR Blog" />
+
+  <meta name="twitter:title" content="Migración CentOS" />
+  <meta name="twitter:description" content="Debido al anuncio del fin de soporte por parte de Red Hat de Centos8 el pasado 31 de diciembre de 2021, y teniendo en cuentas que el fin de vida de centos 7 está programada para el 30 de junio de …">
+  <meta name="twitter:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link href='https://afermor8.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta name="generator" content="Hugo 0.104.3" />
+  <link rel="alternate" href="https://afermor8.github.io/index.xml" type="application/rss+xml" title="Mi paso por ASIR Blog"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://afermor8.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://afermor8.github.io/css/highlight.min.css" /><link rel="stylesheet" href="https://afermor8.github.io/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Conmuta navegación</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/page/about/">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Tags" href="/tags">Tags</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    
+      <div class="avatar-container">
+        <div class="avatar-img-border">
+          <a title="Mi paso por ASIR Blog" href="https://afermor8.github.io">
+            <img class="avatar-img" src="https://afermor8.github.io/img/avatar-icon.png" alt="Mi paso por ASIR Blog" />
+          </a>
+        </div>
+      </div>
+    
+
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+    <div id="header-big-imgs" data-num-img=3 
+      
+         
+          data-img-src-1="/img/triangle.jpg" 
+         
+         data-img-desc-1="Triangle"
+      
+         
+          data-img-src-2="/img/sphere.jpg" 
+         
+         data-img-desc-2="Sphere"
+      
+         
+          data-img-src-3="/img/hexagon.jpg" 
+         
+         data-img-desc-3="Hexagon"
+      ></div>
+  
+
+  <header class="header-section has-img">
+    
+      <div class="intro-header big-img">
+        
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+              <div class="post-heading">
+                <h1>Migración CentOS</h1>
+                  
+                  
+                    <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el March 21, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;8&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1523&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="img-desc" style="display: inline;"></span>
+      </div>
+    
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>Migración CentOS</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el March 21, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;8&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1523&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <p>Debido al anuncio del fin de soporte por parte de Red Hat de Centos8 el pasado 31 de diciembre de 2021, y teniendo en cuentas que el fin de vida de centos 7 está programada para el 30 de junio de 2024. Han salido múltiples distribuciones que cubren el hueco dejado por esta distribución tan extendida y tan usada en el ámbito de servidores.</p>
+<p>En la presente práctica, analiza posibles versiones candidatas y opciones desplegadas para la migración de tus servidores CentOS.</p>
+<p>El espectro es amplio:</p>
+<ul>
+<li>
+<p>Cambiar el rumbo a una nueva distribución, debian, opensuse, slakware, etc.</p>
+</li>
+<li>
+<p>Soluciones aportadas por Red Hat: Red Hat Enterprise Linux, CentOS Stream.</p>
+</li>
+<li>
+<p>Solución aportada por Oracle Linux</p>
+</li>
+<li>
+<p>Nuevas distribuciones surgidas para paliar el hueco dejado:</p>
+<ul>
+<li>
+<p>AlmaLinux</p>
+</li>
+<li>
+<p>Rocky Linux</p>
+</li>
+<li>
+<p>VZLinux</p>
+</li>
+<li>
+<p>euroLinux</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="1-analiza-el-desencadenante-de-la-retirada-de-centos-8-del-mercado-qué-opinión-tienes-al-respecto">1. Analiza el desencadenante de la retirada de CentOS 8 del mercado. ¿Qué opinión tienes al respecto?</h2>
+<p>La retirada de CentOS 8 del mercado fue un resultado directo de la decisión tomada por Red Hat de cambiar la estrategia de desarrollo y soporte para CentOS.</p>
+<p>Antes de la retirada de CentOS 8, CentOS era conocido como un sistema operativo de código abierto y gratuito, basado en la misma base de código que Red Hat Enterprise Linux (RHEL). CentOS ofrecía actualizaciones de seguridad y corrección de errores para los usuarios de forma gratuita, lo que lo convirtió en una opción popular para aquellos que buscaban una alternativa de bajo costo a RHEL.</p>
+<p>CentOS 8 tenía varias ventajas, como su estabilidad y confiabilidad como sistema operativo de servidor, la facilidad de uso gracias a su interfaz de línea de comandos y su compatibilidad con aplicaciones de terceros.</p>
+<p>Sin embargo, en diciembre de 2020, Red Hat anunció que estaban cambiando su estrategia de desarrollo y soporte para CentOS.</p>
+<p>En lugar de seguir manteniendo una versión gratuita de CentOS, Red Hat anunció que se centrarían en el desarrollo de CentOS Stream, que es una versión más cercana a RHEL y se centra en ofrecer una plataforma de desarrollo y pruebas para futuras versiones de RHEL.</p>
+<p>La decisión de Red Hat de retirar CentOS 8 del mercado significó que CentOS 8 ya no recibiría actualizaciones de seguridad y corrección de errores después de diciembre de 2021, lo que llevó a muchos usuarios y empresas a buscar alternativas de sistema operativo para reemplazar CentOS 8, realizando una transición costosa y potencialmente compleja.</p>
+<p>Algunas comunidades, a raíz del anuncio de la retirada de CentOS 8, empezaron a crear varias distribuciones basadas en el codigo fuente de este, con el objetivo de proporcionar una alternativa de sistema operativo estable y de confianza para los usuarios que dependían de CentOS 8. Algunas de estas distribuciones son:</p>
+<ul>
+<li>
+<p><strong>AlmaLinux</strong>: es una distribución gratuita y de código abierto, basada en el código fuente de RHEL y CentOS, que se centra en la estabilidad y la seguridad. Fue creada por CloudLinux, una empresa que se especializa en la seguridad y la estabilidad de los sistemas operativos de servidores.</p>
+</li>
+<li>
+<p><strong>Rocky Linux</strong>: Es otra distribución de sistema operativo de servidor gratuito y de código abierto, creada por la comunidad de usuarios de CentOS que no estaban contentos con la decisión de Red Hat de retirar CentOS 8. Está diseñada para ser una alternativa de sistema operativo estable y de confianza para CentOS.</p>
+</li>
+<li>
+<p><strong>Oracle Linux</strong>: Oracle Linux es una distribución de sistema operativo de servidor basada en el código fuente de RHEL y CentOS, y es totalmente compatible con los paquetes de software de RHEL y CentOS. Oracle Linux está disponible de forma gratuita y ofrece soporte comercial opcional.</p>
+</li>
+<li>
+<p><strong>Springdale Linux</strong>: Es una distribución de sistema operativo de servidor basada en el código fuente de RHEL y CentOS, que se enfoca en proporcionar un entorno de desarrollo y pruebas estable y confiable. Está respaldado por el Centro de Ciencias de la Información de la Universidad de Princeton.</p>
+</li>
+</ul>
+<p>Cada una de estas distribuciones tiene sus propias características y ventajas, y la elección de una u otra depende de las necesidades y preferencias individuales de cada usuario.</p>
+<p><strong>Recibimiento de la propuesta:</strong></p>
+<p>El anuncio sobre la retirada de CentOS 8 fue recibido con una mezcla de sorpresa, frustración y desilusión por parte de muchos usuarios. Además, algunos usuarios expresaron su descontento con el hecho de que Red Hat había tomado la decisión sin consultar a la comunidad de usuarios de CentOS, lo que generó un sentimiento de desconfianza y falta de transparencia por parte de Red Hat.</p>
+<p>Sin embargo, también hubo algunos usuarios que entendieron la decisión de Red Hat y apreciaron el enfoque en CentOS Stream como una plataforma de desarrollo y pruebas para futuras versiones de RHEL.</p>
+<p>En general, la retirada de CentOS 8 del mercado generó una respuesta variada por parte de los usuarios, y sigue siendo un tema de debate en la comunidad de usuarios de sistemas operativos de código abierto.</p>
+<p><strong>Mi opinión:</strong></p>
+<p>Esta decisión tomada por Red Hat no me afecta directamente ya que nunca he trabajado con CentOS, por tanto me puedo adaptar fácilmente a los cambios y a la decisión tomada por Red Hat.</p>
+<p>Si bien es cierto, que estas decisiones tomadas por grandes empresas como Red Hat tienen grandes repercusiones para los usuarios.</p>
+<p>Respecto a las razones detrás de la decisión de Red Hat, es difícil determinar exactamente cuáles fueron los factores clave que impulsaron su cambio de estrategia.</p>
+<p>Puede que la decisión de cambiar su estrategia de desarrollo y soporte para CentOS no se debiera necesariamente a que CentOS no era rentable para ellos, sino a que querían enfocarse en ofrecer una versión más cercana a RHEL con CentOS Stream. Pero esto es algo muy cuestionado, porque al final el objetivo principal de la empresa al tomar este tipo de decisiones es seguir creciendo, es decir, ganar más dinero.</p>
+<p>Otra opción válida es que la decisión de la empresa se haya basado en otros factores, como la necesidad de centrarse en nuevos proyectos y tecnologías, o en responder a cambios en el mercado.</p>
+<h2 id="2-crea-una-cuenta-en-red-hat-y-descárgate-la-iso-de-red-hat-enterprise-linux-rhel-y-evalúa-el-producto-comenta-el-procedimiento-de-alta">2. Crea una cuenta en Red Hat y descárgate la iso de Red Hat Enterprise Linux (RHEL) y evalúa el producto. Comenta el procedimiento de alta.</h2>
+<p>Comenta el proceso de crear una cuenta en Red Hat y descargarse la iso de Red Hat Enterprise Linux (RHEL). Comenta el procedimiento de alta. Háblame un poco sobre el producto y evalúalo.</p>
+<p>Para crear una cuenta en Red Hat y descargarse la ISO de Red Hat Enterprise Linux (RHEL), es necesario seguir los siguientes pasos:</p>
+<ol>
+<li>
+<p>Visitamos la página web de Red Hat y vamos a ir a la (página para la prueba gratuita de RHEL)[https://www.redhat.com/es/technologies/linux-platforms/enterprise-linux]. Hacemos click en &ldquo;Pruébela&rdquo; y en la siguiente pantalla a &ldquo;Comience el periodo de prueba&rdquo;.</p>
+</li>
+<li>
+<p>Si tenemos cuenta accedemos. En caso contrario hacemos click en &ldquo;Register for a Red Hat account&rdquo;. Rellenamo el formulario y creamos nuestra cuenta.</p>
+</li>
+<li>
+<p>Una vez creada nuestra cuenta, iniciamos sesión y vamos al mismo enlace de antes para descargar la prueba gratuita de RHEL.
+en el sitio web de Red Hat y busca la sección de descargas de RHEL.</p>
+</li>
+<li>
+<p>Selecciona la versión de RHEL que deseas descargar y haz clic en el enlace de descarga para iniciar la descarga de la ISO.</p>
+</li>
+<li>
+<p>Una vez que se haya descargado la ISO, grábala en un DVD o utiliza una herramienta como Rufus para crear una unidad USB de arranque con la ISO.</p>
+</li>
+<li>
+<p>Arranca tu ordenador desde la unidad DVD o USB de arranque y sigue las instrucciones para instalar RHEL en tu equipo.</p>
+</li>
+</ol>
+<p>Respecto al proceso de alta, es importante destacar que Red Hat es una empresa que ofrece una versión comercial de su sistema operativo, por lo que es necesario adquirir una licencia para poder usar RHEL en un entorno empresarial. El proceso de alta para adquirir una licencia de RHEL varía en función de las necesidades y características específicas de cada organización, y puede requerir la asistencia de un representante de ventas de Red Hat.</p>
+<p>En cuanto al producto en sí, RHEL es una distribución de sistema operativo de servidor basada en el código fuente de Fedora y desarrollada por Red Hat. Ofrece una gran variedad de herramientas y características para la administración de servidores, como la gestión de usuarios, grupos y permisos, la monitorización de recursos, la virtualización y la automatización de tareas. RHEL también es conocido por su alto nivel de estabilidad, seguridad y soporte a largo plazo.</p>
+<p>En términos de evaluación, RHEL es una de las distribuciones de sistema operativo de servidor más utilizadas y reconocidas en el mercado empresarial. Ofrece una amplia gama de características y herramientas de administración, así como un alto nivel de seguridad y estabilidad. Sin embargo, su versión comercial requiere la adquisición de una licencia, lo que puede ser un obstáculo para algunos usuarios. Además, RHEL está enfocado en ofrecer un soporte a largo plazo, lo que puede limitar la disponibilidad de las últimas versiones de algunas herramientas y tecnologías.</p>
+<h2 id="3-descarga-la-iso-de-centos-stream-y-evalúa-el-producto">3. Descarga la iso de CentOS Stream y evalúa el producto.</h2>
+<h2 id="4-descarga-iso-de-una-de-las-otras-distribuciones-candidatas-indica-criterios-para-la-elección-de-la-nueva-distribución-y-evalúa-el-producto">4. Descarga iso de una de las otras distribuciones candidatas, indica criterios para la elección de la nueva distribución y evalúa el producto.</h2>
+<h2 id="5-instala-centos-7-y-evalúa-la-herramientas-que-ofrecen-la-distribución-del-punto-3">5. Instala CentOS 7, y evalúa la herramientas que ofrecen la distribución del punto 3.</h2>
+<hr>
+
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://afermor8.github.io/tags/aso/">ASO</a>&nbsp;
+            
+          </div>
+        
+
+        
+            <hr/>
+            <section id="social-share">
+              <div class="list-inline footer-links">
+                
+
+<div class="share-box" aria-hidden="true">
+    <ul class="share">
+      
+      <li>
+        <a href="//twitter.com/share?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcentos%2f&amp;text=Migraci%c3%b3n%20CentOS&amp;via=" target="_blank" title="Share on Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fafermor8.github.io%2fpost%2fcentos%2f" target="_blank" title="Share on Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//reddit.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcentos%2f&amp;title=Migraci%c3%b3n%20CentOS" target="_blank" title="Share on Reddit">
+          <i class="fab fa-reddit"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcentos%2f&amp;title=Migraci%c3%b3n%20CentOS" target="_blank" title="Share on LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcentos%2f&amp;title=Migraci%c3%b3n%20CentOS" target="_blank" title="Share on StumbleUpon">
+          <i class="fab fa-stumbleupon"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcentos%2f&amp;description=Migraci%c3%b3n%20CentOS" target="_blank" title="Share on Pinterest">
+          <i class="fab fa-pinterest"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+
+              </div>
+            </section>
+        
+
+        
+          
+            
+          
+
+          
+                  <h4 class="see-also">Ver también</h4>
+                  <ul>
+                
+                
+                    <li><a href="/post/install-deb/">Instalación Debian 11</a></li>
+                
+              </ul>
+
+          
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://afermor8.github.io/post/examen_cortafuegos/" data-toggle="tooltip" data-placement="top" title="Examen Cortafuegos">&larr; Artículo anterior</a>
+            </li>
+          
+          
+            <li class="next">
+              <a href="https://afermor8.github.io/post/docker2/" data-toggle="tooltip" data-placement="top" title="Práctica 2: Implantación de aplicaciones web Python en Docker">Artículo siguiente &rarr;</a>
+            </li>
+          
+        </ul>
+      
+
+
+      
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+      
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+		
+		  <a href="mailto:ara.fer.mor@gmail.com" title="Email me">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://github.com/afermor8" title="GitHub">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://Afermor.slack.com/" title="Slack">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-slack fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://linkedin.com/in/arantxa-f-6136617b" title="LinkedIn">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://telegram.me/arantxipu" title="Telegram">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-telegram fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            <a href="" title="RSS">
+              <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              <a href="afermor8.github.io">afermor8</a>
+            
+          
+
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2023
+          
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="https://gohugo.io">Hugo v0.104.3</a> alimentada &nbsp;&bull;&nbsp; Tema <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adaptado de <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer><script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://afermor8.github.io/js/main.js"></script>
+<script src="https://afermor8.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://afermor8.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>
+
