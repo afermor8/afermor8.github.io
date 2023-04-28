@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="es" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Montaje NFS mediante systemd - Mi paso por ASIR Blog</title>
+  <meta name="description" content="En una instancia del cloud, basada en la distribución de tu elección, anexa un volumen de 2GB. En dicha instancia deberás configurar el servicio nfs de exportación y en el volumen un punto de montaje de la exportación mediante systemd. 1. Preparar escenario 1.1 Pasos previos En mi máquina host llamada tars voy a instalar openstackclient.
+sudo apt install python3-venv python3 -m venv ~/venv/openstackclient source ~/venv/openstackclient/bin/activate pip3 install openstackclient Vamos a Openstack para conseguir el fichero Openstack RC.">
+  <meta name="author" content="afermor8"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Mi paso por ASIR Blog",
+    
+    "url": "https:\/\/afermor8.github.io"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/afermor8.github.io"
+  
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io\/post\/nfs\/",
+          "name": "Montaje nfs mediante systemd"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "afermor8"
+  },
+  "headline": "Montaje NFS mediante systemd",
+  "description" : "En una instancia del cloud, basada en la distribución de tu elección, anexa un volumen de 2GB. En dicha instancia deberás configurar el servicio nfs de exportación y en el volumen un punto de montaje de la exportación mediante systemd. 1. Preparar escenario 1.1 Pasos previos En mi máquina host llamada tars voy a instalar openstackclient.\nsudo apt install python3-venv python3 -m venv ~\/venv\/openstackclient source ~\/venv\/openstackclient\/bin\/activate pip3 install openstackclient Vamos a Openstack para conseguir el fichero Openstack RC.",
+  "inLanguage" : "es",
+  "wordCount":  1608 ,
+  "datePublished" : "2023-04-28T11:59:22",
+  "dateModified" : "2023-04-28T11:59:22",
+  "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+  "keywords" : [ "ASO" ],
+  "mainEntityOfPage" : "https:\/\/afermor8.github.io\/post\/nfs\/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https:\/\/afermor8.github.io",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
+
+<meta property="og:title" content="Montaje NFS mediante systemd" />
+<meta property="og:description" content="En una instancia del cloud, basada en la distribución de tu elección, anexa un volumen de 2GB. En dicha instancia deberás configurar el servicio nfs de exportación y en el volumen un punto de montaje de la exportación mediante systemd. 1. Preparar escenario 1.1 Pasos previos En mi máquina host llamada tars voy a instalar openstackclient.
+sudo apt install python3-venv python3 -m venv ~/venv/openstackclient source ~/venv/openstackclient/bin/activate pip3 install openstackclient Vamos a Openstack para conseguir el fichero Openstack RC.">
+<meta property="og:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+<meta property="og:url" content="https://afermor8.github.io/post/nfs/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Mi paso por ASIR Blog" />
+
+  <meta name="twitter:title" content="Montaje NFS mediante systemd" />
+  <meta name="twitter:description" content="En una instancia del cloud, basada en la distribución de tu elección, anexa un volumen de 2GB. En dicha instancia deberás configurar el servicio nfs de exportación y en el volumen un punto de montaje …">
+  <meta name="twitter:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link href='https://afermor8.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta name="generator" content="Hugo 0.104.3" />
+  <link rel="alternate" href="https://afermor8.github.io/index.xml" type="application/rss+xml" title="Mi paso por ASIR Blog"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://afermor8.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://afermor8.github.io/css/highlight.min.css" /><link rel="stylesheet" href="https://afermor8.github.io/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Conmuta navegación</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/page/about/">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Tags" href="/tags">Tags</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    
+      <div class="avatar-container">
+        <div class="avatar-img-border">
+          <a title="Mi paso por ASIR Blog" href="https://afermor8.github.io">
+            <img class="avatar-img" src="https://afermor8.github.io/img/avatar-icon.png" alt="Mi paso por ASIR Blog" />
+          </a>
+        </div>
+      </div>
+    
+
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+    <div id="header-big-imgs" data-num-img=3 
+      
+         
+          data-img-src-1="/img/triangle.jpg" 
+         
+         data-img-desc-1="Triangle"
+      
+         
+          data-img-src-2="/img/sphere.jpg" 
+         
+         data-img-desc-2="Sphere"
+      
+         
+          data-img-src-3="/img/hexagon.jpg" 
+         
+         data-img-desc-3="Hexagon"
+      ></div>
+  
+
+  <header class="header-section has-img">
+    
+      <div class="intro-header big-img">
+        
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+              <div class="post-heading">
+                <h1>Montaje NFS mediante systemd</h1>
+                  
+                  
+                    <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el April 28, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;8&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1608&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="img-desc" style="display: inline;"></span>
+      </div>
+    
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>Montaje NFS mediante systemd</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el April 28, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;8&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1608&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <h2 id="en-una-instancia-del-cloud-basada-en-la-distribución-de-tu-elección-anexa-un-volumen-de-2gb-en-dicha-instancia-deberás-configurar-el-servicio-nfs-de-exportación-y-en-el-volumen-un-punto-de-montaje-de-la-exportación-mediante-systemd">En una instancia del cloud, basada en la distribución de tu elección, anexa un volumen de 2GB. En dicha instancia deberás configurar el servicio nfs de exportación y en el volumen un punto de montaje de la exportación mediante systemd.</h2>
+<h3 id="1-preparar-escenario">1. Preparar escenario</h3>
+<h4 id="11-pasos-previos">1.1 Pasos previos</h4>
+<p>En mi máquina host llamada tars voy a instalar openstackclient.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install python3-venv
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">python3 -m venv ~/venv/openstackclient
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">source</span> ~/venv/openstackclient/bin/activate
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">pip3 install openstackclient
+</span></span></code></pre></div><p>Vamos a Openstack para conseguir el fichero Openstack RC.</p>
+<p><img src="/img/nfs/1.png" alt=""></p>
+<p>Uso el fichero para entrar con mis credenciales.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">source</span> Descargas/Proyecto<span class="se">\ </span>de<span class="se">\ </span>arantxa.fernandez-openrc.sh
+</span></span></code></pre></div><p>Y ya podremos hacer uso de openstackclient.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>openstackclient<span class="o">)</span> arantxa@tars:~$ openstack server list
+</span></span><span class="line"><span class="cl">+--------------------------------------+---------+--------+-----------------------------------------------------------------------------------+--------------------------+-----------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> ID                                   <span class="p">|</span> Name    <span class="p">|</span> Status <span class="p">|</span> Networks                                                                          <span class="p">|</span> Image                    <span class="p">|</span> Flavor    <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+--------------------------------------+---------+--------+-----------------------------------------------------------------------------------+--------------------------+-----------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> d4ad21c8-d607-4c4e-9dc5-cc89ea5922b1 <span class="p">|</span> maquina <span class="p">|</span> ACTIVE <span class="p">|</span> red de arantxa.fernandez<span class="o">=</span>10.0.0.50, 172.22.200.144                                <span class="p">|</span> Debian <span class="m">11</span> Bullseye       <span class="p">|</span> m1.mini   <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> f4b90904-5aa8-488d-b58c-6a6fdcdabdbc <span class="p">|</span> aislada <span class="p">|</span> ACTIVE <span class="p">|</span> <span class="nv">privada_aislada</span><span class="o">=</span>192.168.22.3<span class="p">;</span> red de arantxa.fernandez<span class="o">=</span>10.0.0.190, 172.22.201.239 <span class="p">|</span> N/A <span class="o">(</span>booted from volume<span class="o">)</span> <span class="p">|</span> m1.normal <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+--------------------------------------+---------+--------+-----------------------------------------------------------------------------------+--------------------------+-----------+
+</span></span></code></pre></div><h4 id="12-creación-servidor-nfs">1.2 Creación servidor NFS</h4>
+<p>Creo la máquina que hará de servidor NFS.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">openstack server create --flavor m1.mini --image <span class="s2">&#34;Debian 11 Bullseye&#34;</span> --security-group default --key-name Mi_Clave --network <span class="s2">&#34;red de arantxa.fernandez&#34;</span> servidor_nfs
+</span></span></code></pre></div><p>Me aparece lo siguiente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">+-----------------------------+------------------------------------------------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> Field                       <span class="p">|</span> Value                                                            <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+-----------------------------+------------------------------------------------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> OS-DCF:diskConfig           <span class="p">|</span> MANUAL                                                           <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> OS-EXT-AZ:availability_zone <span class="p">|</span>                                                                  <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> OS-EXT-STS:power_state      <span class="p">|</span> NOSTATE                                                          <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> OS-EXT-STS:task_state       <span class="p">|</span> scheduling                                                       <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> OS-EXT-STS:vm_state         <span class="p">|</span> building                                                         <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> OS-SRV-USG:launched_at      <span class="p">|</span> None                                                             <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> OS-SRV-USG:terminated_at    <span class="p">|</span> None                                                             <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> accessIPv4                  <span class="p">|</span>                                                                  <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> accessIPv6                  <span class="p">|</span>                                                                  <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> addresses                   <span class="p">|</span>                                                                  <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> adminPass                   <span class="p">|</span> yvAGTmki8FWw                                                     <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> config_drive                <span class="p">|</span>                                                                  <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> created                     <span class="p">|</span> 2023-04-28T10:47:04Z                                             <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> flavor                      <span class="p">|</span> m1.mini <span class="o">(</span>3<span class="o">)</span>                                                      <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> hostId                      <span class="p">|</span>                                                                  <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> id                          <span class="p">|</span> b85d66d8-db4f-44ac-a771-378fee658833                             <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> image                       <span class="p">|</span> Debian <span class="m">11</span> Bullseye <span class="o">(</span>6d992898-7e4f-44b9-a681-6dcf32d24a1f<span class="o">)</span>        <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> key_name                    <span class="p">|</span> Mi_Clave                                                         <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> name                        <span class="p">|</span> servidor_nfs                                                     <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> progress                    <span class="p">|</span> <span class="m">0</span>                                                                <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> project_id                  <span class="p">|</span> e928f4126bb343ec8048871da80c2a39                                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> properties                  <span class="p">|</span>                                                                  <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> security_groups             <span class="p">|</span> <span class="nv">name</span><span class="o">=</span><span class="s1">&#39;0ad08d7e-fb7f-414b-917c-8152a0910246&#39;</span>                      <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> status                      <span class="p">|</span> BUILD                                                            <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> updated                     <span class="p">|</span> 2023-04-28T10:47:04Z                                             <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> user_id                     <span class="p">|</span> 276b52c5951960d5b90f6d1d4d717e43ecb9c157971ba4ddd15f9728ae476f9a <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> volumes_attached            <span class="p">|</span>                                                                  <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+-----------------------------+------------------------------------------------------------------+
+</span></span></code></pre></div><p>A continuación creo una IP flotante.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">openstack floating ip create ext-net
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">+---------------------+--------------------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> Field               <span class="p">|</span> Value                                <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+---------------------+--------------------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> created_at          <span class="p">|</span> 2023-04-28T10:49:26Z                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> description         <span class="p">|</span>                                      <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> dns_domain          <span class="p">|</span> None                                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> dns_name            <span class="p">|</span> None                                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> fixed_ip_address    <span class="p">|</span> None                                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> floating_ip_address <span class="p">|</span> 172.22.200.58                        <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> floating_network_id <span class="p">|</span> 2ebd4d15-00e3-44c6-a9a7-aeebef5f6540 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> id                  <span class="p">|</span> a968d5af-62bb-4b81-88e9-1577173aa561 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> name                <span class="p">|</span> 172.22.200.58                        <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> port_details        <span class="p">|</span> None                                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> port_id             <span class="p">|</span> None                                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> project_id          <span class="p">|</span> e928f4126bb343ec8048871da80c2a39     <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> qos_policy_id       <span class="p">|</span> None                                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> revision_number     <span class="p">|</span> <span class="m">0</span>                                    <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> router_id           <span class="p">|</span> None                                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> status              <span class="p">|</span> DOWN                                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> subnet_id           <span class="p">|</span> None                                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> tags                <span class="p">|</span> <span class="o">[]</span>                                   <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> updated_at          <span class="p">|</span> 2023-04-28T10:49:26Z                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+---------------------+--------------------------------------+
+</span></span></code></pre></div><p>Se la asigno a la máquina creada para poder usarla.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">openstack server add floating ip servidor_nfs 172.22.200.58
+</span></span></code></pre></div><p>Creo el volumen de 2 GB.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">openstack volume create --size <span class="m">2</span> --description <span class="s2">&#34;Volumen para servidor_nfs&#34;</span> --availability-zone <span class="s2">&#34;nova&#34;</span> --bootable volumen_nfs
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">+---------------------+------------------------------------------------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> Field               <span class="p">|</span> Value                                                            <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+---------------------+------------------------------------------------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> attachments         <span class="p">|</span> <span class="o">[]</span>                                                               <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> availability_zone   <span class="p">|</span> nova                                                             <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> bootable            <span class="p">|</span> <span class="nb">false</span>                                                            <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> consistencygroup_id <span class="p">|</span> None                                                             <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> created_at          <span class="p">|</span> 2023-04-28T10:54:12.092015                                       <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> description         <span class="p">|</span> Volumen para servidor_nfs                                        <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> encrypted           <span class="p">|</span> False                                                            <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> id                  <span class="p">|</span> 5e08d606-d74a-4564-9a0b-f88fbcb671b1                             <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> multiattach         <span class="p">|</span> False                                                            <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> name                <span class="p">|</span> volumen_nfs                                                      <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> properties          <span class="p">|</span>                                                                  <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> replication_status  <span class="p">|</span> None                                                             <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> size                <span class="p">|</span> <span class="m">2</span>                                                                <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> snapshot_id         <span class="p">|</span> None                                                             <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> source_volid        <span class="p">|</span> None                                                             <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> status              <span class="p">|</span> creating                                                         <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> <span class="nb">type</span>                <span class="p">|</span> __DEFAULT__                                                      <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> updated_at          <span class="p">|</span> None                                                             <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> user_id             <span class="p">|</span> 276b52c5951960d5b90f6d1d4d717e43ecb9c157971ba4ddd15f9728ae476f9a <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+---------------------+------------------------------------------------------------------+
+</span></span></code></pre></div><p>Asigno el volumen a la máquina.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">openstack server add volume servidor_nfs volumen_nfs
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">+-----------------------+--------------------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> Field                 <span class="p">|</span> Value                                <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+-----------------------+--------------------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> ID                    <span class="p">|</span> 5e08d606-d74a-4564-9a0b-f88fbcb671b1 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> Server ID             <span class="p">|</span> b85d66d8-db4f-44ac-a771-378fee658833 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> Volume ID             <span class="p">|</span> 5e08d606-d74a-4564-9a0b-f88fbcb671b1 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> Device                <span class="p">|</span> /dev/vdb                             <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> Tag                   <span class="p">|</span> None                                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> Delete On Termination <span class="p">|</span> False                                <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+-----------------------+--------------------------------------+
+</span></span></code></pre></div><p>Accedo a la máquina para comprobar que se ha asignado correctamente el volumen.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh debian@172.22.200.58
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">debian@servidor-nfs:~$ lsblk
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">NAME    MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+</span></span><span class="line"><span class="cl">vda     254:0    <span class="m">0</span>   10G  <span class="m">0</span> disk 
+</span></span><span class="line"><span class="cl">├─vda1  254:1    <span class="m">0</span>  9.9G  <span class="m">0</span> part /
+</span></span><span class="line"><span class="cl">├─vda14 254:14   <span class="m">0</span>    3M  <span class="m">0</span> part 
+</span></span><span class="line"><span class="cl">└─vda15 254:15   <span class="m">0</span>  124M  <span class="m">0</span> part /boot/efi
+</span></span><span class="line"><span class="cl">vdb     254:16   <span class="m">0</span>    2G  <span class="m">0</span> disk
+</span></span></code></pre></div><p>Formateo el volumen añadido.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">debian@servidor-nfs:~$ sudo mkfs -t ext4 /dev/vdb
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">mke2fs 1.46.2 <span class="o">(</span>28-Feb-2021<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Discarding device blocks: <span class="k">done</span>                            
+</span></span><span class="line"><span class="cl">Creating filesystem with <span class="m">524288</span> 4k blocks and <span class="m">131072</span> inodes
+</span></span><span class="line"><span class="cl">Filesystem UUID: 08e0df64-1306-4add-9318-40e2dc8e51fd
+</span></span><span class="line"><span class="cl">Superblock backups stored on blocks: 
+</span></span><span class="line"><span class="cl">	32768, 98304, 163840, 229376, <span class="m">294912</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Allocating group tables: <span class="k">done</span>                            
+</span></span><span class="line"><span class="cl">Writing inode tables: <span class="k">done</span>                            
+</span></span><span class="line"><span class="cl">Creating journal <span class="o">(</span><span class="m">16384</span> blocks<span class="o">)</span>: <span class="k">done</span>
+</span></span><span class="line"><span class="cl">Writing superblocks and filesystem accounting information: <span class="k">done</span> 
+</span></span></code></pre></div><h4 id="13-creación-máquina-cliente">1.3 Creación máquina cliente</h4>
+<p>Creo la máquina cliente a la que he llamado cliente_nfs de la siguiente forma:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">openstack server create --flavor m1.mini --image <span class="s2">&#34;Debian 11 Bullseye&#34;</span> --security-group default --key-name Mi_Clave --network <span class="s2">&#34;red de arantxa.fernandez&#34;</span> cliente_nfs
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">+-----------------------------+------------------------------------------------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> Field                       <span class="p">|</span> Value                                                            <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+-----------------------------+------------------------------------------------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> OS-DCF:diskConfig           <span class="p">|</span> MANUAL                                                           <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> OS-EXT-AZ:availability_zone <span class="p">|</span>                                                                  <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> OS-EXT-STS:power_state      <span class="p">|</span> NOSTATE                                                          <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> OS-EXT-STS:task_state       <span class="p">|</span> scheduling                                                       <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> OS-EXT-STS:vm_state         <span class="p">|</span> building                                                         <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> OS-SRV-USG:launched_at      <span class="p">|</span> None                                                             <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> OS-SRV-USG:terminated_at    <span class="p">|</span> None                                                             <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> accessIPv4                  <span class="p">|</span>                                                                  <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> accessIPv6                  <span class="p">|</span>                                                                  <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> addresses                   <span class="p">|</span>                                                                  <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> adminPass                   <span class="p">|</span> Tp5DhgNB74VA                                                     <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> config_drive                <span class="p">|</span>                                                                  <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> created                     <span class="p">|</span> 2023-04-28T11:00:06Z                                             <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> flavor                      <span class="p">|</span> m1.mini <span class="o">(</span>3<span class="o">)</span>                                                      <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> hostId                      <span class="p">|</span>                                                                  <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> id                          <span class="p">|</span> c4d27ef2-0c70-4fc7-a07f-8af79f985228                             <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> image                       <span class="p">|</span> Debian <span class="m">11</span> Bullseye <span class="o">(</span>6d992898-7e4f-44b9-a681-6dcf32d24a1f<span class="o">)</span>        <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> key_name                    <span class="p">|</span> Mi_Clave                                                         <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> name                        <span class="p">|</span> cliente_nfs                                                      <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> progress                    <span class="p">|</span> <span class="m">0</span>                                                                <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> project_id                  <span class="p">|</span> e928f4126bb343ec8048871da80c2a39                                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> properties                  <span class="p">|</span>                                                                  <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> security_groups             <span class="p">|</span> <span class="nv">name</span><span class="o">=</span><span class="s1">&#39;0ad08d7e-fb7f-414b-917c-8152a0910246&#39;</span>                      <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> status                      <span class="p">|</span> BUILD                                                            <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> updated                     <span class="p">|</span> 2023-04-28T11:00:06Z                                             <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> user_id                     <span class="p">|</span> 276b52c5951960d5b90f6d1d4d717e43ecb9c157971ba4ddd15f9728ae476f9a <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> volumes_attached            <span class="p">|</span>                                                                  <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+-----------------------------+------------------------------------------------------------------+
+</span></span></code></pre></div><p>Como en la máquina anterior creo una ip flotante y se la asigno:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">openstack floating ip create ext-net
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">+---------------------+--------------------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> Field               <span class="p">|</span> Value                                <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+---------------------+--------------------------------------+
+</span></span><span class="line"><span class="cl"><span class="p">|</span> created_at          <span class="p">|</span> 2023-04-28T11:02:53Z                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> description         <span class="p">|</span>                                      <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> dns_domain          <span class="p">|</span> None                                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> dns_name            <span class="p">|</span> None                                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> fixed_ip_address    <span class="p">|</span> None                                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> floating_ip_address <span class="p">|</span> 172.22.201.158                       <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> floating_network_id <span class="p">|</span> 2ebd4d15-00e3-44c6-a9a7-aeebef5f6540 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> id                  <span class="p">|</span> 7ca627cc-87e8-4330-9c89-12c6ac30d51b <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> name                <span class="p">|</span> 172.22.201.158                       <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> port_details        <span class="p">|</span> None                                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> port_id             <span class="p">|</span> None                                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> project_id          <span class="p">|</span> e928f4126bb343ec8048871da80c2a39     <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> qos_policy_id       <span class="p">|</span> None                                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> revision_number     <span class="p">|</span> <span class="m">0</span>                                    <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> router_id           <span class="p">|</span> None                                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> status              <span class="p">|</span> DOWN                                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> subnet_id           <span class="p">|</span> None                                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> tags                <span class="p">|</span> <span class="o">[]</span>                                   <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> updated_at          <span class="p">|</span> 2023-04-28T11:02:53Z                 <span class="p">|</span>
+</span></span><span class="line"><span class="cl">+---------------------+--------------------------------------+
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">openstack server add floating ip cliente_nfs 172.22.201.158 
+</span></span></code></pre></div><p>Ya puedo acceder a la máquina cliente.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh debian@172.22.201.158
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">debian@cliente-nfs:~$ lsblk
+</span></span><span class="line"><span class="cl">NAME    MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+</span></span><span class="line"><span class="cl">vda     254:0    <span class="m">0</span>   10G  <span class="m">0</span> disk 
+</span></span><span class="line"><span class="cl">├─vda1  254:1    <span class="m">0</span>  9.9G  <span class="m">0</span> part /
+</span></span><span class="line"><span class="cl">├─vda14 254:14   <span class="m">0</span>    3M  <span class="m">0</span> part 
+</span></span><span class="line"><span class="cl">└─vda15 254:15   <span class="m">0</span>  124M  <span class="m">0</span> part /boot/efi
+</span></span></code></pre></div><h3 id="2-configuración-de-servidor_nfs">2. Configuración de servidor_nfs</h3>
+<h4 id="21-unidad-de-montaje">2.1 Unidad de montaje</h4>
+<p>Creo la unidad de montaje de la siguiente manera:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/systemd/system/mnt.mount
+</span></span></code></pre></div><p>Le añado:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[Unit]
+</span></span><span class="line"><span class="cl">Description=Montaje de disco NFS con volumen vdb 2GB
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[Mount]
+</span></span><span class="line"><span class="cl">What=/dev/vdb
+</span></span><span class="line"><span class="cl">Where=/mnt
+</span></span><span class="line"><span class="cl">Type=ext4
+</span></span><span class="line"><span class="cl">Options=defaults
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[Install]
+</span></span><span class="line"><span class="cl">WantedBy=multi-user.target
+</span></span></code></pre></div><p>Activo el servicio:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl start mnt.mount
+</span></span><span class="line"><span class="cl">sudo systemctl <span class="nb">enable</span> mnt.mount
+</span></span></code></pre></div><p>Comprobar estado de la unidad de montaje:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">debian@servidor-nfs:~$ sudo systemctl status mnt.mount
+</span></span><span class="line"><span class="cl">● mnt.mount - Montaje de disco NFS con volumen vdb 2GB
+</span></span><span class="line"><span class="cl">     Loaded: loaded <span class="o">(</span>/proc/self/mountinfo<span class="p">;</span> enabled<span class="p">;</span> vendor preset: enabled<span class="o">)</span>
+</span></span><span class="line"><span class="cl">     Active: active <span class="o">(</span>mounted<span class="o">)</span> since Fri 2023-04-28 11:35:43 UTC<span class="p">;</span> 10min ago
+</span></span><span class="line"><span class="cl">      Where: /mnt
+</span></span><span class="line"><span class="cl">       What: /dev/vdb
+</span></span><span class="line"><span class="cl">      Tasks: <span class="m">0</span> <span class="o">(</span>limit: 527<span class="o">)</span>
+</span></span><span class="line"><span class="cl">     Memory: 28.0K
+</span></span><span class="line"><span class="cl">        CPU: 4ms
+</span></span><span class="line"><span class="cl">     CGroup: /system.slice/mnt.mount
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Apr <span class="m">28</span> 11:35:43 servidor-nfs systemd<span class="o">[</span>1<span class="o">]</span>: Mounting Montaje de disco NFS con volumen vdb 2GB...
+</span></span><span class="line"><span class="cl">Apr <span class="m">28</span> 11:35:43 servidor-nfs systemd<span class="o">[</span>1<span class="o">]</span>: Mounted Montaje de disco NFS con volumen vdb 2GB.
+</span></span></code></pre></div><p>Comprobar el volumen montado:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">debian@servidor-nfs:~$ lsblk -f
+</span></span><span class="line"><span class="cl">NAME    FSTYPE FSVER LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINT
+</span></span><span class="line"><span class="cl">vda                                                                            
+</span></span><span class="line"><span class="cl">├─vda1  ext4   1.0         ce1282a1-ced7-40a2-8b01-eed78dc14d62    8.4G     9% /
+</span></span><span class="line"><span class="cl">├─vda14                                                                        
+</span></span><span class="line"><span class="cl">└─vda15 vfat   FAT16       4A0A-DB16                             117.8M     5% /boot/efi
+</span></span><span class="line"><span class="cl">vdb     ext4   1.0         08e0df64-1306-4add-9318-40e2dc8e51fd    1.8G     0% /mnt
+</span></span></code></pre></div><h4 id="22-servidor-nfs">2.2 Servidor NFS</h4>
+<p>Instalar los paquetes necesarios para usar NFS.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt install nfs-kernel-server nfs-common
+</span></span></code></pre></div><p>Para que se puedan conectar los clientes NFS añadimos a /etc/exports lo siguiente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/exports
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/mnt 10.0.0.0/24<span class="o">(</span>rw,sync,no_subtree_check,no_root_squash<span class="o">)</span>
+</span></span></code></pre></div><p>Reiniciar el servicio NFS.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl restart nfs-kernel-server
+</span></span></code></pre></div><p>Actualizo la lista de directorios compartidos:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo exportfs
+</span></span></code></pre></div><h3 id="3-configuración-de-cliente_nfs">3. Configuración de cliente_nfs</h3>
+<h4 id="31-cliente-nfs">3.1 Cliente NFS</h4>
+<p>Vamos a la máquina cliente_nfs e instalamos el paquete necesario para conectarme como cliente NFS.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt install nfs-common
+</span></span></code></pre></div><h4 id="32-unidad-de-montaje">3.2 Unidad de montaje</h4>
+<p>Creo la unidad de montaje.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/systemd/system/mnt.mount
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[Unit]
+</span></span><span class="line"><span class="cl">Description=Montaje de disco NFS compartido con servidor_nfs (vdb)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[Mount]
+</span></span><span class="line"><span class="cl">What=10.0.0.58:/mnt     --ipservidor:directoriocompartido
+</span></span><span class="line"><span class="cl">Where=/mnt
+</span></span><span class="line"><span class="cl">Options=defaults
+</span></span><span class="line"><span class="cl">Type=nfs
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[Install]
+</span></span><span class="line"><span class="cl">WantedBy=multi-user.target
+</span></span></code></pre></div><p>Activo el servicio.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl start mnt.mount
+</span></span><span class="line"><span class="cl">sudo systemctl <span class="nb">enable</span> mnt.mount
+</span></span></code></pre></div><h4 id="33-comprobaciones">3.3 Comprobaciones</h4>
+<p>Comprobar unidad de montaje funcionando.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">debian@cliente-nfs:~$ sudo systemctl status mnt.mount
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">● mnt.mount - Montaje de disco NFS compartido con servidor_nfs <span class="o">(</span>vdb<span class="o">)</span>
+</span></span><span class="line"><span class="cl">     Loaded: loaded <span class="o">(</span>/proc/self/mountinfo<span class="p">;</span> enabled<span class="p">;</span> vendor preset: enabled<span class="o">)</span>
+</span></span><span class="line"><span class="cl">     Active: active <span class="o">(</span>mounted<span class="o">)</span> since Fri 2023-04-28 12:08:23 UTC<span class="p">;</span> 18s ago
+</span></span><span class="line"><span class="cl">      Where: /mnt
+</span></span><span class="line"><span class="cl">       What: 10.0.0.58:/mnt
+</span></span><span class="line"><span class="cl">      Tasks: <span class="m">0</span> <span class="o">(</span>limit: 527<span class="o">)</span>
+</span></span><span class="line"><span class="cl">     Memory: 76.0K
+</span></span><span class="line"><span class="cl">        CPU: 7ms
+</span></span><span class="line"><span class="cl">     CGroup: /system.slice/mnt.mount
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Apr <span class="m">28</span> 12:08:23 cliente-nfs systemd<span class="o">[</span>1<span class="o">]</span>: Mounting Montaje de disco NFS compartido con servidor_nfs <span class="o">(</span>vdb<span class="o">)</span>&gt;
+</span></span><span class="line"><span class="cl">Apr <span class="m">28</span> 12:08:23 cliente-nfs systemd<span class="o">[</span>1<span class="o">]</span>: Mounted Montaje de disco NFS compartido con servidor_nfs <span class="o">(</span>vdb<span class="o">)</span>.
+</span></span></code></pre></div><p>Comprobar el directorio remoto montado.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">debian@cliente-nfs:~$ df -h
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Filesystem      Size  Used Avail Use% Mounted on
+</span></span><span class="line"><span class="cl">udev            220M     <span class="m">0</span>  220M   0% /dev
+</span></span><span class="line"><span class="cl">tmpfs            48M  476K   47M   1% /run
+</span></span><span class="line"><span class="cl">/dev/vda1       9.7G  1.1G  8.3G  12% /
+</span></span><span class="line"><span class="cl">tmpfs           237M     <span class="m">0</span>  237M   0% /dev/shm
+</span></span><span class="line"><span class="cl">tmpfs           5.0M     <span class="m">0</span>  5.0M   0% /run/lock
+</span></span><span class="line"><span class="cl">/dev/vda15      124M  5.9M  118M   5% /boot/efi
+</span></span><span class="line"><span class="cl">tmpfs            48M     <span class="m">0</span>   48M   0% /run/user/1000
+</span></span><span class="line"><span class="cl">10.0.0.58:/mnt  2.0G     <span class="m">0</span>  1.8G   0% /mnt
+</span></span></code></pre></div><p>Creo un fichero de prueba en el directorio compartido.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /mnt/pruebanfs.txt
+</span></span></code></pre></div><p>Añado:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">hola esto es una prueba para la practica de nfs mediante systemd
+</span></span></code></pre></div><p>Voy a servidor_nfs y compruebo el contenido del directorio.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">debian@servidor-nfs:~$ ls -l /mnt/
+</span></span><span class="line"><span class="cl">total <span class="m">20</span>
+</span></span><span class="line"><span class="cl">drwx------ <span class="m">2</span> root root <span class="m">16384</span> Apr <span class="m">28</span> 11:26 lost+found
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> root root    <span class="m">65</span> Apr <span class="m">28</span> 12:11 pruebanfs.txt
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">debian@servidor-nfs:~$ cat /mnt/pruebanfs.txt
+</span></span><span class="line"><span class="cl">hola esto es una prueba para la practica de nfs mediante systemd
+</span></span></code></pre></div><p><strong>Captura de prueba:</strong></p>
+<p><img src="/img/nfs/2.png" alt=""></p>
+
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://afermor8.github.io/tags/aso/">ASO</a>&nbsp;
+            
+          </div>
+        
+
+        
+            <hr/>
+            <section id="social-share">
+              <div class="list-inline footer-links">
+                
+
+<div class="share-box" aria-hidden="true">
+    <ul class="share">
+      
+      <li>
+        <a href="//twitter.com/share?url=https%3a%2f%2fafermor8.github.io%2fpost%2fnfs%2f&amp;text=Montaje%20NFS%20mediante%20systemd&amp;via=" target="_blank" title="Share on Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fafermor8.github.io%2fpost%2fnfs%2f" target="_blank" title="Share on Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//reddit.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fnfs%2f&amp;title=Montaje%20NFS%20mediante%20systemd" target="_blank" title="Share on Reddit">
+          <i class="fab fa-reddit"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fafermor8.github.io%2fpost%2fnfs%2f&amp;title=Montaje%20NFS%20mediante%20systemd" target="_blank" title="Share on LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fnfs%2f&amp;title=Montaje%20NFS%20mediante%20systemd" target="_blank" title="Share on StumbleUpon">
+          <i class="fab fa-stumbleupon"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fafermor8.github.io%2fpost%2fnfs%2f&amp;description=Montaje%20NFS%20mediante%20systemd" target="_blank" title="Share on Pinterest">
+          <i class="fab fa-pinterest"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+
+              </div>
+            </section>
+        
+
+        
+          
+            
+          
+
+          
+                  <h4 class="see-also">Ver también</h4>
+                  <ul>
+                
+                
+                    <li><a href="/post/centos/">Migración CentOS</a></li>
+                
+                    <li><a href="/post/install-deb/">Instalación Debian 11</a></li>
+                
+              </ul>
+
+          
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://afermor8.github.io/post/docker2/" data-toggle="tooltip" data-placement="top" title="Práctica 2: Implantación de aplicaciones web Python en Docker">&larr; Artículo anterior</a>
+            </li>
+          
+          
+        </ul>
+      
+
+
+      
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+      
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+		
+		  <a href="mailto:ara.fer.mor@gmail.com" title="Email me">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://github.com/afermor8" title="GitHub">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://Afermor.slack.com/" title="Slack">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-slack fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://linkedin.com/in/arantxa-f-6136617b" title="LinkedIn">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://telegram.me/arantxipu" title="Telegram">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-telegram fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            <a href="" title="RSS">
+              <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              <a href="afermor8.github.io">afermor8</a>
+            
+          
+
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2023
+          
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="https://gohugo.io">Hugo v0.104.3</a> alimentada &nbsp;&bull;&nbsp; Tema <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adaptado de <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer><script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://afermor8.github.io/js/main.js"></script>
+<script src="https://afermor8.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://afermor8.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>
+

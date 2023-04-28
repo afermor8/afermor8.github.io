@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <managingEditor>ara.fer.mor@gmail.com (afermor8)</managingEditor>
     <webMaster>ara.fer.mor@gmail.com (afermor8)</webMaster>
-    <lastBuildDate>Tue, 21 Mar 2023 08:33:20 +0100</lastBuildDate><atom:link href="https://afermor8.github.io/tags/aso/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 28 Apr 2023 11:59:22 +0200</lastBuildDate><atom:link href="https://afermor8.github.io/tags/aso/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Montaje NFS mediante systemd</title>
+      <link>https://afermor8.github.io/post/nfs/</link>
+      <pubDate>Fri, 28 Apr 2023 11:59:22 +0200</pubDate>
+      <author>ara.fer.mor@gmail.com (afermor8)</author>
+      <guid>https://afermor8.github.io/post/nfs/</guid>
+      <description>En una instancia del cloud, basada en la distribución de tu elección, anexa un volumen de 2GB. En dicha instancia deberás configurar el servicio nfs de exportación y en el volumen un punto de montaje de la exportación mediante systemd. 1. Preparar escenario 1.1 Pasos previos En mi máquina host llamada tars voy a instalar openstackclient.
+sudo apt install python3-venv python3 -m venv ~/venv/openstackclient source ~/venv/openstackclient/bin/activate pip3 install openstackclient Vamos a Openstack para conseguir el fichero Openstack RC.</description>
+    </item>
+    
     <item>
       <title>Migración CentOS</title>
       <link>https://afermor8.github.io/post/centos/</link>
