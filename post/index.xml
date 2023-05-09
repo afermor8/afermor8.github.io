@@ -92,17 +92,6 @@ show parameter audit NAME TYPE VALUE ------------------------------------ ------
     </item>
     
     <item>
-      <title>Informática Forense</title>
-      <link>https://afermor8.github.io/post/forense/</link>
-      <pubDate>Mon, 06 Feb 2023 12:50:51 +0100</pubDate>
-      <author>ara.fer.mor@gmail.com (afermor8)</author>
-      <guid>https://afermor8.github.io/post/forense/</guid>
-      <description>Descripción La informática forense es el conjunto de técnicas que nos permite obtener la máxima información posible tras un incidente o delito informático.
-En esta práctica, realizarás la fase de toma de evidencias y análisis de las mismas sobre una máquina Linux y otra Windows. Supondremos que pillamos al delincuente in fraganti y las máquinas se encontraban encendidas. Opcionalmente, podéis realizar el análisis de un dispositivo Android.
-Sobre cada una de las máquinas debes realizar un volcado de memoria y otro de disco duro, tomando las medidas necesarias para certificar posteriormente la cadena de custodia.</description>
-    </item>
-    
-    <item>
       <title>Despliegue de aplicaciones Python (Django)</title>
       <link>https://afermor8.github.io/post/django/</link>
       <pubDate>Thu, 26 Jan 2023 10:51:57 +0100</pubDate>
