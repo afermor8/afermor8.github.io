@@ -7,8 +7,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>Instalación Debian 11 - Mi paso por ASIR Blog</title>
-  <meta name="description" content="Particiones LVM">
+  <title>Recolección centralizada de logs de sistema, mediante journald. - Mi paso por ASIR Blog</title>
+  <meta name="description" content="Implementa en tu escenario de trabajo de Openstack, un sistema de recolección de log mediante journald. Para ello debes, implementar un sistema de recolección de log mediante el paquete systemd-journal-remote, o similares Empezamos instalando el paquete systemd-journal-remote en alfa, bravo, charlie y delta. Bravo es un sistema Rocky Linux 9 por lo que habrá que instalarlo con DNF, pero en el resto de máquinas tenemos sistemas Debian (alfa) y Ubuntu (charlie y delta), por lo que lo instalaremos con APT.">
   <meta name="author" content="afermor8"/><script type="application/ld+json">
 {
     "@context": "http://schema.org",
@@ -44,8 +44,8 @@
         "@type": "ListItem",
         "position": 3,
         "item": {
-          "@id": "https:\/\/afermor8.github.io\/post\/install-deb\/",
-          "name": "Instalación debian 11"
+          "@id": "https:\/\/afermor8.github.io\/post\/logs\/",
+          "name": "Recolección centralizada de logs de sistema, mediante journald."
         }
     }]
 }
@@ -56,15 +56,15 @@
   "author": {
     "name" : "afermor8"
   },
-  "headline": "Instalación Debian 11",
-  "description" : "Preparación Para empezar he booteado un usb con la imagen de Debian 11 con la herramienta Rufus. Mi portátil es un Lenovo Thinkpa L15 con 1TB de almacenamiento y 40GB de RAM. Antes de realizar la instalación he dejado libre la mitad de mi disco de 1TB. Es decir, 500GB del disco están destinados a Windows 10, por lo que para la instalación de Debian 11 tengo disponibles l500GB de espacio libre.",
+  "headline": "Recolección centralizada de logs de sistema, mediante journald.",
+  "description" : "Implementa en tu escenario de trabajo de Openstack, un sistema de recolección de log mediante journald. Para ello debes, implementar un sistema de recolección de log mediante el paquete systemd-journal-remote, o similares Empezamos instalando el paquete systemd-journal-remote en alfa, bravo, charlie y delta. Bravo es un sistema Rocky Linux 9 por lo que habrá que instalarlo con DNF, pero en el resto de máquinas tenemos sistemas Debian (alfa) y Ubuntu (charlie y delta), por lo que lo instalaremos con APT.",
   "inLanguage" : "es",
-  "wordCount":  663 ,
-  "datePublished" : "2022-10-09T00:00:00",
-  "dateModified" : "2022-10-09T00:00:00",
+  "wordCount":  360 ,
+  "datePublished" : "2023-05-27T19:09:34",
+  "dateModified" : "2023-05-27T19:09:34",
   "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
   "keywords" : [ "ASO" ],
-  "mainEntityOfPage" : "https:\/\/afermor8.github.io\/post\/install-deb\/",
+  "mainEntityOfPage" : "https:\/\/afermor8.github.io\/post\/logs\/",
   "publisher" : {
     "@type": "Organization",
     "name" : "https:\/\/afermor8.github.io",
@@ -78,15 +78,15 @@
 }
 </script>
 
-<meta property="og:title" content="Instalación Debian 11" />
-<meta property="og:description" content="Particiones LVM">
+<meta property="og:title" content="Recolección centralizada de logs de sistema, mediante journald." />
+<meta property="og:description" content="Implementa en tu escenario de trabajo de Openstack, un sistema de recolección de log mediante journald. Para ello debes, implementar un sistema de recolección de log mediante el paquete systemd-journal-remote, o similares Empezamos instalando el paquete systemd-journal-remote en alfa, bravo, charlie y delta. Bravo es un sistema Rocky Linux 9 por lo que habrá que instalarlo con DNF, pero en el resto de máquinas tenemos sistemas Debian (alfa) y Ubuntu (charlie y delta), por lo que lo instalaremos con APT.">
 <meta property="og:image" content="https://afermor8.github.io/img/avatar-icon.png" />
-<meta property="og:url" content="https://afermor8.github.io/post/install-deb/" />
+<meta property="og:url" content="https://afermor8.github.io/post/logs/" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Mi paso por ASIR Blog" />
 
-  <meta name="twitter:title" content="Instalación Debian 11" />
-  <meta name="twitter:description" content="Particiones LVM">
+  <meta name="twitter:title" content="Recolección centralizada de logs de sistema, mediante journald." />
+  <meta name="twitter:description" content="Implementa en tu escenario de trabajo de Openstack, un sistema de recolección de log mediante journald. Para ello debes, implementar un sistema de recolección de log mediante el paquete …">
   <meta name="twitter:image" content="https://afermor8.github.io/img/avatar-icon.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <link href='https://afermor8.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
@@ -242,23 +242,19 @@
           <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
               <div class="post-heading">
-                <h1>Instalación Debian 11</h1>
-                  
-                    
-                      <h2 class="post-subheading">Particiones LVM</h2>
-                    
+                <h1>Recolección centralizada de logs de sistema, mediante journald.</h1>
                   
                   
                     <span class="post-meta">
   
   
-  <i class="fas fa-calendar"></i>&nbsp;Publicado el October 9, 2022
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el May 27, 2023
   
   
-    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;4&nbsp;minutos
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;2&nbsp;minutos
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;663&nbsp;palabras
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;360&nbsp;palabras
   
   
     
@@ -284,25 +280,21 @@
           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <div class="post-heading">
               
-                <h1>Instalación Debian 11</h1>
+                <h1>Recolección centralizada de logs de sistema, mediante journald.</h1>
               
               
-              
-                
-                  <h2 class="post-subheading">Particiones LVM</h2>
-                
               
               
                 <span class="post-meta">
   
   
-  <i class="fas fa-calendar"></i>&nbsp;Publicado el October 9, 2022
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el May 27, 2023
   
   
-    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;4&nbsp;minutos
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;2&nbsp;minutos
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;663&nbsp;palabras
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;360&nbsp;palabras
   
   
     
@@ -328,44 +320,70 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-        <h2 id="preparación">Preparación</h2>
-<p>Para empezar he booteado un usb con la imagen de Debian 11 con la herramienta Rufus.
-Mi portátil es un Lenovo Thinkpa L15 con 1TB de almacenamiento y 40GB de RAM. Antes de realizar la instalación he dejado libre la mitad de mi disco de 1TB. Es decir, 500GB del disco están destinados a Windows 10, por lo que para la instalación de Debian 11 tengo disponibles l500GB de espacio libre.</p>
-<h2 id="instalación">Instalación</h2>
-<p>Para realizar la instalación de Debian 11 con LVM en mi portátil he realizado los siguientes pasos:</p>
-<ol>
-<li>
-<p>Con el instalador gráfico, tras seleccionar idioma, configurar la red, usuario y contraseñas, realizo el particionado de discos de forma manual. Tengo en cuenta el espacio en el que está la partición de Windows 10 y en la que tenía el anterior Debian que borraré para utilizar ese espacio libre. Una vez borrado, selecciono el espacio libre para crear la partición de /boot. Esta es una partición primaria creada al principio con tipo de datos xfs. A esta partición le he dado 2GB.</p>
-</li>
-<li>
-<p>La partición EFI, al igual que la anterior, la he creado al principio y es una partición primaria. A esta partición le he dado 100MB que es el mínimo y suficiente para que el sistema arranque.</p>
-</li>
-<li>
-<p>A continuación creamos el grupo de volúmenes. En ‘Configurar el gestor de volúmenes lógicos (LVM)’ creo un grupo de volúmenes con el espacio libre disponible. En este grupo de volúmenes he ido creando cada volumen lógico. Le he asignado un nombre y un tamaño a cada uno además del grupo de volúmenes en el que se incluirá.
-Una vez creados los volúmenes lógicos se le asigna el punto de montaje correspondiente y el sistema de ficheros.
-Como sistema de ficheros he elegido xfs ya que trabaja más rápido con archivos grandes. A continuación muestro una tabla con cada volumen creado:</p>
-</li>
-</ol>
-<p><img src="/img/aso/tabla_lvm.png" alt="tabla"></p>
+        <h2 id="implementa-en-tu-escenario-de-trabajo-de-openstack-un-sistema-de-recolección-de-log-mediante-journald-para-ello-debes-implementar-un-sistema-de-recolección-de-log-mediante-el-paquete-systemd-journal-remote-o-similares">Implementa en tu escenario de trabajo de Openstack, un sistema de recolección de log mediante journald. Para ello debes, implementar un sistema de recolección de log mediante el paquete systemd-journal-remote, o similares</h2>
+<p>Empezamos instalando el paquete systemd-journal-remote en alfa, bravo, charlie y delta. Bravo es un sistema Rocky Linux 9 por lo que habrá que instalarlo con DNF, pero en el resto de máquinas tenemos sistemas Debian (alfa) y Ubuntu (charlie y delta), por lo que lo instalaremos con APT.</p>
+<p><strong>Alfa, Charlie y Delta:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install systemd-journal-remote
+</span></span></code></pre></div><p><strong>Bravo:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo dnf install systemd-journal-remote
+</span></span></code></pre></div><h3 id="configuración-en-alfa">Configuración en ALFA</h3>
+<p>En alfa se recogerán los logs de las demás máqinas por lo que configuraremos systemd-journal-remote siguiendo los pasos descritos a continuación.</p>
+<p>Primero activamos las unidades systemd.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl <span class="nb">enable</span> --now systemd-journal-remote.socket
+</span></span><span class="line"><span class="cl">sudo systemctl <span class="nb">enable</span> systemd-journal-remote.service
+</span></span></code></pre></div><p>Editamos la unidad systemd-journal-remote para que no escuche por https.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /lib/systemd/system/systemd-journal-remote.service 
+</span></span></code></pre></div><p>Cambiamos la siguiente línea:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[Service]
+</span></span><span class="line"><span class="cl">ExecStart=/lib/systemd/systemd-journal-remote --listen-http=-3 --output=/var/log/journal/remote/
+</span></span></code></pre></div><p>Guardamos la configuración y reiniciamos el servicio:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl daemon-reload
+</span></span></code></pre></div><p>A continuación configuramos el servicio.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/systemd/journal-remote.conf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[Remote]
+</span></span><span class="line"><span class="cl">Seal=false
+</span></span><span class="line"><span class="cl">SplitMode=host
+</span></span></code></pre></div><p>Activamos el servicio.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl start systemd-journal-remote.service
+</span></span></code></pre></div><p>Al activar el servicio se crea el directorio <strong>/var/log/journal/remote</strong>.</p>
+<p>Comprobamos que el servicio funciona correctamente y que se ha abierto el puerto tcp que utiliza este servicio.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl status systemd-journal-remote.service
+</span></span><span class="line"><span class="cl">sudo systemctl status systemd-journal-remote.socket
+</span></span><span class="line"><span class="cl">sudo ss -puntal
+</span></span></code></pre></div><p><img src="/img/logs/1.png" alt=""></p>
+<h3 id="configuración-en-bravo-charlie-y-delta">Configuración en BRAVO, CHARLIE y DELTA</h3>
+<p>Iniciamos systemd-journal-upload.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl <span class="nb">enable</span> systemd-journal-upload.service
+</span></span></code></pre></div><p>Añadimos la dirección de la máquina Alfa al fichero de configuración journal-upload.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/systemd/journal-upload.conf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[Upload]
+</span></span><span class="line"><span class="cl">URL=http://192.168.0.1:19532
+</span></span></code></pre></div><p>Reiniciamos el servicio.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl restart systemd-journal-upload
+</span></span></code></pre></div><h2 id="comprobación">Comprobación</h2>
+<p>En el directorio <strong>/var/log/journal/remote/</strong> de la máquina <strong>Alfa</strong> se han creado los ficheros de logs de los servidores <strong>Bravo</strong>, <strong>Charlie</strong> y <strong>Delta</strong>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo ls -la /var/log/journal/remote/
+</span></span></code></pre></div><p><img src="/img/logs/2.png" alt=""></p>
+<p>Para comprobar que recoge los logs del sistema vamos a mandar un mensaje desde cada máquina de la siguiente forma:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">logger -p syslog.debug <span class="s2">&#34;### Mensaje de prueba desde BRAVO ###&#34;</span>
+</span></span><span class="line"><span class="cl">logger -p syslog.debug <span class="s2">&#34;### Mensaje de prueba desde CHARLIE ###&#34;</span>
+</span></span><span class="line"><span class="cl">logger -p syslog.debug <span class="s2">&#34;### Mensaje de prueba desde DELTA ###&#34;</span>
+</span></span></code></pre></div><p>Y si vemos los ficheros de log de las máquinas podremos ver esos mensajes:</p>
 <ul>
-<li>A <em>volraiz</em> le he dado 100GB ya que es donde irá el sistema, su configuración y donde se guardarán las librerías.</li>
-<li>En <em>volhome</em> estarán las cuentas de usuario y los documentos de éstos. En principio con los 60 GB debería ser suficiente para lo que voy a utilizar el sistema, pero en el caso de que me quede corta siempre puedo ampliar este volumen.</li>
-<li>A <em>volvar</em> le he dado 100GB, ya que será donde se almacene el sistema de ficheros. Los ficheros log pueden llegar a ocupar mucho.</li>
-<li>A la <em>swap</em> le he dado 6GB porque pienso que más es innecesario, y con una ram de 40GB los 6GB son suficientes. [La swap tenía pensado dejarla como una partición normal fuera del grupo de volúmenes, pero se me pasó hacerla y no dejé espacio libre suficiente, por lo que la metí como volumen lógico.]</li>
+<li><strong>BRAVO:</strong></li>
 </ul>
-<ol start="4">
-<li>Cuando se termina el particionado se escriben los cambios en el disco y se continua con las instalación como normalmente.
-Se instala el sistema base, se configura el gestor de paquetes desde la iso y en la selección de programas he elegido el entorno de escritorio GNOME y Xfce. Este último lo he instalado ya que me es más cómodo de usar que GNOME.</li>
-</ol>
-<h2 id="problemas-y-soluciones">Problemas y soluciones</h2>
-<p>Tras la instalación, no me reconoce la wifi. Cuando intento instalar el driver me da el problema de que mi usuario no se encuentra en el fichero sudoers. Para arreglar este problema he hecho lo siguiente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo journalctl -e --file<span class="o">=</span>/var/log/journal/remote/remote-172.16.0.200.journal
+</span></span></code></pre></div><p><img src="/img/logs/3.png" alt=""></p>
 <ul>
-<li>En /etc/group buscar la línea de sudo y añadir mi usuario, en este caso ‘arantxa’.</li>
+<li><strong>CHARLIE:</strong></li>
 </ul>
-<p>Solucionado el problema anterior paso a instalar el driver necesario para que funcione la tarjeta wifi. Con lspci -v compruebo el nombre del driver necesario que en mi caso es el siguiente:</p>
-<p><code>Kernel driver in use: iwlwifi</code></p>
-<p>Lo busco con apt search iwlwifi y me da como resultado firmware-iwlwifi. Lo instalo con apt install firmware-iwlwifi y tras reiniciar ya debería funcionar la tarjeta de red wifi.</p>
-<p>** En mi caso al intentar instalar el firmware no me aparece, por lo que he tenido que añadir en /etc/apt/sources.list las listas contrib y non-free.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo journalctl -e --file<span class="o">=</span>/var/log/journal/remote/remote-192.168.0.2.journal
+</span></span></code></pre></div><p><img src="/img/logs/4.png" alt=""></p>
+<ul>
+<li><strong>DELTA:</strong></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo journalctl -e --file<span class="o">=</span>/var/log/journal/remote/remote-192.168.0.3.journal
+</span></span></code></pre></div><p><img src="/img/logs/5.png" alt=""></p>
 
 
         
@@ -386,42 +404,42 @@ Se instala el sistema base, se configura el gestor de paquetes desde la iso y en
     <ul class="share">
       
       <li>
-        <a href="//twitter.com/share?url=https%3a%2f%2fafermor8.github.io%2fpost%2finstall-deb%2f&amp;text=Instalaci%c3%b3n%20Debian%2011&amp;via=" target="_blank" title="Share on Twitter">
+        <a href="//twitter.com/share?url=https%3a%2f%2fafermor8.github.io%2fpost%2flogs%2f&amp;text=Recolecci%c3%b3n%20centralizada%20de%20logs%20de%20sistema%2c%20mediante%20journald.&amp;via=" target="_blank" title="Share on Twitter">
           <i class="fab fa-twitter"></i>
         </a>
       </li>
   
       
       <li>
-        <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fafermor8.github.io%2fpost%2finstall-deb%2f" target="_blank" title="Share on Facebook">
+        <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fafermor8.github.io%2fpost%2flogs%2f" target="_blank" title="Share on Facebook">
           <i class="fab fa-facebook"></i>
         </a>
       </li>
   
       
       <li>
-        <a href="//reddit.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2finstall-deb%2f&amp;title=Instalaci%c3%b3n%20Debian%2011" target="_blank" title="Share on Reddit">
+        <a href="//reddit.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2flogs%2f&amp;title=Recolecci%c3%b3n%20centralizada%20de%20logs%20de%20sistema%2c%20mediante%20journald." target="_blank" title="Share on Reddit">
           <i class="fab fa-reddit"></i>
         </a>
       </li>
   
       
       <li>
-        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fafermor8.github.io%2fpost%2finstall-deb%2f&amp;title=Instalaci%c3%b3n%20Debian%2011" target="_blank" title="Share on LinkedIn">
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fafermor8.github.io%2fpost%2flogs%2f&amp;title=Recolecci%c3%b3n%20centralizada%20de%20logs%20de%20sistema%2c%20mediante%20journald." target="_blank" title="Share on LinkedIn">
           <i class="fab fa-linkedin"></i>
         </a>
       </li>
   
       
       <li>
-        <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2finstall-deb%2f&amp;title=Instalaci%c3%b3n%20Debian%2011" target="_blank" title="Share on StumbleUpon">
+        <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2flogs%2f&amp;title=Recolecci%c3%b3n%20centralizada%20de%20logs%20de%20sistema%2c%20mediante%20journald." target="_blank" title="Share on StumbleUpon">
           <i class="fab fa-stumbleupon"></i>
         </a>
       </li>
   
       
       <li>
-        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fafermor8.github.io%2fpost%2finstall-deb%2f&amp;description=Instalaci%c3%b3n%20Debian%2011" target="_blank" title="Share on Pinterest">
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fafermor8.github.io%2fpost%2flogs%2f&amp;description=Recolecci%c3%b3n%20centralizada%20de%20logs%20de%20sistema%2c%20mediante%20journald." target="_blank" title="Share on Pinterest">
           <i class="fab fa-pinterest"></i>
         </a>
       </li>
@@ -443,11 +461,11 @@ Se instala el sistema base, se configura el gestor de paquetes desde la iso y en
                   <ul>
                 
                 
-                    <li><a href="/post/logs/">Recolección centralizada de logs de sistema, mediante journald.</a></li>
-                
                     <li><a href="/post/nfs/">Montaje NFS mediante systemd</a></li>
                 
                     <li><a href="/post/centos/">Migración CentOS</a></li>
+                
+                    <li><a href="/post/install-deb/">Instalación Debian 11</a></li>
                 
               </ul>
 
@@ -458,10 +476,10 @@ Se instala el sistema base, se configura el gestor de paquetes desde la iso y en
       
         <ul class="pager blog-pager">
           
-          
-            <li class="next">
-              <a href="https://afermor8.github.io/post/install-bbdd/" data-toggle="tooltip" data-placement="top" title="Sistemas Gestores de Bases de Datos MySQL, PostgreSQL, Oracle 19c (en Debian11) y MongoDB">Artículo siguiente &rarr;</a>
+            <li class="previous">
+              <a href="https://afermor8.github.io/post/nfs/" data-toggle="tooltip" data-placement="top" title="Montaje NFS mediante systemd">&larr; Artículo anterior</a>
             </li>
+          
           
         </ul>
       

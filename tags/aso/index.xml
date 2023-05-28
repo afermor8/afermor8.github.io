@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <managingEditor>ara.fer.mor@gmail.com (afermor8)</managingEditor>
     <webMaster>ara.fer.mor@gmail.com (afermor8)</webMaster>
-    <lastBuildDate>Fri, 28 Apr 2023 11:59:22 +0200</lastBuildDate><atom:link href="https://afermor8.github.io/tags/aso/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 27 May 2023 19:09:34 +0200</lastBuildDate><atom:link href="https://afermor8.github.io/tags/aso/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Recolección centralizada de logs de sistema, mediante journald.</title>
+      <link>https://afermor8.github.io/post/logs/</link>
+      <pubDate>Sat, 27 May 2023 19:09:34 +0200</pubDate>
+      <author>ara.fer.mor@gmail.com (afermor8)</author>
+      <guid>https://afermor8.github.io/post/logs/</guid>
+      <description>Implementa en tu escenario de trabajo de Openstack, un sistema de recolección de log mediante journald. Para ello debes, implementar un sistema de recolección de log mediante el paquete systemd-journal-remote, o similares Empezamos instalando el paquete systemd-journal-remote en alfa, bravo, charlie y delta. Bravo es un sistema Rocky Linux 9 por lo que habrá que instalarlo con DNF, pero en el resto de máquinas tenemos sistemas Debian (alfa) y Ubuntu (charlie y delta), por lo que lo instalaremos con APT.</description>
+    </item>
+    
     <item>
       <title>Montaje NFS mediante systemd</title>
       <link>https://afermor8.github.io/post/nfs/</link>
