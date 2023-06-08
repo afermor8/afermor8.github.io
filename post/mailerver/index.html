@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="es" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Práctica: Servidor de correos - Mi paso por ASIR Blog</title>
+  <meta name="description" content="Instala y configura de manera adecuada el servidor de correos en tu VPS. El nombre del servidor de correo será mail.tudominio.es (este es el nombre que deberá aparecer en el registro MX).
+ssh arantxa@217.160.225.205 sudo apt update sudo apt upgrade sudo apt install postfix bsd-mailx Seleccionar la opción Internet Site y poner como nombre de dominio afm-tars.es.
+Vamos a la web de IONOS para añadir un registro CNAME con el nombre mail que apunte al nombre de mi máquina (walle).">
+  <meta name="author" content="afermor8"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Mi paso por ASIR Blog",
+    
+    "url": "https:\/\/afermor8.github.io"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/afermor8.github.io"
+  
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io\/post\/mailerver\/",
+          "name": "Práctica servidor de correos"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "afermor8"
+  },
+  "headline": "Práctica: Servidor de correos",
+  "description" : "Instala y configura de manera adecuada el servidor de correos en tu VPS. El nombre del servidor de correo será mail.tudominio.es (este es el nombre que deberá aparecer en el registro MX).\nssh arantxa@217.160.225.205 sudo apt update sudo apt upgrade sudo apt install postfix bsd-mailx Seleccionar la opción Internet Site y poner como nombre de dominio afm-tars.es.\nVamos a la web de IONOS para añadir un registro CNAME con el nombre mail que apunte al nombre de mi máquina (walle).",
+  "inLanguage" : "es",
+  "wordCount":  3872 ,
+  "datePublished" : "2023-06-05T20:03:42",
+  "dateModified" : "2023-06-05T20:03:42",
+  "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+  "keywords" : [ "SRI\u002bHLC" ],
+  "mainEntityOfPage" : "https:\/\/afermor8.github.io\/post\/mailerver\/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https:\/\/afermor8.github.io",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
+
+<meta property="og:title" content="Práctica: Servidor de correos" />
+<meta property="og:description" content="Instala y configura de manera adecuada el servidor de correos en tu VPS. El nombre del servidor de correo será mail.tudominio.es (este es el nombre que deberá aparecer en el registro MX).
+ssh arantxa@217.160.225.205 sudo apt update sudo apt upgrade sudo apt install postfix bsd-mailx Seleccionar la opción Internet Site y poner como nombre de dominio afm-tars.es.
+Vamos a la web de IONOS para añadir un registro CNAME con el nombre mail que apunte al nombre de mi máquina (walle).">
+<meta property="og:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+<meta property="og:url" content="https://afermor8.github.io/post/mailerver/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Mi paso por ASIR Blog" />
+
+  <meta name="twitter:title" content="Práctica: Servidor de correos" />
+  <meta name="twitter:description" content="Instala y configura de manera adecuada el servidor de correos en tu VPS. El nombre del servidor de correo será mail.tudominio.es (este es el nombre que deberá aparecer en el registro MX).
+ssh …">
+  <meta name="twitter:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link href='https://afermor8.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta name="generator" content="Hugo 0.104.3" />
+  <link rel="alternate" href="https://afermor8.github.io/index.xml" type="application/rss+xml" title="Mi paso por ASIR Blog"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://afermor8.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://afermor8.github.io/css/highlight.min.css" /><link rel="stylesheet" href="https://afermor8.github.io/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Conmuta navegación</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/page/about/">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Tags" href="/tags">Tags</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    
+      <div class="avatar-container">
+        <div class="avatar-img-border">
+          <a title="Mi paso por ASIR Blog" href="https://afermor8.github.io">
+            <img class="avatar-img" src="https://afermor8.github.io/img/avatar-icon.png" alt="Mi paso por ASIR Blog" />
+          </a>
+        </div>
+      </div>
+    
+
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+    <div id="header-big-imgs" data-num-img=3 
+      
+         
+          data-img-src-1="/img/triangle.jpg" 
+         
+         data-img-desc-1="Triangle"
+      
+         
+          data-img-src-2="/img/sphere.jpg" 
+         
+         data-img-desc-2="Sphere"
+      
+         
+          data-img-src-3="/img/hexagon.jpg" 
+         
+         data-img-desc-3="Hexagon"
+      ></div>
+  
+
+  <header class="header-section has-img">
+    
+      <div class="intro-header big-img">
+        
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+              <div class="post-heading">
+                <h1>Práctica: Servidor de correos</h1>
+                  
+                  
+                    <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el June 5, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;19&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;3872&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="img-desc" style="display: inline;"></span>
+      </div>
+    
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>Práctica: Servidor de correos</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el June 5, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;19&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;3872&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <p><strong>Instala y configura de manera adecuada el servidor de correos en tu VPS. El nombre del servidor de correo será mail.tudominio.es (este es el nombre que deberá aparecer en el registro MX).</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh arantxa@217.160.225.205
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt upgrade
+</span></span><span class="line"><span class="cl">sudo apt install postfix bsd-mailx
+</span></span></code></pre></div><p>Seleccionar la opción Internet Site y poner como nombre de dominio afm-tars.es.</p>
+<p>Vamos a la web de IONOS para añadir un registro CNAME con el nombre <strong>mail</strong> que apunte al nombre de mi máquina (<strong>walle</strong>). Y creo un registro MX con el nombre del servidor de correo.</p>
+<p><img src="/img/mailserver/1.png" alt="registros"></p>
+<p><img src="/img/mailserver/2.png" alt="registros"></p>
+<p><img src="/img/mailserver/3.png" alt="CNAME"></p>
+<p><img src="/img/mailserver/6.png" alt="MX"></p>
+<p>Agrego un registro SPF para evitar el spam.</p>
+<p><img src="/img/mailserver/4.png" alt="SPF"></p>
+<p>Agrego en las políticas de firewall el puerto 25 para que se permita el envío de correos.</p>
+<p><img src="/img/mailserver/7.png" alt="port25"></p>
+<h2 id="gestión-de-correos-desde-el-servidor">Gestión de correos desde el servidor</h2>
+<p><strong>El envío y recepción se hará desde el servidor usando la herramienta mail.</strong></p>
+<h3 id="tarea-1-documenta-una-prueba-de-funcionamiento-donde-envíes-desde-tu-servidor-local-al-exterior-muestra-el-log-donde-se-vea-el-envío-muestra-el-correo-que-has-recibido-muestra-el-registro-spf"><strong>Tarea 1: Documenta una prueba de funcionamiento, donde envíes desde tu servidor local al exterior. Muestra el log donde se vea el envío. Muestra el correo que has recibido. Muestra el registro SPF.</strong></h3>
+<p>Envío un correo desde mi VPS y compruebo el log para ver que se ha enviado correctamente.</p>
+<p><img src="/img/mailserver/8.png" alt="log"></p>
+<p>Compruebo si lo he recibido:</p>
+<p><img src="/img/mailserver/9.png" alt="correo"></p>
+<p>Compruebo el mensaje original para ver si ha funcionado el registro SPF.</p>
+<p><img src="/img/mailserver/10.png" alt="original"></p>
+<p><img src="/img/mailserver/11.png" alt="original"></p>
+<h3 id="tarea-2-documenta-una-prueba-de-funcionamiento-donde-envíes-un-correo-desde-el-exterior-gmail-hotmail-a-tu-servidor-local-muestra-el-log-donde-se-vea-el-envío-muestra-cómo-has-leído-el-correo-muestra-el-registro-mx-de-tu-dominio"><strong>Tarea 2: Documenta una prueba de funcionamiento, donde envíes un correo desde el exterior (gmail, hotmail,…) a tu servidor local. Muestra el log donde se vea el envío. Muestra cómo has leído el correo. Muestra el registro MX de tu dominio.</strong></h3>
+<p>He respondido al mensaje que recibí en mi Gmail.</p>
+<p><img src="/img/mailserver/12.png" alt="respuesta"></p>
+<p>Miro el log para comprobar que he recibido el correo.</p>
+<p><img src="/img/mailserver/17.png" alt="log"></p>
+<p>Leo el correo recibido con <code>mail</code> desde mi usuario:</p>
+<p><img src="/img/mailserver/13.png" alt="mail"></p>
+<p><img src="/img/mailserver/14.png" alt="mail"></p>
+<p>Ya expliqué anteriormente cómo creé el registro. Para ver el registro MX de mi dominio desde mi servidor he usado <code>dig MX afm-tars.es</code>.</p>
+<p><img src="/img/mailserver/16.png" alt="registro-MX"></p>
+<h2 id="uso-de-alias-y-redirecciones">Uso de alias y redirecciones</h2>
+<h3 id="tarea-3-uso-de-alias-y-redirecciones"><strong>Tarea 3: Uso de alias y redirecciones.</strong></h3>
+<p><strong>Vamos a comprobar como los procesos del servidor pueden mandar correos para informar sobre su estado. Por ejemplo cada vez que se ejecuta una tarea cron podemos enviar un correo informando del resultado. Normalmente estos correos se mandan al usuario root del servidor, para ello:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">crontab -e
+</span></span></code></pre></div><p><strong>E indico dónde se envía el correo:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">MAILTO = root
+</span></span></code></pre></div><p><strong>Puedes poner alguna tarea en el cron para ver como se mandan correo.</strong>
+<strong>Posteriormente usando alias y redirecciones podemos hacer llegar esos correos a nuestro correo personal.</strong>
+<strong>Configura el cron para enviar correo al usuario root. Comprueba que están llegando esos correos al root. Crea un nuevo alias para que se manden a un usuario sin privilegios. Comprueba que llegan a ese usuario. Por último crea una redirección para enviar esos correo a tu correo personal (gmail,hotmail,…).</strong></p>
+<p>Agrego a crontab lo siguiente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@walle:~$ crontab -e
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">MAILTO = root
+</span></span><span class="line"><span class="cl">* * * * * echo Prueba de envío con crontab
+</span></span></code></pre></div><p>La tarea mandará un correo a root cada vez que se ejecute el echo, en este caso, cada minuto.</p>
+<p>Entramos con el usuario root a mail para ver los mensajes enviados.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@walle:~$ sudo su
+</span></span><span class="line"><span class="cl">root@walle:/home/arantxa# mail
+</span></span><span class="line"><span class="cl">Mail version 8.1.2 01/15/2001.  Type ? <span class="k">for</span> help.
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;/var/mail/root&#34;</span>: <span class="m">3</span> messages <span class="m">2</span> new <span class="m">3</span> unread
+</span></span><span class="line"><span class="cl"> U  <span class="m">1</span> root@afm-tars.es   Tue Jun  <span class="m">6</span> 11:14   23/755   Cron &lt;arantxa@walle&gt; <span class="nb">echo</span> Prueba de envío con crontab
+</span></span><span class="line"><span class="cl">&gt;N  <span class="m">2</span> root@afm-tars.es   Tue Jun  <span class="m">6</span> 11:15   22/745   Cron &lt;arantxa@walle&gt; <span class="nb">echo</span> Prueba de envío con crontab
+</span></span><span class="line"><span class="cl"> N  <span class="m">3</span> root@afm-tars.es   Tue Jun  <span class="m">6</span> 11:16   22/745   Cron &lt;arantxa@walle&gt; <span class="nb">echo</span> Prueba de envío con crontab
+</span></span><span class="line"><span class="cl"><span class="p">&amp;</span> 
+</span></span></code></pre></div><p><img src="/img/mailserver/18.png" alt=""></p>
+<p>Usando un alias, voy a hacer que los correo también le lleguen a mi usuario <strong>arantxa</strong>. Para ello modifico /etc/aliases con el siguiente contenido.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/aliases
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># See man 5 aliases for format
+</span></span><span class="line"><span class="cl">postmaster: root
+</span></span><span class="line"><span class="cl">root: arantxa
+</span></span></code></pre></div><p>Ejecuto este comando para actualizar los cambios.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo newaliases
+</span></span></code></pre></div><p>Compruebo si ya llegan lo correos a mi usuario <strong>arantxa</strong>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@walle:~$ mail
+</span></span><span class="line"><span class="cl">Mail version 8.1.2 01/15/2001.  Type ? <span class="k">for</span> help.
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;/var/mail/arantxa&#34;</span>: <span class="m">2</span> messages <span class="m">1</span> new <span class="m">2</span> unread
+</span></span><span class="line"><span class="cl"> U  <span class="m">1</span> root@afm-tars.es   Tue Jun  <span class="m">6</span> 11:22   23/755   Cron &lt;arantxa@walle&gt; <span class="nb">echo</span> Prueba de envío con crontab
+</span></span><span class="line"><span class="cl">&gt;N  <span class="m">2</span> root@afm-tars.es   Tue Jun  <span class="m">6</span> 11:23   22/745   Cron &lt;arantxa@walle&gt; <span class="nb">echo</span> Prueba de envío con crontab
+</span></span><span class="line"><span class="cl"><span class="p">&amp;</span> 
+</span></span></code></pre></div><p>Al abrir el mensaje vemos que este va dirigido a root (To: <a href="mailto:root@afm-tars.es">root@afm-tars.es</a>), pero le ha llegado a mi usuario también, lo que indica que el alias ha funcionado.</p>
+<p><img src="/img/mailserver/19.png" alt="correo"></p>
+<p>Creo en el home de mi usuario el fichero <em>.forward</em>, cuyo contenido será mi correo personal de Gmail.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /home/arantxa/.forward
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ara.fer.mor@gmail.com
+</span></span></code></pre></div><p>Compruebo que me llegan los correos a Gmail.</p>
+<p><img src="/img/mailserver/20.png" alt="correos"></p>
+<h2 id="para-asegurar-el-envío">Para asegurar el envío</h2>
+<h3 id="tarea-4-no-obligatoria-configura-de-manera-adecuada-dkim-en-tu-sistema-de-correos-comprueba-el-registro-dkim-en-la-página-httpsmxtoolboxcomdkimaspx-configura-postfix-para-que-firme-los-correos-que-envía-manda-un-correo-y-comprueba-la-verificación-de-las-firmas-en-ellos"><strong>Tarea 4 (No obligatoria): Configura de manera adecuada DKIM en tu sistema de correos. Comprueba el registro DKIM en la página <a href="https://mxtoolbox.com/dkim.aspx">https://mxtoolbox.com/dkim.aspx</a>. Configura postfix para que firme los correos que envía. Manda un correo y comprueba la verificación de las firmas en ellos.</strong></h3>
+<p>Instalo los paquetes necesarios.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install opendkim opendkim-tools
+</span></span></code></pre></div><p>Agrego el usuario <strong>postfix</strong> al grupo <strong>opendkim</strong>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo gpasswd -a postfix opendkim
+</span></span></code></pre></div><p>Configuro DKIM en el fichero /etc/opendkim.conf</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/opendkim.conf
+</span></span></code></pre></div><p>Sin los comentario se quedaría de la siguiente forma:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Syslog              yes
+</span></span><span class="line"><span class="cl">SyslogSuccess       yes
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Canonicalization    relaxed/simple
+</span></span><span class="line"><span class="cl">Mode                sv
+</span></span><span class="line"><span class="cl">OversignHeaders     From
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">UserID              opendkim
+</span></span><span class="line"><span class="cl">UMask               007
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Socket              local:/var/spool/postfix/opendkim/opendkim.sock
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">PidFile             /run/opendkim/opendkim.pid
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">TrustAnchorFile     /usr/share/dns/root.key
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">ExternalIgnoreList      refile:/etc/opendkim/TrustedHosts
+</span></span><span class="line"><span class="cl">InternalHosts           refile:/etc/opendkim/TrustedHosts
+</span></span><span class="line"><span class="cl">KeyTable                refile:/etc/opendkim/KeyTable
+</span></span><span class="line"><span class="cl">SigningTable            refile:/etc/opendkim/SigningTable
+</span></span></code></pre></div><p>Creo el directrio opendkmi, edito el fichero /etc/opendkim/TrustedHosts e incluyo una lista de todos los nombres e IPs en los que se confía directamente.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo mkdir /etc/opendkim
+</span></span><span class="line"><span class="cl">sudo nano /etc/opendkim/TrustedHosts
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">127.0.0.1
+</span></span><span class="line"><span class="cl">127.0.1.1
+</span></span><span class="line"><span class="cl">217.160.225.205
+</span></span><span class="line"><span class="cl">::1
+</span></span><span class="line"><span class="cl">localhost
+</span></span><span class="line"><span class="cl">walle
+</span></span><span class="line"><span class="cl">*.afm-tars.es
+</span></span></code></pre></div><p>Creo el directorio donde irán guardadas las claves y lo protejo.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo mkdir -p /etc/opendkim/keys/afm-tars.es/
+</span></span><span class="line"><span class="cl">sudo chown opendkim. /etc/opendkim/keys/afm-tars.es/
+</span></span><span class="line"><span class="cl">sudo chmod <span class="m">0710</span> /etc/opendkim/keys/afm-tars.es/
+</span></span></code></pre></div><p>Utilizo opendkim-genkey para crear la clave privada y un fichero que contiene el regitro que debemos agregar a nuestro DNS con la clave pública.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo opendkim-genkey -D /etc/opendkim/keys/afm-tars.es/ -d afm-tars.es -s dkim-pass
+</span></span></code></pre></div><p>Esto genera dkim-pass.private y dkim-pass.txt (el primero la clave privada y el segundo el txt de la clave pública a añadir al DNS).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@walle:~$ sudo ls -l /etc/opendkim/keys/afm-tars.es/
+</span></span><span class="line"><span class="cl">total <span class="m">8</span>
+</span></span><span class="line"><span class="cl">-rw------- <span class="m">1</span> root root <span class="m">1675</span> Jun  <span class="m">6</span> 12:56 dkim-pass.private
+</span></span><span class="line"><span class="cl">-rw------- <span class="m">1</span> root root  <span class="m">511</span> Jun  <span class="m">6</span> 12:56 dkim-pass.txt
+</span></span></code></pre></div><p>Cambio el propietario de la clave privada a <strong>opendkim</strong>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo chown opendkim:opendkim /etc/opendkim/keys/afm-tars.es/dkim-pass.private
+</span></span></code></pre></div><p>Modifico los ficheros <strong>SigningTable</strong> y <strong>KeyTable</strong>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/opendkim/SigningTable
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">*@afm-tars.es dkim-pass._domainkey.afm-tars.es
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/opendkim/KeyTable
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">dkim-pass._domainkey.afm-tars.es afm-tars.es:dkim-pass:/etc/opendkim/keys/afm-tars.es/dkim-pass.private
+</span></span></code></pre></div><p>Agrego la clave pública en el DNS. Para ello voy a la web de IONOS &gt; Dominios y SSL &gt; DNS y creo un registro TXT con nombre <strong>dkim-pass._domainkey</strong> y el valor que teníamos en el fichero, que es el siguiente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5fcqeqP5oOPPBFq8bHsQeeQoo9SDlXGC09m4LJCaDMmgAsVFhGv1AecZWw25usaRRNXgrYqaYvsbWiBpWmBI4p9gl4RkAhOGwzERWzIlmukCTcf6vqF22wnGKrYMhkmJhqtJYZEKaWTFJvOUFilxTXUkG5KHR+YwO3FM+ChwuGveJs0o92OP9Jse87VpMYuca+Wk2RnhEnbLqnL6EOyJRcT5ecRIKE1lF76k7CCO3Xv9QP1TZ2Ai7cs90XTSerFiFPJJYZCFVUIiyFln1B5XC2e3bD7z6RG15EwwvOITYNYKBhYNYuKU/iQ3zEnNarqinAJ+EoTmdhDJvpx20SPc+wIDAQAB
+</span></span></code></pre></div><p><img src="/img/mailserver/21.png" alt="registro-dkim"></p>
+<p>Entro en la web <a href="https://mxtoolbox.com/dkim.aspx">https://mxtoolbox.com/dkim.aspx</a> para comprobar el registro DKIM.</p>
+<p><img src="/img/mailserver/22.png" alt="mxtoolbox"></p>
+<p><img src="/img/mailserver/23.png" alt="mxtoolbox"></p>
+<p>También se puede comprobar de la siguiente forma:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@walle:~$ sudo opendkim-testkey -d afm-tars.es -s dkim-pass -vvv
+</span></span><span class="line"><span class="cl">opendkim-testkey: using default configfile /etc/opendkim.conf
+</span></span><span class="line"><span class="cl">opendkim-testkey: checking key <span class="s1">&#39;dkim-pass._domainkey.afm-tars.es&#39;</span>
+</span></span><span class="line"><span class="cl">opendkim-testkey: key not secure
+</span></span><span class="line"><span class="cl">opendkim-testkey: key OK
+</span></span></code></pre></div><p>Por último añadimos a la configuración de Postfix lo siguiente para que firme los correos al enviarlos.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/postfix/main.cf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">#DKIM
+</span></span><span class="line"><span class="cl">milter_default_action = accept
+</span></span><span class="line"><span class="cl">milter_protocol = 6
+</span></span><span class="line"><span class="cl">smtpd_milters = local:/opendkim/opendkim.sock
+</span></span><span class="line"><span class="cl">non_smtpd_milters = $smtpd_milters
+</span></span></code></pre></div><p>Reiniciar ambos servicios.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl restart opendkim postfix
+</span></span></code></pre></div><p>Para que no de fallo al enviar un correo de prueba primero hay crear el directorio donde se creará el socket de OpenDKIM y modificar el propietario:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo mkdir /var/spool/postfix/opendkim
+</span></span><span class="line"><span class="cl">sudo chown opendkim:postfix /var/spool/postfix/opendkim
+</span></span></code></pre></div><p>Ahora sí envío un correo a mi correo personal de Gmail desde mi VPS.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@walle:~$ mail ara.fer.mor@gmail.com
+</span></span><span class="line"><span class="cl">Subject: Prueba Dkim
+</span></span><span class="line"><span class="cl">Esto es una prueba de envío usando Dkim
+</span></span><span class="line"><span class="cl">Cc: 
+</span></span></code></pre></div><p>Compruebo en el log que se ha enviado.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@walle:~$ sudo tail /var/log/mail.log
+</span></span><span class="line"><span class="cl">Jun  <span class="m">6</span> 17:30:40 walle opendkim<span class="o">[</span>18320<span class="o">]</span>: OpenDKIM Filter v2.11.0 starting
+</span></span><span class="line"><span class="cl">Jun  <span class="m">6</span> 17:31:13 walle postfix/pickup<span class="o">[</span>18290<span class="o">]</span>: BDFC747407: <span class="nv">uid</span><span class="o">=</span><span class="m">1000</span> <span class="nv">from</span><span class="o">=</span>&lt;arantxa&gt;
+</span></span><span class="line"><span class="cl">Jun  <span class="m">6</span> 17:31:13 walle postfix/cleanup<span class="o">[</span>18329<span class="o">]</span>: BDFC747407: message-id<span class="o">=</span>&lt;20230606173113.BDFC747407@walle.afm-tars.es&gt;
+</span></span><span class="line"><span class="cl">Jun  <span class="m">6</span> 17:31:13 walle opendkim<span class="o">[</span>18320<span class="o">]</span>: BDFC747407: DKIM-Signature field added <span class="o">(</span><span class="nv">s</span><span class="o">=</span>dkim-pass, <span class="nv">d</span><span class="o">=</span>afm-tars.es<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Jun  <span class="m">6</span> 17:31:13 walle postfix/qmgr<span class="o">[</span>18291<span class="o">]</span>: BDFC747407: <span class="nv">from</span><span class="o">=</span>&lt;arantxa@afm-tars.es&gt;, <span class="nv">size</span><span class="o">=</span>468, <span class="nv">nrcpt</span><span class="o">=</span><span class="m">1</span> <span class="o">(</span>queue active<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Jun  <span class="m">6</span> 17:31:13 walle postfix/smtp<span class="o">[</span>18331<span class="o">]</span>: connect to gmail-smtp-in.l.google.com<span class="o">[</span>2a00:1450:4013:c1a::1a<span class="o">]</span>:25: No route to host
+</span></span><span class="line"><span class="cl">Jun  <span class="m">6</span> 17:31:14 walle postfix/smtp<span class="o">[</span>18331<span class="o">]</span>: BDFC747407: <span class="nv">to</span><span class="o">=</span>&lt;ara.fer.mor@gmail.com&gt;, <span class="nv">relay</span><span class="o">=</span>gmail-smtp-in.l.google.com<span class="o">[</span>142.251.31.27<span class="o">]</span>:25, <span class="nv">delay</span><span class="o">=</span>0.97, <span class="nv">delays</span><span class="o">=</span>0.03/0.01/0.41/0.51, <span class="nv">dsn</span><span class="o">=</span>2.0.0, <span class="nv">status</span><span class="o">=</span>sent <span class="o">(</span><span class="m">250</span> 2.0.0 OK  <span class="m">1686072674</span> x8-20020a170906148800b0094edce87118si6756279ejc.1042 - gsmtp<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Jun  <span class="m">6</span> 17:31:14 walle postfix/qmgr<span class="o">[</span>18291<span class="o">]</span>: BDFC747407: removed
+</span></span></code></pre></div><p>Y compruebo el correo que me ha llegado a Gmail.</p>
+<p><img src="/img/mailserver/24.png" alt="gmail"></p>
+<p><img src="/img/mailserver/25.png" alt="original"></p>
+<p><img src="/img/mailserver/26.png" alt="original"></p>
+<h2 id="para-luchar-contra-el-spam">Para luchar contra el SPAM</h2>
+<h3 id="tarea-5-no-obligatorio-configura-de-manera-adecuada-postfix-para-que-tenga-en-cuenta-el-registro-spf-de-los-correos-que-recibe-muestra-el-log-del-correo-para-comprobar-que-se-está-haciendo-el-testeo-del-registro-spf"><strong>Tarea 5 (No obligatorio): Configura de manera adecuada Postfix para que tenga en cuenta el registro SPF de los correos que recibe. Muestra el log del correo para comprobar que se está haciendo el testeo del registro SPF.</strong></h3>
+<p>Para que Postfix tenga en cuenta el registro SPF de lo correos que recibe tenemos que instalar el siguiente paquete:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install postfix-policyd-spf-python
+</span></span></code></pre></div><p>Añadimos esta línea a /etc/postfix/master.cf.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/postfix/master.cf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">#SPF
+</span></span><span class="line"><span class="cl">policyd-spf  unix  -       n       n       -       0       spawn     user=policyd-spf argv=/usr/bin/policyd-spf
+</span></span></code></pre></div><p>Se ejecutará un proceso en un socket UNIX para realizar el análisis de SPF. Agregamos lo siguiente a Postfix para que los correos que se validen con SPF los acepte.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/postfix/main.cf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">#SPF
+</span></span><span class="line"><span class="cl">policyd-spf_time_limit = 3600
+</span></span><span class="line"><span class="cl">smtpd_recipient_restrictions =
+</span></span><span class="line"><span class="cl">    check_policy_service unix:private/policyd-spf
+</span></span></code></pre></div><p>Reinicio el servicio.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl restart postfix
+</span></span></code></pre></div><p>Veo el log.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@walle:~$ sudo tail /var/log/mail.log
+</span></span><span class="line"><span class="cl">Jun  <span class="m">6</span> 18:07:31 walle postfix/postfix-script<span class="o">[</span>19275<span class="o">]</span>: starting the Postfix mail system
+</span></span><span class="line"><span class="cl">Jun  <span class="m">6</span> 18:07:31 walle postfix/master<span class="o">[</span>19277<span class="o">]</span>: daemon started -- version 3.5.18, configuration /etc/postfix
+</span></span></code></pre></div><p>Me envío un correo desde Delta y vuelvo a comprobar el log.</p>
+<p><img src="/img/mailserver/28.png" alt="log"></p>
+<p>Vemos que el análisis SPF se realiza correctamente pero el correo no me llega ya que al tener activado la redirección a Gmail me falla la comprobación. Si comento la línea del fichero <strong>.forward</strong> debería funcionar correctamente. Vuelvo a probar el envío desde Delta y compruebo que ahora sí he recibido el correo.</p>
+<p><img src="/img/mailserver/29.png" alt="log"></p>
+<p><img src="/img/mailserver/30.png" alt="mail"></p>
+<h3 id="tarea-6-no-obligatoria-configura-un-sistema-antispam-realiza-comprobaciones-para-comprobarlo"><strong>Tarea 6 (No obligatoria): Configura un sistema antispam. Realiza comprobaciones para comprobarlo.</strong></h3>
+<p>Instalo y activo el paquete spamassassin.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install spamassassin spamc
+</span></span><span class="line"><span class="cl">sudo systemctl <span class="nb">enable</span> --now spamassassin
+</span></span></code></pre></div><p>Modifico /etc/default/spamassassin y pongo en 1 la línea CRON.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/default/spamassassin
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">CRON=1
+</span></span></code></pre></div><p>Añado a /etc/postfix/master.cf lo siguiente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/postfix/master.cf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">#Spamassassin
+</span></span><span class="line"><span class="cl">smtp      inet  n       -       y       -       -       smtpd
+</span></span><span class="line"><span class="cl">  -o content_filter=spamassassin
+</span></span><span class="line"><span class="cl">submission inet n       -       y       -       -       smtpd
+</span></span><span class="line"><span class="cl">  -o content_filter=spamassassin
+</span></span><span class="line"><span class="cl">spamassassin unix -     n       n       -       -       pipe
+</span></span><span class="line"><span class="cl">  user=debian-spamd argv=/usr/bin/spamc -f -e /usr/sbin/sendmail -oi -f ${sender} ${recipient}
+</span></span></code></pre></div><p>Ponemos una etiqueta de spam a los correos que se detecten como tal. Para ello descomentamos la siguiente línea en el fichero local.cf.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/spamassassin/local.cf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">rewrite_header Subject *****SPAM*****
+</span></span></code></pre></div><p>Reiniciamos el servicio:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl restart postfix spamassassin
+</span></span></code></pre></div><p>Activo el log para ver la información mientras se envía.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo tail -f /var/log/mail.log
+</span></span></code></pre></div><p>Uso la web <a href="https://spamassassin.apache.org/gtube/">gtube</a> para enviarme un correo a mi VPS. Desde Delta hago lo siguiente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wget http://spamassassin.apache.org/gtube/gtube.txt
+</span></span><span class="line"><span class="cl">mail arantxa@afm-tars.es &lt; gtube.txt 
+</span></span></code></pre></div><p>Compruebo el log y se puede observar que lo ha detectado como spam.</p>
+<p><img src="/img/mailserver/31.png" alt="log"></p>
+<p>Miro el correo recibido para ver si tiene la etiqueta de Spam.</p>
+<p><img src="/img/mailserver/32.png" alt="mail"></p>
+<p><img src="/img/mailserver/33.png" alt="mail"></p>
+<p><img src="/img/mailserver/34.png" alt="mail"></p>
+<h3 id="tarea-7-no-obligatoria-configura-un-sistema-antivirus-realiza-comprobaciones-para-comprobarlo"><strong>Tarea 7 (No obligatoria): Configura un sistema antivirus. Realiza comprobaciones para comprobarlo.</strong></h3>
+<p><em>(!!!!Como explico al final del ejercicio, no he podido finalizar esta tarea debido a un error por falta de memoria RAM. ClamAV requiere al menos 3GB de RAM. Aún así he dejado los pasos que he seguido y que deberían funcionar en una máquina con mayor RAM)</em></p>
+<p>Instalar los paquetes necesarios y activar el servicio <strong>clamav</strong>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install clamav clamav-daemon clamsmtp clamav-freshclam
+</span></span><span class="line"><span class="cl">sudo systemctl <span class="nb">enable</span> --now clamav-daemon
+</span></span></code></pre></div><p>Editamos /etc/clamsmtpd.conf y cambiamos estas líneas:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">OutAddress: <span class="m">10025</span>
+</span></span><span class="line"><span class="cl">Listen: 127.0.0.1:10026
+</span></span></code></pre></div><p>Por estas:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">OutAddress: <span class="m">10026</span>
+</span></span><span class="line"><span class="cl">Listen: 127.0.0.1:10025
+</span></span></code></pre></div><p>Añadimos a la configuración de master.cf de Postfix lo siguiente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/postfix/master.cf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">#Clamav-antivirus
+</span></span><span class="line"><span class="cl">##AV scan filter (used by content_filter)
+</span></span><span class="line"><span class="cl">scan unix -       -       n       -       16       smtp
+</span></span><span class="line"><span class="cl">  -o smtp_send_xforward_command=yes
+</span></span><span class="line"><span class="cl">##For injecting mail back into postfix from the filter
+</span></span><span class="line"><span class="cl">127.0.0.1:10026 inet n       -       n       -       16       smtpd
+</span></span><span class="line"><span class="cl">  -o content_filter=
+</span></span><span class="line"><span class="cl">  -o receive_override_options=no_unknown_recipient_checks,no_header_body_checks
+</span></span><span class="line"><span class="cl">  -o smtpd_helo_restrictions=
+</span></span><span class="line"><span class="cl">  -o smtpd_client_restrictions=
+</span></span><span class="line"><span class="cl">  -o smtpd_sender_restrictions=
+</span></span><span class="line"><span class="cl">  -o smtpd_recipient_restrictions=permit_mynetworks,reject
+</span></span><span class="line"><span class="cl">  -o mynetworks_style=host
+</span></span><span class="line"><span class="cl">  -o smtpd_authorized_xforward_hosts=127.0.0.0/8
+</span></span></code></pre></div><p>Indicamos en main.cf que se usará el servicio clamav.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/postfix/main.cf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">#Clamav-antivirus
+</span></span><span class="line"><span class="cl">content_filter = scan:127.0.0.1:10025
+</span></span><span class="line"><span class="cl">receive_override_options = no_address_mappings
+</span></span></code></pre></div><p>Para que utilice los parámetros que acabamos de configurar tenemos que reconfigurar el demonio clamav. Al reconfigurarlo nos hará algunas preguntas. Se puede ver el reultado de estas preguntas en /etc/clamav/clamd.conf.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl restart postfix clamav-daemon clamsmtp
+</span></span><span class="line"><span class="cl">sudo dpkg-reconfigure clamav-daemon
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@walle:~$ sudo cat /etc/clamav/clamd.conf 
+</span></span><span class="line"><span class="cl"><span class="c1">#Automatically Generated by clamav-daemon postinst</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#To reconfigure clamd run #dpkg-reconfigure clamav-daemon</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#Please read /usr/share/doc/clamav-daemon/README.Debian.gz for details</span>
+</span></span><span class="line"><span class="cl">LocalSocket /var/run/clamav/clamd.ctl
+</span></span><span class="line"><span class="cl">FixStaleSocket <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">LocalSocketGroup clamav
+</span></span><span class="line"><span class="cl">LocalSocketMode <span class="m">777</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># TemporaryDirectory is not set to its default /tmp here to make overriding</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># the default with environment variables TMPDIR/TMP/TEMP possible</span>
+</span></span><span class="line"><span class="cl">User clamav
+</span></span><span class="line"><span class="cl">ScanMail <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">ScanArchive <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">ArchiveBlockEncrypted <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">MaxDirectoryRecursion <span class="m">15</span>
+</span></span><span class="line"><span class="cl">FollowDirectorySymlinks <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">FollowFileSymlinks <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">ReadTimeout <span class="m">180</span>
+</span></span><span class="line"><span class="cl">MaxThreads <span class="m">12</span>
+</span></span><span class="line"><span class="cl">MaxConnectionQueueLength <span class="m">15</span>
+</span></span><span class="line"><span class="cl">LogSyslog <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">LogRotate <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">LogFacility LOG_LOCAL6
+</span></span><span class="line"><span class="cl">LogClean <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">LogVerbose <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">PreludeEnable no
+</span></span><span class="line"><span class="cl">PreludeAnalyzerName ClamAV
+</span></span><span class="line"><span class="cl">DatabaseDirectory /var/lib/clamav
+</span></span><span class="line"><span class="cl">OfficialDatabaseOnly <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">SelfCheck <span class="m">3600</span>
+</span></span><span class="line"><span class="cl">Foreground <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">Debug <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">ScanPE <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">MaxEmbeddedPE 10M
+</span></span><span class="line"><span class="cl">ScanOLE2 <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">ScanPDF <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">ScanHTML <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">MaxHTMLNormalize 10M
+</span></span><span class="line"><span class="cl">MaxHTMLNoTags 2M
+</span></span><span class="line"><span class="cl">MaxScriptNormalize 5M
+</span></span><span class="line"><span class="cl">MaxZipTypeRcg 1M
+</span></span><span class="line"><span class="cl">ScanSWF <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">ExitOnOOM <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">LeaveTemporaryFiles <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">AlgorithmicDetection <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">ScanELF <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">IdleTimeout <span class="m">30</span>
+</span></span><span class="line"><span class="cl">CrossFilesystems <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">PhishingSignatures <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">PhishingScanURLs <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">PhishingAlwaysBlockSSLMismatch <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">PhishingAlwaysBlockCloak <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">PartitionIntersection <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">DetectPUA <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">ScanPartialMessages <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">HeuristicScanPrecedence <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">StructuredDataDetection <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">CommandReadTimeout <span class="m">30</span>
+</span></span><span class="line"><span class="cl">SendBufTimeout <span class="m">200</span>
+</span></span><span class="line"><span class="cl">MaxQueue <span class="m">100</span>
+</span></span><span class="line"><span class="cl">ExtendedDetectionInfo <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">OLE2BlockMacros <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">AllowAllMatchScan <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">ForceToDisk <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">DisableCertCheck <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">DisableCache <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">MaxScanTime <span class="m">120000</span>
+</span></span><span class="line"><span class="cl">MaxScanSize 100M
+</span></span><span class="line"><span class="cl">MaxFileSize 25M
+</span></span><span class="line"><span class="cl">MaxRecursion <span class="m">16</span>
+</span></span><span class="line"><span class="cl">MaxFiles <span class="m">10000</span>
+</span></span><span class="line"><span class="cl">MaxPartitions <span class="m">50</span>
+</span></span><span class="line"><span class="cl">MaxIconsPE <span class="m">100</span>
+</span></span><span class="line"><span class="cl">PCREMatchLimit <span class="m">10000</span>
+</span></span><span class="line"><span class="cl">PCRERecMatchLimit <span class="m">5000</span>
+</span></span><span class="line"><span class="cl">PCREMaxFileSize 25M
+</span></span><span class="line"><span class="cl">ScanXMLDOCS <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">ScanHWP3 <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">MaxRecHWP3 <span class="m">16</span>
+</span></span><span class="line"><span class="cl">StreamMaxLength 25M
+</span></span><span class="line"><span class="cl">LogFile /var/log/clamav/clamav.log
+</span></span><span class="line"><span class="cl">LogTime <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">LogFileUnlock <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">LogFileMaxSize <span class="m">0</span>
+</span></span><span class="line"><span class="cl">Bytecode <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">BytecodeSecurity TrustSigned
+</span></span><span class="line"><span class="cl">BytecodeTimeout <span class="m">60000</span>
+</span></span><span class="line"><span class="cl">OnAccessMaxFileSize 5M
+</span></span></code></pre></div><p>Para comprobarlo activo el log en mi VPS y envío un correo desde Delta con el siguiente contenido:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo tail -f /var/log/mail.log
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@delta:~$ mail arantxa@afm-tars.es
+</span></span><span class="line"><span class="cl">Subject: virus
+</span></span><span class="line"><span class="cl">X5O!P%@AP<span class="o">[</span>4<span class="se">\P</span>ZX54<span class="o">(</span>P^<span class="o">)</span>7CC<span class="o">)</span>7<span class="o">}</span><span class="nv">$EICAR</span>-STANDARD-ANTIVIRUS-TEST-FILE!<span class="nv">$H</span>+H*
+</span></span><span class="line"><span class="cl">Cc: 
+</span></span></code></pre></div><p><strong>¡¡ERROR!!</strong></p>
+<p>Al recibir el correo me aparece en el log un error que no he conseguido solucionar.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">Jun  7 12:29:38 walle clamsmtpd: 100000: CLAMAV: couldn&#39;t connect to: /var/run/clamav/clamd.ctl: No such file or directory
+</span></span></code></pre></div><p>Ese fichero no se crea por defecto, y si lo intento crear por mi misma o crear uno nuevo modificando la configuración de clamav me dice &ldquo;Permission denied&rdquo;.</p>
+<p>He intentado hacerlo con Amavis siguiendo <a href="https://www.linuxbabe.com/mail-server/postfix-amavis-spamassassin-clamav-debian">este post</a>, el cual me ha parecido muy interesante. Pero Amavis utiliza también el demonio clamav, y, por lo que pone en el post y en las recomendaciones que pone ClamAV en su web sobre requerimientos del sistema, me he dado cuenta de que mi máquina no tiene suficiente memoria RAM para usar ClamAV, por esto me da error.</p>
+<p><img src="/img/mailserver/52.png" alt="clamav"></p>
+<p><img src="/img/mailserver/53.png" alt="clamav"></p>
+<p>He eliminado todo lo instalado para que no de error en los siguientes ejercicios, y he comentado la configuracíon que había añadido a Postfix, en los ficheros main.cf y master.cf.</p>
+<h2 id="gestión-de-correos-desde-un-cliente">Gestión de correos desde un cliente</h2>
+<h3 id="tarea-8-configura-el-buzón-de-los-usuarios-de-tipo-maildir-envía-un-correo-a-tu-usuario-y-comprueba-que-el-correo-se-ha-guardado-en-el-buzón-maildir-del-usuario-del-sistema-correspondiente-recuerda-que-ese-tipo-de-buzón-no-se-puede-leer-con-la-utilidad-mail"><strong>Tarea 8: Configura el buzón de los usuarios de tipo Maildir. Envía un correo a tu usuario y comprueba que el correo se ha guardado en el buzón Maildir del usuario del sistema correspondiente. Recuerda que ese tipo de buzón no se puede leer con la utilidad mail.</strong></h3>
+<p>Modificamos la configuración principal de Postfix para que utilice Maildir en lugar de mbox, que es el buzón por defecto de Postfix.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/postfix/main.cf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">home_mailbox = Maildir/
+</span></span></code></pre></div><p>Reiniciamos el servicio:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl restart postfix
+</span></span></code></pre></div><p>Me envío un correo desde Delta.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@delta:~$ mail arantxa@afm-tars.es
+</span></span><span class="line"><span class="cl">Subject: prueba Maildir           
+</span></span><span class="line"><span class="cl">Esto es una prueba para usar el buzon Maildir
+</span></span><span class="line"><span class="cl">Cc: 
+</span></span></code></pre></div><p>Comprobamos en el log que el correo ha llegado a maildir.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo tail -f /var/log/mail.log
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">Jun  7 17:14:21 walle postfix/smtpd[58789]: connect from 152.red-80-59-1.staticip.rima-tde.net[80.59.1.152]
+</span></span><span class="line"><span class="cl">Jun  7 17:14:41 walle policyd-spf[58795]: prepend Received-SPF: None (mailfrom) identity=mailfrom; client-ip=80.59.1.152; helo=babuino-smtp.gonzalonazareno.org; envelope-from=arantxa@arantxa.gonzalonazareno.org; receiver=&lt;UNKNOWN&gt; 
+</span></span><span class="line"><span class="cl">Jun  7 17:14:41 walle postfix/smtpd[58789]: 8C7FC474CA: client=152.red-80-59-1.staticip.rima-tde.net[80.59.1.152]
+</span></span><span class="line"><span class="cl">Jun  7 17:14:41 walle postfix/cleanup[58796]: 8C7FC474CA: message-id=&lt;20230607171420.9A2D863400@delta.arantxa.gonzalonazareno.org&gt;
+</span></span><span class="line"><span class="cl">Jun  7 17:14:41 walle postfix/qmgr[58782]: 8C7FC474CA: from=&lt;arantxa@arantxa.gonzalonazareno.org&gt;, size=1151, nrcpt=1 (queue active)
+</span></span><span class="line"><span class="cl">Jun  7 17:14:41 walle postfix/smtpd[58789]: disconnect from 152.red-80-59-1.staticip.rima-tde.net[80.59.1.152] ehlo=2 starttls=1 mail=1 rcpt=1 data=1 quit=1 commands=7
+</span></span><span class="line"><span class="cl">Jun  7 17:14:42 walle spamd[29351]: spamd: connection from 127.0.0.1 [127.0.0.1]:58398 to port 783, fd 6
+</span></span><span class="line"><span class="cl">Jun  7 17:14:42 walle spamd[29351]: spamd: setuid to debian-spamd succeeded
+</span></span><span class="line"><span class="cl">Jun  7 17:14:43 walle spamd[29351]: spamd: processing message &lt;20230607171420.9A2D863400@delta.arantxa.gonzalonazareno.org&gt; for debian-spamd:110
+</span></span><span class="line"><span class="cl">Jun  7 17:14:57 walle spamd[29351]: spamd: clean message (0.0/5.0) for debian-spamd:110 in 15.2 seconds, 1097 bytes.
+</span></span><span class="line"><span class="cl">Jun  7 17:14:57 walle spamd[29351]: spamd: result: . 0 - KHOP_HELO_FCRDNS,SPF_NONE,T_SCC_BODY_TEXT_LINE,T_SPF_HELO_TEMPERROR scantime=15.2,size=1097,user=debian-spamd,uid=110,required_score=5.0,rhost=127.0.0.1,raddr=127.0.0.1,rport=58398,mid=&lt;20230607171420.9A2D863400@delta.arantxa.gonzalonazareno.org&gt;,autolearn=ham autolearn_force=no
+</span></span><span class="line"><span class="cl">Jun  7 17:14:57 walle postfix/pickup[58781]: 91E04474D0: uid=110 from=&lt;arantxa@arantxa.gonzalonazareno.org&gt;
+</span></span><span class="line"><span class="cl">Jun  7 17:14:57 walle postfix/pipe[58797]: 8C7FC474CA: to=&lt;arantxa@afm-tars.es&gt;, relay=spamassassin, delay=36, delays=20/0.01/0/16, dsn=2.0.0, status=sent (delivered via spamassassin service)
+</span></span><span class="line"><span class="cl">Jun  7 17:14:57 walle postfix/qmgr[58782]: 8C7FC474CA: removed
+</span></span><span class="line"><span class="cl">Jun  7 17:14:57 walle postfix/cleanup[58796]: 91E04474D0: message-id=&lt;20230607171420.9A2D863400@delta.arantxa.gonzalonazareno.org&gt;
+</span></span><span class="line"><span class="cl">Jun  7 17:14:57 walle postfix/qmgr[58782]: 91E04474D0: from=&lt;arantxa@arantxa.gonzalonazareno.org&gt;, size=1531, nrcpt=1 (queue active)
+</span></span><span class="line"><span class="cl">Jun  7 17:14:57 walle postfix/local[58804]: 91E04474D0: to=&lt;arantxa@afm-tars.es&gt;, relay=local, delay=0.04, delays=0.02/0.02/0/0, dsn=2.0.0, status=sent (delivered to maildir)
+</span></span><span class="line"><span class="cl">Jun  7 17:14:57 walle postfix/qmgr[58782]: 91E04474D0: removed
+</span></span></code></pre></div><p>En la penúltima línea vemos que, efectivamente, ha llegado a maildir.</p>
+<p>Aunque hemos recibido el correo si entramos en mail para leerlo no nos aparece nada. Esto se debe a que mail está diseñado para trabajar con el formato del buzón mbox. Podemos instalar otro cliente de correo como <strong>mutt</strong>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install mutt
+</span></span></code></pre></div><p>Una vez instalado tenemos que configurar mutt para que busque los nuevos correos en Maildir. Para ello creamos el siguiente fichero con este contenido.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nano ~/.muttrc
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">set</span> <span class="nv">mbox_type</span><span class="o">=</span>Maildir
+</span></span><span class="line"><span class="cl"><span class="nb">set</span> <span class="nv">folder</span><span class="o">=</span><span class="s2">&#34;~/Maildir&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">set</span> <span class="nv">mask</span><span class="o">=</span><span class="s2">&#34;!^\\.[^.]&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">set</span> <span class="nv">mbox</span><span class="o">=</span><span class="s2">&#34;~/Maildir&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">set</span> <span class="nv">record</span><span class="o">=</span><span class="s2">&#34;+.Sent&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">set</span> <span class="nv">postponed</span><span class="o">=</span><span class="s2">&#34;+.Drafts&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">set</span> <span class="nv">spoolfile</span><span class="o">=</span><span class="s2">&#34;~/Maildir&#34;</span>
+</span></span></code></pre></div><p>Y ahora abrimos el cliente de correo mutt.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@walle:~$ mutt
+</span></span></code></pre></div><p><img src="/img/mailserver/35.png" alt="mail"></p>
+<p><img src="/img/mailserver/36.png" alt="mail"></p>
+<h3 id="tarea-9-instala-configura-dovecot-para-ofrecer-el-protocolo-imap-configura-dovecot-de-manera-adecuada-para-ofrecer-autentificación-y-cifrado"><strong>Tarea 9: Instala configura dovecot para ofrecer el protocolo IMAP. Configura dovecot de manera adecuada para ofrecer autentificación y cifrado.</strong></h3>
+<p><strong>Para realizar el cifrado de la comunicación crea un certificado en LetsEncrypt para tu dominio mail.tudominio.es. Recuerda que para el ofrecer el cifrado tiene varias soluciones:</strong></p>
+<ul>
+<li>
+<p><strong>IMAP con STARTTLS: STARTTLS transforma una conexión insegura en una segura mediante el uso de SSL/TLS. Por lo tanto usando el mismo puerto 143/tcp tenemos cifrada la comunicación.</strong></p>
+</li>
+<li>
+<p><strong>IMAPS: Versión segura del protocolo IMAP que usa el puerto 993/tcp.</strong></p>
+</li>
+<li>
+<p><strong>Ofrecer las dos posibilidades.</strong></p>
+</li>
+</ul>
+<p><strong>Elige una de las opciones anterior para realizar el cifrado. Y muestra la configuración de un cliente de correo (evolution, thunderbird, …) y muestra como puedes leer los correos enviado a tu usuario.</strong></p>
+<p>Instalo dovecot:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install dovecot-imapd
+</span></span></code></pre></div><p>Podemos ver los puertos que utiliza dovecot y que están escuchando.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@walle:~$ sudo netstat -putanl <span class="p">|</span> egrep dovecot
+</span></span><span class="line"><span class="cl">tcp        <span class="m">0</span>      <span class="m">0</span> 0.0.0.0:143             0.0.0.0:*               LISTEN      62524/dovecot       
+</span></span><span class="line"><span class="cl">tcp        <span class="m">0</span>      <span class="m">0</span> 0.0.0.0:993             0.0.0.0:*               LISTEN      62524/dovecot       
+</span></span><span class="line"><span class="cl">tcp6       <span class="m">0</span>      <span class="m">0</span> :::143                  :::*                    LISTEN      62524/dovecot       
+</span></span><span class="line"><span class="cl">tcp6       <span class="m">0</span>      <span class="m">0</span> :::993                  :::*                    LISTEN      62524/dovecot 
+</span></span></code></pre></div><p>En las políticas de firewall de mi VPS he abierto el tráfico en el puerto 993.</p>
+<p><img src="/img/mailserver/37.png" alt="mail"></p>
+<p>Modifico el fichero /etc/dovecot/conf.d/10-mail.conf para que busque el correo en Maildir.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/dovecot/conf.d/10-mail.conf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">mail_location = maildir:~/Maildir
+</span></span></code></pre></div><p>Paro el servicio nginx para que no haya problemas al crear el certificado.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl stop nginx
+</span></span><span class="line"><span class="cl">sudo certbot certonly --standalone -d mail.afm-tars.es
+</span></span></code></pre></div><p>Modifico el fichero de configuración 10-ssl.conf de dovecot para añadir las rutas de las claves.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/dovecot/conf.d/10-ssl.conf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">ssl_cert = &lt;/etc/letsencrypt/live/mail.afm-tars.es/fullchain.pem
+</span></span><span class="line"><span class="cl">ssl_key = &lt;/etc/letsencrypt/live/mail.afm-tars.es/privkey.pem
+</span></span></code></pre></div><p>Reinicio el servicio:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl restart dovecot
+</span></span></code></pre></div><p><em>(!!!!!La configuración en evolution y el mostrar que se pueden leer los correos enviados a mi usuario las realizaré en conjunto con la Tarea 11 (que la hago a continuación) para no repetir pasos)</em></p>
+<h3 id="tarea-11-configura-de-manera-adecuada-postfix-para-que-podamos-mandar-un-correo-desde-un-cliente-remoto-la-conexión-entre-cliente-y-servidor-debe-estar-autentificada-con-sasl-usando-dovecor-y-además-debe-estar-cifrada-para-cifrar-esta-comunicación-puedes-usar-dos-opciones"><strong>Tarea 11: Configura de manera adecuada postfix para que podamos mandar un correo desde un cliente remoto. La conexión entre cliente y servidor debe estar autentificada con SASL usando dovecor y además debe estar cifrada. Para cifrar esta comunicación puedes usar dos opciones:</strong></h3>
+<ul>
+<li>
+<p><strong>ESMTP + STARTTLS: Usando el puerto 567/tcp enviamos de forma segura el correo al servidor.</strong></p>
+</li>
+<li>
+<p><strong>SMTPS: Utiliza un puerto no estándar (465) para SMTPS (Simple Mail Transfer Protocol Secure). No es una extensión de smtp. Es muy parecido a HTTPS.</strong></p>
+</li>
+</ul>
+<p><strong>Elige una de las opciones anterior para realizar el cifrado. Y muestra la configuración de un cliente de correo (evolution, thunderbird, …) y muestra como puedes enviar los correos.</strong></p>
+<p>Añado lo siguiente a la configuración master.cf de Postfix.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/postfix/master.cf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">#SMTPS-envío correos
+</span></span><span class="line"><span class="cl">submission inet n       -       y       -       -       smtpd
+</span></span><span class="line"><span class="cl">  -o content_filter=spamassassin
+</span></span><span class="line"><span class="cl">  -o syslog_name=postfix/submission
+</span></span><span class="line"><span class="cl">  -o smtpd_tls_security_level=encrypt
+</span></span><span class="line"><span class="cl">  -o smtpd_sasl_auth_enable=yes
+</span></span><span class="line"><span class="cl">  -o smtpd_tls_auth_only=yes
+</span></span><span class="line"><span class="cl">  -o smtpd_reject_unlisted_recipient=no
+</span></span><span class="line"><span class="cl">  -o smtpd_client_restrictions=$mua_client_restrictions
+</span></span><span class="line"><span class="cl">  -o smtpd_helo_restrictions=$mua_helo_restrictions
+</span></span><span class="line"><span class="cl">  -o smtpd_sender_restrictions=$mua_sender_restrictions
+</span></span><span class="line"><span class="cl">  -o smtpd_recipient_restrictions=
+</span></span><span class="line"><span class="cl">  -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
+</span></span><span class="line"><span class="cl">  -o milter_macro_daemon_name=ORIGINATING
+</span></span><span class="line"><span class="cl">smtps     inet  n       -       y       -       -       smtpd
+</span></span><span class="line"><span class="cl">  -o syslog_name=postfix/smtps
+</span></span><span class="line"><span class="cl">  -o smtpd_tls_wrappermode=yes
+</span></span><span class="line"><span class="cl">  -o smtpd_sasl_auth_enable=yes
+</span></span><span class="line"><span class="cl">  -o smtpd_reject_unlisted_recipient=no
+</span></span><span class="line"><span class="cl">  -o smtpd_client_restrictions=$mua_client_restrictions
+</span></span><span class="line"><span class="cl">  -o smtpd_helo_restrictions=$mua_helo_restrictions
+</span></span><span class="line"><span class="cl">  -o smtpd_sender_restrictions=$mua_sender_restrictions
+</span></span><span class="line"><span class="cl">  -o smtpd_recipient_restrictions=
+</span></span><span class="line"><span class="cl">  -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
+</span></span><span class="line"><span class="cl">  -o milter_macro_daemon_name=ORIGINATING
+</span></span></code></pre></div><p>Reiniciar el servicio:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl restart postfix
+</span></span></code></pre></div><p>Ver los puertos a la escucha.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@walle:~$ sudo netstat -putanl <span class="p">|</span> egrep master
+</span></span><span class="line"><span class="cl">tcp        <span class="m">0</span>      <span class="m">0</span> 0.0.0.0:465             0.0.0.0:*               LISTEN      63851/master        
+</span></span><span class="line"><span class="cl">tcp        <span class="m">0</span>      <span class="m">0</span> 0.0.0.0:25              0.0.0.0:*               LISTEN      63851/master        
+</span></span><span class="line"><span class="cl">tcp        <span class="m">0</span>      <span class="m">0</span> 0.0.0.0:587             0.0.0.0:*               LISTEN      63851/master        
+</span></span><span class="line"><span class="cl">tcp6       <span class="m">0</span>      <span class="m">0</span> :::465                  :::*                    LISTEN      63851/master        
+</span></span><span class="line"><span class="cl">tcp6       <span class="m">0</span>      <span class="m">0</span> :::25                   :::*                    LISTEN      63851/master        
+</span></span><span class="line"><span class="cl">tcp6       <span class="m">0</span>      <span class="m">0</span> :::587                  :::*                    LISTEN      63851/master  
+</span></span></code></pre></div><p>Permitimos el tráfico en las políticas de firewall del VPS para el puerto TCP 465.</p>
+<p><img src="/img/mailserver/45.png" alt="firewall"></p>
+<p>Modificamos la configuración de Postfix.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/postfix/main.cf
+</span></span></code></pre></div><p>He comentado las líneas:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+</span></span><span class="line"><span class="cl">smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+</span></span></code></pre></div><p>Y he añadido lo siguiente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">#SMTPS-envio correos
+</span></span><span class="line"><span class="cl">smtpd_tls_cert_file=/etc/letsencrypt/live/mail.afm-tars.es/fullchain.pem
+</span></span><span class="line"><span class="cl">smtpd_tls_key_file=/etc/letsencrypt/live/mail.afm-tars.es/privkey.pem
+</span></span><span class="line"><span class="cl">##Authentication
+</span></span><span class="line"><span class="cl">smtpd_sasl_type = dovecot
+</span></span><span class="line"><span class="cl">smtpd_sasl_path = private/auth
+</span></span><span class="line"><span class="cl">smtpd_sasl_auth_enable = yes
+</span></span><span class="line"><span class="cl">smtpd_sasl_authenticated_header = yes
+</span></span><span class="line"><span class="cl">broken_sasl_auth_clients = yes
+</span></span></code></pre></div><p>Reiniciamos Postfix.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl restart postfix
+</span></span></code></pre></div><p>En dovecot descomento lo siguiente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/dovecot/conf.d/10-master.conf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  # Postfix smtp-auth
+</span></span><span class="line"><span class="cl">  unix_listener /var/spool/postfix/private/auth {
+</span></span><span class="line"><span class="cl">    mode = 0666
+</span></span><span class="line"><span class="cl">  }
+</span></span></code></pre></div><p>Reiniciamos dovecot.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl restart dovecot
+</span></span></code></pre></div><p>Instalo Evolution en una máquina cliente y lo inicio.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">usuario@cliente:~$ sudo apt install evolution
+</span></span><span class="line"><span class="cl">usuario@cliente:~$ evolution
+</span></span></code></pre></div><p><strong>Configuración de Evolution:</strong></p>
+<p><img src="/img/mailserver/38.png" alt="evolution"></p>
+<p><img src="/img/mailserver/39.png" alt="evolution"></p>
+<p><img src="/img/mailserver/40.png" alt="evolution"></p>
+<p><img src="/img/mailserver/41.png" alt="evolution"></p>
+<p><img src="/img/mailserver/42.png" alt="evolution"></p>
+<p><img src="/img/mailserver/43.png" alt="evolution"></p>
+<p><strong>Comprobación de que puedo leer los correos recibidos en el usuario de mi VPS a través de Evolution:</strong></p>
+<p><img src="/img/mailserver/44.png" alt="evolution"></p>
+<p><img src="/img/mailserver/46.png" alt="evolution"></p>
+<p><strong>Comprobación de que puedo realizar envíos desde Evolution:</strong></p>
+<p><img src="/img/mailserver/47.png" alt="evolution"></p>
+<p><img src="/img/mailserver/48.png" alt="evolution"></p>
+<p><img src="/img/mailserver/49.png" alt="evolution"></p>
+<p><img src="/img/mailserver/50.png" alt="evolution"></p>
+<p><img src="/img/mailserver/51.png" alt="evolution"></p>
+<h3 id="tarea-10-no-obligatoria-instala-un-webmail-roundcube-horde-rainloop-para-gestionar-el-correo-del-equipo-mediante-una-interfaz-web-muestra-la-configuración-necesaria-y-cómo-eres-capaz-de-leer-los-correos-que-recibe-tu-usuario"><strong>Tarea 10 (No obligatoria): Instala un webmail (roundcube, horde, rainloop) para gestionar el correo del equipo mediante una interfaz web. Muestra la configuración necesaria y cómo eres capaz de leer los correos que recibe tu usuario.</strong></h3>
+<p><em>(Las tareas 10 y 12 se realizan juntas)</em></p>
+<h3 id="tarea-12-no-obligatoria-configura-el-cliente-webmail-para-el-envío-de-correo-realiza-una-prueba-de-envío-con-el-webmail"><strong>Tarea 12 (No obligatoria): Configura el cliente webmail para el envío de correo. Realiza una prueba de envío con el webmail.</strong></h3>
+<p>He elegido el webmail Roundcube.</p>
+<p>Antes de instalar el contenedor de docker tenemos que crear el siguiente fichero con este contenido para mandarselo como parámetro a la configuración del contenedor docker. Si no hacemos esto podremos acceder a Roundcube pero no podremos enviar mensajes.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo mkdir /root/config-roundcube
+</span></span><span class="line"><span class="cl">sudo nano /root/config-roundcube/custom.inc.php
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;mail_domain&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;mail.afm-tars.es&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;afm-tars.es&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></div><p>Ahora instalo un contenedor Docker de Roundcube enviandole la configuración anterior.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo docker run -v /root/config-roundcube/:/var/roundcube/config/ -e <span class="nv">ROUNDCUBEMAIL_DEFAULT_HOST</span><span class="o">=</span>ssl://mail.afm-tars.es -e <span class="nv">ROUNDCUBEMAIL_SMTP_SERVER</span><span class="o">=</span>ssl://mail.afm-tars.es -e <span class="nv">ROUNDCUBEMAIL_SMTP_PORT</span><span class="o">=</span><span class="m">465</span> -e <span class="nv">ROUNDCUBEMAIL_DEFAULT_PORT</span><span class="o">=</span><span class="m">993</span> -p 8001:80 -d roundcube/roundcubemail<span class="sb">```</span>
+</span></span></code></pre></div><p>Crear un registro CNAME en el DNS llamado roundcube.afm-tars.es que apunte a walle.afm-tars.es</p>
+<p><img src="/img/mailserver/54.png" alt="cname"></p>
+<p>Creo el virtualhost en nginx.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/nginx/sites-available/roundcube
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">server {
+</span></span><span class="line"><span class="cl">        listen 80;
+</span></span><span class="line"><span class="cl">        listen [::]:80;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        server_name roundcube.afm-tars.es;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        return 301 https://$host$request_uri;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">server {
+</span></span><span class="line"><span class="cl">        listen 443 ssl http2;
+</span></span><span class="line"><span class="cl">        listen [::]:443 ssl http2;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        index index.html index.php index.htm index.nginx-debian.html;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        server_name roundcube.afm-tars.es;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        location / {
+</span></span><span class="line"><span class="cl">                proxy_pass http://localhost:8001;
+</span></span><span class="line"><span class="cl">                include proxy_params;
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><p>Creo el enlace simbólico:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo ln -s /etc/nginx/sites-available/roundcube /etc/nginx/sites-enabled/roundcube
+</span></span><span class="line"><span class="cl">sudo systemctl restart nginx
+</span></span></code></pre></div><p>Creo el certificado Let&rsquo;sEncrypt:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo certbot certonly --standalone -d roundcube.afm-tars.es
+</span></span></code></pre></div><p>Añado al virtualhost lo siguiente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/nginx/sites-available/roundcube
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">        ssl    on;
+</span></span><span class="line"><span class="cl">        ssl_certificate /etc/letsencrypt/live/roundcube.afm-tars.es/fullchain.pem;
+</span></span><span class="line"><span class="cl">        ssl_certificate_key /etc/letsencrypt/live/roundcube.afm-tars.es/privkey.pem;
+</span></span></code></pre></div><p>Y reinicio el servicio.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl restart nginx
+</span></span></code></pre></div><p>Ingresamos a roundcube.afm-tars.es.</p>
+<p><img src="/img/mailserver/55.png" alt="roundcube"></p>
+<p>Ingreso con mi usuario y contraseña de mi usuario local <strong>arantxa</strong>.</p>
+<p><img src="/img/mailserver/56.png" alt="roundcube"></p>
+<p>Como vemos en la captura, podemos ver sin problema los correos de nuestro usuario.</p>
+<p>Probamos a enviar un correo a Gmail y que se recibe.</p>
+<p><img src="/img/mailserver/57.png" alt="roundcube"></p>
+<p><img src="/img/mailserver/58.png" alt="roundcube"></p>
+<p><img src="/img/mailserver/59.png" alt="roundcube"></p>
+<p><img src="/img/mailserver/60.png" alt="roundcube"></p>
+<p><img src="/img/mailserver/61.png" alt="roundcube"></p>
+<p>Por último respondemos al correo recibido en Gmail y comprobamos que lo recibimos y podemos leer en Roundcube.</p>
+<p><img src="/img/mailserver/62.png" alt="roundcube"></p>
+<p><img src="/img/mailserver/63.png" alt="roundcube"></p>
+<p><img src="/img/mailserver/64.png" alt="roundcube"></p>
+<h2 id="comprobación-final">Comprobación final</h2>
+<h3 id="tarea-13-prueba-de-envío-de-correo-en-esta-páginahttpswwwmail-testercom-tenemos-una-herramienta-completa-y-fácil-de-usar-a-la-que-podemos-enviar-un-correo-para-que-verifique-y-puntúe-el-correo-que-enviamos-captura-la-pantalla-y-muestra-la-puntuación-que-has-sacado"><strong>Tarea 13: Prueba de envío de correo. En <a href="https://www.mail-tester.com/">esta página</a> tenemos una herramienta completa y fácil de usar a la que podemos enviar un correo para que verifique y puntúe el correo que enviamos. Captura la pantalla y muestra la puntuación que has sacado.</strong></h3>
+<p>La primera vez que he enviado el correo a <a href="mailto:test-radvng5qk@srv1.mail-tester.com">test-radvng5qk@srv1.mail-tester.com</a> me ha dado una puntuación de 6'8. Por lo que he mejorado algunas cosas para obtener una puntuación mayor.</p>
+<p>Añado un registro TXT para el dominio _dmarc.afm-tars.es con el valor <strong>v=DMARC1; p=none</strong>.</p>
+<p><img src="/img/mailserver/66.png" alt="dmarc"></p>
+<p>Vuelvo a entrar en la web. Esta vez me da un correo diferente.</p>
+<p><img src="/img/mailserver/67.png" alt="testmail"></p>
+<p>Envío un correo con contenido.</p>
+<p><img src="/img/mailserver/68.png" alt="testmail"></p>
+<p>Vuelvo a la página y compruebo la puntuación.</p>
+<p><img src="/img/mailserver/69.png" alt="testmail"></p>
+<p>Mi puntuación ahora es de 8'9.</p>
+<p>Algunas cosas que me dice que podría mejorar son:</p>
+<p><img src="/img/mailserver/70.png" alt="testmail"></p>
+<p><img src="/img/mailserver/71.png" alt="testmail"></p>
+
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://afermor8.github.io/tags/sri&#43;hlc/">SRI&#43;HLC</a>&nbsp;
+            
+          </div>
+        
+
+        
+            <hr/>
+            <section id="social-share">
+              <div class="list-inline footer-links">
+                
+
+<div class="share-box" aria-hidden="true">
+    <ul class="share">
+      
+      <li>
+        <a href="//twitter.com/share?url=https%3a%2f%2fafermor8.github.io%2fpost%2fmailerver%2f&amp;text=Pr%c3%a1ctica%3a%20Servidor%20de%20correos&amp;via=" target="_blank" title="Share on Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fafermor8.github.io%2fpost%2fmailerver%2f" target="_blank" title="Share on Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//reddit.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fmailerver%2f&amp;title=Pr%c3%a1ctica%3a%20Servidor%20de%20correos" target="_blank" title="Share on Reddit">
+          <i class="fab fa-reddit"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fafermor8.github.io%2fpost%2fmailerver%2f&amp;title=Pr%c3%a1ctica%3a%20Servidor%20de%20correos" target="_blank" title="Share on LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fmailerver%2f&amp;title=Pr%c3%a1ctica%3a%20Servidor%20de%20correos" target="_blank" title="Share on StumbleUpon">
+          <i class="fab fa-stumbleupon"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fafermor8.github.io%2fpost%2fmailerver%2f&amp;description=Pr%c3%a1ctica%3a%20Servidor%20de%20correos" target="_blank" title="Share on Pinterest">
+          <i class="fab fa-pinterest"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+
+              </div>
+            </section>
+        
+
+        
+          
+
+          
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://afermor8.github.io/post/copias-seguridad/" data-toggle="tooltip" data-placement="top" title="Sistema de copias de seguridad">&larr; Artículo anterior</a>
+            </li>
+          
+          
+        </ul>
+      
+
+
+      
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+      
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+		
+		  <a href="mailto:ara.fer.mor@gmail.com" title="Email me">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://github.com/afermor8" title="GitHub">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://Afermor.slack.com/" title="Slack">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-slack fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://linkedin.com/in/arantxa-f-6136617b" title="LinkedIn">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://telegram.me/arantxipu" title="Telegram">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-telegram fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            <a href="" title="RSS">
+              <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              <a href="afermor8.github.io">afermor8</a>
+            
+          
+
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2023
+          
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="https://gohugo.io">Hugo v0.104.3</a> alimentada &nbsp;&bull;&nbsp; Tema <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adaptado de <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer><script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://afermor8.github.io/js/main.js"></script>
+<script src="https://afermor8.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://afermor8.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>
+

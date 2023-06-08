@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="es" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Sistema de copias de seguridad - Mi paso por ASIR Blog</title>
+  <meta name="description" content="Implementar un sistema de copias de seguridad para las instancias del cloud, teniendo en cuenta las siguientes características: Selecciona una aplicación para realizar el proceso: bacula, amanda, shell script con tar, rsync, dar, afio, etc. Utiliza una de las instancias como servidor de copias de seguridad, añadiéndole un volumen y almacenando localmente las copias de seguridad que consideres adecuadas en él. El proceso debe realizarse de forma completamente automática Selecciona qué información es necesaria guardar (listado de paquetes, ficheros de configuración, documentos, datos, etc.">
+  <meta name="author" content="afermor8"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Mi paso por ASIR Blog",
+    
+    "url": "https:\/\/afermor8.github.io"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/afermor8.github.io"
+  
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io\/post\/copias-seguridad\/",
+          "name": "Sistema de copias de seguridad"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "afermor8"
+  },
+  "headline": "Sistema de copias de seguridad",
+  "description" : "Implementar un sistema de copias de seguridad para las instancias del cloud, teniendo en cuenta las siguientes características: Selecciona una aplicación para realizar el proceso: bacula, amanda, shell script con tar, rsync, dar, afio, etc. Utiliza una de las instancias como servidor de copias de seguridad, añadiéndole un volumen y almacenando localmente las copias de seguridad que consideres adecuadas en él. El proceso debe realizarse de forma completamente automática Selecciona qué información es necesaria guardar (listado de paquetes, ficheros de configuración, documentos, datos, etc.",
+  "inLanguage" : "es",
+  "wordCount":  2096 ,
+  "datePublished" : "2023-06-03T12:29:08",
+  "dateModified" : "2023-06-03T12:29:08",
+  "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+  "keywords" : [ "ASO" ],
+  "mainEntityOfPage" : "https:\/\/afermor8.github.io\/post\/copias-seguridad\/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https:\/\/afermor8.github.io",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
+
+<meta property="og:title" content="Sistema de copias de seguridad" />
+<meta property="og:description" content="Implementar un sistema de copias de seguridad para las instancias del cloud, teniendo en cuenta las siguientes características: Selecciona una aplicación para realizar el proceso: bacula, amanda, shell script con tar, rsync, dar, afio, etc. Utiliza una de las instancias como servidor de copias de seguridad, añadiéndole un volumen y almacenando localmente las copias de seguridad que consideres adecuadas en él. El proceso debe realizarse de forma completamente automática Selecciona qué información es necesaria guardar (listado de paquetes, ficheros de configuración, documentos, datos, etc.">
+<meta property="og:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+<meta property="og:url" content="https://afermor8.github.io/post/copias-seguridad/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Mi paso por ASIR Blog" />
+
+  <meta name="twitter:title" content="Sistema de copias de seguridad" />
+  <meta name="twitter:description" content="Implementar un sistema de copias de seguridad para las instancias del cloud, teniendo en cuenta las siguientes características: Selecciona una aplicación para realizar el proceso: bacula, amanda, …">
+  <meta name="twitter:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link href='https://afermor8.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta name="generator" content="Hugo 0.104.3" />
+  <link rel="alternate" href="https://afermor8.github.io/index.xml" type="application/rss+xml" title="Mi paso por ASIR Blog"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://afermor8.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://afermor8.github.io/css/highlight.min.css" /><link rel="stylesheet" href="https://afermor8.github.io/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Conmuta navegación</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/page/about/">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Tags" href="/tags">Tags</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    
+      <div class="avatar-container">
+        <div class="avatar-img-border">
+          <a title="Mi paso por ASIR Blog" href="https://afermor8.github.io">
+            <img class="avatar-img" src="https://afermor8.github.io/img/avatar-icon.png" alt="Mi paso por ASIR Blog" />
+          </a>
+        </div>
+      </div>
+    
+
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+    <div id="header-big-imgs" data-num-img=3 
+      
+         
+          data-img-src-1="/img/triangle.jpg" 
+         
+         data-img-desc-1="Triangle"
+      
+         
+          data-img-src-2="/img/sphere.jpg" 
+         
+         data-img-desc-2="Sphere"
+      
+         
+          data-img-src-3="/img/hexagon.jpg" 
+         
+         data-img-desc-3="Hexagon"
+      ></div>
+  
+
+  <header class="header-section has-img">
+    
+      <div class="intro-header big-img">
+        
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+              <div class="post-heading">
+                <h1>Sistema de copias de seguridad</h1>
+                  
+                  
+                    <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el June 3, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;10&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2096&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="img-desc" style="display: inline;"></span>
+      </div>
+    
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>Sistema de copias de seguridad</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el June 3, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;10&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2096&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <h2 id="implementar-un-sistema-de-copias-de-seguridad-para-las-instancias-del-cloud-teniendo-en-cuenta-las-siguientes-características">Implementar un sistema de copias de seguridad para las instancias del cloud, teniendo en cuenta las siguientes características:</h2>
+<ul>
+<li><strong>Selecciona una aplicación para realizar el proceso: bacula, amanda, shell script con tar, rsync, dar, afio, etc.</strong></li>
+<li><strong>Utiliza una de las instancias como servidor de copias de seguridad, añadiéndole un volumen y almacenando localmente las copias de seguridad que consideres adecuadas en él.</strong></li>
+<li><strong>El proceso debe realizarse de forma completamente automática</strong></li>
+<li><strong>Selecciona qué información es necesaria guardar (listado de paquetes, ficheros de configuración, documentos, datos, etc.)</strong></li>
+<li><strong>Realiza semanalmente una copia completa</strong></li>
+<li><strong>Realiza diariamente una copia incremental o diferencial (decidir cual es más adecuada)</strong></li>
+<li><strong>Implementa una planificación del almacenamiento de copias de seguridad para una ejecución prevista de varios años, detallando qué copias completas se almacenarán de forma permanente y cuales se irán borrando</strong></li>
+<li><strong>Selecciona un directorio de datos &ldquo;críticos&rdquo; que deberá almacenarse cifrado en la copia de seguridad, bien encargándote de hacer la copia manualmente o incluyendo la contraseña de cifrado en el sistema</strong></li>
+<li><strong>Incluye en la copia los datos de las nuevas aplicaciones que se vayan instalando durante el resto del curso</strong></li>
+<li><strong>Utiliza una ubicación secundaria para almacenar las copias de seguridad. Solicita acceso o la instalación de las aplicaciones que sean precisas.</strong></li>
+</ul>
+<h2 id="la-corrección-consistirá-tanto-en-la-restauración-puntual-de-un-fichero-en-cualquier-fecha-como-la-restauración-completa-de-una-de-las-instancias-la-última-semana-de-curso">La corrección consistirá tanto en la restauración puntual de un fichero en cualquier fecha como la restauración completa de una de las instancias la última semana de curso.</h2>
+<hr>
+<h3 id="preparación">Preparación</h3>
+<p>La aplicación que he decidido utilizar para realizar el proceso de copias de seguridad es <em><strong>rsync</strong></em>.</p>
+<p>Rsync es &hellip;&hellip;..</p>
+<p>En Debian viene instalado por defecto, pero si no lo tuviéramos se puede instalar fácilmente con apt.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install rsync
+</span></span></code></pre></div><p>Voy a utilizar rsync en mi escenario montado en openstack, que es el siguiente:</p>
+<p><img src="/img/backup/3.png" alt=""></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Máquina</th>
+<th style="text-align:center">IPs</th>
+<th style="text-align:center">SO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">alfa</td>
+<td style="text-align:center">172.22.201.158<!-- raw HTML omitted -->172.16.0.1<!-- raw HTML omitted -->192.168.0.1</td>
+<td style="text-align:center">Debian 11</td>
+</tr>
+<tr>
+<td style="text-align:center">bravo</td>
+<td style="text-align:center">172.16.0.200</td>
+<td style="text-align:center">Rocky Linux 9</td>
+</tr>
+<tr>
+<td style="text-align:center">charlie</td>
+<td style="text-align:center">192.168.0.2</td>
+<td style="text-align:center">Contenedor LXC Ubuntu</td>
+</tr>
+<tr>
+<td style="text-align:center">delta</td>
+<td style="text-align:center">192.168.0.3</td>
+<td style="text-align:center">Contenedor LXC Ubuntu</td>
+</tr>
+</tbody>
+</table>
+<p>El lugar donde se guardarán las copias de seguridad será un nuevo volumen asociado a la máquina <strong>alfa</strong>. El volumen que he creado tiene 20GB, que para esta actividad debería ser suficiente, pero en un entorno laboral se necesitaría mucho más epacio Para ello he creado el nuevo volumen en Openstack.</p>
+<p><img src="/img/backup/1.png" alt=""></p>
+<p>Este volumen lo voy a asociar a <strong>alfa</strong>.</p>
+<p><img src="/img/backup/2.png" alt=""></p>
+<p><strong>En alfa:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@alfa:~$ lsblk
+</span></span><span class="line"><span class="cl">NAME    MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+</span></span><span class="line"><span class="cl">vda     254:0    <span class="m">0</span>   30G  <span class="m">0</span> disk 
+</span></span><span class="line"><span class="cl">├─vda1  254:1    <span class="m">0</span> 29.9G  <span class="m">0</span> part /
+</span></span><span class="line"><span class="cl">├─vda14 254:14   <span class="m">0</span>    3M  <span class="m">0</span> part 
+</span></span><span class="line"><span class="cl">└─vda15 254:15   <span class="m">0</span>  124M  <span class="m">0</span> part /boot/efi
+</span></span><span class="line"><span class="cl">vdb     254:16   <span class="m">0</span>   20G  <span class="m">0</span> disk 
+</span></span></code></pre></div><p>En mi caso no está montado, pero si se hubiera montado lo desmontamos.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@alfa:~$ sudo umount /dev/vdb
+</span></span><span class="line"><span class="cl">umount: /dev/vdb: not mounted.
+</span></span></code></pre></div><p>Intalo el paquete xfsprogs:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt-get install xfsprogs
+</span></span></code></pre></div><p>Formateamos el volumen usando el sistema de ficheros <em>xfs</em>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@alfa:~$ sudo mkfs.xfs /dev/vdb
+</span></span><span class="line"><span class="cl">meta-data<span class="o">=</span>/dev/vdb               <span class="nv">isize</span><span class="o">=</span><span class="m">512</span>    <span class="nv">agcount</span><span class="o">=</span>4, <span class="nv">agsize</span><span class="o">=</span><span class="m">1310720</span> <span class="nv">blks</span>
+</span></span><span class="line"><span class="cl">         <span class="o">=</span>                       <span class="nv">sectsz</span><span class="o">=</span><span class="m">512</span>   <span class="nv">attr</span><span class="o">=</span>2, <span class="nv">projid32bit</span><span class="o">=</span><span class="nv">1</span>
+</span></span><span class="line"><span class="cl">         <span class="o">=</span>                       <span class="nv">crc</span><span class="o">=</span><span class="m">1</span>        <span class="nv">finobt</span><span class="o">=</span>1, <span class="nv">sparse</span><span class="o">=</span>1, <span class="nv">rmapbt</span><span class="o">=</span><span class="nv">0</span>
+</span></span><span class="line"><span class="cl">         <span class="o">=</span>                       <span class="nv">reflink</span><span class="o">=</span><span class="m">1</span>    <span class="nv">bigtime</span><span class="o">=</span><span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="nv">data</span>     <span class="o">=</span>                       <span class="nv">bsize</span><span class="o">=</span><span class="m">4096</span>   <span class="nv">blocks</span><span class="o">=</span>5242880, <span class="nv">imaxpct</span><span class="o">=</span><span class="nv">25</span>
+</span></span><span class="line"><span class="cl">         <span class="o">=</span>                       <span class="nv">sunit</span><span class="o">=</span><span class="m">0</span>      <span class="nv">swidth</span><span class="o">=</span><span class="m">0</span> blks
+</span></span><span class="line"><span class="cl"><span class="nv">naming</span>   <span class="o">=</span>version <span class="m">2</span>              <span class="nv">bsize</span><span class="o">=</span><span class="m">4096</span>   ascii-ci<span class="o">=</span>0, <span class="nv">ftype</span><span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="nv">log</span>      <span class="o">=</span>internal log           <span class="nv">bsize</span><span class="o">=</span><span class="m">4096</span>   <span class="nv">blocks</span><span class="o">=</span>2560, <span class="nv">version</span><span class="o">=</span><span class="nv">2</span>
+</span></span><span class="line"><span class="cl">         <span class="o">=</span>                       <span class="nv">sectsz</span><span class="o">=</span><span class="m">512</span>   <span class="nv">sunit</span><span class="o">=</span><span class="m">0</span> blks, lazy-count<span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="nv">realtime</span> <span class="o">=</span>none                   <span class="nv">extsz</span><span class="o">=</span><span class="m">4096</span>   <span class="nv">blocks</span><span class="o">=</span>0, <span class="nv">rtextents</span><span class="o">=</span><span class="m">0</span>
+</span></span><span class="line"><span class="cl">Discarding blocks...Done.
+</span></span></code></pre></div><p>Ahora voy a crear un punto de montaje:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo mkdir /backup
+</span></span></code></pre></div><p>Voy a usar fstab para que el volumen se monte automáticamente al iniciar el sistema. Creo un respaldo del fichero /etc/fstab por seguridad.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo cp /etc/fstab /etc/fstab.backup
+</span></span></code></pre></div><p>Edito fstab para montar el volumen automáticamente con el sistema de archivos XFS en /backup.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/fstab
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">/dev/vdb   /backup   xfs   defaults   0   0
+</span></span></code></pre></div><p>Y monto el volumen externo en el punto de montaje:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@alfa:~$ sudo mount /dev/vdb /backup
+</span></span></code></pre></div><p>Si reiniciamos la máquina podemos comprobar que el volumen se ha montado autmática y correctamente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@alfa:~$ df
+</span></span><span class="line"><span class="cl">Filesystem     1K-blocks    Used Available Use% Mounted on
+</span></span><span class="line"><span class="cl">udev              <span class="m">990444</span>       <span class="m">0</span>    <span class="m">990444</span>   0% /dev
+</span></span><span class="line"><span class="cl">tmpfs             <span class="m">201816</span>     <span class="m">520</span>    <span class="m">201296</span>   1% /run
+</span></span><span class="line"><span class="cl">/dev/vda1       <span class="m">30791432</span> <span class="m">4029844</span>  <span class="m">25472532</span>  14% /
+</span></span><span class="line"><span class="cl">tmpfs            <span class="m">1009076</span>       <span class="m">0</span>   <span class="m">1009076</span>   0% /dev/shm
+</span></span><span class="line"><span class="cl">tmpfs               <span class="m">5120</span>       <span class="m">0</span>      <span class="m">5120</span>   0% /run/lock
+</span></span><span class="line"><span class="cl">/dev/vda15        <span class="m">126678</span>   <span class="m">10900</span>    <span class="m">115778</span>   9% /boot/efi
+</span></span><span class="line"><span class="cl">tmpfs             <span class="m">201812</span>       <span class="m">0</span>    <span class="m">201812</span>   0% /run/user/1000
+</span></span><span class="line"><span class="cl">/dev/vdb        <span class="m">20466256</span>      <span class="m">24</span>  <span class="m">19401272</span>   1% /backup
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">arantxa@alfa:~$ lsblk
+</span></span><span class="line"><span class="cl">NAME    MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+</span></span><span class="line"><span class="cl">vda     254:0    <span class="m">0</span>   30G  <span class="m">0</span> disk 
+</span></span><span class="line"><span class="cl">├─vda1  254:1    <span class="m">0</span> 29.9G  <span class="m">0</span> part /
+</span></span><span class="line"><span class="cl">├─vda14 254:14   <span class="m">0</span>    3M  <span class="m">0</span> part 
+</span></span><span class="line"><span class="cl">└─vda15 254:15   <span class="m">0</span>  124M  <span class="m">0</span> part /boot/efi
+</span></span><span class="line"><span class="cl">vdb     254:16   <span class="m">0</span>   20G  <span class="m">0</span> disk /backup
+</span></span></code></pre></div><h3 id="información-a-guardar">Información a guardar</h3>
+<p>Voy a guardar el contenido de /home, /etc, /var, /opt, /usr/share</p>
+<p>Críticos:</p>
+<p>alfa	Reglas iptables
+bravo	Web (/var/www, /etc/httpd)
+charlie	Servidor dns (/var/chache/bind, /etc/bind, &hellip;)
+delta	Servidor correo (/etc/postfix)</p>
+<h3 id="información-a-excluir">Información a excluir</h3>
+<h3 id="copias-de-seguriadad-diaria-diferencial-semanal-completa-mensual-completa">Copias de seguriadad (diaria-diferencial, semanal-completa, mensual-completa)</h3>
+<p>He decidido que la copia diaria será de tipo diferencial.
+Requiere más espacio de almacenamiento y más tiempo de respaldo, pero la restauración es más rápida, ya que solo se necesita acceder a la copia completa y la última copia diferencial. Es adecuada si deseas minimizar el tiempo de restauración y no tienes restricciones de espacio de almacenamiento.</p>
+<p>Se guardarán las copias de todos los días de la semana, y cuando termine la semana se empezará a sobreescribir los datos de la copia diferencial más antigua, de forma que siempre tengamos acceso a las copias diferenciales de los últimos 7 días.</p>
+<p>Se guardarán copias completas semanalmente.</p>
+<p>Cada cuatro semanas se borrarán las 3 copias completas más nuevas, de esta forma siempre se quedará guardada una copia completa al mes (unque habrá meses que tengan dos copias ya que lo meses no tienen cuatro semanas justas).</p>
+<p>!!!MAL, en l futuro deberían haber decenas de copias completas a lo largo de los años
+Si 4 copias o mas entonces
+borrar las 3 más nuevas
+crear copia completa</p>
+<h3 id="scripts">Scripts</h3>
+<p>Directorios:</p>
+<p>/backup/completa/latest
+/backup/completa/old</p>
+<p>/backup/diff/lun
+/backup/diff/mar
+/backup/diff/mie
+/backup/diff/jue
+/backup/diff/vie
+/backup/diff/sab
+/backup/diff/dom</p>
+<p>3 SCRIPTS:</p>
+<ol>
+<li>
+<p>Copia completa</p>
+<p>Si existe carpeta
+copia a /backup/completa/old
+borrar carpeta de /backup/completa/latest
+tminar if
+Crear copia completa en /backup/completa/latest
+Crear carpeta con la fecha de la copia donde estará todo el contenido</p>
+</li>
+</ol>
+<p>*Crontab: ejecutar cada 7 días</p>
+<ol start="2">
+<li>
+<p>Planificación</p>
+<p>Borrar 3 últimas carpetas de /backup/completa/old</p>
+</li>
+</ol>
+<p>*Crontab: ejecutar cada 4 semanas</p>
+<ol start="3">
+<li>
+<p>Copia diferencial (sobre la ultima copia completa)</p>
+<p>Si exite carpeta con ese día de la semana entonces
+eliminar carpeta
+terminar if
+Crear copia diferencial
+Añadir carpeta con día de la semana
+Nos basamos en la última copia completa</p>
+</li>
+</ol>
+<p>*Crontab: ejecutar diariamente</p>
+<ol>
+<li>SCRIPT COMPLETA</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Ruta de origen (directorio que deseas respaldar)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">SOURCE_DIR</span><span class="o">=</span><span class="s2">&#34;/ruta/de/origen&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Ruta de destino (directorio donde se guardarán las copias de seguridad)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">DEST_DIR</span><span class="o">=</span><span class="s2">&#34;/backup/completa&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Obtener la fecha actual</span>
+</span></span><span class="line"><span class="cl"><span class="nv">DATE</span><span class="o">=</span><span class="k">$(</span>date +<span class="s2">&#34;%Y-%m-%d&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Mover la copia completa anterior a la carpeta de copias antiguas</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> -d <span class="s2">&#34;</span><span class="nv">$DEST_DIR</span><span class="s2">/latest/&#34;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    mv <span class="s2">&#34;</span><span class="nv">$DEST_DIR</span><span class="s2">/latest/*&#34;</span> <span class="s2">&#34;</span><span class="nv">$DEST_DIR</span><span class="s2">/old/&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Realizar la copia completa en la carpeta latest</span>
+</span></span><span class="line"><span class="cl">rsync -a --delete --quiet <span class="s2">&#34;</span><span class="nv">$SOURCE_DIR</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="nv">$DEST_DIR</span><span class="s2">/latest/</span><span class="nv">$DATE</span><span class="s2">&#34;</span>
+</span></span></code></pre></div><ol start="2">
+<li>SCRIPT PLAN</li>
+</ol>
+<p>cd /backup/completa/old
+ls -t | head -3 | xargs rm -r</p>
+<ol start="3">
+<li>SCRIPT DIFF</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Ruta de origen (directorio que deseas respaldar)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">SOURCE_DIR</span><span class="o">=</span><span class="s2">&#34;/ruta/de/origen&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Ruta de destino (directorio donde se guardarán las copias de seguridad)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">DEST_DIR</span><span class="o">=</span><span class="s2">&#34;/backup/diff&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Obtener el día de la semana (lun, mar, mie, jue, vie, sab, dom)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">DAY</span><span class="o">=</span><span class="k">$(</span>date +%a<span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Si existe una copia diferencial anterior para el día actual, eliminarla</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> -d <span class="s2">&#34;</span><span class="nv">$DEST_DIR</span><span class="s2">/</span><span class="nv">$DAY</span><span class="s2">&#34;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    rm -rf <span class="s2">&#34;</span><span class="nv">$DEST_DIR</span><span class="s2">/</span><span class="nv">$DAY</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Realizar la copia diferencial basada en la última copia completa</span>
+</span></span><span class="line"><span class="cl">rsync -a --delete --quiet --link-dest<span class="o">=</span><span class="s2">&#34;</span><span class="nv">$DEST_DIR</span><span class="s2">/../completa/latest/*/&#34;</span> <span class="s2">&#34;</span><span class="nv">$SOURCE_DIR</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="nv">$DEST_DIR</span><span class="s2">/</span><span class="nv">$DAY</span><span class="s2">/&#34;</span>
+</span></span></code></pre></div><h3 id="automatizar-con-crontab">Automatizar con crontab</h3>
+<h3 id="comandos">Comandos</h3>
+<p>rsync -ab origen/ destino/</p>
+<p>Esto agregará el sufijo .viejo a los archivos de respaldo, es decir, archivo01.txt será copiado en archivo01.txt.viejo, y entonces archivo01.txt sería actualizado con la nueva información. Podemos agregar la fecha de el respaldo al sufijo utilizando el comando date junto con el parámetro sufijo</p>
+<p>rsync -ab &ndash;suffix=.viejo origen/ destino/</p>
+<p>Ó</p>
+<p>rsync -ab &ndash;suffix=_<code>date +%F</code> origen/ destino/</p>
+<p>&ndash;backup-dir, esto usa la carpeta en el directorio de destino, a menos que se especifique otra cosa. Si el directorio especificado no existe, rsync lo creará. Por ejemplo:</p>
+<p>rsync -ab &ndash;backup-dir=respaldo origen/ destino/</p>
+<h2 id="crontab">Crontab</h2>
+<p>Si fuéramos a hacer un respaldo completo diario, podríamos utilizar el siguiente crontab:</p>
+<p>@daily rsync -au &ndash;delete origen/ destino/</p>
+<p>Para respaldo incremental:</p>
+<p>@daily rsync -ab &ndash;backup-dir=viejo_<code>date +%F</code> &ndash;delete &ndash;exclude=viejo_* origen/ destino/</p>
+<h2 id="script">Script</h2>
+<p>creo una entrada en ~/.ssh/config como se ve en Definiendo servidores SSH, y la nombro respaldo_remoto. La entrada se ve algo así:</p>
+<p>Host respaldo_remoto
+HostName nombre_servidor.dreamhost.com
+User nombre_usuario</p>
+<p>me conecto por medio de SFTP, creo la carpeta .ssh, y copio mi id_rsa.pub recien generada o ya existente en .ssh/authorized_keys en el servidor remoto, y ya que estoy aquí, creo antes de salir las carpetas Respaldos y mi_trabajo que voy a utilizar:</p>
+<p>sftp respaldo_remoto
+(Escribe la contraseña. Después de entrar estamos en un shell de SFTP y usamos estos comandos)
+mkdir .ssh
+cd .ssh/
+put -p /home/juan/.ssh/id_rsa.pub authorized_keys
+cd ..
+mkdir Respaldos
+mkdir Respaldos/mi_trabajo
+exit</p>
+<p>nano ~/Scripts/a_respaldar.txt</p>
+<p>.vimrc
+.vim/
+Proyectos/
+Documentos/Trabajo/
+Scripts/</p>
+<p>touch ~/Scripts/respaldo_auto.sh
+chmod u+x ~/Scripts/respaldo_auto.sh</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/sh
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="nv">SUFIJO</span><span class="o">=</span><span class="k">$(</span>date +%j<span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Borrar el directorio en el servidor remoto vía SSH</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ssh respaldo_remoto &#39;ls Respaldos/mi_trabajo/respaldo_&#39;$SUFIJO&#39; &amp;&amp; rm -r Respaldos/mi_trabajo/respaldo_&#39;$SUFIJO</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Borrar el directorio en el servidor remoto vía SFTP</span>
+</span></span><span class="line"><span class="cl">sftp -b /dev/fd/0 respaldo_remoto <span class="s">&lt;&lt;EOF
+</span></span></span><span class="line"><span class="cl"><span class="s">cd Respaldos/mi_trabajo
+</span></span></span><span class="line"><span class="cl"><span class="s">rmdir respaldo_$SUFIJO
+</span></span></span><span class="line"><span class="cl"><span class="s">exit
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Actualizar la información, creando una carpeta de respaldo e ignorando el</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># el resto de los directorios de respaldo</span>
+</span></span><span class="line"><span class="cl">rsync -ab --recursive --files-from<span class="o">=</span><span class="s1">&#39;a_respaldar.txt&#39;</span> --backup-dir<span class="o">=</span>respaldo_<span class="nv">$SUFIJO</span> --delete --filter<span class="o">=</span><span class="s1">&#39;protect respaldo_*&#39;</span> /home/juan/ respaldo_remoto:Respaldos/mi_trabajo/
+</span></span></code></pre></div><p>Probar script:</p>
+<p>sh ~/Scripts/respaldo_auto.sh</p>
+<p>editar nuestro archivo crontab y hacerlo correr el script diariamente:</p>
+<p>crontab -e</p>
+<p>@daily /home/juan/Scripts/respaldo_auto.sh</p>
+<h2 id="realizar-copia-de-seguridad-automatizada-con-ssh">Realizar copia de seguridad automatizada con SSH</h2>
+<p>Si realiza una copia de seguridad en un servidor remoto utilizando SSH, utilice este script en su lugar:</p>
+<p>#!/bin/bash
+rsync -a &ndash;delete &ndash;quiet -e ssh /folder/to/backup remoteuser@remotehost:/location/of/backup</p>
+<h2 id="realizar-copia-de-seguridad-diferencial-por-semana">Realizar copia de seguridad diferencial por semana</h2>
+<p>Esta es una opción útil de rsync, que consiste en realizar una copia de seguridad completa (en cada ejecución) y mantener una copia de seguridad diferencial solo de los archivos modificados en un directorio separado para cada día de la semana.</p>
+<p>Primero, cree un script que contenga las opciones de órdenes apropiadas:</p>
+<p>/etc/cron.daily/backup
+#!/bin/bash</p>
+<p>DAY=$(date +%A)</p>
+<p>if [ -e /location/to/backup/incr/$DAY ] ; then
+rm -fr /location/to/backup/incr/$DAY
+fi</p>
+<p>rsync -a &ndash;delete &ndash;quiet &ndash;inplace &ndash;backup &ndash;backup-dir=/location/to/backup/incr/$DAY /folder/to/backup/ /location/to/backup/full/</p>
+<p>&ndash;inplace
+implica la actualización &ndash;partial de los archivos de destino en el lugar</p>
+<h2 id="realizar-copia-de-seguridad-completa-del-sistema">Realizar copia de seguridad completa del sistema</h2>
+<p>Esta sección trata sobre el uso de rsync para transferir una copia de todo el árbol /, excluyendo algunas carpetas seleccionadas. Se considera que este enfoque es mejor que clonar un disco con dd dado que ello utilizar un tamaño diferente, una tabla de partición y un sistema de archivos, y mejor que copiar con cp -a también, porque permite un mayor control sobre los permisos de archivos, atributos, Listas de control de acceso y Atributos extendidos.</p>
+<p>rsync funcionará incluso mientras el sistema se está ejecutando, pero los archivos modificados durante la transferencia pueden o no transferirse, lo que puede causar un comportamiento inesperado de algunos programas que usan los archivos transferidos.</p>
+<p>Este enfoque funciona bien para migrar una instalación existente a un nuevo disco duro o SSD.</p>
+<p>Ejecute la siguiente orden como root para asegurarse de que rsync pueda acceder a todos los archivos del sistema y preservar su propiedad:</p>
+<p>rsync -aAXv &ndash;exclude={&quot;/dev/<em>&quot;,&quot;/proc/</em>&quot;,&quot;/sys/<em>&quot;,&quot;/tmp/</em>&quot;,&quot;/run/<em>&quot;,&quot;/mnt/</em>&quot;,&quot;/media/*&quot;,&quot;/lost+found&quot;} / /path/to/backup/folder</p>
+<p>Al utilizar el conjunto de opciones -aAX, los archivos se transfieren en modo de comprimido, lo que garantiza que los enlaces simbólicos, los dispositivos, los permisos, las propiedades, los tiempos de modificación, los ACL y los atributos extendidos se conserven, suponiendo que el sistema de archivos de destino dé soporte a esta función.</p>
+<p>!!!!!!!!!!!!!!!!!Nota:
+Considere excluir subdirectorios sin importancia como /home/<em>/.thumbnails/</em>, /home/<em>/.cache/mozilla/</em>, /home/<em>/.cache/chromium/</em> y /home/<em>/.local/share/Trash/</em>, dependiendo del software instalado en el sistema. Si GVFS está instalado, /home/*/.gvfs debe excluirse para evitar errores de rsync.</p>
+<p>agregar la opción &ndash;delete de rsync si está ejecutando esto varias veces en la misma carpeta de respaldo. En este caso, asegúrese de que la ruta de origen no termine con /*, o esta opción solo tendrá efecto en los archivos dentro de los subdirectorios del directorio de origen, pero no tendrá ningún efecto en los archivos que residen directamente dentro del directorio de origen.</p>
+<p>Si utiliza archivos dispersos, como discos virtuales, imágenes Docker y similares, debe agregar la opción -S.</p>
+<h2 id="si-planea-hacer-una-copia-de-seguridad-de-su-sistema-en-otro-lugar-que-no-sea-mnt-o-media-no-olvide-agregarlo-a-la-lista-de-patrones-de-exclusión-para-evitar-un-bucle-infinito">Si planea hacer una copia de seguridad de su sistema en otro lugar que no sea /mnt o /media, no olvide agregarlo a la lista de patrones de exclusión para evitar un bucle infinito.</h2>
+<p>En mi caso tengo que excluir el directorio /backup que es donde he montado el volumen donde se guardarán las copias de seguridad. Si no lo excluyo se creará un bucle intentando copiar lo de este fichero que no para de crecer con su propio contenido.</p>
+<h3 id="restaurar-cambios">Restaurar cambios</h3>
+<p>Si necesitáramos revertir a un respaldo previo, todo lo que necesitamos hacer es copiar de vuelta los archivos de el respaldo sobre los actualizados y borrar cualquier archivo que fuera creado después de que realizamos el respaldo que estamos restaurando.</p>
+<p><a href="https://wiki.archlinux.org/title/Rsync_(Espa%C3%B1ol)">https://wiki.archlinux.org/title/Rsync_(Espa%C3%B1ol)</a>
+<a href="https://web.archive.org/web/20210516191405/https://www.vicente-navarro.com/blog/2008/01/13/backups-con-rsync/">https://web.archive.org/web/20210516191405/https://www.vicente-navarro.com/blog/2008/01/13/backups-con-rsync/</a>
+<a href="https://www.comoinstalarlinux.com/rsync-backup/">https://www.comoinstalarlinux.com/rsync-backup/</a>
+<a href="https://jumpcloud.com/blog/how-to-backup-linux-system-rsync">https://jumpcloud.com/blog/how-to-backup-linux-system-rsync</a></p>
+<p><a href="https://www.ionos.es/digitalguide/servidores/herramientas/como-crear-copias-de-seguridad-del-servidor-con-rsync/">https://www.ionos.es/digitalguide/servidores/herramientas/como-crear-copias-de-seguridad-del-servidor-con-rsync/</a></p>
+
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://afermor8.github.io/tags/aso/">ASO</a>&nbsp;
+            
+          </div>
+        
+
+        
+            <hr/>
+            <section id="social-share">
+              <div class="list-inline footer-links">
+                
+
+<div class="share-box" aria-hidden="true">
+    <ul class="share">
+      
+      <li>
+        <a href="//twitter.com/share?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcopias-seguridad%2f&amp;text=Sistema%20de%20copias%20de%20seguridad&amp;via=" target="_blank" title="Share on Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fafermor8.github.io%2fpost%2fcopias-seguridad%2f" target="_blank" title="Share on Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//reddit.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcopias-seguridad%2f&amp;title=Sistema%20de%20copias%20de%20seguridad" target="_blank" title="Share on Reddit">
+          <i class="fab fa-reddit"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcopias-seguridad%2f&amp;title=Sistema%20de%20copias%20de%20seguridad" target="_blank" title="Share on LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcopias-seguridad%2f&amp;title=Sistema%20de%20copias%20de%20seguridad" target="_blank" title="Share on StumbleUpon">
+          <i class="fab fa-stumbleupon"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fafermor8.github.io%2fpost%2fcopias-seguridad%2f&amp;description=Sistema%20de%20copias%20de%20seguridad" target="_blank" title="Share on Pinterest">
+          <i class="fab fa-pinterest"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+
+              </div>
+            </section>
+        
+
+        
+          
+            
+          
+
+          
+                  <h4 class="see-also">Ver también</h4>
+                  <ul>
+                
+                
+                    <li><a href="/post/logs/">Recolección centralizada de logs de sistema, mediante journald</a></li>
+                
+                    <li><a href="/post/nfs/">Montaje NFS mediante systemd</a></li>
+                
+                    <li><a href="/post/centos/">Migración CentOS</a></li>
+                
+                    <li><a href="/post/install-deb/">Instalación Debian 11</a></li>
+                
+              </ul>
+
+          
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://afermor8.github.io/post/logs/" data-toggle="tooltip" data-placement="top" title="Recolección centralizada de logs de sistema, mediante journald">&larr; Artículo anterior</a>
+            </li>
+          
+          
+            <li class="next">
+              <a href="https://afermor8.github.io/post/mailerver/" data-toggle="tooltip" data-placement="top" title="Práctica: Servidor de correos">Artículo siguiente &rarr;</a>
+            </li>
+          
+        </ul>
+      
+
+
+      
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+      
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+		
+		  <a href="mailto:ara.fer.mor@gmail.com" title="Email me">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://github.com/afermor8" title="GitHub">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://Afermor.slack.com/" title="Slack">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-slack fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://linkedin.com/in/arantxa-f-6136617b" title="LinkedIn">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://telegram.me/arantxipu" title="Telegram">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-telegram fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            <a href="" title="RSS">
+              <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              <a href="afermor8.github.io">afermor8</a>
+            
+          
+
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2023
+          
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="https://gohugo.io">Hugo v0.104.3</a> alimentada &nbsp;&bull;&nbsp; Tema <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adaptado de <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer><script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://afermor8.github.io/js/main.js"></script>
+<script src="https://afermor8.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://afermor8.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>
+

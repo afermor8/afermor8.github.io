@@ -7,9 +7,29 @@
     <generator>Hugo -- gohugo.io</generator>
     <managingEditor>ara.fer.mor@gmail.com (afermor8)</managingEditor>
     <webMaster>ara.fer.mor@gmail.com (afermor8)</webMaster>
-    <lastBuildDate>Sat, 27 May 2023 19:09:34 +0200</lastBuildDate><atom:link href="https://afermor8.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 05 Jun 2023 20:03:42 +0200</lastBuildDate><atom:link href="https://afermor8.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Recolección centralizada de logs de sistema, mediante journald.</title>
+      <title>Práctica: Servidor de correos</title>
+      <link>https://afermor8.github.io/post/mailerver/</link>
+      <pubDate>Mon, 05 Jun 2023 20:03:42 +0200</pubDate>
+      <author>ara.fer.mor@gmail.com (afermor8)</author>
+      <guid>https://afermor8.github.io/post/mailerver/</guid>
+      <description>Instala y configura de manera adecuada el servidor de correos en tu VPS. El nombre del servidor de correo será mail.tudominio.es (este es el nombre que deberá aparecer en el registro MX).
+ssh arantxa@217.160.225.205 sudo apt update sudo apt upgrade sudo apt install postfix bsd-mailx Seleccionar la opción Internet Site y poner como nombre de dominio afm-tars.es.
+Vamos a la web de IONOS para añadir un registro CNAME con el nombre mail que apunte al nombre de mi máquina (walle).</description>
+    </item>
+    
+    <item>
+      <title>Sistema de copias de seguridad</title>
+      <link>https://afermor8.github.io/post/copias-seguridad/</link>
+      <pubDate>Sat, 03 Jun 2023 12:29:08 +0200</pubDate>
+      <author>ara.fer.mor@gmail.com (afermor8)</author>
+      <guid>https://afermor8.github.io/post/copias-seguridad/</guid>
+      <description>Implementar un sistema de copias de seguridad para las instancias del cloud, teniendo en cuenta las siguientes características: Selecciona una aplicación para realizar el proceso: bacula, amanda, shell script con tar, rsync, dar, afio, etc. Utiliza una de las instancias como servidor de copias de seguridad, añadiéndole un volumen y almacenando localmente las copias de seguridad que consideres adecuadas en él. El proceso debe realizarse de forma completamente automática Selecciona qué información es necesaria guardar (listado de paquetes, ficheros de configuración, documentos, datos, etc.</description>
+    </item>
+    
+    <item>
+      <title>Recolección centralizada de logs de sistema, mediante journald</title>
       <link>https://afermor8.github.io/post/logs/</link>
       <pubDate>Sat, 27 May 2023 19:09:34 +0200</pubDate>
       <author>ara.fer.mor@gmail.com (afermor8)</author>
