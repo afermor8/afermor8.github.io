@@ -182,7 +182,7 @@
                 <span class="post-meta">
   
   
-  <i class="fas fa-calendar"></i>&nbsp;Publicado el June 5, 2023
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el June 10, 2023
   
   
     &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;0&nbsp;minutos
@@ -215,6 +215,53 @@
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         
         <div class="posts-list">
+          
+            <article class="post-preview">
+    <a href="https://afermor8.github.io/post/movdatos/">
+        <h2 class="post-title">Movimiento de datos</h2>
+        
+        
+        
+    </a>
+
+    <p class="post-meta">
+        <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el March 1, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;15&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;3058&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+    </p>
+    <div class="post-entry">
+        
+        Movimiento de datos. Exportación e importación Creando el esquema Scott rlwrap sqlplus / as sysdba startup alter session set &#34;_ORACLE_SCRIPT&#34;=true; SET ECHO OFF -- Si ya estaba creado el esquema Scott pero lo queremos crear de nuevo borramos el usario con la opción cascade DROP USER SCOTT CASCADE; -- Creamos y damos privilegios a SCOTT, cuya contraseña es TIGER y finalmente nos conectamos con SCOTT/TIGER GRANT CONNECT, RESOURCE, UNLIMITED TABLESPACE TO SCOTT IDENTIFIED BY TIGER; ALTER USER SCOTT ACCOUNT UNLOCK; ALTER USER SCOTT DEFAULT TABLESPACE USERS; ALTER USER SCOTT TEMPORARY TABLESPACE TEMP; CONN SCOTT/TIGER -- Creación de las tablas de SCOTT CREATE TABLE DUMMY (DUMMY NUMBER); CREATE TABLE DEPT ( DEPTNO NUMBER(2) CONSTRAINT PK_DEPT PRIMARY KEY, DNAME VARCHAR2(14), LOC VARCHAR2(13)); CREATE TABLE EMP ( EMPNO NUMBER(4) CONSTRAINT PK_EMP PRIMARY KEY, ENAME VARCHAR2(10), JOB VARCHAR2(9), MGR NUMBER(4), HIREDATE DATE, SAL NUMBER(7,2), COMM NUMBER(7,2), DEPTNO NUMBER(2) CONSTRAINT FK_DEPTNO REFERENCES DEPT); CREATE TABLE BONUS ( ENAME VARCHAR2(10), JOB VARCHAR2(9), SAL NUMBER, COMM NUMBER); CREATE TABLE SALGRADE ( GRADE NUMBER, LOSAL NUMBER, HISAL NUMBER); -- Inserción de datos en las tablas INSERT INTO DEPT VALUES (10,&#39;ACCOUNTING&#39;,&#39;NEW YORK&#39;); INSERT INTO DEPT VALUES (20,&#39;RESEARCH&#39;,&#39;DALLAS&#39;); INSERT INTO DEPT VALUES (30,&#39;SALES&#39;,&#39;CHICAGO&#39;); INSERT INTO DEPT VALUES (40,&#39;OPERATIONS&#39;,&#39;BOSTON&#39;); INSERT INTO EMP VALUES (7369,&#39;SMITH&#39;,&#39;CLERK&#39;,7902,to_date(&#39;17-12-1980&#39;,&#39;dd-mm-yyyy&#39;),800,NULL,20); INSERT INTO EMP VALUES (7499,&#39;ALLEN&#39;,&#39;SALESMAN&#39;,7698,to_date(&#39;20-2-1981&#39;,&#39;dd-mm-yyyy&#39;),1600,300,30); INSERT INTO EMP VALUES (7521,&#39;WARD&#39;,&#39;SALESMAN&#39;,7698,to_date(&#39;22-2-1981&#39;,&#39;dd-mm-yyyy&#39;),1250,500,30); INSERT INTO EMP VALUES (7566,&#39;JONES&#39;,&#39;MANAGER&#39;,7839,to_date(&#39;2-4-1981&#39;,&#39;dd-mm-yyyy&#39;),2975,NULL,20); INSERT INTO EMP VALUES (7654,&#39;MARTIN&#39;,&#39;SALESMAN&#39;,7698,to_date(&#39;28-9-1981&#39;,&#39;dd-mm-yyyy&#39;),1250,1400,30); INSERT INTO EMP VALUES (7698,&#39;BLAKE&#39;,&#39;MANAGER&#39;,7839,to_date(&#39;1-5-1981&#39;,&#39;dd-mm-yyyy&#39;),2850,NULL,30); INSERT INTO EMP VALUES (7782,&#39;CLARK&#39;,&#39;MANAGER&#39;,7839,to_date(&#39;9-6-1981&#39;,&#39;dd-mm-yyyy&#39;),2450,NULL,10); INSERT INTO EMP VALUES (7788,&#39;SCOTT&#39;,&#39;ANALYST&#39;,7566,to_date(&#39;13-JUL-87&#39;)-85,3000,NULL,20); INSERT INTO EMP VALUES (7839,&#39;KING&#39;,&#39;PRESIDENT&#39;,NULL,to_date(&#39;17-11-1981&#39;,&#39;dd-mm-yyyy&#39;),5000,NULL,10); INSERT INTO EMP VALUES (7844,&#39;TURNER&#39;,&#39;SALESMAN&#39;,7698,to_date(&#39;8-9-1981&#39;,&#39;dd-mm-yyyy&#39;),1500,0,30); INSERT INTO EMP VALUES (7876,&#39;ADAMS&#39;,&#39;CLERK&#39;,7788,to_date(&#39;13-JUL-87&#39;)-51,1100,NULL,20); INSERT INTO EMP VALUES (7900,&#39;JAMES&#39;,&#39;CLERK&#39;,7698,to_date(&#39;3-12-1981&#39;,&#39;dd-mm-yyyy&#39;),950,NULL,30); INSERT INTO EMP VALUES (7902,&#39;FORD&#39;,&#39;ANALYST&#39;,7566,to_date(&#39;3-12-1981&#39;,&#39;dd-mm-yyyy&#39;),3000,NULL,20); INSERT INTO EMP VALUES (7934,&#39;MILLER&#39;,&#39;CLERK&#39;,7782,to_date(&#39;23-1-1982&#39;,&#39;dd-mm-yyyy&#39;),1300,NULL,10); INSERT INTO SALGRADE VALUES (1,700,1200); INSERT INTO SALGRADE VALUES (2,1201,1400); INSERT INTO SALGRADE VALUES (3,1401,2000); INSERT INTO SALGRADE VALUES (4,2001,3000); INSERT INTO SALGRADE VALUES (5,3001,9999); INSERT INTO DUMMY VALUES (0); COMMIT; SET TERMOUT ON SET ECHO ON 1.
+        <a href="https://afermor8.github.io/post/movdatos/" class="post-read-more">[Leer más]</a>
+        
+    </div>
+
+    
+    <div class="blog-tags">
+        
+        <a href="https://afermor8.github.io/tags/bbdd/">bbdd</a>&nbsp;
+        
+    </div>
+    
+
+</article>
           
             <article class="post-preview">
     <a href="https://afermor8.github.io/post/auditoria/">

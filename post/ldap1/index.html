@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="es" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Instalación y configuración inicial de OpenLDAP - Mi paso por ASIR Blog</title>
+  <meta name="description" content="Realiza la instalación y configuración básica de OpenLDAP en alfa,utilizando como base el nombre DNS asignado. Deberás crear un usuario llamado prueba y configurar una máquina cliente basada en Debian y Rocky para que pueda validarse en servidor ldap configurado anteriormente con el usuario prueba. 0. Preparación del escenario Voy a instalar OpenLDAP en la máquina alfa de mi escenario de Openstack. Alfa tiene el siguiente FQDN:
+arantxa@alfa:~$ hostname -f alfa.">
+  <meta name="author" content="afermor8"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Mi paso por ASIR Blog",
+    
+    "url": "https:\/\/afermor8.github.io"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/afermor8.github.io"
+  
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io\/post\/ldap1\/",
+          "name": "Instalación y configuración inicial de open ldap"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "afermor8"
+  },
+  "headline": "Instalación y configuración inicial de OpenLDAP",
+  "description" : "Realiza la instalación y configuración básica de OpenLDAP en alfa,utilizando como base el nombre DNS asignado. Deberás crear un usuario llamado prueba y configurar una máquina cliente basada en Debian y Rocky para que pueda validarse en servidor ldap configurado anteriormente con el usuario prueba. 0. Preparación del escenario Voy a instalar OpenLDAP en la máquina alfa de mi escenario de Openstack. Alfa tiene el siguiente FQDN:\narantxa@alfa:~$ hostname -f alfa.",
+  "inLanguage" : "es",
+  "wordCount":  1504 ,
+  "datePublished" : "2023-06-10T19:21:47",
+  "dateModified" : "2023-06-10T19:21:47",
+  "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+  "keywords" : [ "ASO" ],
+  "mainEntityOfPage" : "https:\/\/afermor8.github.io\/post\/ldap1\/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https:\/\/afermor8.github.io",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
+
+<meta property="og:title" content="Instalación y configuración inicial de OpenLDAP" />
+<meta property="og:description" content="Realiza la instalación y configuración básica de OpenLDAP en alfa,utilizando como base el nombre DNS asignado. Deberás crear un usuario llamado prueba y configurar una máquina cliente basada en Debian y Rocky para que pueda validarse en servidor ldap configurado anteriormente con el usuario prueba. 0. Preparación del escenario Voy a instalar OpenLDAP en la máquina alfa de mi escenario de Openstack. Alfa tiene el siguiente FQDN:
+arantxa@alfa:~$ hostname -f alfa.">
+<meta property="og:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+<meta property="og:url" content="https://afermor8.github.io/post/ldap1/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Mi paso por ASIR Blog" />
+
+  <meta name="twitter:title" content="Instalación y configuración inicial de OpenLDAP" />
+  <meta name="twitter:description" content="Realiza la instalación y configuración básica de OpenLDAP en alfa,utilizando como base el nombre DNS asignado. Deberás crear un usuario llamado prueba y configurar una máquina cliente basada en Debian …">
+  <meta name="twitter:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link href='https://afermor8.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta name="generator" content="Hugo 0.104.3" />
+  <link rel="alternate" href="https://afermor8.github.io/index.xml" type="application/rss+xml" title="Mi paso por ASIR Blog"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://afermor8.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://afermor8.github.io/css/highlight.min.css" /><link rel="stylesheet" href="https://afermor8.github.io/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Conmuta navegación</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/page/about/">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Tags" href="/tags">Tags</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    
+      <div class="avatar-container">
+        <div class="avatar-img-border">
+          <a title="Mi paso por ASIR Blog" href="https://afermor8.github.io">
+            <img class="avatar-img" src="https://afermor8.github.io/img/avatar-icon.png" alt="Mi paso por ASIR Blog" />
+          </a>
+        </div>
+      </div>
+    
+
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+    <div id="header-big-imgs" data-num-img=3 
+      
+         
+          data-img-src-1="/img/triangle.jpg" 
+         
+         data-img-desc-1="Triangle"
+      
+         
+          data-img-src-2="/img/sphere.jpg" 
+         
+         data-img-desc-2="Sphere"
+      
+         
+          data-img-src-3="/img/hexagon.jpg" 
+         
+         data-img-desc-3="Hexagon"
+      ></div>
+  
+
+  <header class="header-section has-img">
+    
+      <div class="intro-header big-img">
+        
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+              <div class="post-heading">
+                <h1>Instalación y configuración inicial de OpenLDAP</h1>
+                  
+                  
+                    <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el June 10, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;8&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1504&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="img-desc" style="display: inline;"></span>
+      </div>
+    
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>Instalación y configuración inicial de OpenLDAP</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el June 10, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;8&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1504&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <h4 id="realiza-la-instalación-y-configuración-básica-de-openldap-en-alfautilizando-como-base-el-nombre-dns-asignado-deberás-crear-un-usuario-llamado-prueba-y-configurar-una-máquina-cliente-basada-en-debian-y-rocky-para-que-pueda-validarse-en-servidor-ldap-configurado-anteriormente-con-el-usuario-prueba">Realiza la instalación y configuración básica de OpenLDAP en alfa,utilizando como base el nombre DNS asignado. Deberás crear un usuario llamado prueba y configurar una máquina cliente basada en Debian y Rocky para que pueda validarse en servidor ldap configurado anteriormente con el usuario prueba.</h4>
+<h3 id="0-preparación-del-escenario">0. Preparación del escenario</h3>
+<p>Voy a instalar OpenLDAP en la máquina alfa de mi escenario de Openstack. Alfa tiene el siguiente FQDN:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@alfa:~$ hostname -f
+</span></span><span class="line"><span class="cl">alfa.arantxa.gonzalonazareno.org
+</span></span></code></pre></div><p>*NOTA 1: No tenemos que crear el usuario prueba con <code>adduser</code> ya que lo creará OpenLDAP.</p>
+<p>*NOTA 2: Como clientes del servidor LDAP tendremos a la máquina bravo (Rocky Linux) y la máquina delta (Ubuntu).</p>
+<hr>
+<h3 id="1-instalación-openldap">1. Instalación OpenLDAP</h3>
+<p>Instalar los paquetes necesarios:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install slapd ldap-utils
+</span></span></code></pre></div><p>Durante la instalación indicamos el ususario y contraseña que queramos usar para la administración. Como este es un caso de prueba mi usuario y contraseña será <strong>admin</strong>.</p>
+<p>Cuando termine la instalación comprobamos que el servicio está activo y funcionando correctamente.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl status slapd
+</span></span></code></pre></div><p><img src="/img/ldap/2.png" alt="status"></p>
+<p>Comprobamos el puerto que utiliza LDAP.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo netstat -putanl <span class="p">|</span> egrep slapd
+</span></span></code></pre></div><p><img src="/img/ldap/3.png" alt="port"></p>
+<hr>
+<h3 id="2-configuración-de-openldap-alfa">2. Configuración de OpenLDAP (alfa)</h3>
+<p>Antes de empezar hay que tener claro algunos conceptos.</p>
+<p>La estructura de OpenLDAP se basa en el modelo de datos de directorio llamado Árbol de Entradas (Entry Tree). El árbol de entradas se organiza jerárquicamente utilizando el esquema de datos definido en el servidor LDAP. Una entrada es un objeto individual en el directorio LDAP y se representa mediante un Distinguished Name (DN) único que identifica de manera exclusiva la posición de la entrada en el árbol de entradas.</p>
+<ul>
+<li>
+<p>Cada entrada se compone de uno o más atributos. Estos son unidades de información que describen una característica específica de una entrada. Cada atributo tiene un nombre y uno o más valores asociados.</p>
+</li>
+<li>
+<p>Una clase de objeto (Object Class) define el conjunto de atributos que puede tener una entrada. Proporciona una plantilla para crear nuevas entradas y establece las reglas y restricciones para los atributos.</p>
+</li>
+<li>
+<p>El esquema (Schema) define la estructura y las reglas para los datos almacenados en el directorio. Define las clases de objetos, los atributos y las relaciones entre ellos.</p>
+</li>
+<li>
+<p>El directorio base (Base DN) es el punto de entrada principal en el árbol de entradas. Todas las búsquedas y operaciones se realizan en relación con el directorio base.</p>
+</li>
+</ul>
+<p>Ejemplo de DN: &ldquo;cn=user, ou=groups, dc=acme, dc=org&rdquo;</p>
+<ul>
+<li>&ldquo;cn&rdquo; &ndash;&gt; es el atributo &ldquo;commonName&rdquo; (nombre común) de la entrada.</li>
+<li>&ldquo;ou&rdquo; &ndash;&gt; es el atributo &ldquo;organizationalUnit&rdquo; (unidad organizativa).</li>
+<li>&ldquo;dc&rdquo; &ndash;&gt; es el atributo &ldquo;domainComponent&rdquo; (componente de dominio).</li>
+</ul>
+<p><img src="/img/ldap/1.png" alt="ejemplo"></p>
+<p>Teniendo en cuenta la anterior explicación vamos a usar el comando <strong>ldapsearch</strong> para ver el estado original de nuestro Entry Tree.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ldapsearch -x -b <span class="s2">&#34;dc=arantxa,dc=gonzalonazareno,dc=org&#34;</span>
+</span></span></code></pre></div><p><img src="/img/ldap/4.png" alt="directorio"></p>
+<p>También podemos usar el siguiente comando:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo slapcat
+</span></span></code></pre></div><p><img src="/img/ldap/5.png" alt="directorio"></p>
+<p>Para organizar mejor nuestro directorio vamos a agregar dos entradas (Usuarios y Grupos) que se definirán en un fichero con extensión <code>.ldif</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano user-groups.ldif
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">dn: ou=Usuarios,dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">objectClass: organizationalUnit
+</span></span><span class="line"><span class="cl">ou: Usuarios 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dn: ou=Grupos,dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">objectClass: organizationalUnit
+</span></span><span class="line"><span class="cl">ou: Grupos
+</span></span></code></pre></div><p>Añadimos las entradas anteriores con <code>ldapadd</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ldapadd -x -D <span class="s2">&#34;cn=admin,dc=arantxa,dc=gonzalonazareno,dc=org&#34;</span> -f user-groups.ldif -W
+</span></span></code></pre></div><p><img src="/img/ldap/6.png" alt="entradas"></p>
+<p>Comprobamos los cambios del directorio:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ldapsearch -x -b <span class="s2">&#34;dc=arantxa,dc=gonzalonazareno,dc=org&#34;</span>
+</span></span></code></pre></div><p><img src="/img/ldap/7.png" alt="entradas"></p>
+<h4 id="21-usuario-prueba">2.1 Usuario prueba</h4>
+<p>Creo una contraseña cifrada para el usuario prueba.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@alfa:~$ sudo slappasswd
+</span></span><span class="line"><span class="cl">New password: 
+</span></span><span class="line"><span class="cl">Re-enter new password: 
+</span></span><span class="line"><span class="cl"><span class="o">{</span>SSHA<span class="o">}</span>pxwn1veQGhNQV0fdA+KPz/42s0Lp3nGk
+</span></span></code></pre></div><p>Creo la entrada .ldif para agregar el usuario prueba y el grupo prueba al OU Usuarios y Grupos que hemos creado antes.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano user-prueba.ldif
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">dn: uid=prueba,ou=Usuarios,dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">objectClass: inetOrgPerson
+</span></span><span class="line"><span class="cl">objectClass: posixAccount
+</span></span><span class="line"><span class="cl">objectClass: shadowAccount
+</span></span><span class="line"><span class="cl">cn: prueba
+</span></span><span class="line"><span class="cl">sn: prueba
+</span></span><span class="line"><span class="cl">uidNumber: 2000
+</span></span><span class="line"><span class="cl">gidNumber: 2000
+</span></span><span class="line"><span class="cl">userPassword: {SSHA}pxwn1veQGhNQV0fdA+KPz/42s0Lp3nGk
+</span></span><span class="line"><span class="cl">loginShell: /bin/bash
+</span></span><span class="line"><span class="cl">homeDirectory: /srv/homes/prueba
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano group-prueba.ldif
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">dn: cn=prueba,ou=Grupos,dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">objectClass: posixGroup
+</span></span><span class="line"><span class="cl">gidNumber: 2000
+</span></span><span class="line"><span class="cl">cn: prueba
+</span></span></code></pre></div><p>Añadimos las entradas:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ldapadd -x -D <span class="s2">&#34;cn=admin,dc=arantxa,dc=gonzalonazareno,dc=org&#34;</span> -f user-prueba.ldif -W
+</span></span><span class="line"><span class="cl">ldapadd -x -D <span class="s2">&#34;cn=admin,dc=arantxa,dc=gonzalonazareno,dc=org&#34;</span> -f group-prueba.ldif -W
+</span></span></code></pre></div><p><img src="/img/ldap/8.png" alt="entradas"></p>
+<p>Comprobamos nuestro directorio.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ldapsearch -x -b <span class="s2">&#34;dc=arantxa,dc=gonzalonazareno,dc=org&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl"># extended LDIF
+</span></span><span class="line"><span class="cl">#
+</span></span><span class="line"><span class="cl"># LDAPv3
+</span></span><span class="line"><span class="cl"># base &lt;dc=arantxa,dc=gonzalonazareno,dc=org&gt; with scope subtree
+</span></span><span class="line"><span class="cl"># filter: (objectclass=*)
+</span></span><span class="line"><span class="cl"># requesting: ALL
+</span></span><span class="line"><span class="cl">#
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">dn: dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">objectClass: top
+</span></span><span class="line"><span class="cl">objectClass: dcObject
+</span></span><span class="line"><span class="cl">objectClass: organization
+</span></span><span class="line"><span class="cl">o: arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">dc: arantxa
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># Usuarios, arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">dn: ou=Usuarios,dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">objectClass: organizationalUnit
+</span></span><span class="line"><span class="cl">ou:: VXN1YXJpb3Mg
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># Grupos, arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">dn: ou=Grupos,dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">objectClass: organizationalUnit
+</span></span><span class="line"><span class="cl">ou: Grupos
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># prueba, Usuarios, arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">dn: uid=prueba,ou=Usuarios,dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">objectClass: inetOrgPerson
+</span></span><span class="line"><span class="cl">objectClass: posixAccount
+</span></span><span class="line"><span class="cl">objectClass: shadowAccount
+</span></span><span class="line"><span class="cl">cn: prueba
+</span></span><span class="line"><span class="cl">sn: prueba
+</span></span><span class="line"><span class="cl">uidNumber: 2000
+</span></span><span class="line"><span class="cl">gidNumber: 2000
+</span></span><span class="line"><span class="cl">loginShell: /bin/bash
+</span></span><span class="line"><span class="cl">homeDirectory: /srv/homes/prueba
+</span></span><span class="line"><span class="cl">uid: prueba
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># prueba, Grupos, arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">dn: cn=prueba,ou=Grupos,dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">objectClass: posixGroup
+</span></span><span class="line"><span class="cl">gidNumber: 2000
+</span></span><span class="line"><span class="cl">cn: prueba
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># search result
+</span></span><span class="line"><span class="cl">search: 2
+</span></span><span class="line"><span class="cl">result: 0 Success
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># numResponses: 6
+</span></span><span class="line"><span class="cl"># numEntries: 5
+</span></span></code></pre></div><h4 id="22-nfs-para-compartir-directorio-home">2.2 NFS para compartir directorio home</h4>
+<p>He indicado que el home del usuario se creará en /srv/homes/ (que será el directorio a compartir), pero este directorio no está creado. Por lo que debemos crear el directorio para que al conectarse el usuario desde un cliente se cree el home en dicho directorio.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo mkdir /srv/homes
+</span></span></code></pre></div><p>Instalamos NFS.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install nfs-kernel-server
+</span></span></code></pre></div><p>Modificamos /etc/exports añadiendo la siguiente línea.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/exports
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/srv/homes *(rw,sync,no_subtree_check,no_root_squash)
+</span></span></code></pre></div><ul>
+<li>/srv/homes: Es la ruta del directorio que se compartirá.</li>
+<li>*: Indica que cualquier cliente puede acceder al directorio compartido.</li>
+<li>rw: Permite tanto la lectura (read) como la escritura (write) en el directorio compartido.</li>
+<li>sync: Realiza operaciones de escritura sincrónicas, lo que significa que los cambios se escriben de inmediato en el disco antes de confirmar la operación al cliente.</li>
+<li>no_subtree_check: Desactiva la verificación de subdirectorios. En algunos casos, el sistema NFS realiza una comprobación recursiva de los permisos y opciones de configuración para cada subdirectorio. Esta opción desactiva esa verificación para mejorar el rendimiento.</li>
+<li>no_root_squash: Por defecto, cuando el cliente accede al directorio compartido como el usuario root, NFS mapea ese usuario a un usuario anónimo. Esta opción desactiva ese mapeo, permitiendo al cliente acceder al directorio compartido con los privilegios del usuario root.</li>
+</ul>
+<p>Reinicio nfs y actualizo la lista de directorios compartidos:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl restart nfs-kernel-server
+</span></span><span class="line"><span class="cl">sudo exportfs
+</span></span></code></pre></div><hr>
+<h3 id="3-configuración-del-cliente-bravo">3. Configuración del cliente bravo</h3>
+<p>Instalo los paquetes que voy a necesitar para configurar el cliente Rocky.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo dnf install openldap-clients sssd sssd-ldap oddjob-mkhomedir sssd-tools
+</span></span></code></pre></div><p>Usamos el siguiente comando para seleccionar y aplicar un perfil de autenticación basado en SSSD.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo authselect <span class="k">select</span> sssd with-mkhomedir --force
+</span></span></code></pre></div><p>*La opción with-mkhomedir indica que se habilitará la funcionalidad de creación automática de directorios de inicio cuando los usuarios inicien sesión por primera vez.</p>
+<p>Activamos el servicio oddjobd y comprobamos que está activo.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl <span class="nb">enable</span> --now oddjobd
+</span></span><span class="line"><span class="cl">sudo systemctl status oddjobd
+</span></span></code></pre></div><p>Indicamos el servidor LDAP y la búsqueda base.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/openldap/ldap.conf
+</span></span><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl">BASE <span class="nv">dc</span><span class="o">=</span>arantxa,dc<span class="o">=</span>gonzalonazareno,dc<span class="o">=</span>org
+</span></span><span class="line"><span class="cl">URI ldap://alfa.arantxa.gonzalonazareno.org
+</span></span></code></pre></div><p>Configuramos el servicio SSSD.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/sssd/sssd.conf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[domain/default]
+</span></span><span class="line"><span class="cl">id_provider = ldap
+</span></span><span class="line"><span class="cl">autofs_provider = ldap
+</span></span><span class="line"><span class="cl">auth_provider = ldap
+</span></span><span class="line"><span class="cl">chpass_provider = ldap
+</span></span><span class="line"><span class="cl">ldap_uri = ldap://alfa.arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">ldap_search_base = dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">#ldap_id_use_start_tls = True
+</span></span><span class="line"><span class="cl">#ldap_tls_cacertdir = /etc/openldap/cacerts
+</span></span><span class="line"><span class="cl">cache_credentials = True
+</span></span><span class="line"><span class="cl">#ldap_tls_reqcert = allow
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[sssd]
+</span></span><span class="line"><span class="cl">services = nss, pam, autofs
+</span></span><span class="line"><span class="cl">domains = default
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[nss]
+</span></span><span class="line"><span class="cl">homedir_substring = /srv/homes
+</span></span></code></pre></div><p>Cambiamos los permisos del servicio SSSD para que solo sea accesible por el propietario.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo chmod <span class="m">0600</span> /etc/sssd/sssd.conf
+</span></span></code></pre></div><p>Reiniciamos el servicio y vemos que está activo.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl restart sssd
+</span></span><span class="line"><span class="cl">sudo systemctl status sssd
+</span></span></code></pre></div><p><img src="/img/ldap/18.png" alt="status"></p>
+<p>Comprobamos que podemos ver las entradas del servidor LDAP.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ldapsearch -x -b <span class="nv">dc</span><span class="o">=</span>arantxa,dc<span class="o">=</span>gonzalonazareno,dc<span class="o">=</span>org
+</span></span></code></pre></div><p><img src="/img/ldap/9.png" alt="comprobacion"></p>
+<p>Creo el punto de montaje y lo monto.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo mkdir /srv/homes
+</span></span><span class="line"><span class="cl">sudo mount alfa.arantxa.gonzalonazareno.org:/srv/homes /srv/homes
+</span></span></code></pre></div><p>Hago el montaje permanente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/fstab
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">alfa.arantxa.gonzalonazareno.org:/srv/homes   /srv/homes   nfs  defaults   0  0
+</span></span></code></pre></div><p>Comprobar:</p>
+<p><img src="/img/ldap/10.png" alt="comprobacion"></p>
+<p>*<strong>NOTA: Las comprobaciones para ver si se puede escribir en el directorio y si aparecen los cambios del servidor se harán en el punto final (&ldquo;5. Comprobación final&rdquo;)</strong></p>
+<hr>
+<h3 id="4-configuración-del-cliente-delta">4. Configuración del cliente delta</h3>
+<p>Instalar ldap, nss y pam.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt install ldap-utils libnss-ldapd libpam-ldapd
+</span></span></code></pre></div><p>Nos aparecerá una pantalla en la que tendremos que añadir el servidor ldap (ldap://alfa.arantxa.gonzalonazareno.org) y para la busqueda base (dc=arantxa,dc=gonzalonazareno,dc=org).</p>
+<p><img src="/img/ldap/11.png" alt="server"></p>
+<p><img src="/img/ldap/12.png" alt="server"></p>
+<p>También indicamos los servicios que queremos que NSS configure (passwd, group y shadow).</p>
+<p><img src="/img/ldap/14.png" alt="server"></p>
+<p>Añadir al fichero de configuración de ldap el servidor y la base de búsqueda:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/ldap/ldap.conf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">BASE dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">URI ldap://alfa.arantxa.gonzalonazareno.org
+</span></span></code></pre></div><p>Añadir lo siguiente al fichero/etc/pam.d/common-session para que se cree un directorio home del usuario si no existiera.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/pam.d/common-session
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">session required        pam_mkhomedir.so skel=/etc/skel umask=077
+</span></span></code></pre></div><p>Reiniciar los servicios:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl restart nscd nslcd
+</span></span></code></pre></div><p>Crear el punto de montaje y montarlo con el servidor ldap.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo mkdir /srv/homes
+</span></span><span class="line"><span class="cl">sudo mount alfa.arantxa.gonzalonazareno.org:/srv/homes /srv/homes
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@delta:~$ df -h
+</span></span><span class="line"><span class="cl">Filesystem                                   Size  Used Avail Use% Mounted on
+</span></span><span class="line"><span class="cl">/dev/vda1                                     30G  4.0G   25G  14% /
+</span></span><span class="line"><span class="cl">none                                         492K  4.0K  488K   1% /dev
+</span></span><span class="line"><span class="cl">tmpfs                                        986M     <span class="m">0</span>  986M   0% /dev/shm
+</span></span><span class="line"><span class="cl">tmpfs                                        198M  144K  197M   1% /run
+</span></span><span class="line"><span class="cl">tmpfs                                        5.0M     <span class="m">0</span>  5.0M   0% /run/lock
+</span></span><span class="line"><span class="cl">tmpfs                                        198M     <span class="m">0</span>  198M   0% /run/user/1001
+</span></span><span class="line"><span class="cl">alfa.arantxa.gonzalonazareno.org:/srv/homes   30G  4.0G   25G  14% /srv/homes
+</span></span></code></pre></div><p>Hacer el montaje permanente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/fstab
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">alfa.arantxa.gonzalonazareno.org:/srv/homes   /srv/homes   nfs  defaults   0  0
+</span></span></code></pre></div><p>Comprobar que se pueden ver las entradas del servidor LDAP:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ldapsearch -x -b <span class="nv">dc</span><span class="o">=</span>arantxa,dc<span class="o">=</span>gonzalonazareno,dc<span class="o">=</span>org
+</span></span></code></pre></div><p><img src="/img/ldap/13.png" alt="entradas"></p>
+<hr>
+<h3 id="5-comprobación-final">5. Comprobación final</h3>
+<p><strong>En servidor LDAP:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo ls -l /srv/homes/
+</span></span></code></pre></div><p><strong>En cliente Delta:</strong></p>
+<p>Entramos con el usuario prueba.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo su prueba
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span>
+</span></span><span class="line"><span class="cl"><span class="nb">pwd</span>
+</span></span></code></pre></div><p>Crear fichero de prueba:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nano prueba.txt
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">Este fichero ha sido creado desde Delta
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat prueba.txt
+</span></span><span class="line"><span class="cl">ls -l
+</span></span></code></pre></div><p><strong>En servidor LDAP:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo ls -l /srv/homes/prueba/
+</span></span><span class="line"><span class="cl">sudo cat /srv/homes/prueba/prueba.txt
+</span></span></code></pre></div><p><strong>En cliente Bravo:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo su prueba
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span>
+</span></span><span class="line"><span class="cl"><span class="nb">pwd</span>
+</span></span><span class="line"><span class="cl">ls -l
+</span></span><span class="line"><span class="cl">cat prueba.txt
+</span></span><span class="line"><span class="cl">nano prueba.txt
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">Este fichero ha sido creado desde Delta
+</span></span><span class="line"><span class="cl">Modificando desde Bravo
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat prueba.txt
+</span></span><span class="line"><span class="cl">nano prueba2.txt
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">Fichero creado en Bravo
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat prueba2.txt
+</span></span></code></pre></div><p><strong>En servidor LDAP:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo ls -l /srv/homes/prueba/
+</span></span><span class="line"><span class="cl">sudo cat /srv/homes/prueba/prueba.txt
+</span></span><span class="line"><span class="cl">sudo cat /srv/homes/prueba/prueba2.txt
+</span></span></code></pre></div><h4 id="captura-de-la-comprobación-anterior-en-las-tres-máquinas-al-mismo-tiempo">Captura de la comprobación anterior en las tres máquinas al mismo tiempo:</h4>
+<p><img src="/img/ldap/17.png" alt="prueba-final"></p>
+
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://afermor8.github.io/tags/aso/">ASO</a>&nbsp;
+            
+          </div>
+        
+
+        
+            <hr/>
+            <section id="social-share">
+              <div class="list-inline footer-links">
+                
+
+<div class="share-box" aria-hidden="true">
+    <ul class="share">
+      
+      <li>
+        <a href="//twitter.com/share?url=https%3a%2f%2fafermor8.github.io%2fpost%2fldap1%2f&amp;text=Instalaci%c3%b3n%20y%20configuraci%c3%b3n%20inicial%20de%20OpenLDAP&amp;via=" target="_blank" title="Share on Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fafermor8.github.io%2fpost%2fldap1%2f" target="_blank" title="Share on Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//reddit.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fldap1%2f&amp;title=Instalaci%c3%b3n%20y%20configuraci%c3%b3n%20inicial%20de%20OpenLDAP" target="_blank" title="Share on Reddit">
+          <i class="fab fa-reddit"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fafermor8.github.io%2fpost%2fldap1%2f&amp;title=Instalaci%c3%b3n%20y%20configuraci%c3%b3n%20inicial%20de%20OpenLDAP" target="_blank" title="Share on LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fldap1%2f&amp;title=Instalaci%c3%b3n%20y%20configuraci%c3%b3n%20inicial%20de%20OpenLDAP" target="_blank" title="Share on StumbleUpon">
+          <i class="fab fa-stumbleupon"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fafermor8.github.io%2fpost%2fldap1%2f&amp;description=Instalaci%c3%b3n%20y%20configuraci%c3%b3n%20inicial%20de%20OpenLDAP" target="_blank" title="Share on Pinterest">
+          <i class="fab fa-pinterest"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+
+              </div>
+            </section>
+        
+
+        
+          
+            
+          
+
+          
+                  <h4 class="see-also">Ver también</h4>
+                  <ul>
+                
+                
+                    <li><a href="/post/copias-seguridad/">Sistema de copias de seguridad</a></li>
+                
+                    <li><a href="/post/logs/">Recolección centralizada de logs de sistema, mediante journald</a></li>
+                
+                    <li><a href="/post/nfs/">Montaje NFS mediante systemd</a></li>
+                
+                    <li><a href="/post/centos/">Migración CentOS</a></li>
+                
+                    <li><a href="/post/install-deb/">Instalación Debian 11</a></li>
+                
+              </ul>
+
+          
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://afermor8.github.io/post/mailerver/" data-toggle="tooltip" data-placement="top" title="Práctica: Servidor de correos">&larr; Artículo anterior</a>
+            </li>
+          
+          
+        </ul>
+      
+
+
+      
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+      
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+		
+		  <a href="mailto:ara.fer.mor@gmail.com" title="Email me">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://github.com/afermor8" title="GitHub">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://Afermor.slack.com/" title="Slack">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-slack fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://linkedin.com/in/arantxa-f-6136617b" title="LinkedIn">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://telegram.me/arantxipu" title="Telegram">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-telegram fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            <a href="" title="RSS">
+              <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              <a href="afermor8.github.io">afermor8</a>
+            
+          
+
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2023
+          
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="https://gohugo.io">Hugo v0.104.3</a> alimentada &nbsp;&bull;&nbsp; Tema <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adaptado de <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer><script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://afermor8.github.io/js/main.js"></script>
+<script src="https://afermor8.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://afermor8.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>
+
