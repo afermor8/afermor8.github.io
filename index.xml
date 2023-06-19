@@ -7,7 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <managingEditor>ara.fer.mor@gmail.com (afermor8)</managingEditor>
     <webMaster>ara.fer.mor@gmail.com (afermor8)</webMaster>
-    <lastBuildDate>Sat, 10 Jun 2023 19:21:47 +0200</lastBuildDate><atom:link href="https://afermor8.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 19 Jun 2023 10:53:33 +0200</lastBuildDate><atom:link href="https://afermor8.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LDAPs</title>
+      <link>https://afermor8.github.io/post/ldap3/</link>
+      <pubDate>Mon, 19 Jun 2023 10:53:33 +0200</pubDate>
+      <author>ara.fer.mor@gmail.com (afermor8)</author>
+      <guid>https://afermor8.github.io/post/ldap3/</guid>
+      <description>Configura el servidor LDAP de alfa para que utilice el protocolo ldaps:// a la vez que el ldap:// utilizando el certificado x509 de la práctica de https o solicitando el correspondiente a través de gestiona. Realiza las modificaciones adecuadas en los clientes ldap de alfa para que todas las consultas se realicen por defecto utilizando ldaps:// Certificado x509 En Alfa (servidor LDAP):
+Generamos la clave privada y el fichero csr.</description>
+    </item>
+    
+    <item>
+      <title>Poblar un directorio LDAP desde un fichero CSV</title>
+      <link>https://afermor8.github.io/post/ldap2/</link>
+      <pubDate>Wed, 14 Jun 2023 10:55:58 +0200</pubDate>
+      <author>ara.fer.mor@gmail.com (afermor8)</author>
+      <guid>https://afermor8.github.io/post/ldap2/</guid>
+      <description>Crear entre todos los alumnos de la clase que vayan a hacer esta tarea un fichero CSV que incluya información personal de cada uno incluyendo los siguientes datos:
+Nombre Apellidos Dirección de correo electrónico Nombre de usuario Clave pública ssh Añadir otro fichero con la información de las máquinas de los alumnos:
+Hostname IPv4 Clave pública ssh de la máquina Añadir el esquema openssh-lpk al directorio para poder incluir claves públicas ssh en un directorio LDAP.</description>
+    </item>
+    
     <item>
       <title>Instalación y configuración inicial de OpenLDAP</title>
       <link>https://afermor8.github.io/post/ldap1/</link>

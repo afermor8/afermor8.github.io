@@ -213,6 +213,103 @@
           
           
             <article class="post-preview">
+    <a href="https://afermor8.github.io/post/ldap3/">
+        <h2 class="post-title">LDAPs</h2>
+        
+        
+        
+    </a>
+
+    <p class="post-meta">
+        <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el June 19, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;3&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;532&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+    </p>
+    <div class="post-entry">
+        
+        Configura el servidor LDAP de alfa para que utilice el protocolo ldaps:// a la vez que el ldap:// utilizando el certificado x509 de la práctica de https o solicitando el correspondiente a través de gestiona. Realiza las modificaciones adecuadas en los clientes ldap de alfa para que todas las consultas se realicen por defecto utilizando ldaps:// Certificado x509 En Alfa (servidor LDAP):
+Generamos la clave privada y el fichero csr.
+        <a href="https://afermor8.github.io/post/ldap3/" class="post-read-more">[Leer más]</a>
+        
+    </div>
+
+    
+    <div class="blog-tags">
+        
+        <a href="https://afermor8.github.io/tags/aso/">ASO</a>&nbsp;
+        
+    </div>
+    
+
+</article>
+          
+            <article class="post-preview">
+    <a href="https://afermor8.github.io/post/ldap2/">
+        <h2 class="post-title">Poblar un directorio LDAP desde un fichero CSV</h2>
+        
+        
+        
+    </a>
+
+    <p class="post-meta">
+        <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el June 14, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;13&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2624&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+    </p>
+    <div class="post-entry">
+        
+        Crear entre todos los alumnos de la clase que vayan a hacer esta tarea un fichero CSV que incluya información personal de cada uno incluyendo los siguientes datos:
+Nombre Apellidos Dirección de correo electrónico Nombre de usuario Clave pública ssh Añadir otro fichero con la información de las máquinas de los alumnos:
+Hostname IPv4 Clave pública ssh de la máquina Añadir el esquema openssh-lpk al directorio para poder incluir claves públicas ssh en un directorio LDAP.
+        <a href="https://afermor8.github.io/post/ldap2/" class="post-read-more">[Leer más]</a>
+        
+    </div>
+
+    
+    <div class="blog-tags">
+        
+        <a href="https://afermor8.github.io/tags/aso/">ASO</a>&nbsp;
+        
+    </div>
+    
+
+</article>
+          
+            <article class="post-preview">
     <a href="https://afermor8.github.io/post/ldap1/">
         <h2 class="post-title">Instalación y configuración inicial de OpenLDAP</h2>
         
@@ -582,106 +679,6 @@ En la presente práctica, analiza posibles versiones candidatas y opciones despl
         
         Creación máquinas eat_template_version: newton description: 1 router, 1 lan parameters: flavor: type: string default: &#34;m1.mini&#34; image: type: string default: &#34;6d992898-7e4f-44b9-a681-6dcf32d24a1f&#34; red_externa: type: string description: red para conectarse a internet constraints: - custom_constraint: neutron.network key_name: type: string description: SSH key pair constraints: - custom_constraint: nova.keypair resources: red_examen: type: OS::Neutron::Net properties: name: &#34;Red_examen&#34; subnet1: type: OS::Neutron::Subnet properties: network: { get_resource: red_examen } cidr: 192.168.50.0/24 dns_nameservers: [192.168.202.2] gateway_ip: &#34;&#34; pc1_red_examen: type: OS::Neutron::Port properties: network: { get_resource: red_examen } port_security_enabled: False fixed_ips: [{&#34;ip_address&#34;: &#34;192.
         <a href="https://afermor8.github.io/post/examen_cortafuegos/" class="post-read-more">[Leer más]</a>
-        
-    </div>
-
-    
-    <div class="blog-tags">
-        
-        <a href="https://afermor8.github.io/tags/sad/">SAD</a>&nbsp;
-        
-    </div>
-    
-
-</article>
-          
-            <article class="post-preview">
-    <a href="https://afermor8.github.io/post/firewall2/">
-        <h2 class="post-title">Cortafuegos II: Perimetral con nftables</h2>
-        
-        
-        
-    </a>
-
-    <p class="post-meta">
-        <span class="post-meta">
-  
-  
-  <i class="fas fa-calendar"></i>&nbsp;Publicado el March 6, 2023
-  
-  
-    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;12&nbsp;minutos
-  
-  
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2376&nbsp;palabras
-  
-  
-    
-      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
-    
-  
-  
-</span>
-
-
-    </p>
-    <div class="post-entry">
-        
-        Realiza con nftables el ejercicio de la página https://fp.josedomingo.org/seguridadgs/u03/perimetral_iptables.html documentando las pruebas de funcionamiento realizadas.
-Debes añadir después las reglas necesarias para que se permitan las siguientes operaciones:
-a) Permite poder hacer conexiones ssh al exterior desde la máquina cortafuegos. b) Permite hacer consultas DNS desde la máquina cortafuegos sólo al servidor 192.168.202.2. Comprueba que no puedes hacer un dig @1.1.1.1. c) Permite que la máquina cortafuegos pueda navegar por internet.
-        <a href="https://afermor8.github.io/post/firewall2/" class="post-read-more">[Leer más]</a>
-        
-    </div>
-
-    
-    <div class="blog-tags">
-        
-        <a href="https://afermor8.github.io/tags/sad/">SAD</a>&nbsp;
-        
-    </div>
-    
-
-</article>
-          
-            <article class="post-preview">
-    <a href="https://afermor8.github.io/post/firewall1/">
-        <h2 class="post-title">Cortafuegos I: de nodo con iptables</h2>
-        
-        
-        
-    </a>
-
-    <p class="post-meta">
-        <span class="post-meta">
-  
-  
-  <i class="fas fa-calendar"></i>&nbsp;Publicado el March 6, 2023
-  
-  
-    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;7&nbsp;minutos
-  
-  
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1442&nbsp;palabras
-  
-  
-    
-      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
-    
-  
-  
-</span>
-
-
-    </p>
-    <div class="post-entry">
-        
-        Realiza el ejercicio 1 de cortafuegos de nodo con IPtables de la web de Jose Domingo. Puedes encontrarlo en:
-https://fp.josedomingo.org/seguridadgs/u03/ejercicio1.html
-Debes incluir la demostración de que funciona cada una de las reglas previas del enunciado.
-Debéis incluir por cada apartado del ejercicio las reglas y la demostración del funcionamiento
-Implementación de un cortafuegos personal Vamos a realizar los primeros pasos para implementar un cortafuegos en un nodo de una red, aquel que se ejecuta en el propio equipo que trata de proteger, lo que a veces se denomina un cortafuegos personal.
-        <a href="https://afermor8.github.io/post/firewall1/" class="post-read-more">[Leer más]</a>
         
     </div>
 

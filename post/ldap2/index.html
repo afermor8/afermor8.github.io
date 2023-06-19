@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="es" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Poblar un directorio LDAP desde un fichero CSV - Mi paso por ASIR Blog</title>
+  <meta name="description" content="Crear entre todos los alumnos de la clase que vayan a hacer esta tarea un fichero CSV que incluya información personal de cada uno incluyendo los siguientes datos:
+Nombre Apellidos Dirección de correo electrónico Nombre de usuario Clave pública ssh Añadir otro fichero con la información de las máquinas de los alumnos:
+Hostname IPv4 Clave pública ssh de la máquina Añadir el esquema openssh-lpk al directorio para poder incluir claves públicas ssh en un directorio LDAP.">
+  <meta name="author" content="afermor8"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Mi paso por ASIR Blog",
+    
+    "url": "https:\/\/afermor8.github.io"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/afermor8.github.io"
+  
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io\/post\/ldap2\/",
+          "name": "Poblar un directorio ldap desde un fichero csv"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "afermor8"
+  },
+  "headline": "Poblar un directorio LDAP desde un fichero CSV",
+  "description" : "Crear entre todos los alumnos de la clase que vayan a hacer esta tarea un fichero CSV que incluya información personal de cada uno incluyendo los siguientes datos:\nNombre Apellidos Dirección de correo electrónico Nombre de usuario Clave pública ssh Añadir otro fichero con la información de las máquinas de los alumnos:\nHostname IPv4 Clave pública ssh de la máquina Añadir el esquema openssh-lpk al directorio para poder incluir claves públicas ssh en un directorio LDAP.",
+  "inLanguage" : "es",
+  "wordCount":  2624 ,
+  "datePublished" : "2023-06-14T10:55:58",
+  "dateModified" : "2023-06-14T10:55:58",
+  "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+  "keywords" : [ "ASO" ],
+  "mainEntityOfPage" : "https:\/\/afermor8.github.io\/post\/ldap2\/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https:\/\/afermor8.github.io",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
+
+<meta property="og:title" content="Poblar un directorio LDAP desde un fichero CSV" />
+<meta property="og:description" content="Crear entre todos los alumnos de la clase que vayan a hacer esta tarea un fichero CSV que incluya información personal de cada uno incluyendo los siguientes datos:
+Nombre Apellidos Dirección de correo electrónico Nombre de usuario Clave pública ssh Añadir otro fichero con la información de las máquinas de los alumnos:
+Hostname IPv4 Clave pública ssh de la máquina Añadir el esquema openssh-lpk al directorio para poder incluir claves públicas ssh en un directorio LDAP.">
+<meta property="og:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+<meta property="og:url" content="https://afermor8.github.io/post/ldap2/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Mi paso por ASIR Blog" />
+
+  <meta name="twitter:title" content="Poblar un directorio LDAP desde un fichero CSV" />
+  <meta name="twitter:description" content="Crear entre todos los alumnos de la clase que vayan a hacer esta tarea un fichero CSV que incluya información personal de cada uno incluyendo los siguientes datos:
+Nombre Apellidos Dirección de correo …">
+  <meta name="twitter:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link href='https://afermor8.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta name="generator" content="Hugo 0.104.3" />
+  <link rel="alternate" href="https://afermor8.github.io/index.xml" type="application/rss+xml" title="Mi paso por ASIR Blog"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://afermor8.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://afermor8.github.io/css/highlight.min.css" /><link rel="stylesheet" href="https://afermor8.github.io/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Conmuta navegación</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/page/about/">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Tags" href="/tags">Tags</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    
+      <div class="avatar-container">
+        <div class="avatar-img-border">
+          <a title="Mi paso por ASIR Blog" href="https://afermor8.github.io">
+            <img class="avatar-img" src="https://afermor8.github.io/img/avatar-icon.png" alt="Mi paso por ASIR Blog" />
+          </a>
+        </div>
+      </div>
+    
+
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+    <div id="header-big-imgs" data-num-img=3 
+      
+         
+          data-img-src-1="/img/triangle.jpg" 
+         
+         data-img-desc-1="Triangle"
+      
+         
+          data-img-src-2="/img/sphere.jpg" 
+         
+         data-img-desc-2="Sphere"
+      
+         
+          data-img-src-3="/img/hexagon.jpg" 
+         
+         data-img-desc-3="Hexagon"
+      ></div>
+  
+
+  <header class="header-section has-img">
+    
+      <div class="intro-header big-img">
+        
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+              <div class="post-heading">
+                <h1>Poblar un directorio LDAP desde un fichero CSV</h1>
+                  
+                  
+                    <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el June 14, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;13&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2624&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="img-desc" style="display: inline;"></span>
+      </div>
+    
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>Poblar un directorio LDAP desde un fichero CSV</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el June 14, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;13&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2624&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <p><strong>Crear entre todos los alumnos de la clase que vayan a hacer esta tarea un fichero CSV que incluya información personal de cada uno incluyendo los siguientes datos:</strong></p>
+<ul>
+<li><strong>Nombre</strong></li>
+<li><strong>Apellidos</strong></li>
+<li><strong>Dirección de correo electrónico</strong></li>
+<li><strong>Nombre de usuario</strong></li>
+<li><strong>Clave pública ssh</strong></li>
+</ul>
+<p><strong>Añadir otro fichero con la información de las máquinas de los alumnos:</strong></p>
+<ul>
+<li><strong>Hostname</strong></li>
+<li><strong>IPv4</strong></li>
+<li><strong>Clave pública ssh de la máquina</strong></li>
+</ul>
+<p><strong>Añadir el esquema openssh-lpk al directorio para poder incluir claves públicas ssh en un directorio LDAP.</strong></p>
+<p><strong>Hacer un script en bash o en python que utilice el fichero como entrada y pueble el directorio LDAP con un objeto para cada alumno utilizando los ObjectClass posixAccount e inetOrgPerson.</strong></p>
+<p><strong>Configurar el sistema para que sean válidos los usuarios del LDAP.</strong></p>
+<p><strong>Configurar el servicio ssh para que permita acceder a los usuarios del LDAP utilizando las claves públicas que hay allí, en lugar de almacenarlas en .ssh/authorized_keys, que sólo permita acceder a los equipos que estén en el LDAP en lugar del fichero .ssh/known_hosts y que se cree el directorio &ldquo;home&rdquo; al vuelo.</strong></p>
+<hr>
+<h2 id="1-ficheros-csv">1. Ficheros CSV</h2>
+<p>Antes de crear los ficheros debemos saber qué es un fichero CSV. Un fichero CSV (Comma-Separated Values) es un formato de archivo que consiste en una serie de líneas donde cada línea representa una fila de datos, y los valores de cada columna están separados por comas. Por lo general, el primer registro de un fichero CSV contiene los nombres de las columnas.</p>
+<p>Sabiendo esto voy a crear un fichero CSV para lo usuarios en mi servidor LDAP, Alfa, cuyo contenido será el siguiente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">nombre,apellidos,correo,usuario,clave-publica
+</span></span></code></pre></div><p>Y otro para las máquinas:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">hostname,ip,clave-publica-maquina
+</span></span></code></pre></div><p>Conociendo los datos de mis compañeros voy a crear el siguiente fichero CSV.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> ldap/
+</span></span><span class="line"><span class="cl">nano usuarios.csv
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">pepito,bravo,pepitobravo@gmail.com,pepitobravo,ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC/b4KSUJ9k9syYwQp7YEJWfV/ovSEnYQvSRJFaXReRMhwGWxS9UKfY/CdIBRUM3toQglYqydgjBeIZU4LjLLdvVZr8TKp5SVhmh4E4igQTDV2FYQ/ejGnS6laFNGB2q3aJ98faA+VXBgvKasKI1GZK9FlAlV6Qqmfo0TSjph/2IkA4Hu6k6vGEB1wUiIxK6dXYcxrHjP9DT9SPgWq8gqoKYzJSFQiVdgVT0d3U5RpMzAawlAPY0mUqKQuVHW6DIgWVGXO6GryXeLMh+5ViyT3evUzSws/6kvSSO9tVt+FcLOawEnvIazfGZNcwsAWIFK/5Qdg57uQH6pSeeybHAOse0c3D5nK9RF8AZHZGREuQ4L5koTdJOgKV7tO6f5H/o3GXVEwLuQXs+ffjQ2gD6mNwQ4xepg5DB1AHEVXqGB8y4SPhbhF9Pu9Dr57pSn2IetFMNa8yocL1Ymi4cRDrqOLQ1imO4tqaLPHhbbT0KSJQ+G+WcG3RoMU4L/+y6IUxuDE= pepitobravo@bravo.arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">pepito,perez perez,pepito@gmail.com,pepito,ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDLrLKXcNE/pYgh0SjNy/KHYp4PD7vGa+q1Kpk3ynkJooe56xmWTDLFGyMeUUyp+Mpb5FEHQ3EP04TsedU/+POmmU6p0u3WEZsZjb5EqgGV2lE5asgZGhcZ8EnRZS3LkLO7ktRkB6LmIVRGJ3wKqpITUmCaFuyBPbNLTx191AhX0DhKDQhQzyKIvXC5WNMVKNniQDJoSH4qrsgDpoF9VMjrNCHPrnjLpuDYgy5qWevRtjbegj26jE9xhCPhO6h/aLeN2g1aH90DkWjmEzwXMGRXuGhdWRB4y1VEPhEZd6eCR4cKp4qwh02gRvR6y3nGkgqUy9k5MyaBwn9nm3WTJ7149CmLbZIR3wnIFefXVMzTON+xajMOqBWJeGHYGYIqXegmWhOabvwO+m4UG+glE3PtC1fojj8vEYyilyKTc/L1wJkYXyubyoOGSNEc0tSWygic9pei+39yGo1gI9TpDdjYirmU8CmL4tLd7eT4hrUtY4n4fiz/4F0jBB7wiWz1e7s= pepito@tars
+</span></span></code></pre></div><p>(*En mi caso, esta tarea la estoy realizando en Junio donde ya quedan pocos alumnos y horas de clase así que la prueba para ver si funciona la haré con un usuario llamado pepitobravo desde la máquina bravo y pepito desde mi host)</p>
+<p><img src="/img/ldap2/1.png" alt="usuario-pepito"></p>
+<p><img src="/img/ldap2/2.png" alt="usuario-pepito"></p>
+<p><img src="/img/ldap2/3.png" alt="usuario-pepito"></p>
+<p><img src="/img/ldap2/4.png" alt="usuario-pepito"></p>
+<p>Creo el fichero CSV para la información de las máquinas.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nano maquinas.csv
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">bravo.arantxa.gonzalonazareno.org,172.16.0.200,ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCqLx+FTXirsOd2C/eRc9zAoxVtpIidq+nmIIIqi+Pxgszc+PJK514yHiMgkZYQr03DDDNAbzlEVrbvyo3gFWMmlBpQcRMIYg2SHbuFdFRhW65TdpvED0T0L0qWHY2j1itXaS3eD6fDTMwnuy2uVPMnkc/5RbwW3ebjskbKIJpepl//OcU0hXnR6wXuLmSHKI2ISxSGMtHG5adV6yXRNfWBcWUqyldOs9ITwVHKq7WVhgOM+IHm/B6eGY9SObbrEuJ0NMnoV2xeATA/pUGxjYjFDMGmH3eN0CIeQSO7Lo5bUvfoWOfTyAkeISiiaG7KDZL/WXZGwHRyjG0+KBxvyvBJz3ubuIrKecOPc9jHhoAgX6CaVlnFIxHXz8g4zKKnB9QBo2+RbLErUxgRPg5kXUK8p1S31ZD1f+fPNxx4Tt2CQAgOSNfjskW6HPuyKR5liS+U3c8mbBk9jl90cxr/S4gRu0POMTtyo2wRxxMHUidnAmjYb5nXFdhE836msH2LcHs= root@bravo.arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">tars,172.29.0.46,ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC0ZD0pDFKGbdan/kOe5gwFENrJZ2o4r5mZ0/OQhQvOODUN8TalhuSrREDnIFwTIhC26o+Gbyh0ztwjhbB4RO+SDkBiygWfvx0B6TSuDnQ6ZSVLrEr7Ru5IznbLjzAXzhNNQ3hc7Sve2sqIvqEQjwzjqnnfQz6870WJMB0KYdmQ5ZM/YFzCvjTMXKBndKHB8DxOslHVbDuRtUmjLF60aWwnIn1WUIE//jNC61hnnQmtgg/rYXk2wPzYDaalfwjNChkbCR17XLraoagdD2aqi9MqedM9qBVO+xwKlI7Z69H7y9HjBsHKuYg+ptTS6yV4APGgbzqHiH6VLDauL2+Zx+4jO46EjPfZZF4bbGhVgRGkBlf8rrvlOh0/r/U3g9pBcnrulrsHWFERl10JHRQPiAM1HNKKM5PI+dMwcV/2iKGAyh6SI876EHsxoQr7TzyBHqSRf4gJEAcmVLLKqx9D0wQR197n4m0hA2Kp69XinoKhLJTPkLITIdSR2hGDe6vFsws= root@debian
+</span></span></code></pre></div><p>Para saber la clave pública de las máquinas:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat /etc/ssh/ssh_host_rsa_key.pub
+</span></span></code></pre></div><p><img src="/img/ldap2/5.png" alt="usuario-pepito"></p>
+<p><img src="/img/ldap2/6.png" alt="usuario-pepito"></p>
+<h2 id="2-entrada-para-máquinas">2. Entrada para máquinas</h2>
+<p>Los usuarios se agregarán a la entrada que creamos en la <a href="https://afermor8.github.io/post/ldap1/">práctica anterior</a>, llamada Usuarios. Tendríamos que agregar una entrada para agregar la información de las máquinas de esos usuarios.
+Así pues, creamos una entrada .ldif para añadir al directorio de LDAP que se llamará Máquinas.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nano maquinas.ldif
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">dn: ou=Maquinas,dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">objectClass: organizationalUnit
+</span></span><span class="line"><span class="cl">ou: Maquinas
+</span></span></code></pre></div><p>La añadimos al directorio.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ldapadd -x -D <span class="s2">&#34;cn=admin,dc=arantxa,dc=gonzalonazareno,dc=org&#34;</span> -f maquinas.ldif -W
+</span></span></code></pre></div><p>(*Recordatorio: mi contraseña era &ldquo;admin&rdquo;)</p>
+<p>Comprobamos que se ha añadido correctamente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ldapsearch -x -b <span class="s2">&#34;dc=arantxa,dc=gonzalonazareno,dc=org&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># extended LDIF</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># LDAPv3</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># base &lt;dc=arantxa,dc=gonzalonazareno,dc=org&gt; with scope subtree</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># filter: (objectclass=*)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># requesting: ALL</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># arantxa.gonzalonazareno.org</span>
+</span></span><span class="line"><span class="cl">dn: <span class="nv">dc</span><span class="o">=</span>arantxa,dc<span class="o">=</span>gonzalonazareno,dc<span class="o">=</span>org
+</span></span><span class="line"><span class="cl">objectClass: top
+</span></span><span class="line"><span class="cl">objectClass: dcObject
+</span></span><span class="line"><span class="cl">objectClass: organization
+</span></span><span class="line"><span class="cl">o: arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">dc: arantxa
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Usuarios, arantxa.gonzalonazareno.org</span>
+</span></span><span class="line"><span class="cl">dn: <span class="nv">ou</span><span class="o">=</span>Usuarios,dc<span class="o">=</span>arantxa,dc<span class="o">=</span>gonzalonazareno,dc<span class="o">=</span>org
+</span></span><span class="line"><span class="cl">objectClass: organizationalUnit
+</span></span><span class="line"><span class="cl">ou:: VXN1YXJpb3Mg
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Grupos, arantxa.gonzalonazareno.org</span>
+</span></span><span class="line"><span class="cl">dn: <span class="nv">ou</span><span class="o">=</span>Grupos,dc<span class="o">=</span>arantxa,dc<span class="o">=</span>gonzalonazareno,dc<span class="o">=</span>org
+</span></span><span class="line"><span class="cl">objectClass: organizationalUnit
+</span></span><span class="line"><span class="cl">ou: Grupos
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># prueba, Usuarios, arantxa.gonzalonazareno.org</span>
+</span></span><span class="line"><span class="cl">dn: <span class="nv">uid</span><span class="o">=</span>prueba,ou<span class="o">=</span>Usuarios,dc<span class="o">=</span>arantxa,dc<span class="o">=</span>gonzalonazareno,dc<span class="o">=</span>org
+</span></span><span class="line"><span class="cl">objectClass: inetOrgPerson
+</span></span><span class="line"><span class="cl">objectClass: posixAccount
+</span></span><span class="line"><span class="cl">objectClass: shadowAccount
+</span></span><span class="line"><span class="cl">cn: prueba
+</span></span><span class="line"><span class="cl">sn: prueba
+</span></span><span class="line"><span class="cl">uidNumber: <span class="m">2000</span>
+</span></span><span class="line"><span class="cl">gidNumber: <span class="m">2000</span>
+</span></span><span class="line"><span class="cl">loginShell: /bin/bash
+</span></span><span class="line"><span class="cl">homeDirectory: /srv/homes/prueba
+</span></span><span class="line"><span class="cl">uid: prueba
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># prueba, Grupos, arantxa.gonzalonazareno.org</span>
+</span></span><span class="line"><span class="cl">dn: <span class="nv">cn</span><span class="o">=</span>prueba,ou<span class="o">=</span>Grupos,dc<span class="o">=</span>arantxa,dc<span class="o">=</span>gonzalonazareno,dc<span class="o">=</span>org
+</span></span><span class="line"><span class="cl">objectClass: posixGroup
+</span></span><span class="line"><span class="cl">gidNumber: <span class="m">2000</span>
+</span></span><span class="line"><span class="cl">cn: prueba
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Maquinas, arantxa.gonzalonazareno.org</span>
+</span></span><span class="line"><span class="cl">dn: <span class="nv">ou</span><span class="o">=</span>Maquinas,dc<span class="o">=</span>arantxa,dc<span class="o">=</span>gonzalonazareno,dc<span class="o">=</span>org
+</span></span><span class="line"><span class="cl">objectClass: organizationalUnit
+</span></span><span class="line"><span class="cl">ou: Maquinas
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># search result</span>
+</span></span><span class="line"><span class="cl">search: <span class="m">2</span>
+</span></span><span class="line"><span class="cl">result: <span class="m">0</span> Success
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># numResponses: 7</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># numEntries: 6</span>
+</span></span></code></pre></div><h2 id="3-esquema-openssh-lpk">3. Esquema Openssh-LPK</h2>
+<p>El esquema OpenSSH-LPK (OpenSSH LDAP Public Key) es una extensión del servidor OpenSSH que permite la autenticación basada en claves públicas almacenadas en un servidor LDAP. Cuando un usuario intenta autenticarse en un servidor SSH habilitado con OpenSSH-LPK, el servidor consulta el servidor LDAP para obtener la clave pública asociada con el usuario. Si la clave pública coincide con la clave privada utilizada por el cliente SSH, se permite la autenticación y se concede el acceso.</p>
+<p>Para crear el equema lo haré añadiendo una entrada .ldif con el siguiente contenido:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/ldap/schema/openssh-lpk.ldif
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">dn: cn=openssh-lpk,cn=schema,cn=config
+</span></span><span class="line"><span class="cl">objectClass: olcSchemaConfig
+</span></span><span class="line"><span class="cl">cn: openssh-lpk
+</span></span><span class="line"><span class="cl">olcAttributeTypes: ( 1.3.6.1.4.1.24552.500.1.1.1.13 NAME &#39;sshPublicKey&#39;
+</span></span><span class="line"><span class="cl">  DESC &#39;MANDATORY: OpenSSH Public key&#39;
+</span></span><span class="line"><span class="cl">  EQUALITY octetStringMatch
+</span></span><span class="line"><span class="cl">  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40 )
+</span></span><span class="line"><span class="cl">olcObjectClasses: ( 1.3.6.1.4.1.24552.500.1.1.2.0 NAME &#39;ldapPublicKey&#39;
+</span></span><span class="line"><span class="cl">  SUP top AUXILIARY
+</span></span><span class="line"><span class="cl">  DESC &#39;MANDATORY: OpenSSH LPK objectclass&#39;
+</span></span><span class="line"><span class="cl">  MAY ( sshPublicKey $ uid )
+</span></span><span class="line"><span class="cl">  )
+</span></span></code></pre></div><ul>
+<li>olcAttributeTypes: El número OID &ldquo;1.3.6.1.4.1.24552.500.1.1.1.13&rdquo; se utiliza como identificador único para el atributo &ldquo;sshPublicKey&rdquo;. Este número OID es específico del esquema OpenSSH-LPK. Tiene características específicas, como su nombre (NAME), descripción (DESC), igualdad (EQUALITY), sintaxis (SYNTAX), etc.</li>
+<li>olcObjectClasses: El número OID &ldquo;1.3.6.1.4.1.24552.500.1.1.2.0&rdquo; se utiliza como identificador único para la clase de objeto &ldquo;ldapPublicKey&rdquo;. Al igual que el anterior, este número OID es específico del esquema OpenSSH-LPK. También tiene sus características, como su nombre (NAME), superclase (SUP), atributos auxiliares (AUXILIARY), descripción (DESC), y los atributos opcionales que puede contener (MAY).</li>
+</ul>
+<p>Añadimos el esquema al directorio del servidor LDAP:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/openssh-lpk.ldif
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">SASL/EXTERNAL authentication started
+</span></span><span class="line"><span class="cl">SASL username: <span class="nv">gidNumber</span><span class="o">=</span>0+uidNumber<span class="o">=</span>0,cn<span class="o">=</span>peercred,cn<span class="o">=</span>external,cn<span class="o">=</span>auth
+</span></span><span class="line"><span class="cl">SASL SSF: <span class="m">0</span>
+</span></span><span class="line"><span class="cl">adding new entry <span class="s2">&#34;cn=openssh-lpk,cn=schema,cn=config&#34;</span>
+</span></span></code></pre></div><h2 id="4-script-python">4. Script python</h2>
+<p>Voy a crear un script en python que servirá para leer los ficheros csv y añadir la información de los usuarios y de las máquinas al directorio del servidor LDAP.
+Se creará un entorno virtual y se instalará un módulo llamado &ldquo;pyhton3-ldap&rdquo;.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install python3-venv
+</span></span><span class="line"><span class="cl">python3 -m venv entorno-ldap
+</span></span><span class="line"><span class="cl"><span class="nb">source</span> entorno-ldap/bin/activate
+</span></span></code></pre></div><p>Ahora instalamos el módulo python3-ldap.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pip install python3-ldap <span class="nv">ldap3</span><span class="o">==</span>2.6
+</span></span></code></pre></div><p>Y creo el script python que tendrá el siguiente código (me he basado en un código anterior al que le he hecho algunas modificaciones para mejorarlo, pero es un código básico y se le podrían seguir haciendo mejoras):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nano ldap-csv-users-hosts.py
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="ch">#!/usr/bin/env python</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">ldap3</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">ldap3</span> <span class="kn">import</span> <span class="n">Connection</span><span class="p">,</span> <span class="n">ALL</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">getpass</span> <span class="kn">import</span> <span class="n">getpass</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">exit</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Shell que se le asigna a los usuarios</span>
+</span></span><span class="line"><span class="cl"><span class="n">shell</span> <span class="o">=</span> <span class="s1">&#39;/bin/bash&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Ruta absoluta del directorio que contiene los directorios personales de los usuarios. Terminado en &#34;/&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">home_dir</span> <span class="o">=</span> <span class="s1">&#39;/home/&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># El valor inicial para los UID que se asignan al insertar usuarios. </span>
+</span></span><span class="line"><span class="cl"><span class="n">uid_number</span> <span class="o">=</span> <span class="mi">5000</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># El GID que se le asigna a los usuarios. Si no se manda al anadir el usuario da error.</span>
+</span></span><span class="line"><span class="cl"><span class="n">gid</span> <span class="o">=</span> <span class="mi">5000</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Leemos el fichero .csv de los usuarios y guardamos cada linea en una lista.</span>
+</span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;usuarios.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fichero</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">usuarios</span> <span class="o">=</span> <span class="n">fichero</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Leemos el fichero .csv de las máquinas y guardamos cada linea en una lista.</span>
+</span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;maquinas.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fichero_maquinas</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">maquinas</span> <span class="o">=</span> <span class="n">fichero_maquinas</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">### Parametros para la conexion</span>
+</span></span><span class="line"><span class="cl"><span class="n">ldap_ip</span> <span class="o">=</span> <span class="s1">&#39;ldap://alfa.arantxa.gonzalonazareno.org:389&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">dominio_base</span> <span class="o">=</span> <span class="s1">&#39;dc=arantxa,dc=gonzalonazareno,dc=org&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">user_admin</span> <span class="o">=</span> <span class="s1">&#39;admin&#39;</span> 
+</span></span><span class="line"><span class="cl"><span class="n">contrasena</span> <span class="o">=</span> <span class="n">getpass</span><span class="p">(</span><span class="s1">&#39;Contrasena: &#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Intenta realizar la conexion.</span>
+</span></span><span class="line"><span class="cl"><span class="n">conn</span> <span class="o">=</span> <span class="n">Connection</span><span class="p">(</span><span class="n">ldap_ip</span><span class="p">,</span> <span class="s1">&#39;cn=</span><span class="si">{}</span><span class="s1">,</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user_admin</span><span class="p">,</span> <span class="n">dominio_base</span><span class="p">),</span><span class="n">contrasena</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># conn.bind() devuelve &#34;True&#34; si se ha establecido la conexion y &#34;False&#34; en caso contrario.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Si no se establece la conexion imprime por pantalla un error de conexion.</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="ow">not</span> <span class="n">conn</span><span class="o">.</span><span class="n">bind</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No se ha podido conectar con ldap&#39;</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="n">conn</span><span class="o">.</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;invalidCredentials&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Credenciales no validas.&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># Termina el script.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Recorre la lista de usuarios</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">usuarios</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># Separa los valores del usuario usando como delimitador la &#34;,&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># y asigna cada valor a la variable correspondiente.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">user</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">cn</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="n">sn</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="n">mail</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="n">uid</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ssh</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#Anade el usuario.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">conn</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;uid=</span><span class="si">{}</span><span class="s1">,ou=Usuarios,</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">uid</span><span class="p">,</span> <span class="n">dominio_base</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">object_class</span> <span class="o">=</span> 
+</span></span><span class="line"><span class="cl">      <span class="p">[</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;top&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;inetOrgPerson&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;posixAccount&#39;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;ldapPublicKey&#39;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">attributes</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;cn&#39;</span><span class="p">:</span> <span class="n">cn</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;sn&#39;</span><span class="p">:</span> <span class="n">sn</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;mail&#39;</span><span class="p">:</span> <span class="n">mail</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;uid&#39;</span><span class="p">:</span> <span class="n">uid</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;uidNumber&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">uid_number</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;gidNumber&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">gid</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;homeDirectory&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{}{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">home_dir</span><span class="p">,</span><span class="n">uid</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;loginShell&#39;</span><span class="p">:</span> <span class="n">shell</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;sshPublicKey&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">ssh</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="p">})</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#Si la entrada ya existe aparece un mensaje de que ya existe,</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#si se añade dice que ha sido agregada y si hay un error dice cuál es el error</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="n">conn</span><span class="o">.</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;entryAlreadyExists&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;El usuario </span><span class="si">{}</span><span class="s1"> ya existe.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">uid</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="k">elif</span> <span class="n">conn</span><span class="o">.</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;success&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;El usuario </span><span class="si">{}</span><span class="s1"> ha sido agregado.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">uid</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error al agregar el usuario </span><span class="si">{}</span><span class="s1">: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">uid</span><span class="p">,</span> <span class="n">conn</span><span class="o">.</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]))</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># Aumenta el contador para asignar un UID diferente a cada usuario (cada vez que ejecutemos el script debemos asegurarnos de ante mano que no existe dicho uid en el directorio ldap, o se solaparian los datos)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">uid_number</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#Recorre la lista de máquinas y separa los valores usando split en la &#34;,&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">maquina</span> <span class="ow">in</span> <span class="n">maquinas</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">maquina</span> <span class="o">=</span> <span class="n">maquina</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">hostname</span> <span class="o">=</span> <span class="n">maquina</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ipv4</span> <span class="o">=</span> <span class="n">maquina</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ssh_key</span> <span class="o">=</span> <span class="n">maquina</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># Añade la información de la máquina al directorio LDAP</span>
+</span></span><span class="line"><span class="cl">  <span class="n">conn</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;cn=</span><span class="si">{}</span><span class="s1">,ou=Maquinas,</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hostname</span><span class="p">,</span> <span class="n">dominio_base</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">object_class</span><span class="o">=</span><span class="p">[</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;top&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;device&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;ipHost&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;ldapPublicKey&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">attributes</span><span class="o">=</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;cn&#39;</span><span class="p">:</span> <span class="n">hostname</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;ipHostNumber&#39;</span><span class="p">:</span> <span class="n">ipv4</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;sshPublicKey&#39;</span><span class="p">:</span> <span class="n">ssh_key</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#Si la entrada ya existe aparece un mensaje de que ya existe,</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#si se añade dice que ha sido agregada y si hay un error dice cuál es el error</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="n">conn</span><span class="o">.</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;entryAlreadyExists&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;La máquina </span><span class="si">{}</span><span class="s1"> ya existe.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hostname</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="k">elif</span> <span class="n">conn</span><span class="o">.</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;success&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;La máquina </span><span class="si">{}</span><span class="s1"> ha sido agregada.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hostname</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error al agregar la máquina </span><span class="si">{}</span><span class="s1">: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hostname</span><span class="p">,</span> <span class="n">conn</span><span class="o">.</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#Cierra los ficheros.</span>
+</span></span><span class="line"><span class="cl"><span class="n">fichero</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">fichero_maquinas</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#Cierra la conexion.</span>
+</span></span><span class="line"><span class="cl"><span class="n">conn</span><span class="o">.</span><span class="n">unbind</span><span class="p">()</span>
+</span></span></code></pre></div><p>Ejecutamos el código python.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>entorno-ldap<span class="o">)</span> arantxa@alfa:~/ldap$ python3 ldap-csv-users-hosts.py 
+</span></span><span class="line"><span class="cl">Contrasena: 
+</span></span><span class="line"><span class="cl">El usuario pepitobravo ha sido agregado.
+</span></span><span class="line"><span class="cl">El usuario pepito ha sido agregado.
+</span></span><span class="line"><span class="cl">La máquina bravo.arantxa.gonzalonazareno.org ha sido agregada.
+</span></span><span class="line"><span class="cl">La máquina tars ha sido agregada.
+</span></span></code></pre></div><p>Comprobamos que se han añadido los usuarios y las máquinas. (He puesto solo una parte de las claves para que no sea tan largo)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ldapsearch -x -b <span class="s2">&#34;ou=Usuarios,dc=arantxa,dc=gonzalonazareno,dc=org&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl"># extended LDIF
+</span></span><span class="line"><span class="cl">#
+</span></span><span class="line"><span class="cl"># LDAPv3
+</span></span><span class="line"><span class="cl"># base &lt;ou=Usuarios,dc=arantxa,dc=gonzalonazareno,dc=org&gt; with scope subtree
+</span></span><span class="line"><span class="cl"># filter: (objectclass=*)
+</span></span><span class="line"><span class="cl"># requesting: ALL
+</span></span><span class="line"><span class="cl">#
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># Usuarios, arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">dn: ou=Usuarios,dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">objectClass: organizationalUnit
+</span></span><span class="line"><span class="cl">ou:: VXN1YXJpb3Mg
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># pepito, Usuarios, arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">dn: uid=pepito,ou=Usuarios,dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">cn: pepito
+</span></span><span class="line"><span class="cl">sn: perez perez
+</span></span><span class="line"><span class="cl">mail: pepito@gmail.com
+</span></span><span class="line"><span class="cl">uid: pepito
+</span></span><span class="line"><span class="cl">uidNumber: 5001
+</span></span><span class="line"><span class="cl">gidNumber: 5000
+</span></span><span class="line"><span class="cl">homeDirectory: /home/pepito
+</span></span><span class="line"><span class="cl">loginShell: /bin/bash
+</span></span><span class="line"><span class="cl">sshPublicKey:: c3NoLXJzYSBBQUFBQjNOemFDMXljMkVBQUFBREFRQUJBQUFCZ1FETHJMS1hjTkU...
+</span></span><span class="line"><span class="cl">objectClass: top
+</span></span><span class="line"><span class="cl">objectClass: inetOrgPerson
+</span></span><span class="line"><span class="cl">objectClass: posixAccount
+</span></span><span class="line"><span class="cl">objectClass: ldapPublicKey
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># prueba, Usuarios, arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">dn: uid=prueba,ou=Usuarios,dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">objectClass: inetOrgPerson
+</span></span><span class="line"><span class="cl">objectClass: posixAccount
+</span></span><span class="line"><span class="cl">objectClass: shadowAccount
+</span></span><span class="line"><span class="cl">cn: prueba
+</span></span><span class="line"><span class="cl">sn: prueba
+</span></span><span class="line"><span class="cl">uidNumber: 2000
+</span></span><span class="line"><span class="cl">gidNumber: 2000
+</span></span><span class="line"><span class="cl">loginShell: /bin/bash
+</span></span><span class="line"><span class="cl">homeDirectory: /srv/homes/prueba
+</span></span><span class="line"><span class="cl">uid: prueba
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># pepitobravo, Usuarios, arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">dn: uid=pepitobravo,ou=Usuarios,dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">cn: pepito
+</span></span><span class="line"><span class="cl">sn: bravo
+</span></span><span class="line"><span class="cl">mail: pepitobravo@gmail.com
+</span></span><span class="line"><span class="cl">uid: pepitobravo
+</span></span><span class="line"><span class="cl">uidNumber: 5000
+</span></span><span class="line"><span class="cl">gidNumber: 5000
+</span></span><span class="line"><span class="cl">homeDirectory: /home/pepitobravo
+</span></span><span class="line"><span class="cl">loginShell: /bin/bash
+</span></span><span class="line"><span class="cl">sshPublicKey:: c3NoLXJzYSBBQUFBQjNOemFDMXljMkVBQUFBREFRQUJBQUFCZ1FDL2I0S1NVSjl...
+</span></span><span class="line"><span class="cl">objectClass: top
+</span></span><span class="line"><span class="cl">objectClass: inetOrgPerson
+</span></span><span class="line"><span class="cl">objectClass: posixAccount
+</span></span><span class="line"><span class="cl">objectClass: ldapPublicKey
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># search result
+</span></span><span class="line"><span class="cl">search: 2
+</span></span><span class="line"><span class="cl">result: 0 Success
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># numResponses: 5
+</span></span><span class="line"><span class="cl"># numEntries: 4
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ldapsearch -x -b <span class="s2">&#34;ou=Maquinas,dc=arantxa,dc=gonzalonazareno,dc=org&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl"># extended LDIF
+</span></span><span class="line"><span class="cl">#
+</span></span><span class="line"><span class="cl"># LDAPv3
+</span></span><span class="line"><span class="cl"># base &lt;ou=Maquinas,dc=arantxa,dc=gonzalonazareno,dc=org&gt; with scope subtree
+</span></span><span class="line"><span class="cl"># filter: (objectclass=*)
+</span></span><span class="line"><span class="cl"># requesting: ALL
+</span></span><span class="line"><span class="cl">#
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># Maquinas, arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">dn: ou=Maquinas,dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">objectClass: organizationalUnit
+</span></span><span class="line"><span class="cl">ou: Maquinas
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># tars, Maquinas, arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">dn: cn=tars,ou=Maquinas,dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">cn: tars
+</span></span><span class="line"><span class="cl">ipHostNumber: 172.29.0.46
+</span></span><span class="line"><span class="cl">sshPublicKey:: c3NoLXJzYSBBQUFBQjNOemFDMXljMkVBQUFBREFRQUJBQUFCZ1FDMFpEMHBERkt...
+</span></span><span class="line"><span class="cl">objectClass: top
+</span></span><span class="line"><span class="cl">objectClass: device
+</span></span><span class="line"><span class="cl">objectClass: ipHost
+</span></span><span class="line"><span class="cl">objectClass: ldapPublicKey
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># bravo.arantxa.gonzalonazareno.org, Maquinas, arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">dn: cn=bravo.arantxa.gonzalonazareno.org,ou=Maquinas,dc=arantxa,dc=gonzalonaza
+</span></span><span class="line"><span class="cl"> reno,dc=org
+</span></span><span class="line"><span class="cl">cn: bravo.arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">ipHostNumber: 172.16.0.200
+</span></span><span class="line"><span class="cl">sshPublicKey:: c3NoLXJzYSBBQUFBQjNOemFDMXljMkVBQUFBREFRQUJBQUFCZ1FDcUx4K0ZUWGl...
+</span></span><span class="line"><span class="cl">objectClass: top
+</span></span><span class="line"><span class="cl">objectClass: device
+</span></span><span class="line"><span class="cl">objectClass: ipHost
+</span></span><span class="line"><span class="cl">objectClass: ldapPublicKey
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># search result
+</span></span><span class="line"><span class="cl">search: 2
+</span></span><span class="line"><span class="cl">result: 0 Success
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># numResponses: 4
+</span></span><span class="line"><span class="cl"># numEntries: 3
+</span></span></code></pre></div><h2 id="5-esquema-del-escenario-que-queremos-montar">5. Esquema del escenario que queremos montar</h2>
+<p>El escenario que vamo a montar sería el siguiente:</p>
+<ul>
+<li>
+<p><strong>Alfa:</strong></p>
+<ul>
+<li><strong>Servidor LDAP:</strong> almacenamiento de la información de usuarios y sus máquinas, incluyendo las claves públicas.</li>
+<li><strong>Servidor SSHD:</strong> se configura sshd_config para que cuando haya una conexión del cliente se utilice el comando /usr/bin/sss_ssh_authorizedkeys para obtener las claves públicas de los usuarios que intentan iniciar sesión</li>
+<li>Se acedería a esta máquina por ssh al usuario del directorio LDAP.</li>
+</ul>
+</li>
+<li>
+<p><strong>Bravo:</strong></p>
+<ul>
+<li><strong>Cliente LDAP:</strong> se conecta al servidor LDAP y realiza las búsquedas de información de usuarios y hosts y sus claves públicas.</li>
+<li><strong>Cliente SSH:</strong> se configura ssh_config para establecer que, en lugar de conectarse directamente al servidor SSH de destino, el cliente SSH utilice el comando de proxy /usr/bin/sss_ssh_knownhostsproxy para establecer la conexión SSH. El comando de proxy se encargará de realizar acciones adicionales, como obtener y verificar los hosts conocidos para establecer la conexión con el servidor SSHD</li>
+<li><strong>Demonio SSSD:</strong> estaría configurado para especificar la ubicación del servidor LDAP, la configuración de autenticación y la configuración de búsqueda de claves públicas.</li>
+<li>Esta máquina se encargaría de conectarse al servidor LDAP y buscar las claves públicas del usuario y el host almacenadas en el directorio LDAP (no debe buscarlas en authorized_keys y known_hosts).</li>
+</ul>
+</li>
+</ul>
+<p><em>NOTA: hay que tener en cuenta que ya tenemos instalado y configurado el servidor LDAP y el cliente de la <a href="https://afermor8.github.io/post/ldap1/">práctica anterior</a>. Habiendo realizado esa práctica solo tendremos que realizar los siguientes pasos</em></p>
+<h2 id="6-configuración-del-servidor-sshd-alfa">6. Configuración del servidor SSHD (Alfa)</h2>
+<p>Modificamos el fichero de configuración del servidor SSHD y añadimo lo siguiente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/ssh/sshd_config
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># Ruta del comando que se ejecutará para obtener las claves de autenticación SSH, en este caso sss_ssh_authorizedkeys, mediante SSSD, con el usuario nobody
+</span></span><span class="line"><span class="cl">AuthorizedKeysCommand /usr/bin/sss_ssh_authorizedkeys 
+</span></span><span class="line"><span class="cl">AuthorizedKeysCommandUser nobody
+</span></span></code></pre></div><p>El comando sss_ssh_authorizedkeys se usa para buscar las claves de los usuarios en el servidor LDAP usando SSSD.</p>
+<p>Si queremos comprobar que el comando funciona correctamente podemos usarlo con uno de los usuario del directorio LDAP y deberíamos obtener su clave pública.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/usr/bin/sss_ssh_authorizedkeys pepito
+</span></span></code></pre></div><p><img src="/img/ldap2/7.png" alt="clave-usuario-pepito"></p>
+<p>Por último usamos el iguiente comando para que se habilite la funcionalidad de creación automática de directorio de inicio cuando los usuarios inicien sesión por primera vez.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo pam-auth-update --enable mkhomedir
+</span></span></code></pre></div><h2 id="7-configuracion-del-cliente-ldap-ssh-y-sssd-en-bravo">7. Configuracion del cliente LDAP, SSH y SSSD (en Bravo)</h2>
+<p><strong>Configuración del cliente SSH:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/ssh/ssh_config
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">#ProxyCommand indica el comando que se utilizará como intermediario para manejar los hosts conocidos de SSH, en este caso sss_ssh_knownhostsproxy, mediante SSSD
+</span></span><span class="line"><span class="cl">Match all
+</span></span><span class="line"><span class="cl">    ProxyCommand /usr/bin/sss_ssh_knownhostsproxy -p %p %h
+</span></span><span class="line"><span class="cl">    GlobalKnownHostsFile /var/lib/sss/pubconf/known_hosts
+</span></span><span class="line"><span class="cl">#%p %h: Son placeholders que se reemplazarán con el puerto (%p) y el host (%h) durante la ejecución del comando ProxyCommand
+</span></span></code></pre></div><p>Reiniciar el servicio sshd y comprobar que funciona correctamente.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl restart sshd
+</span></span><span class="line"><span class="cl">sudo systemctl status sshd
+</span></span></code></pre></div><p><strong>SSSD:</strong></p>
+<p>En mi caso ya tengo instalado SSSD en el cliente Bravo. Pero si quisiéramos hacerlo en un cliente Debian lo tendríamos que instalar y configurar de la siguiente forma:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt install ldap-utils sssd-ldap
+</span></span><span class="line"><span class="cl">sudo pam-auth-update --enable mkhomedir
+</span></span></code></pre></div><p>Si ya lo teníamos instalado pasamos a modificar el fichero sssd.conf.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/sssd/sssd.conf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[domain/default]
+</span></span><span class="line"><span class="cl">id_provider = ldap
+</span></span><span class="line"><span class="cl">autofs_provider = ldap
+</span></span><span class="line"><span class="cl">auth_provider = ldap
+</span></span><span class="line"><span class="cl">chpass_provider = ldap
+</span></span><span class="line"><span class="cl">ldap_uri = ldap://alfa.arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">ldap_search_base = dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">ldap_host_search_base = ou=Maquinas,dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">ldap_host_object_class = ipHost
+</span></span><span class="line"><span class="cl">ldap_host_fqdn = cn
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">#ldap_id_use_start_tls = True
+</span></span><span class="line"><span class="cl">#ldap_tls_cacertdir = /etc/openldap/cacerts
+</span></span><span class="line"><span class="cl">cache_credentials = True
+</span></span><span class="line"><span class="cl">#ldap_tls_reqcert = allow
+</span></span><span class="line"><span class="cl">debug_level = 10
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[sssd]
+</span></span><span class="line"><span class="cl">services = nss, pam, autofs, ssh
+</span></span><span class="line"><span class="cl">domains = default
+</span></span><span class="line"><span class="cl">debug_level = 6
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[ssh]
+</span></span><span class="line"><span class="cl">debug_level = 8
+</span></span></code></pre></div><p>Cambiamos los permisos del servicio SSSD para que solo sea accesible por el propietario.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo chmod <span class="m">0600</span> /etc/sssd/sssd.conf
+</span></span></code></pre></div><p>Reiniciamos el servicio y vemos que está activo.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl restart sssd
+</span></span><span class="line"><span class="cl">sudo systemctl status sssd
+</span></span></code></pre></div><h2 id="8-comprobaciones">8. Comprobaciones</h2>
+<p>Tras mucha prueba y error no he conseguido que la clave pública de las máquinas se obtenga del directorio LDAP. He leído en algún sitio que con FreeIPA debería funcionar.</p>
+<p>Para saber si se obtiene la clave usando el comando y guardándose en el directorio especificado podemos probar lo siguiente:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#Para conectarnos mediante ssh y que nos aparezca información de lo que ha ido ocurriendo en la conexión</span>
+</span></span><span class="line"><span class="cl">ssh -vvv -p <span class="m">22</span> -l pepitobravo alfa.arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#Se pueden ver los logs de sssd ya que pusimos en el fichero la opción debug_level a un nivel alto</span>
+</span></span><span class="line"><span class="cl">sudo tail -f /var/log/sssd/sssd.log
+</span></span><span class="line"><span class="cl">sudo tail -f /var/log/sssd/sssd_default.log
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#Podemos ver auth.log y syslog</span>
+</span></span><span class="line"><span class="cl">sudo tail -f /var/log/syslog
+</span></span><span class="line"><span class="cl">sudo tail -f /var/log/auth.log
+</span></span></code></pre></div><p>Con alguno de los comandos anteriores también se puede comprobar que la búsqueda de la clave pública del usuario en el directorio LDAP es satisfactoria.</p>
+<p>Comprobamos que se puede acceder al servidor LDAP haciendo SSH desde un cliente y que se ha creado su home.</p>
+<p>Desde bravo:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo su pepitobravo
+</span></span><span class="line"><span class="cl">ssh pepitobravo@alfa.arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">pwd
+</span></span><span class="line"><span class="cl">nano hola.txt
+</span></span><span class="line"><span class="cl">hola soy el usuario pepitobravo
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">cat hola.txt
+</span></span><span class="line"><span class="cl">id
+</span></span></code></pre></div><p><img src="/img/ldap2/8.png" alt="bravoprueba"></p>
+<p>Desde mi portátil:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo nano /etc/hosts
+</span></span><span class="line"><span class="cl">172.22.201.158  alfa.arantxa.gozalonazareno.org
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo su pepito
+</span></span><span class="line"><span class="cl">ssh pepito@alfa.arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">pwd
+</span></span><span class="line"><span class="cl">nano hola-desde-tars.txt
+</span></span><span class="line"><span class="cl">hola soy el usuario pepito
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">cat hola-desde-tars.txt
+</span></span><span class="line"><span class="cl">id
+</span></span></code></pre></div><p><img src="/img/ldap2/9.png" alt="tarsprueba"></p>
+<p>Desde alfa:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo ls -l /home/pepitobravo
+</span></span><span class="line"><span class="cl">sudo cat /home/pepitobravo/hola.txt
+</span></span><span class="line"><span class="cl">sudo ls -l /home/pepito
+</span></span><span class="line"><span class="cl">sudo cat /home/pepito/hola-desde-tars.txt
+</span></span></code></pre></div><p><img src="/img/ldap2/10.png" alt="alfaprueba"></p>
+<p>Podemos también comprobar si podemos obtener la información del usuario usandp <code>getent</code>. Si el sistema conoce la información del usuario es que funciona correctamente.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo getent passwd pepitobravo
+</span></span><span class="line"><span class="cl">sudo getent passwd pepito
+</span></span></code></pre></div><p><img src="/img/ldap2/11.png" alt="alfa prueba"></p>
+<h2 id="9-webs-de-interés"><strong>9. WEBS de interés:</strong></h2>
+<p>Posts y webs oficiales:</p>
+<ul>
+<li><a href="https://www.burnison.ca/notes/managing-ssh-known-hosts-with-sssd-and-ldap">https://www.burnison.ca/notes/managing-ssh-known-hosts-with-sssd-and-ldap</a></li>
+<li><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/linux_domain_identity_authentication_and_policy_guide/openssh-sssd">https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/linux_domain_identity_authentication_and_policy_guide/openssh-sssd</a></li>
+<li><a href="https://manpages.ubuntu.com/manpages/lunar/en/man1/sss_ssh_knownhostsproxy.1.html">https://manpages.ubuntu.com/manpages/lunar/en/man1/sss_ssh_knownhostsproxy.1.html</a></li>
+<li><a href="https://wiki.debian.org/AuthenticatingLinuxWithActiveDirectorySssd">https://wiki.debian.org/AuthenticatingLinuxWithActiveDirectorySssd</a></li>
+<li><a href="https://linux.die.net/man/5/sssd-ldap">https://linux.die.net/man/5/sssd-ldap</a></li>
+<li><a href="https://linux.die.net/man/1/sss_ssh_knownhostsproxy">https://linux.die.net/man/1/sss_ssh_knownhostsproxy</a></li>
+<li><a href="https://www.freeipa.org/images/1/10/Freeipa30_SSSD_OpenSSH_integration.pdf">https://www.freeipa.org/images/1/10/Freeipa30_SSSD_OpenSSH_integration.pdf</a></li>
+</ul>
+<p>Webs de respuestas a dudas:</p>
+<ul>
+<li><a href="https://askubuntu.com/questions/906170/ssh-with-ldap-authentication-activedirectory-and-ssh-keys-stored-in-ad">https://askubuntu.com/questions/906170/ssh-with-ldap-authentication-activedirectory-and-ssh-keys-stored-in-ad</a></li>
+<li><a href="https://github.com/SSSD/sssd/issues/6100">https://github.com/SSSD/sssd/issues/6100</a></li>
+<li><a href="https://github.com/SSSD/sssd/issues/6294">https://github.com/SSSD/sssd/issues/6294</a></li>
+<li><a href="https://lists.fedorahosted.org/archives/list/sssd-users@lists.fedorahosted.org/thread/NC3AMBO62EQWIR7AXPRA2OKAZ263ESIV/">https://lists.fedorahosted.org/archives/list/sssd-users@lists.fedorahosted.org/thread/NC3AMBO62EQWIR7AXPRA2OKAZ263ESIV/</a></li>
+</ul>
+<p><strong>Extra:</strong></p>
+<p>Para ver la lista de esquemas por su &lsquo;dn&rsquo;:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@alfa:~$ sudo ldapsearch -Q -LLL -Y EXTERNAL -H ldapi:/// -b <span class="nv">cn</span><span class="o">=</span>schema,cn<span class="o">=</span>config dn
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dn: <span class="nv">cn</span><span class="o">=</span>schema,cn<span class="o">=</span>config
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dn: <span class="nv">cn</span><span class="o">={</span>0<span class="o">}</span>core,cn<span class="o">=</span>schema,cn<span class="o">=</span>config
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dn: <span class="nv">cn</span><span class="o">={</span>1<span class="o">}</span>cosine,cn<span class="o">=</span>schema,cn<span class="o">=</span>config
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dn: <span class="nv">cn</span><span class="o">={</span>2<span class="o">}</span>nis,cn<span class="o">=</span>schema,cn<span class="o">=</span>config
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dn: <span class="nv">cn</span><span class="o">={</span>3<span class="o">}</span>inetorgperson,cn<span class="o">=</span>schema,cn<span class="o">=</span>config
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dn: <span class="nv">cn</span><span class="o">={</span>4<span class="o">}</span>openssh-lpk,cn<span class="o">=</span>schema,cn<span class="o">=</span>config
+</span></span></code></pre></div>
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://afermor8.github.io/tags/aso/">ASO</a>&nbsp;
+            
+          </div>
+        
+
+        
+            <hr/>
+            <section id="social-share">
+              <div class="list-inline footer-links">
+                
+
+<div class="share-box" aria-hidden="true">
+    <ul class="share">
+      
+      <li>
+        <a href="//twitter.com/share?url=https%3a%2f%2fafermor8.github.io%2fpost%2fldap2%2f&amp;text=Poblar%20un%20directorio%20LDAP%20desde%20un%20fichero%20CSV&amp;via=" target="_blank" title="Share on Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fafermor8.github.io%2fpost%2fldap2%2f" target="_blank" title="Share on Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//reddit.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fldap2%2f&amp;title=Poblar%20un%20directorio%20LDAP%20desde%20un%20fichero%20CSV" target="_blank" title="Share on Reddit">
+          <i class="fab fa-reddit"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fafermor8.github.io%2fpost%2fldap2%2f&amp;title=Poblar%20un%20directorio%20LDAP%20desde%20un%20fichero%20CSV" target="_blank" title="Share on LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2fldap2%2f&amp;title=Poblar%20un%20directorio%20LDAP%20desde%20un%20fichero%20CSV" target="_blank" title="Share on StumbleUpon">
+          <i class="fab fa-stumbleupon"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fafermor8.github.io%2fpost%2fldap2%2f&amp;description=Poblar%20un%20directorio%20LDAP%20desde%20un%20fichero%20CSV" target="_blank" title="Share on Pinterest">
+          <i class="fab fa-pinterest"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+
+              </div>
+            </section>
+        
+
+        
+          
+            
+          
+
+          
+                  <h4 class="see-also">Ver también</h4>
+                  <ul>
+                
+                
+                    <li><a href="/post/ldap3/">LDAPs</a></li>
+                
+                    <li><a href="/post/ldap1/">Instalación y configuración inicial de OpenLDAP</a></li>
+                
+                    <li><a href="/post/copias-seguridad/">Sistema de copias de seguridad</a></li>
+                
+                    <li><a href="/post/logs/">Recolección centralizada de logs de sistema, mediante journald</a></li>
+                
+                    <li><a href="/post/nfs/">Montaje NFS mediante systemd</a></li>
+                
+              </ul>
+
+          
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://afermor8.github.io/post/ldap1/" data-toggle="tooltip" data-placement="top" title="Instalación y configuración inicial de OpenLDAP">&larr; Artículo anterior</a>
+            </li>
+          
+          
+            <li class="next">
+              <a href="https://afermor8.github.io/post/ldap3/" data-toggle="tooltip" data-placement="top" title="LDAPs">Artículo siguiente &rarr;</a>
+            </li>
+          
+        </ul>
+      
+
+
+      
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+      
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+		
+		  <a href="mailto:ara.fer.mor@gmail.com" title="Email me">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://github.com/afermor8" title="GitHub">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://Afermor.slack.com/" title="Slack">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-slack fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://linkedin.com/in/arantxa-f-6136617b" title="LinkedIn">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://telegram.me/arantxipu" title="Telegram">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-telegram fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            <a href="" title="RSS">
+              <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              <a href="afermor8.github.io">afermor8</a>
+            
+          
+
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2023
+          
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="https://gohugo.io">Hugo v0.104.3</a> alimentada &nbsp;&bull;&nbsp; Tema <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adaptado de <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer><script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://afermor8.github.io/js/main.js"></script>
+<script src="https://afermor8.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://afermor8.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>
+
