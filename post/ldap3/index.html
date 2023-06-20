@@ -8,8 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <title>LDAPs - Mi paso por ASIR Blog</title>
-  <meta name="description" content="Configura el servidor LDAP de alfa para que utilice el protocolo ldaps:// a la vez que el ldap:// utilizando el certificado x509 de la práctica de https o solicitando el correspondiente a través de gestiona. Realiza las modificaciones adecuadas en los clientes ldap de alfa para que todas las consultas se realicen por defecto utilizando ldaps:// Certificado x509 En Alfa (servidor LDAP):
-Generamos la clave privada y el fichero csr.">
+  <meta name="description" content="Configura el servidor LDAP de alfa para que utilice el protocolo ldaps:// a la vez que el ldap:// utilizando el certificado x509 de la práctica de https o solicitando el correspondiente a través de gestiona. Realiza las modificaciones adecuadas en los clientes ldap de alfa para que todas las consultas se realicen por defecto utilizando ldaps:// 0. Escenario Hay que tener en cuenta que parto de un escenario ya montado que se puede ver en los siguientes posts:">
   <meta name="author" content="afermor8"/><script type="application/ld+json">
 {
     "@context": "http://schema.org",
@@ -58,9 +57,9 @@ Generamos la clave privada y el fichero csr.">
     "name" : "afermor8"
   },
   "headline": "LDAPs",
-  "description" : "Configura el servidor LDAP de alfa para que utilice el protocolo ldaps:\/\/ a la vez que el ldap:\/\/ utilizando el certificado x509 de la práctica de https o solicitando el correspondiente a través de gestiona. Realiza las modificaciones adecuadas en los clientes ldap de alfa para que todas las consultas se realicen por defecto utilizando ldaps:\/\/ Certificado x509 En Alfa (servidor LDAP):\nGeneramos la clave privada y el fichero csr.",
+  "description" : "Configura el servidor LDAP de alfa para que utilice el protocolo ldaps:\/\/ a la vez que el ldap:\/\/ utilizando el certificado x509 de la práctica de https o solicitando el correspondiente a través de gestiona. Realiza las modificaciones adecuadas en los clientes ldap de alfa para que todas las consultas se realicen por defecto utilizando ldaps:\/\/ 0. Escenario Hay que tener en cuenta que parto de un escenario ya montado que se puede ver en los siguientes posts:",
   "inLanguage" : "es",
-  "wordCount":  532 ,
+  "wordCount":  1022 ,
   "datePublished" : "2023-06-19T10:53:33",
   "dateModified" : "2023-06-19T10:53:33",
   "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
@@ -80,8 +79,7 @@ Generamos la clave privada y el fichero csr.">
 </script>
 
 <meta property="og:title" content="LDAPs" />
-<meta property="og:description" content="Configura el servidor LDAP de alfa para que utilice el protocolo ldaps:// a la vez que el ldap:// utilizando el certificado x509 de la práctica de https o solicitando el correspondiente a través de gestiona. Realiza las modificaciones adecuadas en los clientes ldap de alfa para que todas las consultas se realicen por defecto utilizando ldaps:// Certificado x509 En Alfa (servidor LDAP):
-Generamos la clave privada y el fichero csr.">
+<meta property="og:description" content="Configura el servidor LDAP de alfa para que utilice el protocolo ldaps:// a la vez que el ldap:// utilizando el certificado x509 de la práctica de https o solicitando el correspondiente a través de gestiona. Realiza las modificaciones adecuadas en los clientes ldap de alfa para que todas las consultas se realicen por defecto utilizando ldaps:// 0. Escenario Hay que tener en cuenta que parto de un escenario ya montado que se puede ver en los siguientes posts:">
 <meta property="og:image" content="https://afermor8.github.io/img/avatar-icon.png" />
 <meta property="og:url" content="https://afermor8.github.io/post/ldap3/" />
 <meta property="og:type" content="website" />
@@ -253,10 +251,10 @@ Generamos la clave privada y el fichero csr.">
   <i class="fas fa-calendar"></i>&nbsp;Publicado el June 19, 2023
   
   
-    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;3&nbsp;minutos
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;5&nbsp;minutos
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;532&nbsp;palabras
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1022&nbsp;palabras
   
   
     
@@ -293,10 +291,10 @@ Generamos la clave privada y el fichero csr.">
   <i class="fas fa-calendar"></i>&nbsp;Publicado el June 19, 2023
   
   
-    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;3&nbsp;minutos
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;5&nbsp;minutos
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;532&nbsp;palabras
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1022&nbsp;palabras
   
   
     
@@ -323,7 +321,14 @@ Generamos la clave privada y el fichero csr.">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
         <h2 id="configura-el-servidor-ldap-de-alfa-para-que-utilice-el-protocolo-ldaps-a-la-vez-que-el-ldap-utilizando-el-certificado-x509-de-la-práctica-de-https-o-solicitando-el-correspondiente-a-través-de-gestiona-realiza-las-modificaciones-adecuadas-en-los-clientes-ldap-de-alfa-para-que-todas-las-consultas-se-realicen-por-defecto-utilizando-ldaps">Configura el servidor LDAP de alfa para que utilice el protocolo ldaps:// a la vez que el ldap:// utilizando el certificado x509 de la práctica de https o solicitando el correspondiente a través de gestiona. Realiza las modificaciones adecuadas en los clientes ldap de alfa para que todas las consultas se realicen por defecto utilizando ldaps://</h2>
-<h3 id="certificado-x509">Certificado x509</h3>
+<hr>
+<h3 id="0-escenario">0. Escenario</h3>
+<p>Hay que tener en cuenta que parto de un escenario ya montado que se puede ver en los siguientes posts:</p>
+<ul>
+<li><a href="https://afermor8.github.io/post/ldap1/">Instalación y configuración inicial de Openldap</a></li>
+<li><a href="https://afermor8.github.io/post/ldap2/">Poblar un directorio LDAP desde un fichero CSV</a></li>
+</ul>
+<h3 id="1-certificado-x509">1. Certificado x509</h3>
 <p><strong>En Alfa (servidor LDAP):</strong></p>
 <p>Generamos la clave privada y el fichero csr.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo su
@@ -353,7 +358,7 @@ Generamos la clave privada y el fichero csr.">
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">wget https://dit.gonzalonazareno.org/gestiona/info/documentacion/doc/gonzalonazareno.crt
 </span></span></code></pre></div><p>Una vez lo tengamos todo nos lo enviamos desde nuestro host a la máquina alfa y lo guardamos en /etc/ssl/certs/.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#Desde nuestro host</span>
-</span></span><span class="line"><span class="cl">scp alfa.crt arantxa@172.22.201.158:.
+</span></span><span class="line"><span class="cl">scp Descargas/alfa.crt arantxa@172.22.201.158:.
 </span></span><span class="line"><span class="cl">scp gonzalonazareno.crt arantxa@172.22.201.158:.
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#En Alfa</span>
 </span></span><span class="line"><span class="cl">cp /home/arantxa/alfa.crt /root/         
@@ -361,15 +366,38 @@ Generamos la clave privada y el fichero csr.">
 </span></span><span class="line"><span class="cl">mv /home/arantxa/alfa.crt /etc/ssl/certs/
 </span></span><span class="line"><span class="cl">mv /home/arantxa/gonzalonazareno.crt /etc/ssl/certs/
 </span></span></code></pre></div><p>Para que el usuario LDAP pueda hacer uso de la clave, vamos a añadir ACL’s que le permitirán al usuario openldap tener acceso a ambos ficheros. Para ello, ejecutaremos lo siguiente:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">setfacl -m u:openldap:r-x /etc/ssl/private
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">apt install acl
+</span></span><span class="line"><span class="cl">setfacl -m u:openldap:r-x /etc/ssl/private
 </span></span><span class="line"><span class="cl">setfacl -m u:openldap:r-x /etc/ssl/private/alfa.key
-</span></span><span class="line"><span class="cl">getfacl /etc/ssl/private 
+</span></span><span class="line"><span class="cl">setfacl -m u:openldap:r-x /etc/ssl/certs
+</span></span></code></pre></div><p>Comprobar:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@alfa:~$ getfacl /etc/ssl/private 
+</span></span><span class="line"><span class="cl">getfacl: Removing leading <span class="s1">&#39;/&#39;</span> from absolute path names
+</span></span><span class="line"><span class="cl"><span class="c1"># file: etc/ssl/private</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># owner: root</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># group: root</span>
+</span></span><span class="line"><span class="cl">user::rwx
+</span></span><span class="line"><span class="cl">user:openldap:r-x
+</span></span><span class="line"><span class="cl">group::---
+</span></span><span class="line"><span class="cl">mask::r-x
+</span></span><span class="line"><span class="cl">other::---
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">root@alfa:~$ getfacl /etc/ssl/certs
+</span></span><span class="line"><span class="cl">getfacl: Removing leading <span class="s1">&#39;/&#39;</span> from absolute path names
+</span></span><span class="line"><span class="cl"><span class="c1"># file: etc/ssl/certs</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># owner: root</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># group: root</span>
+</span></span><span class="line"><span class="cl">user::rwx
+</span></span><span class="line"><span class="cl">user:openldap:r-x
+</span></span><span class="line"><span class="cl">group::r-x
+</span></span><span class="line"><span class="cl">mask::r-x
+</span></span><span class="line"><span class="cl">other::r-x
 </span></span></code></pre></div><p>Salimos de root.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">exit</span>
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /home/arantxa/ldap
-</span></span></code></pre></div><h3 id="configuración-del-servidor-ldap-para-que-utilice-ssltls">Configuración del servidor LDAP para que utilice SSL/TLS</h3>
+</span></span></code></pre></div><h3 id="2-configuración-del-servidor-ldap-para-que-utilice-ssltls">2. Configuración del servidor LDAP para que utilice SSL/TLS</h3>
 <p>Creamos un fichero de entrada que contiene lo siguiente:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nano ldap_config.ldif
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> /home/arantxa/ldap
+</span></span><span class="line"><span class="cl">nano ldap_config.ldif
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">dn: cn=config
 </span></span><span class="line"><span class="cl">changetype: modify
 </span></span><span class="line"><span class="cl">replace: olcTLSCACertificateFile
@@ -381,25 +409,102 @@ Generamos la clave privada y el fichero csr.">
 </span></span><span class="line"><span class="cl">replace: olcTLSCertificateFile
 </span></span><span class="line"><span class="cl">olcTLSCertificateFile: /etc/ssl/certs/alfa.crt
 </span></span></code></pre></div><p>Aplicamos la modificacion:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ldapmodify -Y EXTERNAL -H ldapi:/// -f ldap_config.ldif
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo ldapmodify -Y EXTERNAL -H ldapi:/// -f ldap_config.ldif
 </span></span></code></pre></div><p>Para que alfa use el protocolo ldaps por defecto, modificamos /etc/default/slapd, de forma que el servidor LDAP escuche en el puerto 636.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/default/slapd
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">SLAPD_SERVICES=&#34;ldaps:/// ldapi:///&#34;
 </span></span></code></pre></div><p>Añadimos a /etc/ldap/ldap.conf lo siguiente:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nano /etc/ldap/ldap.conf
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/ldap/ldap.conf
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">BASE=dc=arantxa,dc=gonzalonazareno,dc=org
 </span></span><span class="line"><span class="cl">URI=ldaps://alfa.arantxa.gonzalonazareno.org
 </span></span></code></pre></div><p>Reiniciamos el servicio.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl restart slapd
 </span></span></code></pre></div><p>Para comprobar que el puerto esta escuchando, ejecutamos el siguiente comando:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo netstat -putanl <span class="p">|</span> grep slapd
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">tcp        <span class="m">0</span>      <span class="m">0</span> 0.0.0.0:636             0.0.0.0:*               LISTEN      62575/slapd         
+</span></span><span class="line"><span class="cl">tcp6       <span class="m">0</span>      <span class="m">0</span> :::636                  :::*                    LISTEN      62575/slapd  
 </span></span></code></pre></div><p>Copiamos el certificado del CA del centro en el directorio /usr/local/share/ca-certificates/ añadiéndolo a la lista de certificados de confianza.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cp /etc/ssl/certs/gonzalonazareno.crt /usr/local/share/ca-certificates/
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo cp /etc/ssl/certs/gonzalonazareno.crt /usr/local/share/ca-certificates/
 </span></span></code></pre></div><p>Actualizamos la lista de certificados de confianza.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">update-ca-certificates
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo update-ca-certificates
 </span></span></code></pre></div><p>Realizamos una consulta para comprobar que funciona y nos devuelve resultados:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ldapsearch -x -b <span class="s2">&#34;dc=arantxa,dc=gonzalonazareno,dc=org&#34;</span>
-</span></span><span class="line"><span class="cl">ldapsearch -x -b <span class="s2">&#34;dc=arantxa,dc=gonzalonazareno,dc=org&#34;</span> -H ldaps://
+</span></span></code></pre></div><p>Pero si realizamos la consulta desde los clientes no funcionará ya que no los tenemos configurados.</p>
+<p><img src="/img/ldap3/1.png" alt="fallo-consulta-ldap-clientes"></p>
+<h3 id="3-configuración-del-cliente-delta">3. Configuración del cliente Delta</h3>
+<p>Primero desde alfa pasamos por scp el certificado de la autoridad certificadora (CA) al cliente Delta.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo cp /root/gonzalonazareno.crt .
+</span></span><span class="line"><span class="cl">scp gonzalonazareno.crt arantxa@192.168.0.3:.
+</span></span></code></pre></div><p>Copiamos el certificado de la CA en el directorio /usr/local/share/ca-certificates/.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo cp gonzalonazareno.crt /usr/local/share/ca-certificates/
+</span></span></code></pre></div><p>Actualizamos la lista de certificados de confianza.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo update-ca-certificates
+</span></span></code></pre></div><p>Modificamos el fichero de configuración del cliente ldap.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/ldap/ldap.conf 
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">URI ldaps://alfa.arantxa.gonzalonazareno.org
+</span></span></code></pre></div><p>Y ya se podrá hacer una consulta al directorio ldap a través usando LDAPs.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ldapsearch -x -b <span class="s2">&#34;dc=arantxa,dc=gonzalonazareno,dc=org&#34;</span>
+</span></span></code></pre></div><p><img src="/img/ldap3/3.png" alt="consulta-delta"></p>
+<h3 id="4-configuración-del-cliente-bravo">4. Configuración del cliente Bravo</h3>
+<p>Pasamos el certificado de la CA a Bravo mediante scp.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">scp gonzalonazareno.crt arantxa@172.16.0.200:.
+</span></span></code></pre></div><p>En Bravo copiamos el certificado en la lista de certificados de confianza.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo cp gonzalonazareno.crt /usr/share/pki/ca-trust-source/anchors/
+</span></span><span class="line"><span class="cl">sudo chown root: /usr/share/pki/ca-trust-source/anchors/gonzalonazareno.crt
+</span></span></code></pre></div><p>Actualizamos la lista de crtificados de confianza.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo update-ca-trust
+</span></span></code></pre></div><p>Cambiamos el fichero de configuración de ldap.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/openldap/ldap.conf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">URI ldaps://alfa.arantxa.gonzalonazareno.org
+</span></span></code></pre></div><p>En el fichero sssd.conf modificamos la URI del servidor LDAP (le añadimos la &ldquo;s&rdquo;) y agregamos la configuración TLS. El fichero quedaría de la siguiente forma:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/sssd/sssd.conf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[domain/default]
+</span></span><span class="line"><span class="cl">id_provider = ldap
+</span></span><span class="line"><span class="cl">autofs_provider = ldap
+</span></span><span class="line"><span class="cl">auth_provider = ldap
+</span></span><span class="line"><span class="cl">chpass_provider = ldap
+</span></span><span class="line"><span class="cl">ldap_uri = ldaps://alfa.arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">ldap_search_base = dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">ldap_id_use_start_tls = True
+</span></span><span class="line"><span class="cl">ldap_tls_cacertdir = /etc/openldap/cacerts
+</span></span><span class="line"><span class="cl">cache_credentials = True
+</span></span><span class="line"><span class="cl">ldap_tls_reqcert = allow
+</span></span><span class="line"><span class="cl">debug_level = 10
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">ldap_host_search_base = ou=Maquinas,dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">ldap_host_object_class = ipHost
+</span></span><span class="line"><span class="cl">ldap_host_fqdn = cn
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[sssd]
+</span></span><span class="line"><span class="cl">services = nss, pam, autofs, ssh
+</span></span><span class="line"><span class="cl">domains = default
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[nss]
+</span></span><span class="line"><span class="cl">homedir_substring = /srv/homes
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[ssh]
+</span></span></code></pre></div><p>Reiniciamos el servicio.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl restart sssd
+</span></span></code></pre></div><p>Y ya podremos realizar consultas:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ldapsearch -x -b <span class="s2">&#34;dc=arantxa,dc=gonzalonazareno,dc=org&#34;</span>
+</span></span></code></pre></div><p><img src="/img/ldap3/2.png" alt="consulta-bravo"></p>
+<h3 id="5-extra">5. Extra</h3>
+<p><strong>Escucha en el puerto 389:</strong></p>
+<p>Si intentamos conectarnos ahora al puerto 389 no se podrá, por tanto si hubiera alguna máquina sin certificado no se podría conectar.</p>
+<p><img src="/img/ldap3/4.png" alt="consulta-389"></p>
+<p>Para que no haya problemas he añadido a /etc/default/slapd en la lista de servicios <strong>&ldquo;ldap:///&rdquo;</strong>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/default/slapd
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">SLAPD_SERVICES=&#34;ldaps:/// ldapi:/// ldap:///&#34;
+</span></span></code></pre></div><p>Se reinicia el servidor LDAP y ya podremos hacer consultas sin certificado.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl reboot slapd
+</span></span><span class="line"><span class="cl">ldapsearch -x -b <span class="s2">&#34;dc=arantxa,dc=gonzalonazareno,dc=org&#34;</span> -H ldap://localhost:389
+</span></span><span class="line"><span class="cl">sudo netstat -putanl <span class="p">|</span> egrep slapd
+</span></span></code></pre></div><p><img src="/img/ldap3/5.png" alt="consulta-389"></p>
+<p><img src="/img/ldap3/6.png" alt="netstat-389-port"></p>
+<p>*<em>NOTA: El cliente debería estar configurado para escuchar en ldap:// no en ldaps://.</em></p>
+<p>*<em>NOTA 2: Si queremos comprobar el puerto por el que se conecta podemos utilizar tcpdump</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo tcpdump -i any tcp port <span class="m">389</span>
+</span></span><span class="line"><span class="cl">sudo tcpdump -i any tcp port <span class="m">389</span> or tcp port <span class="m">636</span>
 </span></span></code></pre></div>
 
         

@@ -61,7 +61,7 @@ Hostname IPv4 Clave pública ssh de la máquina Añadir el esquema openssh-lpk a
   "headline": "Poblar un directorio LDAP desde un fichero CSV",
   "description" : "Crear entre todos los alumnos de la clase que vayan a hacer esta tarea un fichero CSV que incluya información personal de cada uno incluyendo los siguientes datos:\nNombre Apellidos Dirección de correo electrónico Nombre de usuario Clave pública ssh Añadir otro fichero con la información de las máquinas de los alumnos:\nHostname IPv4 Clave pública ssh de la máquina Añadir el esquema openssh-lpk al directorio para poder incluir claves públicas ssh en un directorio LDAP.",
   "inLanguage" : "es",
-  "wordCount":  2624 ,
+  "wordCount":  2716 ,
   "datePublished" : "2023-06-14T10:55:58",
   "dateModified" : "2023-06-14T10:55:58",
   "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
@@ -259,7 +259,7 @@ Nombre Apellidos Dirección de correo …">
     &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;13&nbsp;minutos
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2624&nbsp;palabras
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2716&nbsp;palabras
   
   
     
@@ -299,7 +299,7 @@ Nombre Apellidos Dirección de correo …">
     &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;13&nbsp;minutos
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2624&nbsp;palabras
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2716&nbsp;palabras
   
   
     
@@ -731,7 +731,10 @@ Se creará un entorno virtual y se instalará un módulo llamado &ldquo;pyhton3-
 </ul>
 <p><em>NOTA: hay que tener en cuenta que ya tenemos instalado y configurado el servidor LDAP y el cliente de la <a href="https://afermor8.github.io/post/ldap1/">práctica anterior</a>. Habiendo realizado esa práctica solo tendremos que realizar los siguientes pasos</em></p>
 <h2 id="6-configuración-del-servidor-sshd-alfa">6. Configuración del servidor SSHD (Alfa)</h2>
-<p>Modificamos el fichero de configuración del servidor SSHD y añadimo lo siguiente:</p>
+<p>Instalamos el paquete sssd para que nos aparezca el comando que usaremos para buscar las claves públicas de los usuarios. Y activamos la creación automática de directorios de los usuarios si no estuviera ya configurado.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install sssd-ldap
+</span></span><span class="line"><span class="cl">sudo pam-auth-update --enable mkhomedir
+</span></span></code></pre></div><p>Modificamos el fichero de configuración del servidor SSHD y añadimo lo siguiente:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/ssh/sshd_config
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># Ruta del comando que se ejecutará para obtener las claves de autenticación SSH, en este caso sss_ssh_authorizedkeys, mediante SSSD, con el usuario nobody
 </span></span><span class="line"><span class="cl">AuthorizedKeysCommand /usr/bin/sss_ssh_authorizedkeys 
@@ -740,8 +743,32 @@ Se creará un entorno virtual y se instalará un módulo llamado &ldquo;pyhton3-
 <p>Si queremos comprobar que el comando funciona correctamente podemos usarlo con uno de los usuario del directorio LDAP y deberíamos obtener su clave pública.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/usr/bin/sss_ssh_authorizedkeys pepito
 </span></span></code></pre></div><p><img src="/img/ldap2/7.png" alt="clave-usuario-pepito"></p>
-<p>Por último usamos el iguiente comando para que se habilite la funcionalidad de creación automática de directorio de inicio cuando los usuarios inicien sesión por primera vez.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo pam-auth-update --enable mkhomedir
+<p>Por último comentar que en el servidor tengo configurado sssd de la siguiente forma.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/sssd/sssd.conf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[domain/default]
+</span></span><span class="line"><span class="cl">id_provider = ldap
+</span></span><span class="line"><span class="cl">autofs_provider = ldap
+</span></span><span class="line"><span class="cl">auth_provider = ldap
+</span></span><span class="line"><span class="cl">chpass_provider = ldap
+</span></span><span class="line"><span class="cl">ldap_uri = ldap://alfa.arantxa.gonzalonazareno.org
+</span></span><span class="line"><span class="cl">ldap_search_base = dc=arantxa,dc=gonzalonazareno,dc=org
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">#ldap_id_use_start_tls = True
+</span></span><span class="line"><span class="cl">#ldap_tls_cacertdir = /etc/openldap/cacerts
+</span></span><span class="line"><span class="cl">cache_credentials = True
+</span></span><span class="line"><span class="cl">#ldap_tls_reqcert = allow
+</span></span><span class="line"><span class="cl">debug_level = 10
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[sssd]
+</span></span><span class="line"><span class="cl">services = nss, pam, autofs, ssh
+</span></span><span class="line"><span class="cl">domains = default
+</span></span><span class="line"><span class="cl">debug_level = 6
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[ssh]
+</span></span><span class="line"><span class="cl">debug_level = 8
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo chmod <span class="m">0600</span> /etc/sssd/sssd.conf
+</span></span><span class="line"><span class="cl">sudo systemctl restart sssd
+</span></span><span class="line"><span class="cl">sudo systemctl status sssd
 </span></span></code></pre></div><h2 id="7-configuracion-del-cliente-ldap-ssh-y-sssd-en-bravo">7. Configuracion del cliente LDAP, SSH y SSSD (en Bravo)</h2>
 <p><strong>Configuración del cliente SSH:</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/ssh/ssh_config

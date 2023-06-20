@@ -14,8 +14,7 @@
       <pubDate>Mon, 19 Jun 2023 10:53:33 +0200</pubDate>
       <author>ara.fer.mor@gmail.com (afermor8)</author>
       <guid>https://afermor8.github.io/post/ldap3/</guid>
-      <description>Configura el servidor LDAP de alfa para que utilice el protocolo ldaps:// a la vez que el ldap:// utilizando el certificado x509 de la práctica de https o solicitando el correspondiente a través de gestiona. Realiza las modificaciones adecuadas en los clientes ldap de alfa para que todas las consultas se realicen por defecto utilizando ldaps:// Certificado x509 En Alfa (servidor LDAP):
-Generamos la clave privada y el fichero csr.</description>
+      <description>Configura el servidor LDAP de alfa para que utilice el protocolo ldaps:// a la vez que el ldap:// utilizando el certificado x509 de la práctica de https o solicitando el correspondiente a través de gestiona. Realiza las modificaciones adecuadas en los clientes ldap de alfa para que todas las consultas se realicen por defecto utilizando ldaps:// 0. Escenario Hay que tener en cuenta que parto de un escenario ya montado que se puede ver en los siguientes posts:</description>
     </item>
     
     <item>
