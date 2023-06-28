@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="es" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Renovar certificado digital con el configurador de la FNMT en Debian 11 - Mi paso por ASIR Blog</title>
+  <meta name="description" content="Configurador FNMT-RCM Tras descargarnosMe descargo el paquete .deb de la web de la FNMT. Intento instalarlo usando dpkg, pero me aparece un problema de dependencias.
+arantxa@tars:~$ sudo dpkg --install Descargas/configuradorfnmt_1.0.1-0_amd64.deb Seleccionando el paquete configuradorfnmt previamente no seleccionado. (Leyendo la base de datos ... 236214 ficheros o directorios instalados actualmente.) Preparando para desempaquetar .../configuradorfnmt_1.0.1-0_amd64.deb ... Desempaquetando configuradorfnmt (1.0.1-0) ... dpkg: problemas de dependencias impiden la configuración de configuradorfnmt: configuradorfnmt depende de libcanberra-gtk-module; sin embargo: El paquete `libcanberra-gtk-module&#39; no está instalado.">
+  <meta name="author" content="afermor8"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Mi paso por ASIR Blog",
+    
+    "url": "https:\/\/afermor8.github.io"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/afermor8.github.io"
+  
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/afermor8.github.io\/post\/fnmt\/",
+          "name": "Renovar certificado digital con el configurador de la fnmt en debian 11"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "afermor8"
+  },
+  "headline": "Renovar certificado digital con el configurador de la FNMT en Debian 11",
+  "description" : "Configurador FNMT-RCM Tras descargarnosMe descargo el paquete .deb de la web de la FNMT. Intento instalarlo usando dpkg, pero me aparece un problema de dependencias.\narantxa@tars:~$ sudo dpkg --install Descargas\/configuradorfnmt_1.0.1-0_amd64.deb Seleccionando el paquete configuradorfnmt previamente no seleccionado. (Leyendo la base de datos ... 236214 ficheros o directorios instalados actualmente.) Preparando para desempaquetar ...\/configuradorfnmt_1.0.1-0_amd64.deb ... Desempaquetando configuradorfnmt (1.0.1-0) ... dpkg: problemas de dependencias impiden la configuración de configuradorfnmt: configuradorfnmt depende de libcanberra-gtk-module; sin embargo: El paquete `libcanberra-gtk-module\u0026#39; no está instalado.",
+  "inLanguage" : "es",
+  "wordCount":  1023 ,
+  "datePublished" : "2023-06-28T11:27:43",
+  "dateModified" : "2023-06-28T11:27:43",
+  "image" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+  "keywords" : [ "Otros" ],
+  "mainEntityOfPage" : "https:\/\/afermor8.github.io\/post\/fnmt\/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https:\/\/afermor8.github.io",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/afermor8.github.io\/img\/avatar-icon.png",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
+
+<meta property="og:title" content="Renovar certificado digital con el configurador de la FNMT en Debian 11" />
+<meta property="og:description" content="Configurador FNMT-RCM Tras descargarnosMe descargo el paquete .deb de la web de la FNMT. Intento instalarlo usando dpkg, pero me aparece un problema de dependencias.
+arantxa@tars:~$ sudo dpkg --install Descargas/configuradorfnmt_1.0.1-0_amd64.deb Seleccionando el paquete configuradorfnmt previamente no seleccionado. (Leyendo la base de datos ... 236214 ficheros o directorios instalados actualmente.) Preparando para desempaquetar .../configuradorfnmt_1.0.1-0_amd64.deb ... Desempaquetando configuradorfnmt (1.0.1-0) ... dpkg: problemas de dependencias impiden la configuración de configuradorfnmt: configuradorfnmt depende de libcanberra-gtk-module; sin embargo: El paquete `libcanberra-gtk-module&#39; no está instalado.">
+<meta property="og:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+<meta property="og:url" content="https://afermor8.github.io/post/fnmt/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Mi paso por ASIR Blog" />
+
+  <meta name="twitter:title" content="Renovar certificado digital con el configurador de la FNMT en Debian …" />
+  <meta name="twitter:description" content="Configurador FNMT-RCM Tras descargarnosMe descargo el paquete .deb de la web de la FNMT. Intento instalarlo usando dpkg, pero me aparece un problema de dependencias.
+arantxa@tars:~$ sudo dpkg …">
+  <meta name="twitter:image" content="https://afermor8.github.io/img/avatar-icon.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link href='https://afermor8.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta name="generator" content="Hugo 0.104.3" />
+  <link rel="alternate" href="https://afermor8.github.io/index.xml" type="application/rss+xml" title="Mi paso por ASIR Blog"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://afermor8.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://afermor8.github.io/css/highlight.min.css" /><link rel="stylesheet" href="https://afermor8.github.io/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Conmuta navegación</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/page/about/">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Tags" href="/tags">Tags</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    
+      <div class="avatar-container">
+        <div class="avatar-img-border">
+          <a title="Mi paso por ASIR Blog" href="https://afermor8.github.io">
+            <img class="avatar-img" src="https://afermor8.github.io/img/avatar-icon.png" alt="Mi paso por ASIR Blog" />
+          </a>
+        </div>
+      </div>
+    
+
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+    <div id="header-big-imgs" data-num-img=3 
+      
+         
+          data-img-src-1="/img/triangle.jpg" 
+         
+         data-img-desc-1="Triangle"
+      
+         
+          data-img-src-2="/img/sphere.jpg" 
+         
+         data-img-desc-2="Sphere"
+      
+         
+          data-img-src-3="/img/hexagon.jpg" 
+         
+         data-img-desc-3="Hexagon"
+      ></div>
+  
+
+  <header class="header-section has-img">
+    
+      <div class="intro-header big-img">
+        
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+              <div class="post-heading">
+                <h1>Renovar certificado digital con el configurador de la FNMT en Debian 11</h1>
+                  
+                  
+                    <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el June 28, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;5&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1023&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="img-desc" style="display: inline;"></span>
+      </div>
+    
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>Renovar certificado digital con el configurador de la FNMT en Debian 11</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el June 28, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;5&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1023&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <h3 id="configurador-fnmt-rcm">Configurador FNMT-RCM</h3>
+<p>Tras descargarnosMe descargo el paquete .deb de la <a href="https://www.sede.fnmt.gob.es/descargas/descarga-software/instalacion-software-generacion-de-claves">web de la FNMT</a>. Intento instalarlo usando dpkg, pero me aparece un problema de dependencias.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@tars:~$ sudo dpkg --install Descargas/configuradorfnmt_1.0.1-0_amd64.deb 
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Seleccionando el paquete configuradorfnmt previamente no seleccionado.
+</span></span><span class="line"><span class="cl">(Leyendo la base de datos ... 236214 ficheros o directorios instalados actualmente.)
+</span></span><span class="line"><span class="cl">Preparando para desempaquetar .../configuradorfnmt_1.0.1-0_amd64.deb ...
+</span></span><span class="line"><span class="cl">Desempaquetando configuradorfnmt (1.0.1-0) ...
+</span></span><span class="line"><span class="cl">dpkg: problemas de dependencias impiden la configuración de configuradorfnmt:
+</span></span><span class="line"><span class="cl"> configuradorfnmt depende de libcanberra-gtk-module; sin embargo:
+</span></span><span class="line"><span class="cl">  El paquete `libcanberra-gtk-module&#39; no está instalado.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dpkg: error al procesar el paquete configuradorfnmt (--install):
+</span></span><span class="line"><span class="cl"> problemas de dependencias - se deja sin configurar
+</span></span><span class="line"><span class="cl">Procesando disparadores para gnome-menus (3.36.0-1) ...
+</span></span><span class="line"><span class="cl">Procesando disparadores para desktop-file-utils (0.26-1) ...
+</span></span><span class="line"><span class="cl">Procesando disparadores para mailcap (3.69) ...
+</span></span><span class="line"><span class="cl">Se encontraron errores al procesar:
+</span></span><span class="line"><span class="cl"> configuradorfnmt
+</span></span></code></pre></div><p>Instalamos el paquete necesario, pero al hacerlo nos dice que hay dependencias incumplidas.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@tars:~$ sudo apt install libcanberra-gtk-module
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">Leyendo lista de paquetes... Hecho
+</span></span><span class="line"><span class="cl">Creando árbol de dependencias... Hecho
+</span></span><span class="line"><span class="cl">Leyendo la información de estado... Hecho
+</span></span><span class="line"><span class="cl">Tal vez quiera ejecutar «apt --fix-broken install» para corregirlo.
+</span></span><span class="line"><span class="cl">Los siguientes paquetes tienen dependencias incumplidas:
+</span></span><span class="line"><span class="cl"> libcanberra-gtk-module : Depende: libcanberra-gtk0 (&gt;= 0.2) pero no va a instalarse
+</span></span><span class="line"><span class="cl">E: Dependencias incumplidas. Intente «apt --fix-broken install» sin paquetes (o especifique una solución).
+</span></span></code></pre></div><p>Así que utilizo el comando <code>apt --fix-broken install</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@tars:~$ sudo apt --fix-broken install
+</span></span><span class="line"><span class="cl">Leyendo lista de paquetes... Hecho
+</span></span><span class="line"><span class="cl">Creando árbol de dependencias... Hecho
+</span></span><span class="line"><span class="cl">Leyendo la información de estado... Hecho
+</span></span><span class="line"><span class="cl">Corrigiendo dependencias... Listo
+</span></span><span class="line"><span class="cl">Se instalarán los siguientes paquetes adicionales:
+</span></span><span class="line"><span class="cl">  libcanberra-gtk-module libcanberra-gtk0
+</span></span><span class="line"><span class="cl">Se instalarán los siguientes paquetes NUEVOS:
+</span></span><span class="line"><span class="cl">  libcanberra-gtk-module libcanberra-gtk0
+</span></span><span class="line"><span class="cl"><span class="m">0</span> actualizados, <span class="m">2</span> nuevos se instalarán, <span class="m">0</span> para eliminar y <span class="m">17</span> no actualizados.
+</span></span><span class="line"><span class="cl"><span class="m">1</span> no instalados del todo o eliminados.
+</span></span><span class="line"><span class="cl">Se necesita descargar 27,0 kB de archivos.
+</span></span><span class="line"><span class="cl">Se utilizarán 92,2 kB de espacio de disco adicional después de esta operación.
+</span></span><span class="line"><span class="cl">¿Desea continuar? <span class="o">[</span>S/n<span class="o">]</span> s
+</span></span><span class="line"><span class="cl">Des:1 http://deb.debian.org/debian bullseye/main amd64 libcanberra-gtk0 amd64 0.30-7 <span class="o">[</span>12,5 kB<span class="o">]</span>
+</span></span><span class="line"><span class="cl">Des:2 http://deb.debian.org/debian bullseye/main amd64 libcanberra-gtk-module amd64 0.30-7 <span class="o">[</span>14,5 kB<span class="o">]</span>
+</span></span><span class="line"><span class="cl">Descargados 27,0 kB en 0s <span class="o">(</span><span class="m">181</span> kB/s<span class="o">)</span>               
+</span></span><span class="line"><span class="cl">Obteniendo informes de fallo... Finalizado
+</span></span><span class="line"><span class="cl">Analizando información Encontrada/Corregida... Finalizado
+</span></span><span class="line"><span class="cl">Seleccionando el paquete libcanberra-gtk0:amd64 previamente no seleccionado.
+</span></span><span class="line"><span class="cl"><span class="o">(</span>Leyendo la base de datos ... <span class="m">236225</span> ficheros o directorios instalados actualmen
+</span></span><span class="line"><span class="cl">te.<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Preparando para desempaquetar .../libcanberra-gtk0_0.30-7_amd64.deb ...
+</span></span><span class="line"><span class="cl">Desempaquetando libcanberra-gtk0:amd64 <span class="o">(</span>0.30-7<span class="o">)</span> ...
+</span></span><span class="line"><span class="cl">Seleccionando el paquete libcanberra-gtk-module:amd64 previamente no seleccionad
+</span></span><span class="line"><span class="cl">o.
+</span></span><span class="line"><span class="cl">Preparando para desempaquetar .../libcanberra-gtk-module_0.30-7_amd64.deb ...
+</span></span><span class="line"><span class="cl">Desempaquetando libcanberra-gtk-module:amd64 <span class="o">(</span>0.30-7<span class="o">)</span> ...
+</span></span><span class="line"><span class="cl">Configurando libcanberra-gtk0:amd64 <span class="o">(</span>0.30-7<span class="o">)</span> ...
+</span></span><span class="line"><span class="cl">Configurando libcanberra-gtk-module:amd64 <span class="o">(</span>0.30-7<span class="o">)</span> ...
+</span></span><span class="line"><span class="cl">Configurando configuradorfnmt <span class="o">(</span>1.0.1-0<span class="o">)</span> ...
+</span></span><span class="line"><span class="cl">cp: no se puede efectuar <span class="sb">`</span>stat<span class="s1">&#39; sobre &#39;</span>configuradorfnmt.js<span class="s1">&#39;: No existe el ficher
+</span></span></span><span class="line"><span class="cl"><span class="s1">o o el directorio
+</span></span></span><span class="line"><span class="cl"><span class="s1">cp: no se puede efectuar `stat&#39;</span> sobre <span class="s1">&#39;configuradorfnmt.js&#39;</span>: No existe el ficher
+</span></span><span class="line"><span class="cl">o o el directorio
+</span></span><span class="line"><span class="cl">tar <span class="o">(</span>child<span class="o">)</span>: jre.tar.gz: No se puede efectuar open: No existe el fichero o el di
+</span></span><span class="line"><span class="cl">rectorio
+</span></span><span class="line"><span class="cl">tar <span class="o">(</span>child<span class="o">)</span>: Error is not recoverable: exiting now
+</span></span><span class="line"><span class="cl">tar: Child returned status <span class="m">2</span>
+</span></span><span class="line"><span class="cl">tar: Error is not recoverable: exiting now
+</span></span><span class="line"><span class="cl">/var/lib/dpkg/info/configuradorfnmt.postinst: 13: gconftool-2: not found
+</span></span><span class="line"><span class="cl">/var/lib/dpkg/info/configuradorfnmt.postinst: 14: gconftool-2: not found
+</span></span><span class="line"><span class="cl">Procesando disparadores para libc-bin <span class="o">(</span>2.31-13+deb11u6<span class="o">)</span> ...
+</span></span><span class="line"><span class="cl">needrestart is being skipped since dpkg has failed
+</span></span></code></pre></div><p>Si se intenta instalar el paquete ahora es posible que funcione pero nos aparecerán algunos mensajes de error relacionados con la herramienta <strong>gconftool-2</strong>. Esta herramienta pertenece al paquete <strong>gconf2</strong>, que es utilizado por algunas aplicaciones antiguas que aún lo requieren.</p>
+<p>Por tanto los pasos que seguiré serán los siguientes:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#Instalar el paquete gconf2</span>
+</span></span><span class="line"><span class="cl">sudo apt install gconf2
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#Eliminar el paquete configuradorfnmt y purgar sus archivos de configuración.</span>
+</span></span><span class="line"><span class="cl">sudo rm /var/lib/dpkg/info/configuradorfnmt.prerm
+</span></span><span class="line"><span class="cl">sudo dpkg --purge configuradorfnmt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#Instalar el paquete configuradorfnmt</span>
+</span></span><span class="line"><span class="cl">sudo dpkg -i Descargas/configuradorfnmt_1.0.1-0_amd64.deb 
+</span></span></code></pre></div><p>Habiendo realizado estos pasos, todo debería funcionar correctamente. Lanzamos el programa desde la terminal para probarlo.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arantxa@tars:~$ configuradorfnmt
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">jun 28, <span class="m">2023</span> 11:51:24 AM es.gob.fnmt.cert.certrequest.util.FnmtLogManager install
+</span></span><span class="line"><span class="cl">INFORMACIÓN: La ruta para el fichero de registro <span class="o">(</span><span class="s1">&#39;/home/arantxa/.fnmt&#39;</span><span class="o">)</span> no existe, se creara
+</span></span><span class="line"><span class="cl">jun 28, <span class="m">2023</span> 11:51:24 AM es.gob.fnmt.cert.certrequest.CertRequest main
+</span></span><span class="line"><span class="cl">INFORMACIÓN: Modo de depuracion desactivado
+</span></span><span class="line"><span class="cl">jun 28, <span class="m">2023</span> 11:51:24 AM es.gob.fnmt.cert.certrequest.CertRequest main
+</span></span><span class="line"><span class="cl">INFORMACIÓN: Version actual de la aplicacion: <span class="s1">&#39;1&#39;</span>
+</span></span><span class="line"><span class="cl">jun 28, <span class="m">2023</span> 11:51:25 AM es.gob.fnmt.cert.certrequest.CertRequest printSystemInfo
+</span></span><span class="line"><span class="cl">INFORMACIÓN: Aplicacion FNMT de solicitud de certificados version 1.
+</span></span><span class="line"><span class="cl"> Sistema operativo: Linux.
+</span></span><span class="line"><span class="cl"> Version del sistema operativo: 5.10.0-23-amd64.
+</span></span><span class="line"><span class="cl"> Version de Java: 1.8.0_251.
+</span></span><span class="line"><span class="cl"> Arquitectura del JRE: <span class="m">64</span> bits.
+</span></span><span class="line"><span class="cl"> Fabricante de la JVM: Oracle Corporation.
+</span></span><span class="line"><span class="cl"> Idioma por defecto: es_ES.
+</span></span><span class="line"><span class="cl"> Tamano actual en memoria: 596MB.
+</span></span><span class="line"><span class="cl"> Tamano maximo de memoria: 8839MB.
+</span></span><span class="line"><span class="cl"> Memoria actualmente libre: 480MB.
+</span></span><span class="line"><span class="cl">jun 28, <span class="m">2023</span> 11:51:25 AM es.gob.fnmt.cert.certrequest.ProxyUtil setDefaultProxy
+</span></span><span class="line"><span class="cl">INFORMACIÓN: No se usara proxy para las conexiones de red
+</span></span><span class="line"><span class="cl">jun 28, <span class="m">2023</span> 11:51:25 AM es.gob.fnmt.cert.certrequest.Updater<span class="nv">$1</span> checkServerTrusted
+</span></span><span class="line"><span class="cl">INFORMACIÓN: Verificado correctamente el certificado SSL: www.sede.fnmt.gob.es
+</span></span><span class="line"><span class="cl">jun 28, <span class="m">2023</span> 11:51:25 AM es.gob.afirma.core.misc.http.UrlHttpManagerImpl enableSslChecks
+</span></span><span class="line"><span class="cl">INFORMACIÓN: Habilitadas comprobaciones SSL
+</span></span><span class="line"><span class="cl">jun 28, <span class="m">2023</span> 11:51:25 AM es.gob.fnmt.cert.certrequest.Updater getLatestVersion
+</span></span><span class="line"><span class="cl">GRAVE: No se ha podido obtener la ultima version disponible desde https://www.sede.fnmt.gob.es/documents/10445900/10528994/certrequest.version.linux: es.gob.afirma.core.misc.http.HttpError
+</span></span><span class="line"><span class="cl">jun 28, <span class="m">2023</span> 11:51:25 AM es.gob.fnmt.cert.certrequest.Updater isNewVersionAvailable
+</span></span><span class="line"><span class="cl">GRAVE: No se puede comprobar si hay versiones nuevas del aplicativo
+</span></span><span class="line"><span class="cl">jun 28, <span class="m">2023</span> 11:51:25 AM es.gob.fnmt.cert.certrequest.Updater lambda<span class="nv">$checkForUpdates$1</span>
+</span></span><span class="line"><span class="cl">INFORMACIÓN: No se ha podido comprobar la disponibilidad de nueva version: java.lang.UnsupportedOperationException: No se puede comprobar si hay versiones nuevas del aplicativo, no hay informacion sobre la ultima version disponible
+</span></span></code></pre></div><p>Me aparece la siguiente ventana:</p>
+<p><img src="/img/otros/1.png" alt=""></p>
+<p>Le doy a Aceptar y ya podremos renovar el certificado o realizar la operación que queramos.</p>
+<h3 id="renovación-del-certificado">Renovación del certificado</h3>
+<p>Vamos a la <a href="https://www.sede.fnmt.gob.es/certificados/persona-fisica/renovar">web de la FNMT para renovar el certificado</a> y vamos al segundo paso <a href="https://www.sede.fnmt.gob.es/certificados/persona-fisica/renovar/solicitar-renovacion">&ldquo;Solicitar la renovación&rdquo;</a>. Hago click donde pone &ldquo;Pulse aquí para consultar y aceptar las condiciones de expedición del certificado&rdquo;, aceptamos y después le damos a siguiente.</p>
+<p><img src="/img/otros/2.png" alt=""></p>
+<p>Nos aparecerá la siguiente ventana del configurador de la FNMT donde ponemos nuestra contraseña.</p>
+<p><img src="/img/otros/3.png" alt=""></p>
+<p>Rellenamos con nuestros datos:</p>
+<p><img src="/img/otros/4.png" alt=""></p>
+<p>Confirmamos que los datos son correctos y firmamos con nuestro anterior certificado.</p>
+<p><img src="/img/otros/5.png" alt=""></p>
+<p><img src="/img/otros/6.png" alt=""></p>
+<p>La solicitud ya se habrá realizado con éxito.</p>
+<p><img src="/img/otros/7.png" alt=""></p>
+<p>Nos llegará un correo a la dirección que hayamos puesto con la información ncesaria que tendremos que usar para descargar el nuevo certificado.</p>
+<p>Vamos al tercer paso de la web de la FNMT de renovación del certificado, donde pone <a href="https://www.sede.fnmt.gob.es/certificados/persona-fisica/renovar/descargar-certificado">&ldquo;Descarga del Certificado&rdquo;</a>. Rellenamos con nuestros datos y descargamos el certificado.</p>
+<p><img src="/img/otros/8.png" alt=""></p>
+<p>Se procederá a instalar el nuevo certificado.</p>
+<p><img src="/img/otros/9.png" alt=""></p>
+<p>Introducimos la contraseña del certificado.</p>
+<p><img src="/img/otros/10.png" alt=""></p>
+<p>Creamos una copia de seguridad del certificado generado.</p>
+<p><img src="/img/otros/11.png" alt=""></p>
+<p>Volvemos a introducir la contraseña del certificado.</p>
+<p><img src="/img/otros/12.png" alt=""></p>
+<p>Y ya se habrá instalado correctamente el certificado en nuestro navegador.</p>
+<p><img src="/img/otros/13.png" alt=""></p>
+<p>Nos aparece un mensaje que nos dice que si queremos descargar el certificado debemos usar el mismo navegador.</p>
+<p><img src="/img/otros/14.png" alt=""></p>
+<p>Yo ya tengo la copia generada así que no me importaré el certificado.</p>
+<p>Podemos comprobar que el certificado funciona correctamente desde la web de <a href="https://valide.redsara.es/valide/validarCertificado/ejecutar.html;jsessionid=BF7A1DE7CEAEA68ADA1EEFDAF2DBBB7B">VALIDe</a>.</p>
+<p><img src="/img/otros/15.png" alt=""></p>
+
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://afermor8.github.io/tags/otros/">Otros</a>&nbsp;
+            
+          </div>
+        
+
+        
+            <hr/>
+            <section id="social-share">
+              <div class="list-inline footer-links">
+                
+
+<div class="share-box" aria-hidden="true">
+    <ul class="share">
+      
+      <li>
+        <a href="//twitter.com/share?url=https%3a%2f%2fafermor8.github.io%2fpost%2ffnmt%2f&amp;text=Renovar%20certificado%20digital%20con%20el%20configurador%20de%20la%20FNMT%20en%20Debian%2011&amp;via=" target="_blank" title="Share on Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fafermor8.github.io%2fpost%2ffnmt%2f" target="_blank" title="Share on Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//reddit.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2ffnmt%2f&amp;title=Renovar%20certificado%20digital%20con%20el%20configurador%20de%20la%20FNMT%20en%20Debian%2011" target="_blank" title="Share on Reddit">
+          <i class="fab fa-reddit"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fafermor8.github.io%2fpost%2ffnmt%2f&amp;title=Renovar%20certificado%20digital%20con%20el%20configurador%20de%20la%20FNMT%20en%20Debian%2011" target="_blank" title="Share on LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fafermor8.github.io%2fpost%2ffnmt%2f&amp;title=Renovar%20certificado%20digital%20con%20el%20configurador%20de%20la%20FNMT%20en%20Debian%2011" target="_blank" title="Share on StumbleUpon">
+          <i class="fab fa-stumbleupon"></i>
+        </a>
+      </li>
+  
+      
+      <li>
+        <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fafermor8.github.io%2fpost%2ffnmt%2f&amp;description=Renovar%20certificado%20digital%20con%20el%20configurador%20de%20la%20FNMT%20en%20Debian%2011" target="_blank" title="Share on Pinterest">
+          <i class="fab fa-pinterest"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+
+              </div>
+            </section>
+        
+
+        
+          
+
+          
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://afermor8.github.io/post/ldap3/" data-toggle="tooltip" data-placement="top" title="LDAPs">&larr; Artículo anterior</a>
+            </li>
+          
+          
+        </ul>
+      
+
+
+      
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+      
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+		
+		  <a href="mailto:ara.fer.mor@gmail.com" title="Email me">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://github.com/afermor8" title="GitHub">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://Afermor.slack.com/" title="Slack">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-slack fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://linkedin.com/in/arantxa-f-6136617b" title="LinkedIn">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+		
+		  <a href="https://telegram.me/arantxipu" title="Telegram">
+		
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-telegram fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            <a href="" title="RSS">
+              <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              <a href="afermor8.github.io">afermor8</a>
+            
+          
+
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2023
+          
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://afermor8.github.io">Mi paso por ASIR Blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="https://gohugo.io">Hugo v0.104.3</a> alimentada &nbsp;&bull;&nbsp; Tema <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adaptado de <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer><script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://afermor8.github.io/js/main.js"></script>
+<script src="https://afermor8.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://afermor8.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>
+

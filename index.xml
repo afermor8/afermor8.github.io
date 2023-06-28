@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <managingEditor>ara.fer.mor@gmail.com (afermor8)</managingEditor>
     <webMaster>ara.fer.mor@gmail.com (afermor8)</webMaster>
-    <lastBuildDate>Mon, 19 Jun 2023 10:53:33 +0200</lastBuildDate><atom:link href="https://afermor8.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 28 Jun 2023 11:27:43 +0200</lastBuildDate><atom:link href="https://afermor8.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Renovar certificado digital con el configurador de la FNMT en Debian 11</title>
+      <link>https://afermor8.github.io/post/fnmt/</link>
+      <pubDate>Wed, 28 Jun 2023 11:27:43 +0200</pubDate>
+      <author>ara.fer.mor@gmail.com (afermor8)</author>
+      <guid>https://afermor8.github.io/post/fnmt/</guid>
+      <description>Configurador FNMT-RCM Tras descargarnosMe descargo el paquete .deb de la web de la FNMT. Intento instalarlo usando dpkg, pero me aparece un problema de dependencias.
+arantxa@tars:~$ sudo dpkg --install Descargas/configuradorfnmt_1.0.1-0_amd64.deb Seleccionando el paquete configuradorfnmt previamente no seleccionado. (Leyendo la base de datos ... 236214 ficheros o directorios instalados actualmente.) Preparando para desempaquetar .../configuradorfnmt_1.0.1-0_amd64.deb ... Desempaquetando configuradorfnmt (1.0.1-0) ... dpkg: problemas de dependencias impiden la configuración de configuradorfnmt: configuradorfnmt depende de libcanberra-gtk-module; sin embargo: El paquete `libcanberra-gtk-module&amp;#39; no está instalado.</description>
+    </item>
+    
     <item>
       <title>LDAPs</title>
       <link>https://afermor8.github.io/post/ldap3/</link>

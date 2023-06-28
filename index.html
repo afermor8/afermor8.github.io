@@ -213,6 +213,54 @@
           
           
             <article class="post-preview">
+    <a href="https://afermor8.github.io/post/fnmt/">
+        <h2 class="post-title">Renovar certificado digital con el configurador de la FNMT en Debian 11</h2>
+        
+        
+        
+    </a>
+
+    <p class="post-meta">
+        <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;Publicado el June 28, 2023
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;5&nbsp;minutos
+  
+  
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1023&nbsp;palabras
+  
+  
+    
+      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
+    
+  
+  
+</span>
+
+
+    </p>
+    <div class="post-entry">
+        
+        Configurador FNMT-RCM Tras descargarnosMe descargo el paquete .deb de la web de la FNMT. Intento instalarlo usando dpkg, pero me aparece un problema de dependencias.
+arantxa@tars:~$ sudo dpkg --install Descargas/configuradorfnmt_1.0.1-0_amd64.deb Seleccionando el paquete configuradorfnmt previamente no seleccionado. (Leyendo la base de datos ... 236214 ficheros o directorios instalados actualmente.) Preparando para desempaquetar .../configuradorfnmt_1.0.1-0_amd64.deb ... Desempaquetando configuradorfnmt (1.0.1-0) ... dpkg: problemas de dependencias impiden la configuración de configuradorfnmt: configuradorfnmt depende de libcanberra-gtk-module; sin embargo: El paquete `libcanberra-gtk-module&#39; no está instalado.
+        <a href="https://afermor8.github.io/post/fnmt/" class="post-read-more">[Leer más]</a>
+        
+    </div>
+
+    
+    <div class="blog-tags">
+        
+        <a href="https://afermor8.github.io/tags/otros/">Otros</a>&nbsp;
+        
+    </div>
+    
+
+</article>
+          
+            <article class="post-preview">
     <a href="https://afermor8.github.io/post/ldap3/">
         <h2 class="post-title">LDAPs</h2>
         
@@ -423,7 +471,7 @@ Vamos a la web de IONOS para añadir un registro CNAME con el nombre mail que ap
     &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;12&nbsp;minutos
   
   
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2413&nbsp;palabras
+    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;2414&nbsp;palabras
   
   
     
@@ -638,53 +686,6 @@ En la presente práctica, analiza posibles versiones candidatas y opciones despl
     <div class="blog-tags">
         
         <a href="https://afermor8.github.io/tags/aso/">ASO</a>&nbsp;
-        
-    </div>
-    
-
-</article>
-          
-            <article class="post-preview">
-    <a href="https://afermor8.github.io/post/examen_cortafuegos/">
-        <h2 class="post-title">Examen Cortafuegos</h2>
-        
-        
-        
-    </a>
-
-    <p class="post-meta">
-        <span class="post-meta">
-  
-  
-  <i class="fas fa-calendar"></i>&nbsp;Publicado el March 7, 2023
-  
-  
-    &nbsp;|&nbsp;<i class="fas fa-clock"></i>&nbsp;5&nbsp;minutos
-  
-  
-    &nbsp;|&nbsp;<i class="fas fa-book"></i>&nbsp;1015&nbsp;palabras
-  
-  
-    
-      &nbsp;|&nbsp;<i class="fas fa-user"></i>&nbsp;afermor8
-    
-  
-  
-</span>
-
-
-    </p>
-    <div class="post-entry">
-        
-        Creación máquinas eat_template_version: newton description: 1 router, 1 lan parameters: flavor: type: string default: &#34;m1.mini&#34; image: type: string default: &#34;6d992898-7e4f-44b9-a681-6dcf32d24a1f&#34; red_externa: type: string description: red para conectarse a internet constraints: - custom_constraint: neutron.network key_name: type: string description: SSH key pair constraints: - custom_constraint: nova.keypair resources: red_examen: type: OS::Neutron::Net properties: name: &#34;Red_examen&#34; subnet1: type: OS::Neutron::Subnet properties: network: { get_resource: red_examen } cidr: 192.168.50.0/24 dns_nameservers: [192.168.202.2] gateway_ip: &#34;&#34; pc1_red_examen: type: OS::Neutron::Port properties: network: { get_resource: red_examen } port_security_enabled: False fixed_ips: [{&#34;ip_address&#34;: &#34;192.
-        <a href="https://afermor8.github.io/post/examen_cortafuegos/" class="post-read-more">[Leer más]</a>
-        
-    </div>
-
-    
-    <div class="blog-tags">
-        
-        <a href="https://afermor8.github.io/tags/sad/">SAD</a>&nbsp;
         
     </div>
     
